@@ -1,0 +1,451 @@
+// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// WSO2 LLC. licenses this file to you under the Apache License,
+// Version 2.0 (the "License"); you may not use this file except
+// in compliance with the License.
+// You may obtain a copy of the License at
+
+// http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
+import ballerinax/health.hl7v2;
+
+
+# Patient visit.
+#
+# + name - Segment name  
+# + pv11 - Set ID - Patient Visit  
+# + pv12 - Patient Class  
+# + pv13 - Assigned Patient Location  
+# + pv14 - Admission Type  
+# + pv15 - Preadmit Number  
+# + pv16 - Prior Patient Location  
+# + pv17 - Attending Doctor  
+# + pv18 - Referring Doctor  
+# + pv19 - Consulting Doctor  
+# + pv110 - Hospital Service  
+# + pv111 - Temporary Location  
+# + pv112 - Preadmit Test Indicator  
+# + pv113 - Readmission Indicator  
+# + pv114 - Admit Source  
+# + pv115 - Ambulatory Status  
+# + pv116 - VIP Indicator  
+# + pv117 - Admitting Doctor  
+# + pv118 - Patient Type  
+# + pv119 - Visit Number  
+# + pv120 - Financial Class  
+# + pv121 - Charge Price Indicator  
+# + pv122 - Courtesy Code  
+# + pv123 - Credit Rating  
+# + pv124 - Contract Code  
+# + pv125 - Contract Effective Date  
+# + pv126 - Contract Amount  
+# + pv127 - Contract Period  
+# + pv128 - Interest Code  
+# + pv129 - Transfer to Bad Debt Code  
+# + pv130 - Transfer to Bad Debt Date  
+# + pv131 - Bad Debt Agency Code  
+# + pv132 - Bad Debt Transfer Amount  
+# + pv133 - Bad Debt Recovery Amount  
+# + pv134 - Delete Account Indicator  
+# + pv135 - Delete Account Date  
+# + pv136 - Discharge Disposition  
+# + pv137 - Discharged to Location  
+# + pv138 - Diet Type  
+# + pv139 - Servicing Facility  
+# + pv140 - Bed Status  
+# + pv141 - Account Status  
+# + pv142 - Pending Location  
+# + pv143 - Prior Temporary Location  
+# + pv144 - Admit Date/Time  
+# + pv145 - Discharge Date/Time  
+# + pv146 - Current Patient Balance  
+# + pv147 - Total Charges  
+# + pv148 - Total Adjustments  
+# + pv149 - Total Payments  
+# + pv150 - Alternate Visit ID  
+# + pv151 - Visit Indicator  
+# + pv152 - Other Healthcare Provider
+@hl7v2:SegmentDefinition {
+    name: "PV1",
+    required: false,
+    maxReps: 1,
+    fields: {
+        "pv11": {
+            required: false,
+            length: 4,
+            maxReps: 1,
+            dataType: SI
+        },
+        "pv12": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ID
+        },
+        "pv13": {
+            required: false,
+            length: 80,
+            maxReps: 1,
+            dataType: PL
+        },
+        "pv14": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: ID
+        },
+        "pv15": {
+            required: false,
+            length: 20,
+            maxReps: 1,
+            dataType: CX
+        },
+        "pv16": {
+            required: false,
+            length: 12,
+            maxReps: 1,
+            dataType: PL
+        },
+        "pv17": {
+            required: false,
+            length: 60,
+            maxReps: -1,
+            dataType: XCN
+        },
+        "pv18": {
+            required: false,
+            length: 60,
+            maxReps: -1,
+            dataType: XCN
+        },
+        "pv19": {
+            required: false,
+            length: 60,
+            maxReps: -1,
+            dataType: XCN
+        },
+        "pv110": {
+            required: false,
+            length: 3,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv111": {
+            required: false,
+            length: 80,
+            maxReps: 1,
+            dataType: PL
+        },
+        "pv112": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv113": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv114": {
+            required: false,
+            length: 3,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv115": {
+            required: false,
+            length: 2,
+            maxReps: -1,
+            dataType: IS
+        },
+        "pv116": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv117": {
+            required: false,
+            length: 60,
+            maxReps: -1,
+            dataType: XCN
+        },
+        "pv118": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv119": {
+            required: false,
+            length: 20,
+            maxReps: 1,
+            dataType: CX
+        },
+        "pv120": {
+            required: false,
+            length: 50,
+            maxReps: -1,
+            dataType: FC
+        },
+        "pv121": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv122": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv123": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv124": {
+            required: false,
+            length: 2,
+            maxReps: -1,
+            dataType: IS
+        },
+        "pv125": {
+            required: false,
+            length: 8,
+            maxReps: -1,
+            dataType: DT
+        },
+        "pv126": {
+            required: false,
+            length: 12,
+            maxReps: -1,
+            dataType: NM
+        },
+        "pv127": {
+            required: false,
+            length: 3,
+            maxReps: -1,
+            dataType: NM
+        },
+        "pv128": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv129": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv130": {
+            required: false,
+            length: 8,
+            maxReps: 1,
+            dataType: DT
+        },
+        "pv131": {
+            required: false,
+            length: 10,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv132": {
+            required: false,
+            length: 12,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pv133": {
+            required: false,
+            length: 12,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pv134": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv135": {
+            required: false,
+            length: 8,
+            maxReps: 1,
+            dataType: DT
+        },
+        "pv136": {
+            required: false,
+            length: 3,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv137": {
+            required: false,
+            length: 25,
+            maxReps: 1,
+            dataType: CM_DLD
+        },
+        "pv138": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv139": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv140": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv141": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv142": {
+            required: false,
+            length: 80,
+            maxReps: 1,
+            dataType: PL
+        },
+        "pv143": {
+            required: false,
+            length: 80,
+            maxReps: 1,
+            dataType: PL
+        },
+        "pv144": {
+            required: false,
+            length: 26,
+            maxReps: 1,
+            dataType: TS
+        },
+        "pv145": {
+            required: false,
+            length: 26,
+            maxReps: 1,
+            dataType: TS
+        },
+        "pv146": {
+            required: false,
+            length: 12,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pv147": {
+            required: false,
+            length: 12,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pv148": {
+            required: false,
+            length: 12,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pv149": {
+            required: false,
+            length: 12,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pv150": {
+            required: false,
+            length: 20,
+            maxReps: 1,
+            dataType: CX
+        },
+        "pv151": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pv152": {
+            required: false,
+            length: 60,
+            maxReps: 1,
+            dataType: XCN
+        }
+    }
+}
+public type PV1 record {
+    *hl7v2:Segment;
+    string name = PV1_SEGMENT_NAME;
+    SI pv11 = -1;
+    ID pv12 = "";
+    PL pv13 = {};
+    ID pv14 = "";
+    CX pv15 = {};
+    PL pv16 = {};
+    XCN[] pv17 = [{}];
+    XCN[] pv18 = [{}];
+    XCN[] pv19 = [{}];
+    IS pv110 = "";
+    PL pv111 = {};
+    IS pv112 = "";
+    IS pv113 = "";
+    IS pv114 = "";
+    IS[] pv115 = [""];
+    IS pv116 = "";
+    XCN[] pv117 = [{}];
+    IS pv118 = "";
+    CX pv119 = {};
+    FC[] pv120 = [{}];
+    IS pv121 = "";
+    IS pv122 = "";
+    IS pv123 = "";
+    IS[] pv124 = [""];
+    DT[] pv125 = [""];
+    NM[] pv126 = [-1];
+    NM[] pv127 = [-1];
+    IS pv128 = "";
+    IS pv129 = "";
+    DT pv130 = "";
+    IS pv131 = "";
+    NM pv132 = -1;
+    NM pv133 = -1;
+    IS pv134 = "";
+    DT pv135 = "";
+    IS pv136 = "";
+    CM_DLD pv137 = {};
+    IS pv138 = "";
+    IS pv139 = "";
+    IS pv140 = "";
+    IS pv141 = "";
+    PL pv142 = {};
+    PL pv143 = {};
+    TS pv144 = {};
+    TS pv145 = {};
+    NM pv146 = -1;
+    NM pv147 = -1;
+    NM pv148 = -1;
+    NM pv149 = -1;
+    CX pv150 = {};
+    IS pv151 = "";
+    XCN pv152 = {};
+};
+
+public const PV1_SEGMENT_NAME = "PV1";
