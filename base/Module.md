@@ -67,12 +67,9 @@ import ballerinax/health.hl7v23;
 function parseQueryMessage() returns hl7v2:HL7Error? {
     string queryMessageStr = "MSH|^~\\&|ADT1|MCM|LABADT|MCM||SECURITY|QRY^A19|MSG00001|P|2.3|||||||\r"
                             + "QRD|20220828104856+0000|R|I|QueryID01|||5.0|1^ADAM^EVERMAN^^|VXI|SIIS|";
-    // createHL7WirePayload method wraps the above sample HL7 message with essential HL7 message Start Block character (1 byte)ASCII , i.e., <0x0B> 
-    // and End Block character (1 byte)ASCII , i.e., <0x1C>
-    byte[] queryMessage = hl7v2:createHL7WirePayload(queryMessageStr.toBytes());
     hl7v2:HL7Parser parser = new();
     // Getting parsed QRY_A19 message record
-    hl7v23:QRY_A19 parsedMsg = check parser.parse(queryMessage).ensureType(hl7v23:QRY_A19);
+    hl7v23:QRY_A19 parsedMsg = check parser.parse(queryMessageStr).ensureType(hl7v23:QRY_A19);
     log:printInfo("Query ID : " + parsedMsg.qrd.qrd4);
 }
 ```
