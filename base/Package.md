@@ -1,4 +1,4 @@
-HL7v2 Base Package containing core HL7v2 capabilities to implement HL7v2 related integration
+Package containing core HL7v2 capabilities to implement HL7v2 related integration
 
 # HL7 Base Package
 
