@@ -25,3 +25,6 @@ replay_pid*
 
 # Ballerina
 target/
+
+# MAC specific files
+.DS_Store

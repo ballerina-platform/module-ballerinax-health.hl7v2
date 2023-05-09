@@ -111,5 +111,42 @@ public type DT string;
 }
 public type VARIES anydata;
 
+# Primitive Data Type Header Definition
+@hl7v2:TypeDefinition {
+    length: (),
+    maxReps: (),
+    required: false
+}
+public type CM_CD_ELECTRODE string;
 
+# Primitive Data Type Header Definition
+@hl7v2:TypeDefinition {
+    length: (),
+    maxReps: (),
+    required: false
+}
+public type CM_MDV string;
 
+# Primitive Data Type Header Definition
+@hl7v2:TypeDefinition {
+    length: (),
+    maxReps: (),
+    required: false
+}
+public type CM_CSU string;
+
+# Primitive Data Type Header Definition
+@hl7v2:TypeDefinition {
+    length: (),
+    maxReps: (),
+    required: false
+}
+public type CM_OSD string;
+
+# Primitive Data Type Header Definition
+@hl7v2:TypeDefinition {
+    length: (),
+    maxReps: (),
+    required: false
+}
+public type CM_CCP string;
