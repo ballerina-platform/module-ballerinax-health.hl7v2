@@ -1062,11 +1062,11 @@ isolated function getSegmentField(int fieldNum, int repetitionNum, hl7v2:Segment
 # + fieldKey - Field key
 # + return - True if the segment field is valid, else false
 isolated function isValidSegmentField(hl7v2:Segment segment, int repetitionNum, string fieldKey) returns boolean {
-    hl7v2:HL7SegmentDefinitionRecord? segmentDefinition = (typeof segment).@hl7v2:SegmentDefinition;
+    hl7v2:Hl7SegmentDefinitionRecord? segmentDefinition = (typeof segment).@hl7v2:SegmentDefinition;
     if segmentDefinition != () {
-        map<hl7v2:HL7TypeDefinitionRecord> elementDefinitions = segmentDefinition.fields ?: {};
+        map<hl7v2:Hl7TypeDefinitionRecord> elementDefinitions = segmentDefinition.fields ?: {};
         if elementDefinitions.hasKey(fieldKey) {
-            hl7v2:HL7TypeDefinitionRecord fieldDefinition = elementDefinitions.get(fieldKey);
+            hl7v2:Hl7TypeDefinitionRecord fieldDefinition = elementDefinitions.get(fieldKey);
             int? maxReps = fieldDefinition.maxReps;
             if maxReps is int {
                 if maxReps >= repetitionNum || maxReps == -1 {
