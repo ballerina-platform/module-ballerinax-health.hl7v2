@@ -21,8 +21,6 @@ public class HL7Client {
 
     final string host;
     final int port;
-    final HL7Parser parser = new ();
-    final HL7Encoder encoder = new ();
 
     public isolated function init(string remoteHost, int remotePort) returns HL7Error? {
 
@@ -40,11 +38,11 @@ public class HL7Client {
             if mshSegment is Segment {
                 anydata hl7Version = mshSegment.get("msh12");
                 if hl7Version is string {
-                    byte[]|HL7Error encodedMessage = self.encoder.encode(hl7Version, message);
+                    byte[]|HL7Error encodedMessage = encode(hl7Version, message);
                     if encodedMessage is byte[] {
                         byte[]|HL7Error response = self.writeToHL7Stream(encodedMessage);
                         if response is byte[] {
-                            Message|HL7Error parseResult = self.parser.parse(response);
+                            Message|HL7Error parseResult = parse(response);
                             if parseResult is HL7Error {
                                 return error HL7Error(HL7_V2_CLIENT_ERROR, parseResult, message = "Error occurred while parsing HL7 response message.");
                             }
@@ -59,7 +57,7 @@ public class HL7Client {
         } else {
             byte[]|HL7Error response = self.writeToHL7Stream(message);
             if response is byte[] {
-                Message|HL7Error parseResult = self.parser.parse(response);
+                Message|HL7Error parseResult = parse(response);
                 if parseResult is HL7Error {
                     return error HL7Error(HL7_V2_PARSER_ERROR, parseResult, message = "Error occurred while parsing HL7 response message.");
                 }
