@@ -41,9 +41,8 @@ service class HL7ServiceConnectionService {
             log:printInfo("Received HL7 Message: " + fromBytes);
         }
 
-        hl7v2:HL7Parser parser = new();
         // Note: When you know the message type you can directly get it parsed.
-        hl7v23:QRY_A19 parsedMsg = check parser.parse(data).ensureType(hl7v23:QRY_A19);
+        hl7v23:QRY_A19 parsedMsg = check hl7v2:parse(data).ensureType(hl7v23:QRY_A19);
         if parsedMsg is hl7v2:HL7Error {
             return error("Error occurred while parsing the received message", parsedMsg);
         }
@@ -62,14 +61,13 @@ service class HL7ServiceConnectionService {
 
 **Example: Parsing a constructed HL7 message string**
 ```ballerina
+import ballerinax/health.hl7v2;
 import ballerinax/health.hl7v23;
 
 function parseQueryMessage() returns hl7v2:HL7Error? {
-    string queryMessageStr = "MSH|^~\\&|ADT1|MCM|LABADT|MCM||SECURITY|QRY^A19|MSG00001|P|2.3|||||||\r"
-                            + "QRD|20220828104856+0000|R|I|QueryID01|||5.0|1^ADAM^EVERMAN^^|VXI|SIIS|";
-    hl7v2:HL7Parser parser = new();
+    string queryMessageStr = string `MSH|^~\\&|ADT1|MCM|LABADT|MCM||SECURITY|QRY^A19|MSG00001|P|2.3|||||||${"\r"}QRD|20220828104856+0000|R|I|QueryID01|||5.0|1^ADAM^EVERMAN^^|VXI|SIIS|`;
     // Getting parsed QRY_A19 message record
-    hl7v23:QRY_A19 parsedMsg = check parser.parse(queryMessageStr).ensureType(hl7v23:QRY_A19);
+    hl7v23:QRY_A19 parsedMsg = check hl7v2:parse(queryMessageStr).ensureType(hl7v23:QRY_A19);
     log:printInfo("Query ID : " + parsedMsg.qrd.qrd4);
 }
 ```
@@ -83,6 +81,7 @@ Encoding HL7 message model into wire format.
 
 **Example:**
 ```ballerina
+import ballerinax/health.hl7v2;
 import ballerinax/health.hl7v23;
 
 function encodeQueryMessage() returns error? {
@@ -110,8 +109,7 @@ function encodeQueryMessage() returns error? {
         }
     };
 
-    hl7v2:HL7Encoder encoder = new ();
-    byte[] encodedQRYA19 = check encoder.encode(hl7v23:VERSION, qry_a19);
+    byte[] encodedQRYA19 = check hl7v2:encode(hl7v23:VERSION, qry_a19);
     log:printInfo("String: " + check string:fromBytes(encodedQRYA19));
 }
 ```
