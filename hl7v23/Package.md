@@ -21,7 +21,7 @@ import ballerinax/health.hl7v23
 
 | Package                       | version |
 |-------------------------------|---------|
-| ballerinax/health.hl7v2       | 1.0.1   |
+| ballerinax/health.hl7v2       | 1.0.2   |
 
 **Refer [HL7 Base package](https://central.ballerina.io/ballerinax/health.hl7v2) to learn more about usage of 
  the HL7 package series.**

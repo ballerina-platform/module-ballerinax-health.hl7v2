@@ -41,8 +41,7 @@ service class HL7ServiceConnectionService {
             log:printInfo("Received HL7 Message: " + fromBytes);
         }
 
-        hl7v2:HL7Parser parser = new();
-        hl7v2:Message|hl7v2:GenericMessage|hl7v2:HL7Error parsedMsg = parser.parse(data);
+        hl7v2:Message|hl7v2:HL7Error parsedMsg = hl7v2:parse(data);
         if parsedMsg is hl7v2:HL7Error {
             return error("Error occurred while parsing the received message", parsedMsg);
         }
@@ -80,8 +79,7 @@ service class HL7ServiceConnectionService {
             }
         };
         // encode message to wire format
-        hl7v2:HL7Encoder encoder = new();
-        byte[]|hl7v2:HL7Error encodedMsg = encoder.encode(hl7v23:VERSION, ack);
+        byte[]|hl7v2:HL7Error encodedMsg = hl7v2:encode(hl7v23:VERSION, ack);
         if encodedMsg is hl7v2:HL7Error {
             return error("Error occurred while encoding acknowledgement");
         }
