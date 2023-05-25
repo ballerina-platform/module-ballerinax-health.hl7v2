@@ -1,0 +1,155 @@
+
+// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// WSO2 LLC. licenses this file to you under the Apache License,
+// Version 2.0 (the "License"); you may not use this file except
+// in compliance with the License.
+// You may obtain a copy of the License at
+
+// http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
+import ballerinax/health.hl7v2;
+
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
+#
+# + name - Segment Name
+# + iim1 - Segment Record Field
+# + iim2 - Segment Record Field
+# + iim3 - Segment Record Field
+# + iim4 - Segment Record Field
+# + iim5 - Segment Record Field
+# + iim6 - Segment Record Field
+# + iim7 - Segment Record Field
+# + iim8 - Segment Record Field
+# + iim9 - Segment Record Field
+# + iim10 - Segment Record Field
+# + iim11 - Segment Record Field
+# + iim12 - Segment Record Field
+# + iim13 - Segment Record Field
+# + iim14 - Segment Record Field
+# + iim15 - Segment Record Field
+@hl7v2:SegmentDefinition {
+    name: "IIM",
+    required: false,
+    maxReps: 0,
+    fields: {
+        "iim1": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: CWE
+        },
+        "iim2": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: CWE
+        },
+        "iim3": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "iim4": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: TS
+        },
+        "iim5": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CWE
+        },
+        "iim6": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CWE
+        },
+        "iim7": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: TS
+        },
+        "iim8": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: NM
+        },
+        "iim9": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CWE
+        },
+        "iim10": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: MO
+        },
+        "iim11": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: TS
+        },
+        "iim12": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: NM
+        },
+        "iim13": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CWE
+        },
+        "iim14": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CE
+        },
+        "iim15": {
+            required: false,
+            length: 1,
+            maxReps: -1,
+            dataType: CE
+        }
+    }
+}
+public type IIM record {
+    *hl7v2:Segment;
+    string name = IIM_SEGMENT_NAME;
+    CWE iim1 = {};
+    CWE iim2 = {};
+    ST iim3 = "";
+    TS iim4 = {};
+    CWE iim5 = {};
+    CWE iim6 = {};
+    TS iim7 = {};
+    NM iim8 = "";
+    CWE iim9 = {};
+    MO iim10 = {};
+    TS iim11 = {};
+    NM iim12 = "";
+    CWE iim13 = {};
+    CE iim14 = {};
+    CE[] iim15 = [{}];
+};
+
+public const IIM_SEGMENT_NAME = "IIM";
