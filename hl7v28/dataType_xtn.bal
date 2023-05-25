@@ -1,0 +1,64 @@
+// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// WSO2 LLC. licenses this file to you under the Apache License,
+// Version 2.0 (the "License"); you may not use this file except
+// in compliance with the License.
+// You may obtain a copy of the License at
+
+// http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
+import ballerinax/health.hl7v2;
+
+# Data type description
+#
+# + xtn1 - Field Description  
+# + xtn2 - Data type field  
+# + xtn3 - Data type field  
+# + xtn4 - Data type field  
+# + xtn5 - Data type field  
+# + xtn6 - Data type field  
+# + xtn7 - Data type field  
+# + xtn8 - Data type field  
+# + xtn9 - Data type field  
+# + xtn10 - Data type field  
+# + xtn11 - Data type field  
+# + xtn12 - Data type field  
+# + xtn13 - Data type field  
+# + xtn14 - Data type field  
+# + xtn15 - Data type field  
+# + xtn16 - Data type field  
+# + xtn17 - Data type field  
+# + xtn18 - Data type field
+@hl7v2:TypeDefinition {
+    length: (),
+    maxReps: (),
+    required: false
+}
+public type XTN record {
+    *hl7v2:CompositeType;
+    ST xtn1 = "";
+    ID xtn2 = "";
+    ID xtn3 = "";
+    ST xtn4 = "";
+    SNM xtn5 = "";
+    SNM xtn6 = "";
+    SNM xtn7 = "";
+    SNM xtn8 = "";
+    ST xtn9 = "";
+    ST xtn10 = "";
+    ST xtn11 = "";
+    ST xtn12 = "";
+    DTM xtn13 = "";
+    DTM xtn14 = "";
+    CWE xtn15 = {};
+    CWE xtn16 = {};
+    EI xtn17 = {};
+    NM xtn18 = "";
+};
