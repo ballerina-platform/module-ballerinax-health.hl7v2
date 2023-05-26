@@ -29,6 +29,11 @@ public isolated function parse(string|byte[] message) returns Message|HL7Error {
         hL7WirePayload = createHL7WirePayload(string:toBytes(message));
     } else {
         hL7WirePayload = message;
+        if message[0] != HL7_MSG_START_BLOCK && message[message.length() - 1] != HL7_MSG_END_BLOCK {
+            // If the message isn't sent through MLLP, add the MLLP header and trailer.
+            // Using tools like `netcat`, you can send HL7 messages without MLLP header and trailer.
+            hL7WirePayload = createHL7WirePayload(message);
+        }
     }
     string|error msgStr = string:fromBytes(hL7WirePayload);
     if msgStr is error {
