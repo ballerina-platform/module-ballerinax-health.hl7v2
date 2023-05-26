@@ -851,6 +851,10 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             ADT_A02 messageInstance = {msh: {}};
             return messageInstance;
         }
+        "ADT_A04" => {
+            ADT_A04 messageInstance = {msh: {}};
+            return messageInstance;
+        }
         "MFK_M01" => {
             MFK_M01 messageInstance = {msh: {}};
             return messageInstance;

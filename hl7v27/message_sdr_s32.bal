@@ -24,6 +24,7 @@ public const SDR_S32_MESSAGE_TYPE = "SDR_S32";
 # + msh - Message Record Field
 # + sft - Message Record Field
 # + uac - Message Record Field
+# + anti_microbial_device_cycle_data - Message Record Field
 @hl7v2:MessageDefinition {
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
