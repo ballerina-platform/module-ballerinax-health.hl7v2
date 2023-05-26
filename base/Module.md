@@ -3,22 +3,18 @@ HL7v2 base implementation module with common core capabilities
 # HL7v2 Base Module
 
 ## Overview
-This Module holds the base implementation for referred by HL7v2 protocol version implementations. 
+This Module holds the base implementation of the HL7v2 protocol. 
 
 ## Usage
-To add the HL7v2 base dependency the project simply import the package as below,
+To add the HL7v2 base dependency to the project, import the package as below,
 ```ballerina
 import ballerinax/health.hl7v2;
 ```
 
-### Parsing HL7 Message
-Parsing encoded wire format HL7 messages into its representative message model
+### Parsing HL7 Messages
+Let us see how to parse HL7 messages into its Ballerina record model.
 
-NOTE: The `ballerinax/health.hl7v2` is capable of intelligently detecting used versioned hl7v2 packages 
-ex: `health.hl7v23` in the project and parse to relevant message model. Hence, ensure required package is properly 
-imported.
-
-**Example: Parsing HL7 messages sent by a client**
+**Example: Parsing HL7 messages sent over the wire**
 ```ballerina
 import ballerina/io;
 import ballerina/tcp;
@@ -61,7 +57,7 @@ service class HL7ServiceConnectionService {
 }
 ```
 
-**Example: Parsing a constructed HL7 message string**
+**Example: Parsing a string representation of a HL7 message**
 ```ballerina
 import ballerinax/health.hl7v2;
 import ballerinax/health.hl7v23;
@@ -79,7 +75,7 @@ public function main() returns hl7v2:HL7Error?|error {
 Query ID : QueryID01
 ```
 
-### Encoding HL7 Message Model to Wire Format
+### Encoding HL7 message model to wire format
 Encoding HL7 message model into wire format.
 
 **Example:**
