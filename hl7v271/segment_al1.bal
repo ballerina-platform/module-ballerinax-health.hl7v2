@@ -25,6 +25,7 @@ import ballerinax/health.hl7v2;
 # + al13 - Segment Record Field
 # + al14 - Segment Record Field
 # + al15 - Segment Record Field
+# + al16 - Segment Record Field
 @hl7v2:SegmentDefinition {
     name: "AL1",
     required: false,

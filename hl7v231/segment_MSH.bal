@@ -170,8 +170,8 @@ import ballerinax/health.hl7v2;
 public type MSH record {
     *hl7v2:Segment;
     string name = MSH_SEGMENT_NAME;
-    ST msh1 = "";
-    ST msh2 = "";
+    ST msh1 = "|";
+    ST msh2 = "^~\\&";
     HD msh3 = {};
     HD msh4 = {};
     HD msh5 = {};
