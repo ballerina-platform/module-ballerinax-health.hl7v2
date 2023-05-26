@@ -21,7 +21,6 @@ public const ORU_R01_MESSAGE_TYPE = "ORU_R01";
 #
 # + name - Message name
 # + msh - Message Record Field
-# + dsc - Message Record Field
 @hl7v2:MessageDefinition {
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},

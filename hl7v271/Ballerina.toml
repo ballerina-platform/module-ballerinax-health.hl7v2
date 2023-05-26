@@ -10,4 +10,4 @@ repository="https://github.com/ballerina-platform/module-ballerinax-health.hl7v2
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v2"
-version = "1.0.2"
+version = "1.0.3"
