@@ -20,14 +20,14 @@ imported.
 
 **Example: Parsing HL7 messages sent by a client**
 ```ballerina
-import ballerina/log;
+import ballerina/io;
 import ballerina/tcp;
 import ballerinax/health.hl7v2;
 import ballerinax/health.hl7v23;
 
 service on new tcp:Listener(3000) {
     remote function onConnect(tcp:Caller caller) returns tcp:ConnectionService {
-        log:printInfo("Client connected to echoServer: " + caller.remotePort.toString());
+        io:println("Client connected to HL7 server: ", caller.remotePort.toString());
         return new HL7ServiceConnectionService();
     }
 }
@@ -38,23 +38,25 @@ service class HL7ServiceConnectionService {
     remote function onBytes(tcp:Caller caller, readonly & byte[] data) returns tcp:Error? {
         string|error fromBytes = string:fromBytes(data);
         if fromBytes is string {
-            log:printInfo("Received HL7 Message: " + fromBytes);
+            io:println("Received HL7 Message: ", fromBytes);
         }
 
         // Note: When you know the message type you can directly get it parsed.
-        hl7v23:QRY_A19 parsedMsg = check hl7v2:parse(data).ensureType(hl7v23:QRY_A19);
-        if parsedMsg is hl7v2:HL7Error {
-            return error("Error occurred while parsing the received message", parsedMsg);
+        hl7v23:ADT_A01|error parsedMsg = hl7v2:parse(data).ensureType(hl7v23:ADT_A01);
+        if parsedMsg is error {
+            return error(string `Error occurred while parsing the received message: ${parsedMsg.message()}`, 
+            parsedMsg);
         }
-        log:printInfo("Parsed HL7 message:" + parsedMsg.toString());
+        io:println(string `Parsed HL7 message: ${parsedMsg.toJsonString()}`);
     }
 
     remote function onError(tcp:Error err) {
-        log:printError("An error occurred", 'error = err);
+        io:println(string `An error occurred while receiving HL7 message: ${err.message()}. Stack trace: `, 
+        err.stackTrace());
     }
 
     remote function onClose() {
-        log:printInfo("Client left");
+        io:println("Client left");
     }
 }
 ```
@@ -63,17 +65,18 @@ service class HL7ServiceConnectionService {
 ```ballerina
 import ballerinax/health.hl7v2;
 import ballerinax/health.hl7v23;
+import ballerina/io;
 
-function parseQueryMessage() returns hl7v2:HL7Error? {
+public function main() returns hl7v2:HL7Error?|error {
     string queryMessageStr = string `MSH|^~\\&|ADT1|MCM|LABADT|MCM||SECURITY|QRY^A19|MSG00001|P|2.3|||||||${"\r"}QRD|20220828104856+0000|R|I|QueryID01|||5.0|1^ADAM^EVERMAN^^|VXI|SIIS|`;
     // Getting parsed QRY_A19 message record
     hl7v23:QRY_A19 parsedMsg = check hl7v2:parse(queryMessageStr).ensureType(hl7v23:QRY_A19);
-    log:printInfo("Query ID : " + parsedMsg.qrd.qrd4);
+    io:println(string `Query ID : ${parsedMsg.qrd.qrd4}`);
 }
 ```
 *Output :*
 ```
-level = INFO module = openHealthcare/hl7Client message = "Query ID : QueryID01"
+Query ID : QueryID01
 ```
 
 ### Encoding HL7 Message Model to Wire Format
@@ -83,8 +86,9 @@ Encoding HL7 message model into wire format.
 ```ballerina
 import ballerinax/health.hl7v2;
 import ballerinax/health.hl7v23;
+import ballerina/io;
 
-function encodeQueryMessage() returns error? {
+public function main() returns error? {
     hl7v23:QRY_A19 qry_a19 = {
         msh: {
             msh3: {hd1: "ADT1"},
@@ -110,14 +114,12 @@ function encodeQueryMessage() returns error? {
     };
 
     byte[] encodedQRYA19 = check hl7v2:encode(hl7v23:VERSION, qry_a19);
-    log:printInfo("String: " + check string:fromBytes(encodedQRYA19));
+    io:println(string `Encoded string:  ${check string:fromBytes(encodedQRYA19)}`);
 }
 ```
 *Output:*
 ```
-level = INFO module = openHealthcare/hl7Client message = "String: 
-           MSH|^~\\&|ADT1|MCM|LABADT|MCM||SECURITY|QRY^A19|MSG00001|P|2.3|||||||\rQRD|20220828104856+0000|R|I|QueryID01|||5.0|1^ADAM^EVERMAN^^|VXI|SIIS|\r\r"
-level = INFO module = openHealthcare/hl7Client message = "Base16: 0b4d53487c5e7e5c267c414454317c4d434d7c4c41424144547c4d434d7c7c53454355524954597c5152595e4131397c4d534730303030317c507c322e337c7c7c7c7c7c7c0d5152447c32303232303832383130343835362b303030307c527c497c5175657279494430317c7c7c352e307c315e4144414d5e455645524d414e5e5e7c5658497c534949537c0d1c0d"
+Encoded string: QRD|20220828104856+0000|R|I|QueryID01|||5.0|1^ADAM^EVERMAN^^|VXI|SIIS|||||||
 ```
 
 ### Generic HL7 Client
@@ -125,15 +127,42 @@ Generic HL7 client to interact with HL7 servers.
 
 **Example:**
 ```ballerina
-function sendHl7Message(byte[] encodedQRYA19) returns hl7v2:HL7Error|error? {
-    // Send to HL7 server
-    hl7v2:HL7Client hl7client = check new("localhost", 56919);
-    byte[] responseMsg = check hl7client.sendMessage(encodedQRYA19);
-    log:printInfo("Response : " + check string:fromBytes(responseMsg));
+import ballerinax/health.hl7v2;
+import ballerinax/health.hl7v23;
+import ballerina/io;
+
+public function main() returns error? {
+
+    hl7v23:QRY_A19 qry_a19 = {
+        msh: {
+            msh3: {hd1: "ADT1"},
+            msh4: {hd1: "MCM"},
+            msh5: {hd1: "LABADT"},
+            msh6: {hd1: "MCM"},
+            msh8: "SECURITY",
+            msh9: {cm_msg1: "QRY"},
+            msh10: "MSG00001",
+            msh11: {pt1: "P"},
+            msh12: "2.3"
+        },
+        qrd: {
+            qrd1: {ts1: "20220828104856+0000"},
+            qrd2: "R",
+            qrd3: "I",
+            qrd4: "QueryID01",
+            qrd7: {cq1: 5},
+            qrd8: [{xcn1: "1", xcn2: "ADAM", xcn3: "EVERMAN"}],
+            qrd9: [{ce1: "VXI"}],
+            qrd10: [{ce1: "SIIS"}]    
+        }
+    };
+
+    hl7v2:HL7Client hl7client = check new("localhost", 59519);
+    hl7v2:Message msg = check hl7client.sendMessage(qry_a19);
+    io:println(string `Response : ${msg.toJsonString()}`);
 }
 ```
-*Output:*
+*Sample Output:*
 ```
-level = INFO module = openHealthcare/hl7Client message = "Response : 
-           MSH|^~\\&|LABADT|MCM|ADT1|MCM|20221220171109.967+0530||ACK^A19|103|P|2.3\rMSA|AA|MSG00001\r\r"
+Response : {"name":"ACK", "msh":{"name":"MSH", "msh1":"MSH", "msh2":"^~\\&", "msh3":{"hd1":"", "hd2":"", "hd3":""}, "msh4":{"hd1":"", "hd2":"", "hd3":""}, "msh5":{"hd1":"", "hd2":"", "hd3":""}, "msh6":{"hd1":"", "hd2":"", "hd3":""}, "msh7":{"ts1":"20230526182704.489+0530"}, "msh8":"", "msh9":{"cm_msg1":"ACK", "cm_msg2":""}, "msh10":"2101", "msh11":{"pt1":"P", "pt2":""}, "msh12":"2.3", "msh13":-1.0, "msh14":"", "msh15":"", "msh16":"", "msh17":"", "msh18":"", "msh19":{"ce1":"", "ce2":"", "ce3":"", "ce4":"", "ce5":"", "ce6":""}}, "msa":{"name":"MSA", "msa1":"AE", "msa2":"MSG00001", "msa3":"Unsupported message type", "msa4":-1.0, "msa5":"", "msa6":{"ce1":"", "ce2":"", "ce3":"", "ce4":"", "ce5":"", "ce6":""}}, "err":{"name":"ERR", "err1":[{"cm_eld1":"", "cm_eld2":-1.0, "cm_eld3":-1.0, "cm_eld4":{"ce1":"", "ce2":"", "ce3":"", "ce4":"", "ce5":"", "ce6":""}}]}}
 ```
