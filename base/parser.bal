@@ -1,3 +1,5 @@
+import ballerina/regex;
+
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -26,7 +28,9 @@ public isolated function parse(string|byte[] message) returns Message|HL7Error {
 
     byte[] hL7WirePayload = [];
     if message is string {
-        hL7WirePayload = createHL7WirePayload(string:toBytes(message));
+        // Replace all the new lines with carriage return.
+        string cleanedMsg = regex:replaceAll(message, "\n", "\r");
+        hL7WirePayload = createHL7WirePayload(string:toBytes(cleanedMsg));
     } else {
         hL7WirePayload = message;
         if message[0] != HL7_MSG_START_BLOCK && message[message.length() - 1] != HL7_MSG_END_BLOCK {
