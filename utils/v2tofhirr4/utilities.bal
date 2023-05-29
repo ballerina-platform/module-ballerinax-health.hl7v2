@@ -24,7 +24,6 @@ import ballerinax/health.hl7v26;
 import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 import ballerinax/health.hl7v2 as hl7;
-import ballerina/io;
 import ballerinax/health.fhir.r4 as r4;
 
 public function pidToAdministrativeSex(string pid8) returns r4:PatientGender {
@@ -278,7 +277,7 @@ public function pidToBirthOrder(float|string pid25) returns int {
             int intResult = check int:fromString(pid25);
             return intResult;
         } on fail var e {
-            log:printError("Error while converting string to int", e);
+            log:printError(string `[pidToBirthOrder] Error while converting [pid25] ${pid25} to int.`, e);
             return -1;
         }
     }
@@ -579,9 +578,9 @@ function transformToFhir(hl7:Message message) returns json|error {
     bundle.entry = entries;
 
     message.entries().forEach(function(anydata triggerEventField) {
-        // string key;
+        string key;
         anydata segment;
-        [_, segment] = <[string, anydata]>triggerEventField;
+        [key, segment] = <[string, anydata]>triggerEventField;
         do {
             if segment is hl7:Segment {
                 r4:BundleEntry[] bundleEntries = segmentToFhir(segment.name, segment);
@@ -611,13 +610,13 @@ function transformToFhir(hl7:Message message) returns json|error {
                 });
             }
         } on fail error e {
-            io:println("Error occurred while converting message to FHIR", e);
+            log:printError(string `Error occurred while converting [segment] ${key} to FHIR.
+            Continuing to next segment..`, e, e.stackTrace());
         }
-
     });
     if entries.length() > 0 {
         return bundle.toJson();
     }
-    return {}; //getOperationOutcome("Unsupported message type.");
+    return getOperationOutcome(string `Unsupported message: ${message.name}`);
 }
 
