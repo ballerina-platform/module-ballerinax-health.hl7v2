@@ -28,9 +28,7 @@ public isolated function parse(string|byte[] message) returns Message|HL7Error {
 
     byte[] hL7WirePayload = [];
     if message is string {
-        // Replace all the new lines with carriage return.
-        string cleanedMsg = regex:replaceAll(message, "\n", "\r");
-        hL7WirePayload = createHL7WirePayload(string:toBytes(cleanedMsg));
+        hL7WirePayload = createHL7WirePayload(string:toBytes(message));
     } else {
         hL7WirePayload = message;
         if message[0] != HL7_MSG_START_BLOCK && message[message.length() - 1] != HL7_MSG_END_BLOCK {
@@ -39,9 +37,15 @@ public isolated function parse(string|byte[] message) returns Message|HL7Error {
             hL7WirePayload = createHL7WirePayload(message);
         }
     }
+
     string|error msgStr = string:fromBytes(hL7WirePayload);
     if msgStr is error {
         return error(HL7_V2_PARSER_ERROR, message = "Failed to create string from byte array.");
+    }
+
+    msgStr = regex:replaceAll(msgStr, "\n", "\r");
+    if msgStr is error {
+        return error(HL7_V2_PARSER_ERROR, message = "Failed when replacing new line with the carriage return.");
     }
 
     string? hl7Version = extractHL7Version(msgStr);
@@ -53,5 +57,5 @@ public isolated function parse(string|byte[] message) returns Message|HL7Error {
     if parser is HL7Error? {
         return error(HL7_V2_PARSER_ERROR, message = "Unable to find parser for HL7 message with version:" + hl7Version);
     }
-    return parser.parse(hL7WirePayload);
+    return parser.parse(string:toBytes(msgStr));
 }
