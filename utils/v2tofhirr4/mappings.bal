@@ -45,7 +45,6 @@ public function v2ToFhir(string|hl7:Message hl7) returns json|error {
     } else {
         hl7msg = hl7;
     }
-
     json transformToFHIRResult = check transformToFhir(hl7msg);
     return transformToFHIRResult;
 }

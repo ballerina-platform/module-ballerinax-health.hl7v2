@@ -81,7 +81,7 @@ public function nameToServiceRequestIntent(string name) returns r4:ServiceReques
 
 public function idToServiceRequestPriority(hl7v23:ID id) returns r4:ServiceRequestPriority => id is r4:ServiceRequestPriority ? id : "stat";
 
-public enum ComparisonOperator {
+enum ComparisonOperator {
     EQ, // Matches values that are equal to a specified value.
     GT, // Matches values that are greater than a specified value.
     GTE, // Matches values that are greater than or equal to a specified value.
@@ -92,7 +92,7 @@ public enum ComparisonOperator {
     NIN // Matches none of the values specified in an array.
 }
 
-public enum LogicalOperator {
+enum LogicalOperator {
     AND,
     NOT,
     NOR,
@@ -104,7 +104,7 @@ public enum LogicalOperator {
 # + identifier - HL7 v2 Identifier(ID)
 # + comparisonOperator - [EQ, GT, GTE, IN, LT, LTE, NE, NIN] - Comparison logic
 # + valueList - Values to be applied with the logic to compare identifier
-public type ANTLR record {|
+type ANTLR record {|
     string identifier;
     ComparisonOperator comparisonOperator;
     string[] valueList;
