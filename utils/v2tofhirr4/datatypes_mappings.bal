@@ -29,37 +29,39 @@ import ballerinax/health.hl7v28;
 // URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/datatype_maps.html
 // --------------------------------------------------------------------------------------------#
 
-public function ceToCodings(hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE|hl7v27:CWE|hl7v28:CWE ce) returns r4:Coding[] {
+public function ceToCodings(Ce ce) returns r4:Coding[] {
     r4:Coding[] codings = [];
-    if ce is hl7v26:CWE|hl7v27:CWE|hl7v28:CWE {
-        codings.push(cweToCoding(ce));
-    } else if ce is hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE {
-        codings.push(ceToCoding(ce));
-    }
+    codings.push(ceToCoding(ce));
     return codings;
 }
 
-public function ceToCodeableConcept(hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE ce) returns r4:CodeableConcept => {
+public function cweToCodings(Cwe ce) returns r4:Coding[] {
+    r4:Coding[] codings = [];
+    codings.push(cweToCoding(ce));
+    return codings;
+}
+
+public function ceToCodeableConcept(Ce ce) returns r4:CodeableConcept => {
     coding: ceToCodings(ce)
 };
 
-public function cweToCodeableConcept(hl7v231:CWE|hl7v24:CWE|hl7v25:CWE|hl7v251:CWE|hl7v26:CWE|hl7v27:CWE|hl7v28:CWE cwe) returns r4:CodeableConcept => {
-    coding: ceToCodings(cwe)
+public function cweToCodeableConcept(Cwe cwe) returns r4:CodeableConcept => {
+    coding: cweToCodings(cwe)
 };
 
-public function ceToCoding(hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE ce) returns r4:Coding => {
+public function ceToCoding(Ce ce) returns r4:Coding => {
     code: (ce.ce1 != "") ? ce.ce1 : (),
     display: (ce.ce2 != "") ? ce.ce2 : (),
     system: (ce.ce3 != "") ? ce.ce3 : ()
 };
 
-public function cweToCoding(hl7v231:CWE|hl7v24:CWE|hl7v25:CWE|hl7v251:CWE|hl7v26:CWE|hl7v27:CWE|hl7v28:CWE cwe) returns r4:Coding => {
+public function cweToCoding(Cwe cwe) returns r4:Coding => {
     code: (cwe.cwe1 != "") ? cwe.cwe1 : (),
     display: (cwe.cwe2 != "") ? cwe.cwe2 : (),
     system: (cwe.cwe3 != "") ? cwe.cwe3 : ()
 };
 
-public function xadToAddress(hl7v23:XAD|hl7v231:XAD|hl7v24:XAD|hl7v25:XAD|hl7v251:XAD|hl7v26:XAD|hl7v27:XAD|hl7v28:XAD xad) returns r4:Address {
+public function xadToAddress(Xad xad) returns r4:Address {
     r4:Extension[] extension = [];
     string district = "";
 
@@ -89,7 +91,7 @@ public function xadToAddress(hl7v23:XAD|hl7v231:XAD|hl7v24:XAD|hl7v25:XAD|hl7v25
     return address;
 };
 
-public function xonToOrganization(hl7v23:XON|hl7v231:XON|hl7v24:XON|hl7v25:XON|hl7v251:XON|hl7v26:XON|hl7v27:XON|hl7v28:XON xon) returns r4:Organization {
+public function xonToOrganization(Xon xon) returns r4:Organization {
     r4:Coding coding = {
         code: xon.xon7,
         system: xon.xon7
@@ -114,7 +116,7 @@ public function xonToOrganization(hl7v23:XON|hl7v231:XON|hl7v24:XON|hl7v25:XON|h
     return organization;
 };
 
-public function xpnToHumanName(hl7v23:XPN|hl7v231:XPN|hl7v24:XPN|hl7v25:XPN|hl7v251:XPN|hl7v26:XPN|hl7v27:XPN|hl7v28:XPN xpn) returns r4:HumanName {
+public function xpnToHumanName(Xpn xpn) returns r4:HumanName {
     r4:HumanName humanName = {
         use: (xpn.xpn7 != "") ? idToHumanNameUse(xpn.xpn7) : ()
     };
@@ -152,7 +154,7 @@ public function xpnToHumanName(hl7v23:XPN|hl7v231:XPN|hl7v24:XPN|hl7v25:XPN|hl7v
     return humanName;
 };
 
-public function xtnToContactPoint(hl7v23:XTN|hl7v231:XTN|hl7v24:XTN|hl7v25:XTN|hl7v251:XTN|hl7v26:XTN|hl7v27:XTN|hl7v28:XTN xtn) returns r4:ContactPoint {
+public function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
     string telephone = "";
     if xtn is hl7v26:XTN {
         telephone = xtn.xtn12;
@@ -176,13 +178,13 @@ public function xtnToContactPoint(hl7v23:XTN|hl7v231:XTN|hl7v24:XTN|hl7v25:XTN|h
     return contactPoint;
 };
 
-public function hdToMessageHeaderSource(hl7v23:HD|hl7v231:HD|hl7v24:HD|hl7v25:HD|hl7v251:HD|hl7v26:HD|hl7v27:HD|hl7v28:HD hd) returns r4:MessageHeaderSource => {
+public function hdToMessageHeaderSource(Hd hd) returns r4:MessageHeaderSource => {
     name: hd.hd1,
     endpoint: hd.hd2,
     extension: getStringExtension([hd.hd3])
 };
 
-public function hdToMessageHeaderDestination(hl7v23:HD|hl7v231:HD|hl7v24:HD|hl7v25:HD|hl7v251:HD|hl7v26:HD|hl7v27:HD|hl7v28:HD hd) returns r4:MessageHeaderDestination => {
+public function hdToMessageHeaderDestination(Hd hd) returns r4:MessageHeaderDestination => {
     name: hd.hd1,
     endpoint: hd.hd2,
     extension: getStringExtension([hd.hd3])
@@ -193,7 +195,7 @@ public function msgToCoding(hl7v23:CM_MSG msg) returns r4:Coding => {
     system: msg.cm_msg2
 };
 
-public function ptToMeta(hl7v23:PT|hl7v231:PT|hl7v24:PT|hl7v25:PT|hl7v251:PT|hl7v26:PT|hl7v27:PT|hl7v28:PT pt) returns r4:Meta {
+public function ptToMeta(Pt pt) returns r4:Meta {
     r4:Coding[] coding = [
         {
             code: pt.pt1,
@@ -206,44 +208,44 @@ public function ptToMeta(hl7v23:PT|hl7v231:PT|hl7v24:PT|hl7v25:PT|hl7v251:PT|hl7
     return meta;
 };
 
-public function ceToCode(hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE ce) returns r4:code {
+public function ceToCode(Ce ce) returns r4:code {
     r4:code code = ce.ce1;
     return code;
 };
 
-public function cweToCode(hl7v26:CWE|hl7v27:CWE|hl7v28:CWE cwe) returns r4:code {
+public function cweToCode(Cwe cwe) returns r4:code {
     r4:code code = cwe.cwe1;
     return code;
 };
 
-public function eiToIdentifier(hl7v23:EI|hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI ei) returns r4:Identifier => {
+public function eiToIdentifier(Ei ei) returns r4:Identifier => {
     value: (ei.ei1 != "") ? ei.ei1 : ()
 };
 
-public function idToCodeableConceptArray(hl7v23:ID|hl7v231:ID|hl7v24:ID|hl7v25:ID|hl7v251:ID|hl7v26:ID|hl7v27:ID|hl7v28:ID id) returns r4:CodeableConcept[] {
+public function idToCodeableConceptArray(Id id) returns r4:CodeableConcept[] {
     r4:CodeableConcept[] codeableConcept = [];
     codeableConcept.push(idToCodeableConcept(id));
     return codeableConcept;
 }
 
-public function eiToCoding(hl7v23:EI|hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI ei) returns r4:Coding => {
+public function eiToCoding(Ei ei) returns r4:Coding => {
     code: (ei.ei1 != "") ? ei.ei1 : (),
     system: (ei.ei2 != "") ? ei.ei2 : ()
 };
 
-public function ceToUri(hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE ce) returns r4:uri {
+public function ceToUri(Ce ce) returns r4:uri {
     return ce.ce1;
 };
 
-public function cweToUri(hl7v231:CWE|hl7v24:CWE|hl7v25:CWE|hl7v251:CWE|hl7v26:CWE|hl7v27:CWE|hl7v28:CWE cwe) returns r4:uri {
+public function cweToUri(Cwe cwe) returns r4:uri {
     return cwe.cwe1;
 };
 
-public function xcnToCodeableConcept(hl7v23:XCN|hl7v231:XCN|hl7v24:XCN|hl7v25:XCN|hl7v251:XCN|hl7v26:XCN|hl7v27:XCN|hl7v28:XCN xcn) returns r4:CodeableConcept => {
+public function xcnToCodeableConcept(Xcn xcn) returns r4:CodeableConcept => {
     id: xcn.xcn1
 };
 
-public function xcnToReference(hl7v23:XCN|hl7v231:XCN|hl7v24:XCN|hl7v25:XCN|hl7v251:XCN|hl7v26:XCN|hl7v27:XCN|hl7v28:XCN xcn) returns r4:Reference => {
+public function xcnToReference(Xcn xcn) returns r4:Reference => {
     reference: xcn.xcn1
 };
 
@@ -251,21 +253,21 @@ public function idToCoding(hl7v23:ID id) returns r4:Coding => {
     id: id
 };
 
-public function ceToCodeableConcepts(hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE ce) returns r4:CodeableConcept[] {
+public function ceToCodeableConcepts(Ce|hl7v26:CWE ce) returns r4:CodeableConcept[] {
     r4:CodeableConcept[] codeableConcept = [];
     if ce is hl7v26:CWE {
         codeableConcept.push(cweToCodeableConcept(ce));
     } else {
-        codeableConcept.push(ceToCodeableConcept(<hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE>ce));
+        codeableConcept.push(ceToCodeableConcept(<Ce>ce));
     }
     return codeableConcept;
 }
 
-public function dtmToDateTime(hl7v23:DTM|hl7v25:DTM|hl7v251:DTM|hl7v26:DTM ts) returns r4:dateTime {
+public function dtmToDateTime(Dtm ts) returns r4:dateTime {
     return ts;
 };
 
-public function tsToDateTime(hl7v23:TS|hl7v231:TS|hl7v24:TS|hl7v25:TS|hl7v251:TS ts) returns r4:dateTime {
+public function tsToDateTime(Ts ts) returns r4:dateTime {
     return ts.ts1;
 };
 
@@ -282,10 +284,52 @@ public function idToCodeableConcept(hl7v23:ID id) returns r4:CodeableConcept {
     return codeableConcept;
 };
 
-public function dtmToInstant(hl7v23:DTM|hl7v25:DTM|hl7v251:DTM|hl7v26:DTM ts) returns r4:instant {
+public function dtmToInstant(Dtm ts) returns r4:instant {
     return ts;
 };
 
-public function tsToInstant(hl7v23:TS|hl7v231:TS|hl7v24:TS|hl7v25:TS|hl7v251:TS ts) returns r4:instant {
+public function tsToInstant(Ts ts) returns r4:instant {
     return ts.ts1;
 };
+
+# Union type for CE data type for all supported hl7 versions.
+public type Ce hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE;
+
+# Union type for CWE data type for all supported hl7 versions.
+public type Cwe hl7v231:CWE|hl7v24:CWE|hl7v25:CWE|hl7v251:CWE|hl7v26:CWE|hl7v27:CWE|hl7v28:CWE;
+
+# Union type for XAD data type for all supported hl7 versions.
+public type Xad hl7v23:XAD|hl7v231:XAD|hl7v24:XAD|hl7v25:XAD|hl7v251:XAD|hl7v26:XAD|hl7v27:XAD|hl7v28:XAD;
+
+# Union type for XON data type for all supported hl7 versions.
+public type Xon hl7v23:XON|hl7v231:XON|hl7v24:XON|hl7v25:XON|hl7v251:XON|hl7v26:XON|hl7v27:XON|hl7v28:XON;
+
+# Union type for XPN data type for all supported hl7 versions.
+public type Xpn hl7v23:XPN|hl7v231:XPN|hl7v24:XPN|hl7v25:XPN|hl7v251:XPN|hl7v26:XPN|hl7v27:XPN|hl7v28:XPN;
+
+# Union type for XTN data type for all supported hl7 versions.
+public type Xtn hl7v23:XTN|hl7v231:XTN|hl7v24:XTN|hl7v25:XTN|hl7v251:XTN|hl7v26:XTN|hl7v27:XTN|hl7v28:XTN;
+
+# Union type for HD data type for all supported hl7 versions.
+public type Hd hl7v23:HD|hl7v231:HD|hl7v24:HD|hl7v25:HD|hl7v251:HD|hl7v26:HD|hl7v27:HD|hl7v28:HD;
+
+# Union type for PT data type for all supported hl7 versions.
+public type Pt hl7v23:PT|hl7v231:PT|hl7v24:PT|hl7v25:PT|hl7v251:PT|hl7v26:PT|hl7v27:PT|hl7v28:PT;
+
+# Union type for EI data type for all supported hl7 versions.
+public type Ei hl7v23:EI|hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI;
+
+# Union type for ID data type for all supported hl7 versions.
+public type Id hl7v23:ID|hl7v231:ID|hl7v24:ID|hl7v25:ID|hl7v251:ID|hl7v26:ID|hl7v27:ID|hl7v28:ID;
+
+# Union type for XCN data type for all supported hl7 versions.
+public type Xcn hl7v23:XCN|hl7v231:XCN|hl7v24:XCN|hl7v25:XCN|hl7v251:XCN|hl7v26:XCN|hl7v27:XCN|hl7v28:XCN;
+
+# Union type for DTM data type for all supported hl7 versions.
+public type Dtm hl7v23:DTM|hl7v25:DTM|hl7v251:DTM|hl7v26:DTM;
+
+# Union type for TS data type for all supported hl7 versions.
+public type Ts hl7v23:TS|hl7v231:TS|hl7v24:TS|hl7v25:TS|hl7v251:TS;
+
+# Union type for IS data type for all supported hl7 versions.
+public type Is hl7v23:IS|hl7v24:IS|hl7v25:IS;

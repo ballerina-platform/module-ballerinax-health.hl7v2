@@ -62,64 +62,64 @@ public function segmentToFhir(string segmentName, hl7:Segment segment) returns r
     r4:BundleEntry[] entries = [];
     match segmentName {
         "NK1" => {
-            r4:BundleEntry entry = {'resource: nk1ToPatient(<hl7v23:NK1|hl7v231:NK1|hl7v24:NK1|hl7v25:NK1|hl7v251:NK1|hl7v26:NK1|hl7v27:NK1|hl7v28:NK1>segment)};
+            r4:BundleEntry entry = {'resource: nk1ToPatient(<Nk1>segment)};
             entries.push(entry);
             return entries;
         }
         "PD1" => {
-            r4:BundleEntry entry = {'resource: pd1ToPatient(<hl7v23:PD1|hl7v231:PD1|hl7v24:PD1|hl7v25:PD1|hl7v251:PD1|hl7v26:PD1|hl7v27:PD1|hl7v28:PD1>segment)};
+            r4:BundleEntry entry = {'resource: pd1ToPatient(<Pd1>segment)};
             entries.push(entry);
             return entries;
         }
         "PID" => {
-            r4:BundleEntry entry = {'resource: pidToPatient(<hl7v23:PID|hl7v231:PID|hl7v24:PID|hl7v25:PID|hl7v251:PID|hl7v26:PID|hl7v27:PID|hl7v28:PID>segment)};
+            r4:BundleEntry entry = {'resource: pidToPatient(<Pid>segment)};
             entries.push(entry);
             return entries;
         }
         "PV1" => {
-            r4:BundleEntry entryPatient = {'resource: pv1ToPatient(<hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1|hl7v27:PV1|hl7v28:PV1>segment)};
+            r4:BundleEntry entryPatient = {'resource: pv1ToPatient(<Pv1>segment)};
             entries.push(entryPatient);
-            r4:BundleEntry entryEncounter = {'resource: pv1ToEncounter(<hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1|hl7v27:PV1|hl7v28:PV1>segment)};
+            r4:BundleEntry entryEncounter = {'resource: pv1ToEncounter(<Pv1>segment)};
             entries.push(entryEncounter);
             return entries;
         }
         "DG1" => {
-            r4:BundleEntry entry = {'resource: dg1ToCondition(<hl7v23:DG1|hl7v231:DG1|hl7v24:DG1|hl7v25:DG1|hl7v251:DG1|hl7v26:DG1|hl7v27:DG1|hl7v28:DG1>segment)};
+            r4:BundleEntry entry = {'resource: dg1ToCondition(<Dg1>segment)};
             entries.push(entry);
             return entries;
         }
         "AL1" => {
-            r4:BundleEntry entry = {'resource: al1ToAllerygyIntolerance(<hl7v23:AL1|hl7v231:AL1|hl7v24:AL1|hl7v25:AL1|hl7v251:AL1|hl7v26:AL1|hl7v27:AL1|hl7v28:AL1>segment)};
+            r4:BundleEntry entry = {'resource: al1ToAllerygyIntolerance(<Al1>segment)};
             entries.push(entry);
             return entries;
         }
         "EVN" => {
-            r4:BundleEntry entry = {'resource: evnToProvenance(<hl7v23:EVN|hl7v231:EVN|hl7v24:EVN|hl7v25:EVN|hl7v251:EVN|hl7v26:EVN|hl7v27:EVN|hl7v28:EVN>segment)};
+            r4:BundleEntry entry = {'resource: evnToProvenance(<Evn>segment)};
             entries.push(entry);
             return entries;
         }
         "MSH" => {
-            r4:BundleEntry entry = {'resource: mshToMessageHeader(<hl7v23:MSH|hl7v231:MSH|hl7v24:MSH|hl7v25:MSH|hl7v251:MSH|hl7v26:MSH|hl7v27:MSH|hl7v28:MSH>segment)};
+            r4:BundleEntry entry = {'resource: mshToMessageHeader(<Msh>segment)};
             entries.push(entry);
             return entries;
         }
         "PV2" => {
-            r4:BundleEntry entry = {'resource: pv2ToEncounter(<hl7v23:PV2|hl7v231:PV2|hl7v24:PV2|hl7v25:PV2|hl7v251:PV2|hl7v26:PV2|hl7v27:PV2|hl7v28:PV2>segment)};
+            r4:BundleEntry entry = {'resource: pv2ToEncounter(<Pv2>segment)};
             entries.push(entry);
             return entries;
         }
         "OBX" => {
-            r4:BundleEntry entry = {'resource: obxToObservation(<hl7v23:OBX|hl7v231:OBX|hl7v24:OBX|hl7v25:OBX|hl7v251:OBX|hl7v26:OBX|hl7v27:OBX|hl7v28:OBX>segment)};
+            r4:BundleEntry entry = {'resource: obxToObservation(<Obx>segment)};
             entries.push(entry);
             return entries;
         }
         "ORC" => {
-            r4:BundleEntry entry = {'resource: orcToImmunization(<hl7v23:ORC|hl7v231:ORC|hl7v24:ORC|hl7v25:ORC|hl7v251:ORC|hl7v26:ORC|hl7v27:ORC|hl7v28:ORC>segment)};
+            r4:BundleEntry entry = {'resource: orcToImmunization(<Orc>segment)};
             entries.push(entry);
             return entries;
         }
         "OBR" => {
-            r4:BundleEntry entry = {'resource: obrToDiagnosticReport(<hl7v23:OBR|hl7v231:OBR|hl7v24:OBR|hl7v25:OBR|hl7v251:OBR|hl7v26:OBR|hl7v27:OBR|hl7v28:OBR>segment)};
+            r4:BundleEntry entry = {'resource: obrToDiagnosticReport(<Obr>segment)};
             entries.push(entry);
             return entries;
         }
@@ -127,7 +127,7 @@ public function segmentToFhir(string segmentName, hl7:Segment segment) returns r
     return entries;
 }
 
-public function mshToMessageHeader(hl7v23:MSH|hl7v231:MSH|hl7v24:MSH|hl7v25:MSH|hl7v251:MSH|hl7v26:MSH|hl7v27:MSH|hl7v28:MSH msh) returns r4:MessageHeader => {
+public function mshToMessageHeader(Msh msh) returns r4:MessageHeader => {
     'source: hdToMessageHeaderSource(msh.msh3),
     destination: [hdToMessageHeaderDestination(msh.msh5)],
     eventCoding: (msh.msh9 is hl7v23:CM_MSG) ? msgToCoding(<hl7v23:CM_MSG>msh.msh9) : {},
@@ -136,7 +136,7 @@ public function mshToMessageHeader(hl7v23:MSH|hl7v231:MSH|hl7v24:MSH|hl7v25:MSH|
 };
 
 // --- Patient Administation
-public function al1ToAllerygyIntolerance(hl7v23:AL1|hl7v231:AL1|hl7v24:AL1|hl7v25:AL1|hl7v251:AL1|hl7v26:AL1|hl7v27:AL1|hl7v28:AL1 al1) returns r4:AllergyIntolerance {
+public function al1ToAllerygyIntolerance(Al1 al1) returns r4:AllergyIntolerance {
     r4:Coding[] coding = [
         {
             code: al1.al11.toString(),
@@ -259,7 +259,7 @@ public function al1ToAllerygyIntolerance(hl7v23:AL1|hl7v231:AL1|hl7v24:AL1|hl7v2
 };
 
 // TODO: Ballerina FHIR EVN and HL7 EVN is different for some fields
-public function evnToProvenance(hl7v23:EVN|hl7v231:EVN|hl7v24:EVN|hl7v25:EVN|hl7v251:EVN|hl7v26:EVN|hl7v27:EVN|hl7v28:EVN evn) returns r4:Provenance {
+public function evnToProvenance(Evn evn) returns r4:Provenance {
     r4:Coding[] coding = [
         {
             display: evn.name
@@ -360,11 +360,11 @@ public function evnToProvenance(hl7v23:EVN|hl7v231:EVN|hl7v24:EVN|hl7v25:EVN|hl7
     return provenance;
 };
 
-public function nk1ToPatient(hl7v23:NK1|hl7v231:NK1|hl7v24:NK1|hl7v25:NK1|hl7v251:NK1|hl7v26:NK1|hl7v27:NK1|hl7v28:NK1 nk1) returns r4:Patient => {
+public function nk1ToPatient(Nk1 nk1) returns r4:Patient => {
     contact: nk1ToContact(nk1.nk12, nk1.nk14, nk1.nk15, nk1.nk16, nk1.nk17, nk1.nk18, nk1.nk19, nk1.nk113, nk1.nk115, nk1.nk130, nk1.nk131, nk1.nk132)
 };
 
-public function pd1ToPatient(hl7v23:PD1|hl7v231:PD1|hl7v24:PD1|hl7v25:PD1|hl7v251:PD1|hl7v26:PD1|hl7v27:PD1|hl7v28:PD1 pd1) returns r4:Patient {
+public function pd1ToPatient(Pd1 pd1) returns r4:Patient {
     r4:Reference[] generalPractitioner = [];
     r4:Extension[]? extension = [];
     if pd1 is hl7v27:PD1 {
@@ -380,7 +380,7 @@ public function pd1ToPatient(hl7v23:PD1|hl7v231:PD1|hl7v24:PD1|hl7v25:PD1|hl7v25
     };
 };
 
-public function pidToPatient(hl7v23:PID|hl7v231:PID|hl7v24:PID|hl7v25:PID|hl7v251:PID|hl7v26:PID|hl7v27:PID|hl7v28:PID pid) returns r4:Patient {
+public function pidToPatient(Pid pid) returns r4:Patient {
     r4:HumanName[] name = [];
     string birthDate = "";
     string deceasedDateTime = "";
@@ -397,7 +397,7 @@ public function pidToPatient(hl7v23:PID|hl7v231:PID|hl7v24:PID|hl7v25:PID|hl7v25
         deceasedDateTime = pid.pid29;
         gender = pidToAdministrativeSex(pid.pid8);
     } else if pid is hl7v27:PID|hl7v28:PID {
-        name = pidToPatientName(pid.pid5, pid.pid5);
+        name = pidToPatientName(pid.pid5, pid.pid9);
         birthDate = pid.pid7;
         deceasedDateTime = pid.pid29;
         gender = pidToAdministrativeSex(pid.pid8.cwe1);
@@ -422,7 +422,7 @@ public function pidToPatient(hl7v23:PID|hl7v231:PID|hl7v24:PID|hl7v25:PID|hl7v25
     return patient;
 };
 
-public function pv1ToPatient(hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1|hl7v27:PV1|hl7v28:PV1 pv1) returns r4:Patient {
+public function pv1ToPatient(Pv1 pv1) returns r4:Patient {
     string extension = "";
 
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
@@ -435,7 +435,7 @@ public function pv1ToPatient(hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v25
     };
 };
 
-public function pv1ToEncounter(hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1|hl7v27:PV1|hl7v28:PV1 pv1) returns r4:Encounter {
+public function pv1ToEncounter(Pv1 pv1) returns r4:Encounter {
     string location1Display = "";
     string location1Status = "";
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
@@ -859,7 +859,7 @@ public function pv1ToEncounter(hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v
     return encounter;
 };
 
-public function pv2ToEncounter(hl7v23:PV2|hl7v231:PV2|hl7v24:PV2|hl7v25:PV2|hl7v251:PV2|hl7v26:PV2|hl7v27:PV2|hl7v28:PV2 pv2) returns r4:Encounter {
+public function pv2ToEncounter(Pv2 pv2) returns r4:Encounter {
     string display = "";
     if pv2 is hl7v23:PV2|hl7v231:PV2|hl7v24:PV2|hl7v25:PV2|hl7v251:PV2|hl7v26:PV2 {
         display = pv2.pv21.pl1;
@@ -959,7 +959,7 @@ public function pv2ToEncounter(hl7v23:PV2|hl7v231:PV2|hl7v24:PV2|hl7v25:PV2|hl7v
 };
 
 // --- Financial Management ---
-public function dg1ToCondition(hl7v23:DG1|hl7v231:DG1|hl7v24:DG1|hl7v25:DG1|hl7v251:DG1|hl7v26:DG1|hl7v27:DG1|hl7v28:DG1 dg1) returns r4:Condition {
+public function dg1ToCondition(Dg1 dg1) returns r4:Condition {
     r4:CodeableConcept code = {};
     string onsetDateTime = "";
     string recordedDate = "";
@@ -980,7 +980,7 @@ public function dg1ToCondition(hl7v23:DG1|hl7v231:DG1|hl7v24:DG1|hl7v25:DG1|hl7v
     };
 }
 
-public function obxToObservation(hl7v23:OBX|hl7v231:OBX|hl7v24:OBX|hl7v25:OBX|hl7v251:OBX|hl7v26:OBX|hl7v27:OBX|hl7v28:OBX obx) returns r4:Observation {
+public function obxToObservation(Obx obx) returns r4:Observation {
     r4:CodeableConcept code = {};
     r4:dateTime effectiveDateTime = "";
     r4:CodeableConcept method = {};
@@ -1000,13 +1000,12 @@ public function obxToObservation(hl7v23:OBX|hl7v231:OBX|hl7v24:OBX|hl7v25:OBX|hl
         valueString: valueString,
         dataAbsentReason: idToCodeableConcept(obx.obx11),
         effectiveDateTime: effectiveDateTime,
-        // performer: [HL7V2_CE_to_FHIR_Organization(obx.obx15)],
         method: method,
         status: "preliminary"
     };
 };
 
-public function obrToDiagnosticReport(hl7v23:OBR|hl7v231:OBR|hl7v24:OBR|hl7v25:OBR|hl7v251:OBR|hl7v26:OBR|hl7v27:OBR|hl7v28:OBR obr) returns r4:DiagnosticReport {
+public function obrToDiagnosticReport(Obr obr) returns r4:DiagnosticReport {
     r4:CodeableConcept code = {};
     r4:dateTime effectiveDateTime = "";
     r4:dateTime effectivePeriodStart = "";
@@ -1037,8 +1036,6 @@ public function obrToDiagnosticReport(hl7v23:OBR|hl7v231:OBR|hl7v24:OBR|hl7v25:O
         issued: issued,
         category: idToCodeableConceptArray(obr.obr24),
         status: idToDiagnosticReportStatus(obr.obr25)
-        // resultsInterpreter: HL7V2_NDL_to_FHIR_PractitionerRole(obr.obr32),
-        // performer: obr.obr34 + obr.obr35
     };
     if obr is hl7v23:OBR {
         diagnosticReport.subject.identifier = eiToIdentifier((<hl7v23:OBR>obr).obr2[0]);
@@ -1048,7 +1045,7 @@ public function obrToDiagnosticReport(hl7v23:OBR|hl7v231:OBR|hl7v24:OBR|hl7v25:O
     return diagnosticReport;
 };
 
-public function obrToServiceRequest(hl7v23:OBR|hl7v231:OBR|hl7v24:OBR|hl7v25:OBR|hl7v251:OBR|hl7v26:OBR|hl7v27:OBR|hl7v28:OBR obr) returns r4:ServiceRequest {
+public function obrToServiceRequest(Obr obr) returns r4:ServiceRequest {
     r4:CodeableConcept code = {};
     r4:dateTime occurrenceDateTime = "";
     r4:CodeableConcept reasonCode = {};
@@ -1076,7 +1073,7 @@ public function obrToServiceRequest(hl7v23:OBR|hl7v231:OBR|hl7v24:OBR|hl7v25:OBR
     };
 };
 
-public function orcToDiagnosticReport(hl7v23:ORC|hl7v231:ORC|hl7v24:ORC|hl7v25:ORC|hl7v251:ORC|hl7v26:ORC|hl7v27:ORC|hl7v28:ORC orc) returns r4:DiagnosticReport {
+public function orcToDiagnosticReport(Orc orc) returns r4:DiagnosticReport {
     // Identifier
     r4:Identifier[] identifierList = [];
 
@@ -1144,7 +1141,7 @@ public function orcToDiagnosticReport(hl7v23:ORC|hl7v231:ORC|hl7v24:ORC|hl7v25:O
     return diagnosticReport;
 };
 
-public function orcToImmunization(hl7v23:ORC|hl7v231:ORC|hl7v24:ORC|hl7v25:ORC|hl7v251:ORC|hl7v26:ORC|hl7v27:ORC|hl7v28:ORC orc) returns r4:Immunization {
+public function orcToImmunization(Orc orc) returns r4:Immunization {
     // Identifier
     r4:Identifier[] identifierList = [];
     r4:Identifier id1 = {};
@@ -1209,3 +1206,40 @@ public function orcToImmunization(hl7v23:ORC|hl7v231:ORC|hl7v24:ORC|hl7v25:ORC|h
 
     return immunization;
 };
+
+
+# Union type for holding message header segment for all supported hl7 versions.
+public type Msh hl7v23:MSH|hl7v231:MSH|hl7v24:MSH|hl7v25:MSH|hl7v251:MSH|hl7v26:MSH|hl7v27:MSH|hl7v28:MSH;
+
+# Union type for holding patient allergy information segment for all supported hl7 versions.
+public type Al1 hl7v23:AL1|hl7v231:AL1|hl7v24:AL1|hl7v25:AL1|hl7v251:AL1|hl7v26:AL1|hl7v27:AL1|hl7v28:AL1;
+
+# Union type for holding event type segment for all supported hl7 versions.
+public type Evn hl7v23:EVN|hl7v231:EVN|hl7v24:EVN|hl7v25:EVN|hl7v251:EVN|hl7v26:EVN|hl7v27:EVN|hl7v28:EVN;
+
+# Union type for holding patient visit segment for all supported hl7 versions.
+public type Dg1 hl7v23:DG1|hl7v231:DG1|hl7v24:DG1|hl7v25:DG1|hl7v251:DG1|hl7v26:DG1|hl7v27:DG1|hl7v28:DG1;
+
+# Union type for holding next of kin segment for all supported hl7 versions.
+public type Nk1 hl7v23:NK1|hl7v231:NK1|hl7v24:NK1|hl7v25:NK1|hl7v251:NK1|hl7v26:NK1|hl7v27:NK1|hl7v28:NK1;
+
+# Union type for holding patient identification segment for all supported hl7 versions.
+public type Pd1 hl7v23:PD1|hl7v231:PD1|hl7v24:PD1|hl7v25:PD1|hl7v251:PD1|hl7v26:PD1|hl7v27:PD1|hl7v28:PD1;
+
+# Union type for holding patient identification segment for all supported hl7 versions.
+public type Pid hl7v23:PID|hl7v231:PID|hl7v24:PID|hl7v25:PID|hl7v251:PID|hl7v26:PID|hl7v27:PID|hl7v28:PID;
+
+# Union type for holding patient visit segment for all supported hl7 versions.
+public type Pv1 hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1|hl7v27:PV1|hl7v28:PV1;
+
+# Union type for holding patient visit additional information segment for all supported hl7 versions.
+public type Pv2 hl7v23:PV2|hl7v231:PV2|hl7v24:PV2|hl7v25:PV2|hl7v251:PV2|hl7v26:PV2|hl7v27:PV2|hl7v28:PV2;
+
+# Union type for holding observation segment for all supported hl7 versions.
+public type Obx hl7v23:OBX|hl7v231:OBX|hl7v24:OBX|hl7v25:OBX|hl7v251:OBX|hl7v26:OBX|hl7v27:OBX|hl7v28:OBX;
+
+# Union type for holding common order segment for all supported hl7 versions.
+public type Orc hl7v23:ORC|hl7v231:ORC|hl7v24:ORC|hl7v25:ORC|hl7v251:ORC|hl7v26:ORC|hl7v27:ORC|hl7v28:ORC;
+
+# Union type for holding observation request segment for all supported hl7 versions.
+public type Obr hl7v23:OBR|hl7v231:OBR|hl7v24:OBR|hl7v25:OBR|hl7v251:OBR|hl7v26:OBR|hl7v27:OBR|hl7v28:OBR;

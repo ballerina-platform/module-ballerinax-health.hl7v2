@@ -46,8 +46,7 @@ public function pidToAdministrativeSex(string pid8) returns r4:PatientGender {
     }
 }
 
-public function pidToPatientName(hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:XPN[]|hl7v251:XPN[]|hl7v26:XPN[]|hl7v27:XPN[]|hl7v28:XPN[] pid5,
-        hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:XPN[]|hl7v251:XPN[]|hl7v26:XPN[]|hl7v27:XPN[]|hl7v28:XPN[] pid9) returns r4:HumanName[] {
+public function pidToPatientName(Pid5 pid5, Pid9 pid9) returns r4:HumanName[] {
     r4:HumanName[] humanNames = [];
     if pid5 is hl7v23:XPN[] {
         foreach hl7v23:XPN item in pid5 {
@@ -112,7 +111,7 @@ public function pidToPatientName(hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:
     return humanNames;
 }
 
-public function pidToAddress(string pid12, hl7v23:XAD[]|hl7v231:XAD[]|hl7v24:XAD[]|hl7v25:XAD[]|hl7v251:XAD[]|hl7v26:XAD[]|hl7v27:XAD[]|hl7v28:XAD[] pid11) returns r4:Address[] {
+public function pidToAddress(string pid12, Pid11 pid11) returns r4:Address[] {
     r4:Address[] address = [];
     if pid12 != "" {
         address.push({district: pid12});
@@ -147,8 +146,7 @@ public function pidToAddress(string pid12, hl7v23:XAD[]|hl7v231:XAD[]|hl7v24:XAD
     return address;
 }
 
-public function pidToPhoneNumber(hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:XTN[]|hl7v26:XTN[] pid13,
-        hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:XTN[]|hl7v26:XTN[] pid14) returns r4:ContactPoint[] {
+public function pidToPhoneNumber(Pid13 pid13, Pid14 pid14) returns r4:ContactPoint[] {
     r4:ContactPoint[] phoneNumbers = [];
 
     //get ContactPointFromXTN use this
@@ -201,7 +199,7 @@ public function pidToPhoneNumber(hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:
     return phoneNumbers;
 }
 
-public function pidToPrimaryLanguage(hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE pid15) returns r4:PatientCommunication[] {
+public function pidToPrimaryLanguage(Pid15 pid15) returns r4:PatientCommunication[] {
     string id = "";
     string text = "";
 
@@ -228,7 +226,7 @@ public function pidToPrimaryLanguage(hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl
     return [];
 }
 
-public function pidToMaritalStatus(string|hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE pid16) returns r4:Coding[] {
+public function pidToMaritalStatus(Pid16 pid16) returns r4:Coding[] {
     r4:Coding[] maritialStatues = [];
     if pid16 is hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE {
         maritialStatues = [{code: pid16.ce1}];
@@ -306,8 +304,7 @@ public function pv1ToExtension(string pv116) returns r4:Extension[] {
 }
 
 // PD1
-public function pd1ToGeneralPractitioner(hl7v23:XON[]|hl7v231:XON[]|hl7v24:XON[]|hl7v25:XON[]|hl7v251:XON[]|hl7v26:XON[]|hl7v27:XON[] pd13,
-        hl7v23:XCN[]|hl7v231:XCN[]|hl7v24:XCN[]|hl7v25:XCN[]|hl7v251:XCN[]|hl7v26:XCN[]|hl7v27:ST pd14) returns r4:Reference[] {
+public function pd1ToGeneralPractitioner(Pd13 pd13, Pd14 pd14) returns r4:Reference[] {
     r4:Reference[] reference = [];
 
     if pd13 is hl7v23:XON[] {
@@ -448,19 +445,8 @@ public function pd1ToExtension(string pd16) returns r4:Extension[] {
     return extension;
 }
 
-public function nk1ToContact(
-        hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:XPN[]|hl7v251:XPN[]|hl7v26:XPN[]|hl7v27:XPN[]|hl7v28:XPN[] nk12,
-        hl7v23:XAD[]|hl7v231:XAD[]|hl7v24:XAD[]|hl7v25:XAD[]|hl7v251:XAD[]|hl7v26:XAD[]|hl7v27:XAD[]|hl7v28:XAD[] nk14,
-        hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:XTN[]|hl7v26:XTN[]|hl7v27:XTN[] nk15,
-        hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:XTN[]|hl7v26:XTN[]|hl7v27:XTN[] nk16,
-        hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE|hl7v27:CWE nk17,
-        hl7v23:DT|hl7v231:DT|hl7v24:DT|hl7v25:DT|hl7v251:DT|hl7v26:DT|hl7v27:DT nk18,
-        hl7v23:DT|hl7v231:DT|hl7v24:DT|hl7v25:DT|hl7v251:DT|hl7v26:DT|hl7v27:DT nk19,
-        hl7v23:XON[]|hl7v231:XON[]|hl7v24:XON[]|hl7v25:XON[]|hl7v251:XON[]|hl7v26:XON[]|hl7v27:XON[] nk113,
-        hl7v23:IS|hl7v231:IS|hl7v24:IS|hl7v25:IS|hl7v251:IS|hl7v26:IS|hl7v27:CWE nk115,
-        hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:XPN[]|hl7v251:XPN[]|hl7v26:XPN[]|hl7v27:XPN[]|hl7v28:XPN[] nk130,
-        hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:XTN[]|hl7v26:XTN[]|hl7v27:XTN[] nk131,
-        hl7v23:XAD[]|hl7v231:XAD[]|hl7v24:XAD[]|hl7v25:XAD[]|hl7v251:XAD[]|hl7v26:XAD[]|hl7v27:XAD[]|hl7v28:XAD[] nk132) returns r4:PatientContact[] {
+public function nk1ToContact(Nk12 nk12, Nk14 nk14, Nk15 nk15, Nk16 nk16, Nk17 nk17, Nk18 nk18, Nk19 nk19, Nk113 nk113, Nk115 nk115,
+        Nk130 nk130, Nk131 nk131, Nk132 nk132) returns r4:PatientContact[] {
     r4:PatientContact[] patientContact = [];
 
     if nk12 is hl7v23:XPN[] {
@@ -620,3 +606,65 @@ function transformToFhir(hl7:Message message) returns json|error {
     return getOperationOutcome(string `Unsupported message: ${message.name}`);
 }
 
+# Union type for holding patient name for all supported hl7 versions.
+public type Pid5 hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:XPN[]|hl7v251:XPN[]|hl7v26:XPN[]|hl7v27:XPN[]|hl7v28:XPN[];
+
+# Union type for holding patient alias name for all supported hl7 versions.
+public type Pid9 hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:XPN[]|hl7v251:XPN[]|hl7v26:XPN[]|hl7v27:ST|hl7v28:ST;
+
+# Union type for holding patient address for all supported hl7 versions.
+public type Pid11 hl7v23:XAD[]|hl7v231:XAD[]|hl7v24:XAD[]|hl7v25:XAD[]|hl7v251:XAD[]|hl7v26:XAD[]|hl7v27:XAD[]|hl7v28:XAD[];
+
+# Union type for holding patient home phone number for all supported hl7 versions.
+public type Pid13 hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:XTN[]|hl7v26:XTN[];
+
+# Union type for holding patient business phone number for all supported hl7 versions.
+public type Pid14 hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:XTN[]|hl7v26:XTN[];
+
+# Union type for holding patient primary language for all supported hl7 versions.
+public type Pid15 hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE;
+
+# Union type for holding patient marital status for all supported hl7 versions.
+public type Pid16 string|hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE;
+
+# Union type for patient primary facility for all supported hl7 versions.
+public type Pd13 hl7v23:XON[]|hl7v231:XON[]|hl7v24:XON[]|hl7v25:XON[]|hl7v251:XON[]|hl7v26:XON[]|hl7v27:XON[];
+
+# Union type for patient primary care provider for all supported hl7 versions.
+public type Pd14 hl7v23:XCN[]|hl7v231:XCN[]|hl7v24:XCN[]|hl7v25:XCN[]|hl7v251:XCN[]|hl7v26:XCN[]|hl7v27:ST;
+
+# Union type for patient's extended person's name for all supported hl7 versions.  
+public type Nk12 hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:XPN[]|hl7v251:XPN[]|hl7v26:XPN[]|hl7v27:XPN[]|hl7v28:XPN[];
+
+# Union type for patient's extended person's address for all supported hl7 versions.
+public type Nk14 hl7v23:XAD[]|hl7v231:XAD[]|hl7v24:XAD[]|hl7v25:XAD[]|hl7v251:XAD[]|hl7v26:XAD[]|hl7v27:XAD[]|hl7v28:XAD[];
+
+# Union type for patient's extended person's home phone number for all supported hl7 versions.
+public type Nk15 hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:XTN[]|hl7v26:XTN[]|hl7v27:XTN[];
+
+# Union type for patient's extended person's business phone number for all supported hl7 versions.
+public type Nk16 hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:XTN[]|hl7v26:XTN[]|hl7v27:XTN[];
+
+# Union type for patient's extended person's contact role for all supported hl7 versions.
+public type Nk17 hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE|hl7v27:CWE;
+
+# Union type for patient's extended person's start date for all supported hl7 versions.
+public type Nk18 hl7v23:DT|hl7v231:DT|hl7v24:DT|hl7v25:DT|hl7v251:DT|hl7v26:DT|hl7v27:DT;
+
+# Union type for patient's extended person's end date for all supported hl7 versions.
+public type Nk19 hl7v23:DT|hl7v231:DT|hl7v24:DT|hl7v25:DT|hl7v251:DT|hl7v26:DT|hl7v27:DT;
+
+# Union type for patient's extended person's organization name for all supported hl7 versions.
+public type Nk113 hl7v23:XON[]|hl7v231:XON[]|hl7v24:XON[]|hl7v25:XON[]|hl7v251:XON[]|hl7v26:XON[]|hl7v27:XON[];
+
+# Union type for patient's extended person's gender for all supported hl7 versions.
+public type Nk115 hl7v23:IS|hl7v231:IS|hl7v24:IS|hl7v25:IS|hl7v251:IS|hl7v26:IS|hl7v27:CWE;
+
+# Union type for patient's extended person's contact person name for all supported hl7 versions.
+public type Nk130 hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:XPN[]|hl7v251:XPN[]|hl7v26:XPN[]|hl7v27:XPN[]|hl7v28:XPN[];
+
+# Union type for patient's extended person's contact person phone number for all supported hl7 versions.
+public type Nk131 hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:XTN[]|hl7v26:XTN[]|hl7v27:XTN[];
+
+# Union type for patient's extended person's contact person address for all supported hl7 versions.
+public type Nk132 hl7v23:XAD[]|hl7v231:XAD[]|hl7v24:XAD[]|hl7v25:XAD[]|hl7v251:XAD[]|hl7v26:XAD[]|hl7v27:XAD[]|hl7v28:XAD[];

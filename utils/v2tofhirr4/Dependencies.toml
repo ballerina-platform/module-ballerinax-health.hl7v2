@@ -42,7 +42,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "crypto"
-version = "2.3.0"
+version = "2.3.1"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "time"}
@@ -51,13 +51,11 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "file"
-version = "1.7.0"
+version = "1.7.1"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
-	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "os"},
-	{org = "ballerina", name = "regex"},
 	{org = "ballerina", name = "time"}
 ]
 
@@ -195,7 +193,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "log"
-version = "2.7.0"
+version = "2.7.1"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -209,7 +207,7 @@ modules = [
 [[package]]
 org = "ballerina"
 name = "mime"
-version = "2.7.0"
+version = "2.7.1"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -267,7 +265,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "tcp"
-version = "1.7.0"
+version = "1.7.1"
 dependencies = [
 	{org = "ballerina", name = "crypto"},
 	{org = "ballerina", name = "jballerina.java"}
@@ -276,7 +274,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "time"
-version = "2.2.4"
+version = "2.2.5"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -284,7 +282,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "url"
-version = "2.2.3"
+version = "2.2.4"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -292,12 +290,11 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "uuid"
-version = "1.5.0"
+version = "1.5.1"
 dependencies = [
 	{org = "ballerina", name = "crypto"},
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.int"},
-	{org = "ballerina", name = "regex"},
 	{org = "ballerina", name = "time"}
 ]
 
@@ -375,7 +372,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v23"
-version = "1.0.4"
+version = "1.0.5"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
@@ -388,7 +385,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v231"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
@@ -401,7 +398,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v24"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
@@ -414,7 +411,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v25"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
@@ -427,7 +424,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v251"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
@@ -440,7 +437,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v26"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
@@ -453,7 +450,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v27"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
@@ -466,7 +463,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v28"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},

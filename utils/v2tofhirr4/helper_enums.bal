@@ -15,11 +15,9 @@
 // under the License.
 
 import ballerinax/health.fhir.r4;
-import ballerinax/health.hl7v24;
 import ballerinax/health.hl7v23;
-import ballerinax/health.hl7v25;
 
-public function idToHumanNameUse(hl7v23:ID|hl7v24:ID|hl7v25:ID id) returns r4:HumanNameUse {
+public function idToHumanNameUse(Id id) returns r4:HumanNameUse {
     match id {
         "L" => {
             return "official";
@@ -42,9 +40,9 @@ public function idToHumanNameUse(hl7v23:ID|hl7v24:ID|hl7v25:ID id) returns r4:Hu
     }
 }
 
-public function idToAddressType(hl7v23:ID|hl7v24:ID|hl7v25:ID id) returns r4:AddressType => id is r4:AddressType ? id : "postal";
+public function idToAddressType(Id id) returns r4:AddressType => id is r4:AddressType ? id : "postal";
 
-public function idToAddressUse(hl7v23:ID|hl7v24:ID|hl7v25:ID id) returns r4:AddressUse? {
+public function idToAddressUse(Id id) returns r4:AddressUse? {
     match id {
         "O" => {
             return "work";
@@ -65,15 +63,15 @@ public function idToAddressUse(hl7v23:ID|hl7v24:ID|hl7v25:ID id) returns r4:Addr
     return ();
 }
 
-public function idToContactPointUse(hl7v23:ID|hl7v24:ID|hl7v25:ID id) returns r4:ContactPointUse => id is r4:ContactPointUse ? id : "home";
+public function idToContactPointUse(Id id) returns r4:ContactPointUse => id is r4:ContactPointUse ? id : "home";
 
-public function idToContactPointSystem(hl7v23:ID|hl7v24:ID|hl7v25:ID id) returns r4:ContactPointSystem => id is r4:ContactPointSystem ? id : "phone";
+public function idToContactPointSystem(Id id) returns r4:ContactPointSystem => id is r4:ContactPointSystem ? id : "phone";
 
-public function isToAllergyIntoleranceCategory(hl7v23:IS|hl7v24:IS|hl7v25:IS 'is) returns r4:AllergyIntoleranceCategory => 'is is r4:AllergyIntoleranceCategory ? 'is : "environment";
+public function isToAllergyIntoleranceCategory(Is 'is) returns r4:AllergyIntoleranceCategory => 'is is r4:AllergyIntoleranceCategory ? 'is : "environment";
 
 public function isToAllergyIntoleranceType(string 'is) returns r4:AllergyIntoleranceType => 'is is r4:AllergyIntoleranceType ? 'is : "intolerance";
 
-public function isToAllergyIntoleranceCriticality(hl7v23:IS|hl7v24:IS|hl7v25:IS 'is) returns r4:AllergyIntoleranceCriticality => 'is is r4:AllergyIntoleranceCriticality ? 'is : "high";
+public function isToAllergyIntoleranceCriticality(Is 'is) returns r4:AllergyIntoleranceCriticality => 'is is r4:AllergyIntoleranceCriticality ? 'is : "high";
 
 public function idToDiagnosticReportStatus(hl7v23:ID id) returns r4:DiagnosticReportStatus => id is r4:DiagnosticReportStatus ? id : "final";
 
