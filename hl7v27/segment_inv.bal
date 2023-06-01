@@ -33,6 +33,7 @@ import ballerinax/health.hl7v2;
 # + inv11 - Segment Record Field
 # + inv12 - Segment Record Field
 # + inv13 - Segment Record Field
+# + inv14 - Segment Record Field
 # + inv15 - Segment Record Field
 # + inv16 - Segment Record Field
 # + inv17 - Segment Record Field
@@ -121,6 +122,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: DTM
+        },        
+        "inv14": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "inv15": {
             required: false,
@@ -176,6 +183,7 @@ public type INV record {
     CWE inv11 = {};
     DTM inv12 = "";
     DTM inv13 = "";
+    ST inv14 = "";
     CWE[] inv15 = [{}];
     ST inv16 = "";
     CWE inv17 = {};

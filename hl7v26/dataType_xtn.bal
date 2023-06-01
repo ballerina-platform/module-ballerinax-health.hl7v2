@@ -18,6 +18,7 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
+# + xtn1 - Data type field
 # + xtn2 - Data type field
 # + xtn3 - Data type field
 # + xtn4 - Data type field
@@ -42,6 +43,7 @@ import ballerinax/health.hl7v2;
 }
 public type XTN record {
     *hl7v2:CompositeType;
+    ST xtn1 = "";
     ID xtn2 = "";
     ID xtn3 = "";
     ST xtn4 = "";

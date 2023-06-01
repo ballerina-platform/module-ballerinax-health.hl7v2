@@ -20,12 +20,14 @@ import ballerinax/health.hl7v2;
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
+# + rxe1 - Segment Record Field
 # + rxe2 - Segment Record Field
 # + rxe3 - Segment Record Field
 # + rxe4 - Segment Record Field
 # + rxe5 - Segment Record Field
 # + rxe6 - Segment Record Field
 # + rxe7 - Segment Record Field
+# + rxe8 - Segment Record Field
 # + rxe9 - Segment Record Field
 # + rxe10 - Segment Record Field
 # + rxe11 - Segment Record Field
@@ -67,7 +69,13 @@ import ballerinax/health.hl7v2;
     name: "RXE",
     required: false,
     maxReps: 0,
-    fields: {
+    fields: {        
+        "rxe1": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "rxe2": {
             required: true,
             length: 1,
@@ -103,6 +111,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: -1,
             dataType: CWE
+        },        
+        "rxe8": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "rxe9": {
             required: false,
@@ -331,12 +345,14 @@ import ballerinax/health.hl7v2;
 public type RXE record {
     *hl7v2:Segment;
     string name = RXE_SEGMENT_NAME;
+    ST rxe1 = "";
     CWE rxe2 = {};
     NM rxe3 = "";
     NM rxe4 = "";
     CWE rxe5 = {};
     CWE rxe6 = {};
     CWE[] rxe7 = [{}];
+    ST rxe8 = "";
     ID rxe9 = "";
     NM rxe10 = "";
     CWE rxe11 = {};

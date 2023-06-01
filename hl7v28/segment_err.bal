@@ -20,6 +20,7 @@ import ballerinax/health.hl7v2;
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
+# + err1 - Segment Record Field
 # + err2 - Segment Record Field
 # + err3 - Segment Record Field
 # + err4 - Segment Record Field
@@ -36,6 +37,12 @@ import ballerinax/health.hl7v2;
     required: false,
     maxReps: 0,
     fields: {
+        "err1": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "err2": {
             required: false,
             length: 1,
@@ -107,6 +114,7 @@ import ballerinax/health.hl7v2;
 public type ERR record {
     *hl7v2:Segment;
     string name = ERR_SEGMENT_NAME;
+    ST err1 = "";
     ERL[] err2 = [{}];
     CWE err3 = {};
     ID err4 = "";

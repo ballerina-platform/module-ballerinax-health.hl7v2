@@ -20,8 +20,10 @@ import ballerinax/health.hl7v2;
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name  
-# + pid1 - Segment Record Field  
-# + pid3 - Segment Record Field  
+# + pid1 - Segment Record Field
+# + pid2 - Segment Record Field  
+# + pid3 - Segment Record Field
+# + pid4 - Segment Record Field  
 # + pid5 - Segment Record Field  
 # + pid6 - Segment Record Field  
 # + pid7 - Segment Record Field  
@@ -44,7 +46,8 @@ import ballerinax/health.hl7v2;
 # + pid24 - Segment Record Field  
 # + pid25 - Segment Record Field  
 # + pid26 - Segment Record Field  
-# + pid27 - Segment Record Field  
+# + pid27 - Segment Record Field
+# + pid28 - Segment Record Field  
 # + pid29 - Segment Record Field  
 # + pid30 - Segment Record Field  
 # + pid31 - Segment Record Field  
@@ -68,11 +71,23 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: SI
         },
+        "pid2": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pid3": {
             required: true,
             length: 1,
             maxReps: -1,
             dataType: CX
+        },
+        "pid4": {
+            required: true,
+            length: 1,
+            maxReps: -1,
+            dataType: ST
         },
         "pid5": {
             required: true,
@@ -212,6 +227,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "pid28": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pid29": {
             required: false,
             length: 1,
@@ -290,7 +311,9 @@ public type PID record {
     *hl7v2:Segment;
     string name = PID_SEGMENT_NAME;
     SI pid1 = "";
+    ST pid2 = "";
     CX[] pid3 = [{}];
+    ST pid4 = "";
     XPN[] pid5 = [{}];
     XPN[] pid6 = [{}];
     DTM pid7 = "";
@@ -314,6 +337,7 @@ public type PID record {
     NM pid25 = "";
     CWE[] pid26 = [{}];
     CWE pid27 = {};
+    ST pid28 = "";
     DTM pid29 = "";
     ID pid30 = "";
     ID pid31 = "";

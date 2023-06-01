@@ -23,9 +23,11 @@ import ballerinax/health.hl7v2;
 # + xpn3 - Data type field
 # + xpn4 - Data type field
 # + xpn5 - Data type field
+# + xpn6 - Data type field
 # + xpn7 - Data type field
 # + xpn8 - Data type field
 # + xpn9 - Data type field
+# + xpn10 - Data type field
 # + xpn11 - Data type field
 # + xpn12 - Data type field
 # + xpn13 - Data type field
@@ -43,9 +45,11 @@ public type XPN record {
     ST xpn3 = "";
     ST xpn4 = "";
     ST xpn5 = "";
+    ST xpn6 = "";
     ID xpn7 = "";
     ID xpn8 = "";
     CWE xpn9 = {};
+    ST xpn10 = "";
     ID xpn11 = "";
     DTM xpn12 = "";
     DTM xpn13 = "";

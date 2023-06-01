@@ -57,7 +57,10 @@ import ballerinax/health.hl7v2;
 # + in135 - Segment Record Field
 # + in136 - Segment Record Field
 # + in137 - Segment Record Field
+# + in138 - Segment Record Field
 # + in139 - Segment Record Field
+# + in140 - Segment Record Field
+# + in141 - Segment Record Field
 # + in142 - Segment Record Field
 # + in143 - Segment Record Field
 # + in144 - Segment Record Field
@@ -298,11 +301,29 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CP
         },
+        "in138": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "in139": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: NM
+        },
+        "in140": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "in141": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "in142": {
             required: false,
@@ -424,7 +445,10 @@ public type IN1 record {
     CWE in135 = {};
     ST in136 = "";
     CP in137 = {};
+    ST in138 = "";
     NM in139 = "";
+    ST in140 = "";
+    ST in141 = "";
     CWE in142 = {};
     CWE in143 = {};
     XAD[] in144 = [{}];

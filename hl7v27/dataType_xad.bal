@@ -29,6 +29,7 @@ import ballerinax/health.hl7v2;
 # + xad9 - Data type field
 # + xad10 - Data type field
 # + xad11 - Data type field
+# + xad12 - Data type field
 # + xad13 - Data type field
 # + xad14 - Data type field
 # + xad15 - Data type field
@@ -58,6 +59,7 @@ public type XAD record {
     CWE xad9 = {};
     CWE xad10 = {};
     ID xad11 = "";
+    ST xad12 = "";
     DTM xad13 = "";
     DTM xad14 = "";
     CWE xad15 = {};

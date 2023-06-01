@@ -23,6 +23,7 @@ import ballerinax/health.hl7v2;
 # + msa1 - Segment Record Field
 # + msa2 - Segment Record Field
 # + msa3 - Segment Record Field
+# + msa5 - Segment Record Field
 # + msa4 - Segment Record Field
 # + msa6 - Segment Record Field
 # + msa7 - Segment Record Field
@@ -56,6 +57,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: NM
         },
+        "msa5": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "msa6": {
             required: false,
             length: 1,
@@ -83,6 +90,7 @@ public type MSA record {
     ST msa2 = "";
     ST msa3 = "";
     NM msa4 = "";
+    ST msa5 = "";
     CNE msa6 = {};
     NM msa7 = "";
     ID msa8 = "";

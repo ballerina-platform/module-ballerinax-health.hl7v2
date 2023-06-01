@@ -21,12 +21,17 @@ import ballerinax/health.hl7v2;
 #
 # + name - Segment Name
 # + pr11 - Segment Record Field
+# + pr12 - Segment Record Field
 # + pr13 - Segment Record Field
+# + pr14 - Segment Record Field
 # + pr15 - Segment Record Field
 # + pr16 - Segment Record Field
 # + pr17 - Segment Record Field
+# + pr18 - Segment Record Field
 # + pr19 - Segment Record Field
 # + pr110 - Segment Record Field
+# + pr111 - Segment Record Field
+# + pr112 - Segment Record Field
 # + pr113 - Segment Record Field
 # + pr114 - Segment Record Field
 # + pr115 - Segment Record Field
@@ -48,11 +53,23 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: SI
         },
+        "pr12": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pr13": {
             required: true,
             length: 1,
             maxReps: 1,
             dataType: CNE
+        },
+        "pr14": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "pr15": {
             required: true,
@@ -72,17 +89,35 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: NM
         },
+        "pr18": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pr19": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: IS
         },
+        "pr111": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pr110": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: NM
+        },
+        "pr112": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "pr113": {
             required: false,
@@ -150,12 +185,17 @@ public type PR1 record {
     *hl7v2:Segment;
     string name = PR1_SEGMENT_NAME;
     SI pr11 = "";
+    ST pr12 = "";
     CNE pr13 = {};
+    ST pr14 = "";
     DTM pr15 = "";
     IS pr16 = "";
     NM pr17 = "";
+    ST pr18 = "";
     IS pr19 = "";
     NM pr110 = "";
+    ST pr111 = "";
+    ST pr112 = "";
     CWE pr113 = {};
     ID pr114 = "";
     CWE pr115 = {};

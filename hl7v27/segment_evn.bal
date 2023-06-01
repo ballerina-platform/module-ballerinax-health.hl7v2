@@ -20,6 +20,7 @@ import ballerinax/health.hl7v2;
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
+# + evn1 - Segment Record Field
 # + evn2 - Segment Record Field
 # + evn3 - Segment Record Field
 # + evn4 - Segment Record Field
@@ -30,7 +31,13 @@ import ballerinax/health.hl7v2;
     name: "EVN",
     required: false,
     maxReps: 0,
-    fields: {
+    fields: {        
+        "evn1": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "evn2": {
             required: true,
             length: 1,
@@ -72,6 +79,7 @@ import ballerinax/health.hl7v2;
 public type EVN record {
     *hl7v2:Segment;
     string name = EVN_SEGMENT_NAME;
+    ST evn1 = "";
     DTM evn2 = "";
     DTM evn3 = "";
     CWE evn4 = {};

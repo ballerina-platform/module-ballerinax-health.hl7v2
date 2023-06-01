@@ -53,6 +53,7 @@ import ballerinax/health.hl7v2;
 # + rxd31 - Segment Record Field
 # + rxd32 - Segment Record Field
 # + rxd33 - Segment Record Field
+# + rxd34 - Segment Record Field
 @hl7v2:SegmentDefinition {
     name: "RXD",
     required: false,
@@ -255,6 +256,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: CWE
+        },
+        "rxd34": {
+            required: false,
+            length: 1,
+            maxReps: -1,
+            dataType: XTN
         }
     }
 }
@@ -294,6 +301,7 @@ public type RXD record {
     XAD rxd31 = {};
     ID rxd32 = "";
     CWE rxd33 = {};
+    XTN[] rxd34 = [{}];
 };
 
 public const RXD_SEGMENT_NAME = "RXD";

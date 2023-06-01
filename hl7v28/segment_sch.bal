@@ -28,7 +28,9 @@ import ballerinax/health.hl7v2;
 # + sch6 - Segment Record Field
 # + sch7 - Segment Record Field
 # + sch8 - Segment Record Field
+# + sch9 - Segment Record Field
 # + sch10 - Segment Record Field
+# + sch11 - Segment Record Field
 # + sch12 - Segment Record Field
 # + sch13 - Segment Record Field
 # + sch14 - Segment Record Field
@@ -98,11 +100,23 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "sch9": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "sch10": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: CNE
+        },
+        "sch11": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "sch12": {
             required: false,
@@ -213,7 +227,9 @@ public type SCH record {
     CWE sch6 = {};
     CWE sch7 = {};
     CWE sch8 = {};
+    ST sch9 = "";
     CNE sch10 = {};
+    ST sch11 = "";
     XCN[] sch12 = [{}];
     XTN sch13 = {};
     XAD[] sch14 = [{}];

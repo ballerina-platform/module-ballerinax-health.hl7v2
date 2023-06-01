@@ -20,6 +20,7 @@ import ballerinax/health.hl7v2;
 #
 # + pta1 - Data type field
 # + pta2 - Data type field
+# + pta3 - Data type field
 # + pta4 - Data type field
 @hl7v2:TypeDefinition {
     length: (),
@@ -30,5 +31,6 @@ public type PTA record {
     *hl7v2:CompositeType;
     CWE pta1 = {};
     CWE pta2 = {};
+    ST pta3 = "";
     MOP pta4 = {};
 };
