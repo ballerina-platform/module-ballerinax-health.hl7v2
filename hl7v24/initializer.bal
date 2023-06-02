@@ -25,7 +25,7 @@ function init() {
         encoderCreator: createHL7v24Encoder
     };
     hl7v2:hl7Registry.addPackage(package);
-    log:printInfo("HL7 v2.4 Package Initialized");
+    log:printDebug("HL7 v2.4 Package Initialized");
 }
 
 # Function to create hl7v2:Parser implementation for HL7 v2.4.

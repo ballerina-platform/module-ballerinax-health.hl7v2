@@ -58,7 +58,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "log"
-version = "2.7.1"
+version = "2.7.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -109,7 +109,7 @@ dependencies = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2"
-version = "1.0.4"
+version = "1.0.5"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
@@ -123,7 +123,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v26"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
