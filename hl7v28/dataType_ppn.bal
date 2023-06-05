@@ -24,6 +24,7 @@ import ballerinax/health.hl7v2;
 # + ppn4 - Data type field
 # + ppn5 - Data type field
 # + ppn6 - Data type field
+# + ppn7 - Data type field
 # + ppn8 - Data type field
 # + ppn9 - Data type field
 # + ppn10 - Data type field
@@ -34,6 +35,7 @@ import ballerinax/health.hl7v2;
 # + ppn15 - Data type field
 # + ppn16 - Data type field
 # + ppn17 - Data type field
+# + ppn18 - Data type field
 # + ppn19 - Data type field
 # + ppn20 - Data type field
 # + ppn21 - Data type field
@@ -55,6 +57,7 @@ public type PPN record {
     ST ppn4 = "";
     ST ppn5 = "";
     ST ppn6 = "";
+    ST ppn7 = "";
     CWE ppn8 = {};
     HD ppn9 = {};
     ID ppn10 = "";
@@ -65,6 +68,7 @@ public type PPN record {
     DTM ppn15 = "";
     ID ppn16 = "";
     CWE ppn17 = {};
+    ST ppn18 = "";
     ID ppn19 = "";
     DTM ppn20 = "";
     DTM ppn21 = "";

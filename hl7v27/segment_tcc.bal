@@ -22,6 +22,7 @@ import ballerinax/health.hl7v2;
 # + name - Segment Name
 # + tcc1 - Segment Record Field
 # + tcc2 - Segment Record Field
+# + tcc3 - Segment Record Field
 # + tcc4 - Segment Record Field
 # + tcc5 - Segment Record Field
 # + tcc6 - Segment Record Field
@@ -49,6 +50,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: EI
+        },        
+        "tcc3": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "tcc4": {
             required: false,
@@ -123,6 +130,7 @@ public type TCC record {
     string name = TCC_SEGMENT_NAME;
     CWE tcc1 = {};
     EI tcc2 = {};
+    ST tcc3 = "";
     SN tcc4 = {};
     SN tcc5 = {};
     SN tcc6 = {};

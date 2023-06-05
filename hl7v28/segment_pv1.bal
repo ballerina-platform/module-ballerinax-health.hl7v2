@@ -59,6 +59,7 @@ import ballerinax/health.hl7v2;
 # + pv137 - Segment Record Field
 # + pv138 - Segment Record Field
 # + pv139 - Segment Record Field
+# + pv140 - Segment Record Field
 # + pv141 - Segment Record Field
 # + pv142 - Segment Record Field
 # + pv143 - Segment Record Field
@@ -70,6 +71,7 @@ import ballerinax/health.hl7v2;
 # + pv149 - Segment Record Field
 # + pv150 - Segment Record Field
 # + pv151 - Segment Record Field
+# + pv152 - Segment Record Field
 # + pv153 - Segment Record Field
 # + pv154 - Segment Record Field
 @hl7v2:SegmentDefinition {
@@ -311,6 +313,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "pv140": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pv141": {
             required: false,
             length: 1,
@@ -377,6 +385,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "pv152": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pv153": {
             required: false,
             length: 1,
@@ -433,6 +447,7 @@ public type PV1 record {
     DLD pv137 = {};
     CWE pv138 = {};
     CWE pv139 = {};
+    ST pv140 = "";
     CWE pv141 = {};
     PL pv142 = {};
     PL pv143 = {};
@@ -444,6 +459,7 @@ public type PV1 record {
     NM pv149 = "";
     CX pv150 = {};
     CWE pv151 = {};
+    ST pv152 = "";
     ST pv153 = "";
     CX pv154 = {};
 };

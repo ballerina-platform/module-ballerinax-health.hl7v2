@@ -34,6 +34,7 @@ import ballerinax/health.hl7v2;
 # + gol12 - Segment Record Field
 # + gol13 - Segment Record Field
 # + gol14 - Segment Record Field
+# + gol15 - Segment Record Field
 # + gol16 - Segment Record Field
 # + gol17 - Segment Record Field
 # + gol18 - Segment Record Field
@@ -130,6 +131,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: DTM
         },
+        "gol15": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "gol16": {
             required: false,
             length: 1,
@@ -191,6 +198,7 @@ public type GOL record {
     DTM gol12 = "";
     DTM gol13 = "";
     DTM gol14 = "";
+    ST gol15 = "";
     CWE gol16 = {};
     ST[] gol17 = [""];
     CWE gol18 = {};

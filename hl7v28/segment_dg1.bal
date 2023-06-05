@@ -21,7 +21,9 @@ import ballerinax/health.hl7v2;
 #
 # + name - Segment Name
 # + dg11 - Segment Record Field
+# + dg12 - Segment Record Field
 # + dg13 - Segment Record Field
+# + dg14 - Segment Record Field
 # + dg15 - Segment Record Field
 # + dg16 - Segment Record Field
 # + dg115 - Segment Record Field
@@ -47,11 +49,23 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: SI
         },
+        "dg12": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "dg13": {
             required: true,
             length: 1,
             maxReps: 1,
             dataType: CWE
+        },
+        "dg14": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "dg15": {
             required: false,
@@ -143,7 +157,9 @@ public type DG1 record {
     *hl7v2:Segment;
     string name = DG1_SEGMENT_NAME;
     SI dg11 = "";
+    ST dg12 = "";
     CWE dg13 = {};
+    ST dg14 = "";
     DTM dg15 = "";
     CWE dg16 = {};
     NM dg115 = "";

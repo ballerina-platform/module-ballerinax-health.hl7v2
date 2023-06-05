@@ -23,6 +23,7 @@ import ballerinax/health.hl7v2;
 # + ecd1 - Segment Record Field
 # + ecd2 - Segment Record Field
 # + ecd3 - Segment Record Field
+# + ecd4 - Segment Record Field
 # + ecd5 - Segment Record Field
 @hl7v2:SegmentDefinition {
     name: "ECD",
@@ -46,6 +47,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: ID
+        },        
+        "ecd4": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "ecd5": {
             required: false,
@@ -61,6 +68,7 @@ public type ECD record {
     NM ecd1 = "";
     CWE ecd2 = {};
     ID ecd3 = "";
+    ST ecd4 = "";
     TX[] ecd5 = [""];
 };
 

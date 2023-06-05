@@ -109,21 +109,21 @@ class HL7Parser {
                                 return err;
                             }
                         } else if messageResult is hl7v2:Message {
-                            hl7v2:HL7MessageDefinitionRecord? msgDef = (typeof messageResult).@hl7v2:MessageDefinition;
+                            hl7v2:Hl7MessageDefinitionRecord? msgDef = (typeof messageResult).@hl7v2:MessageDefinition;
                             map<anydata> messageFields = messageResult;
-                            if msgDef is hl7v2:HL7MessageDefinitionRecord {
-                                map<hl7v2:HL7SegmentDefinitionRecord> segmentDefs = msgDef.segments;
-                                map<hl7v2:HL7SegmentComponentDefinitionRecord>? groups = msgDef.groups;
+                            if msgDef is hl7v2:Hl7MessageDefinitionRecord {
+                                map<hl7v2:Hl7SegmentDefinitionRecord> segmentDefs = msgDef.segments;
+                                map<hl7v2:Hl7SegmentComponentDefinitionRecord>? groups = msgDef.groups;
 
                                 if segmentDefs.hasKey(segmentName) {
-                                    hl7v2:HL7SegmentDefinitionRecord segmentDef = segmentDefs.get(segmentName);
+                                    hl7v2:Hl7SegmentDefinitionRecord segmentDef = segmentDefs.get(segmentName);
                                     int? maxReps = segmentDef.maxReps;
                                     string? segmentComponentName = segmentDef.segmentComponentName;
                                     if maxReps is int {
                                         if maxReps == 1 {
                                             if segmentComponentName is string {
-                                                if groups is map<hl7v2:HL7SegmentComponentDefinitionRecord> {
-                                                    hl7v2:HL7SegmentComponentDefinitionRecord segmentComponentDef =
+                                                if groups is map<hl7v2:Hl7SegmentComponentDefinitionRecord> {
+                                                    hl7v2:Hl7SegmentComponentDefinitionRecord segmentComponentDef =
                                                                                                 groups.get(segmentComponentName);
                                                     int? componentMaxReps = segmentComponentDef.maxReps;
 
@@ -157,8 +157,8 @@ class HL7Parser {
                                             }
                                         } else if maxReps == -1 {
                                             if segmentComponentName is string {
-                                                if groups is map<hl7v2:HL7SegmentComponentDefinitionRecord> {
-                                                    hl7v2:HL7SegmentComponentDefinitionRecord segmentComponentDef =
+                                                if groups is map<hl7v2:Hl7SegmentComponentDefinitionRecord> {
+                                                    hl7v2:Hl7SegmentComponentDefinitionRecord segmentComponentDef =
                                                                                                 groups.get(segmentComponentName);
                                                     int? componentMaxReps = segmentComponentDef.maxReps;
                                                     if componentMaxReps is int {

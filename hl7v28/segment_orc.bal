@@ -26,6 +26,7 @@ import ballerinax/health.hl7v2;
 # + orc4 - Segment Record Field
 # + orc5 - Segment Record Field
 # + orc6 - Segment Record Field
+# + orc7 - Segment Record Field
 # + orc8 - Segment Record Field
 # + orc9 - Segment Record Field
 # + orc10 - Segment Record Field
@@ -92,6 +93,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: ID
+        },
+        "orc7": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "orc8": {
             required: false,
@@ -260,6 +267,7 @@ public type ORC record {
     EI orc4 = {};
     ID orc5 = "";
     ID orc6 = "";
+    ST orc7 = "";
     EIP orc8 = {};
     DTM orc9 = "";
     XCN[] orc10 = [{}];

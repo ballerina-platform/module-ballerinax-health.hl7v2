@@ -25,7 +25,7 @@ function init() {
         encoderCreator: createHL7v23Encoder
     };
     hl7v2:hl7Registry.addPackage(package);
-    log:printInfo("HL7 v2.3 Package Initialized");
+    log:printDebug("HL7 v2.3 Package Initialized");
 }
 
 # Function to create hl7v2:Parser implementation for HL7 v2.3. 
@@ -33,7 +33,7 @@ function init() {
 # 
 # + return - Return instance of hl7v2:Parser implementation
 public isolated function createHL7v23Parser() returns hl7v2:Parser {
-    HL7v23Parser parser = new();
+    Hl7v23Parser parser = new();
     return parser;
 }
 

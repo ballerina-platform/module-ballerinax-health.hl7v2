@@ -25,6 +25,7 @@ import ballerinax/health.hl7v2;
 # + sac3 - Segment Record Field
 # + sac4 - Segment Record Field
 # + sac5 - Segment Record Field
+# + sac6 - Segment Record Field
 # + sac7 - Segment Record Field
 # + sac8 - Segment Record Field
 # + sac9 - Segment Record Field
@@ -97,6 +98,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: EI
+        },        
+        "sac6": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "sac7": {
             required: false,
@@ -336,6 +343,7 @@ public type SAC record {
     EI sac3 = {};
     EI sac4 = {};
     EI sac5 = {};
+    ST sac6 = "";
     DTM sac7 = "";
     CWE sac8 = {};
     CWE sac9 = {};

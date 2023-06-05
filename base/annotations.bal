@@ -20,7 +20,7 @@
 # + length - Length of the field
 # + maxReps - Maximum repetitions
 # + dataType - Type of the field
-public type HL7TypeDefinitionRecord record {
+public type Hl7TypeDefinitionRecord record {
     boolean required;
     int? length;
     int? maxReps;
@@ -35,12 +35,12 @@ public type HL7TypeDefinitionRecord record {
 # + segmentType - Type of segment
 # + fields - Field map
 # + segmentComponentName - Segment component name
-public type HL7SegmentDefinitionRecord record {
+public type Hl7SegmentDefinitionRecord record {
     string name;
     boolean required;
     int maxReps?;
     typedesc segmentType?;
-    map<HL7TypeDefinitionRecord> fields?;
+    map<Hl7TypeDefinitionRecord> fields?;
     string segmentComponentName?;
 };
 
@@ -49,26 +49,26 @@ public type HL7SegmentDefinitionRecord record {
 # + required - Whether it is required, optional
 # + maxReps - Maximum repetitions
 # + segments - Segment map
-public type HL7SegmentComponentDefinitionRecord record {
+public type Hl7SegmentComponentDefinitionRecord record {
     boolean required;
     int? maxReps;
-    map<HL7SegmentDefinitionRecord> segments?;
+    map<Hl7SegmentDefinitionRecord> segments?;
 };
 
 # Annotation fields for HL7 message definition.
 #
 # + segments - segment map of the HL7 message
 # + groups - group map
-public type HL7MessageDefinitionRecord record {
-    map<HL7SegmentDefinitionRecord> segments;
-    map<HL7SegmentComponentDefinitionRecord> groups?;
+public type Hl7MessageDefinitionRecord record {
+    map<Hl7SegmentDefinitionRecord> segments;
+    map<Hl7SegmentComponentDefinitionRecord> groups?;
 };
 
 # Annotation type for HL7 data type definition.
-public annotation HL7TypeDefinitionRecord TypeDefinition on type;
+public annotation Hl7TypeDefinitionRecord TypeDefinition on type;
 # Annotation type for HL7 segment definition.
-public annotation HL7SegmentDefinitionRecord SegmentDefinition on type;
+public annotation Hl7SegmentDefinitionRecord SegmentDefinition on type;
 # Annotation type for HL7 segment component definition.
-public annotation HL7SegmentComponentDefinitionRecord SegmentComponentDefinition on type;
+public annotation Hl7SegmentComponentDefinitionRecord SegmentComponentDefinition on type;
 # Annotation type for HL7 message definition.
-public annotation HL7MessageDefinitionRecord MessageDefinition on type;
+public annotation Hl7MessageDefinitionRecord MessageDefinition on type;

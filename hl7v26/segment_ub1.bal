@@ -21,6 +21,7 @@ import ballerinax/health.hl7v2;
 #
 # + name - Segment Name
 # + ub11 - Segment Record Field
+# + ub12 - Segment Record Field
 # + ub13 - Segment Record Field
 # + ub14 - Segment Record Field
 # + ub15 - Segment Record Field
@@ -52,6 +53,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: SI
+        },
+        "ub12": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "ub13": {
             required: false,
@@ -185,6 +192,7 @@ public type UB1 record {
     *hl7v2:Segment;
     string name = UB1_SEGMENT_NAME;
     SI ub11 = "";
+    ST ub12 = "";
     NM ub13 = "";
     NM ub14 = "";
     NM ub15 = "";

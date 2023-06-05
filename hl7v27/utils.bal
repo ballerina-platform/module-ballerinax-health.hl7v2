@@ -1203,6 +1203,38 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             MDM_T02 messageInstance = {msh: {}};
             return messageInstance;
         }
+        "MDM_T03" => {
+            MDM_T01 messageInstance = {msh: {}};
+            return messageInstance;
+        }
+        "MDM_T04" => {
+            MDM_T02 messageInstance = {msh: {}};
+            return messageInstance;
+        }
+        "MDM_T05" => {
+            MDM_T01 messageInstance = {msh: {}};
+            return messageInstance;
+        }
+        "MDM_T06" => {
+            MDM_T02 messageInstance = {msh: {}};
+            return messageInstance;
+        }
+        "MDM_T07" => {
+            MDM_T01 messageInstance = {msh: {}};
+            return messageInstance;
+        }
+        "MDM_T08" => {
+            MDM_T02 messageInstance = {msh: {}};
+            return messageInstance;
+        }
+        "MDM_T09" => {
+            MDM_T01 messageInstance = {msh: {}};
+            return messageInstance;
+        }
+        "MDM_T10" => {
+            MDM_T02 messageInstance = {msh: {}};
+            return messageInstance;
+        }
         "EHC_E12" => {
             EHC_E12 messageInstance = {msh: {}};
             return messageInstance;
@@ -1922,11 +1954,11 @@ isolated function getSegmentField(int fieldNum, int repetitionNum, hl7v2:Segment
 }
 
 isolated function isValidSegmentField(hl7v2:Segment segment, int repetitionNum, string fieldKey) returns boolean {
-    hl7v2:HL7SegmentDefinitionRecord? segmentDefinition = (typeof segment).@hl7v2:SegmentDefinition;
+    hl7v2:Hl7SegmentDefinitionRecord? segmentDefinition = (typeof segment).@hl7v2:SegmentDefinition;
     if segmentDefinition != () {
-        map<hl7v2:HL7TypeDefinitionRecord> elementDefinitions = segmentDefinition.fields ?: {};
+        map<hl7v2:Hl7TypeDefinitionRecord> elementDefinitions = segmentDefinition.fields ?: {};
         if elementDefinitions.hasKey(fieldKey) {
-            hl7v2:HL7TypeDefinitionRecord fieldDefinition = elementDefinitions.get(fieldKey);
+            hl7v2:Hl7TypeDefinitionRecord fieldDefinition = elementDefinitions.get(fieldKey);
             int? maxReps = fieldDefinition.maxReps;
             if maxReps is int {
                 if maxReps >= repetitionNum || maxReps == -1 {

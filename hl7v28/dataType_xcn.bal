@@ -24,6 +24,7 @@ import ballerinax/health.hl7v2;
 # + xcn4 - Data type field
 # + xcn5 - Data type field
 # + xcn6 - Data type field
+# + xcn7 - Data type field
 # + xcn8 - Data type field
 # + xcn9 - Data type field
 # + xcn10 - Data type field
@@ -33,6 +34,7 @@ import ballerinax/health.hl7v2;
 # + xcn14 - Data type field
 # + xcn15 - Data type field
 # + xcn16 - Data type field
+# + xcn17 - Data type field
 # + xcn18 - Data type field
 # + xcn19 - Data type field
 # + xcn20 - Data type field
@@ -54,6 +56,7 @@ public type XCN record {
     ST xcn4 = "";
     ST xcn5 = "";
     ST xcn6 = "";
+    ST xcn7 = "";
     CWE xcn8 = {};
     HD xcn9 = {};
     ID xcn10 = "";
@@ -63,6 +66,7 @@ public type XCN record {
     HD xcn14 = {};
     ID xcn15 = "";
     CWE xcn16 = {};
+    ST xcn17 = "";
     ID xcn18 = "";
     DTM xcn19 = "";
     DTM xcn20 = "";

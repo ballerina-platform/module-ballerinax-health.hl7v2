@@ -32,7 +32,9 @@ import ballerinax/health.hl7v2;
 # + obr10 - Segment Record Field  
 # + obr11 - Segment Record Field  
 # + obr12 - Segment Record Field  
-# + obr13 - Segment Record Field  
+# + obr13 - Segment Record Field
+# + obr14 - Segment Record Field
+# + obr15 - Segment Record Field  
 # + obr16 - Segment Record Field  
 # + obr17 - Segment Record Field  
 # + obr18 - Segment Record Field  
@@ -43,7 +45,8 @@ import ballerinax/health.hl7v2;
 # + obr23 - Segment Record Field  
 # + obr24 - Segment Record Field  
 # + obr25 - Segment Record Field  
-# + obr26 - Segment Record Field  
+# + obr26 - Segment Record Field
+# + obr27 - Segment Record Field  
 # + obr28 - Segment Record Field  
 # + obr29 - Segment Record Field  
 # + obr30 - Segment Record Field  
@@ -153,6 +156,18 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: ST
         },
+        "obr14": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "obr15": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "obr16": {
             required: false,
             length: 1,
@@ -218,6 +233,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: PRL
+        },
+        "obr27": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "obr28": {
             required: false,
@@ -393,6 +414,8 @@ public type OBR record {
     ID obr11 = "";
     CWE obr12 = {};
     ST obr13 = "";
+    ST obr14 = "";
+    ST obr15 = "";
     XCN[] obr16 = [{}];
     XTN obr17 = {};
     ST obr18 = "";
@@ -404,6 +427,7 @@ public type OBR record {
     ID obr24 = "";
     ID obr25 = "";
     PRL obr26 = {};
+    ST obr27 = "";
     XCN[] obr28 = [{}];
     EIP obr29 = {};
     ID obr30 = "";
