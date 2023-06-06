@@ -1,7 +1,7 @@
 [package]
 org = "ballerinax"
 name = "health.hl7v231"
-version = "1.0.2"
+version = "1.0.3-snapshot"
 authors=["Ballerina"]
 keywords=["Healthcare", "HL7", "HL7v2.3.1"]
 distribution = "2201.5.0"

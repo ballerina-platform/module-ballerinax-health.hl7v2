@@ -193,7 +193,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "log"
-version = "2.7.0"
+version = "2.7.1"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -351,7 +351,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2.utils.v2tofhirr4"
-version = "1.0.2"
+version = "1.0.3-snapshot"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerinax", name = "health.fhir.r4"},
