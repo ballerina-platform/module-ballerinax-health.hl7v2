@@ -18,7 +18,7 @@ import ballerina/regex;
 
 # HL7 parser interface
 public type Parser object {
-    public isolated function parse(byte[] message) returns Message|HL7Error;
+    public isolated function parse(string message) returns Message|HL7Error;
 };
 
 # Parses HL7 message given the byte stream.
@@ -57,5 +57,5 @@ public isolated function parse(string|byte[] message) returns Message|HL7Error {
     if parser is HL7Error? {
         return error(HL7_V2_PARSER_ERROR, message = "Unable to find parser for HL7 message with version:" + hl7Version);
     }
-    return parser.parse(string:toBytes(msgStr));
+    return parser.parse(msgStr);
 }
