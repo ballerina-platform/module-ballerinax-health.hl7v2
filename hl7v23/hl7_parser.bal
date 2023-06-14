@@ -25,22 +25,14 @@ isolated class Hl7v23Parser {
     # Parse HL7 encoded message to it's relevant model.
     # + message - Encoded HL7 message
     # + return - HL7 message model (specific or generic). hl7v2:HL7Error if error occurred
-    public isolated function parse(byte[] message) returns hl7v2:Message|hl7v2:HL7Error {
+    public isolated function parse(string message) returns hl7v2:Message|hl7v2:HL7Error {
         HL7Parser parser = new ();
-        string|error messageStr = string:fromBytes(message);
-        if messageStr is error {
-            return error(hl7v2:HL7_V2_PARSER_ERROR, message = "Failed to create string from byte array");
-        }
-
-        do {
-            hl7v2:Message? parsedMessage = check parser.parse(messageStr);
-            if parsedMessage is hl7v2:Message {
-                return parsedMessage;
-            } else {
-                return error(hl7v2:HL7_V2_PARSER_ERROR, message = "Error occurred while parsing HL7 message string.");
-            }
-        } on fail var e {
-            return error(hl7v2:HL7_V2_PARSER_ERROR, message = e.message());
+        hl7v2:Message? parsedMessage = check parser.parse(message);
+        if parsedMessage is hl7v2:Message {
+            return parsedMessage;
+        } else {
+            hl7v2:HL7Error err = error(hl7v2:HL7_V2_PARSER_ERROR, message = "Error occurred while parsing HL7 message string.");
+            return err;
         }
     }
 }
