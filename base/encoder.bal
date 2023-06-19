@@ -22,17 +22,3 @@ public type Encoder object {
     # + return - encoded message. HL7Error if error occurred
     public isolated function encode(Message message) returns byte[]|HL7Error;
 };
-
-# Encode HL7 message model to encoded wire format.
-#
-# + hl7Version - Target HL7 version
-# + message - HL7 message mnodel
-# + return - encoded message. HL7Error if error occurred
-public isolated function encode(string hl7Version, Message message) returns byte[]|HL7Error {
-    Encoder|HL7Error? encoder = check hl7Registry.getEncoder(hl7Version);
-    if encoder is Encoder {
-        return encoder.encode(message);
-    } else {
-        return error(HL7_V2_PARSER_ERROR, message = "Unable to find HL7 message encoder for HL7 version:" + hl7Version);
-    }
-}
