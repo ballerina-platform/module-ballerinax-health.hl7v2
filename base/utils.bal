@@ -18,6 +18,58 @@ import ballerina/log;
 import ballerina/regex;
 import ballerina/time;
 
+# Delegates parsing of HL7 message to the relevant HL7 version's parser.
+# + message - HL7 Message in encoded wire format
+# + return - HL7 message model with specific type or GenericMessage model. HL7Error if error occurred
+public isolated function parse(string|byte[] message) returns Message|HL7Error {
+
+    byte[] hL7WirePayload = [];
+    if message is string {
+        hL7WirePayload = createHL7WirePayload(string:toBytes(message));
+    } else {
+        hL7WirePayload = message;
+        if message[0] != HL7_MSG_START_BLOCK && message[message.length() - 1] != HL7_MSG_END_BLOCK {
+            // If the message isn't sent through MLLP, add the MLLP header and trailer.
+            // Using tools like `netcat`, you can send HL7 messages without MLLP header and trailer.
+            hL7WirePayload = createHL7WirePayload(message);
+        }
+    }
+
+    string|error msgStr = string:fromBytes(hL7WirePayload);
+    if msgStr is error {
+        return error(HL7_V2_PARSER_ERROR, message = "Failed to create string from byte array.");
+    }
+
+    msgStr = regex:replaceAll(msgStr, "\n", "\r");
+    if msgStr is error {
+        return error(HL7_V2_PARSER_ERROR, message = "Failed when replacing new line with the carriage return.");
+    }
+
+    string? hl7Version = extractHL7Version(msgStr);
+    if hl7Version is () {
+        return error(HL7_V2_PARSER_ERROR, message = "Failed to extract version of the HL7 message.");
+    }
+
+    Parser|HL7Error? parser = check hl7Registry.getParser(hl7Version);
+    if parser is HL7Error? {
+        return error(HL7_V2_PARSER_ERROR, message = "Unable to find parser for HL7 message with version:" + hl7Version);
+    }
+    return parser.parse(msgStr);
+}
+
+# Encodes HL7 message model to encoded wire format.
+#
+# + hl7Version - Target HL7 version
+# + message - HL7 message mnodel
+# + return - encoded message. HL7Error if error occurred
+public isolated function encode(string hl7Version, Message message) returns byte[]|HL7Error {
+    Encoder|HL7Error? encoder = check hl7Registry.getEncoder(hl7Version);
+    if encoder is Encoder {
+        return encoder.encode(message);
+    } else {
+        return error(HL7_V2_PARSER_ERROR, message = "Unable to find HL7 message encoder for HL7 version:" + hl7Version);
+    }
+}
 
 # Function to create HL7 payload with essential HL7 message Start Block character (1 byte)ASCII , i.e., <0x0B>
 # and End Block character (1 byte)ASCII , i.e., <0x1C>.
