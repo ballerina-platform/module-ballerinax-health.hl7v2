@@ -21,7 +21,7 @@ import ballerinax/health.fhir.r4;
 # Parameter list: (identifier, comparisonOperator, value list)
 # + antlrList - ANTLR expressions list
 # + return - Return Value Description# 
-function checkComputableAntlr(ANTLR[] antlrList) returns boolean {
+isolated function checkComputableAntlr(ANTLR[] antlrList) returns boolean {
     boolean finalResult = true;
 
     foreach ANTLR antlr in antlrList {
@@ -45,7 +45,7 @@ function checkComputableAntlr(ANTLR[] antlrList) returns boolean {
 }
 
 // Comparison Operaions
-function isContain(string x, string[] valueList) returns boolean {
+isolated function isContain(string x, string[] valueList) returns boolean {
     foreach string item in valueList {
         if (item == x) {
             return true;

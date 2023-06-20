@@ -29,39 +29,39 @@ import ballerinax/health.hl7v28;
 // URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/datatype_maps.html
 // --------------------------------------------------------------------------------------------#
 
-public function ceToCodings(Ce ce) returns r4:Coding[] {
+public isolated function ceToCodings(Ce ce) returns r4:Coding[] {
     r4:Coding[] codings = [];
     codings.push(ceToCoding(ce));
     return codings;
 }
 
-public function cweToCodings(Cwe ce) returns r4:Coding[] {
+public isolated function cweToCodings(Cwe ce) returns r4:Coding[] {
     r4:Coding[] codings = [];
     codings.push(cweToCoding(ce));
     return codings;
 }
 
-public function ceToCodeableConcept(Ce ce) returns r4:CodeableConcept => {
+public isolated function ceToCodeableConcept(Ce ce) returns r4:CodeableConcept => {
     coding: ceToCodings(ce)
 };
 
-public function cweToCodeableConcept(Cwe cwe) returns r4:CodeableConcept => {
+public isolated function cweToCodeableConcept(Cwe cwe) returns r4:CodeableConcept => {
     coding: cweToCodings(cwe)
 };
 
-public function ceToCoding(Ce ce) returns r4:Coding => {
+public isolated function ceToCoding(Ce ce) returns r4:Coding => {
     code: (ce.ce1 != "") ? ce.ce1 : (),
     display: (ce.ce2 != "") ? ce.ce2 : (),
     system: (ce.ce3 != "") ? ce.ce3 : ()
 };
 
-public function cweToCoding(Cwe cwe) returns r4:Coding => {
+public isolated function cweToCoding(Cwe cwe) returns r4:Coding => {
     code: (cwe.cwe1 != "") ? cwe.cwe1 : (),
     display: (cwe.cwe2 != "") ? cwe.cwe2 : (),
     system: (cwe.cwe3 != "") ? cwe.cwe3 : ()
 };
 
-public function xadToAddress(Xad xad) returns r4:Address {
+public isolated function xadToAddress(Xad xad) returns r4:Address {
     r4:Extension[] extension = [];
     string district = "";
 
@@ -91,7 +91,7 @@ public function xadToAddress(Xad xad) returns r4:Address {
     return address;
 };
 
-public function xonToOrganization(Xon xon) returns r4:Organization {
+public isolated function xonToOrganization(Xon xon) returns r4:Organization {
     r4:Coding coding = {
         code: xon.xon7,
         system: xon.xon7
@@ -116,7 +116,7 @@ public function xonToOrganization(Xon xon) returns r4:Organization {
     return organization;
 };
 
-public function xpnToHumanName(Xpn xpn) returns r4:HumanName {
+public isolated function xpnToHumanName(Xpn xpn) returns r4:HumanName {
     r4:HumanName humanName = {
         use: (xpn.xpn7 != "") ? idToHumanNameUse(xpn.xpn7) : ()
     };
@@ -137,7 +137,7 @@ public function xpnToHumanName(Xpn xpn) returns r4:HumanName {
     string[] suffix = [];
     if xpn is hl7v27:XPN|hl7v28:XPN {
         suffix = [xpn.xpn4, xpn.xpn14];
-    } else if xpn is hl7v23:XPN|hl7v231:XPN|hl7v24:XPN|hl7v25:XPN|hl7v251:XPN|hl7v26:XPN {
+    } else {
         suffix = [xpn.xpn4, xpn.xpn6];
     }
     if suffix[0] != "" && suffix[1] != "" {
@@ -154,11 +154,11 @@ public function xpnToHumanName(Xpn xpn) returns r4:HumanName {
     return humanName;
 };
 
-public function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
+public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
     string telephone = "";
     if xtn is hl7v26:XTN {
         telephone = xtn.xtn12;
-    } else if xtn is hl7v23:XTN|hl7v231:XTN|hl7v24:XTN|hl7v25:XTN|hl7v251:XTN|hl7v27:XTN|hl7v28:XTN {
+    } else {
         telephone = xtn.xtn1;
     }
     r4:ContactPoint contactPoint = {
@@ -178,24 +178,24 @@ public function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
     return contactPoint;
 };
 
-public function hdToMessageHeaderSource(Hd hd) returns r4:MessageHeaderSource => {
+public isolated function hdToMessageHeaderSource(Hd hd) returns r4:MessageHeaderSource => {
     name: hd.hd1,
     endpoint: hd.hd2,
     extension: getStringExtension([hd.hd3])
 };
 
-public function hdToMessageHeaderDestination(Hd hd) returns r4:MessageHeaderDestination => {
+public isolated function hdToMessageHeaderDestination(Hd hd) returns r4:MessageHeaderDestination => {
     name: hd.hd1,
     endpoint: hd.hd2,
     extension: getStringExtension([hd.hd3])
 };
 
-public function msgToCoding(hl7v23:CM_MSG msg) returns r4:Coding => {
+public isolated function msgToCoding(hl7v23:CM_MSG msg) returns r4:Coding => {
     code: msg.cm_msg1,
     system: msg.cm_msg2
 };
 
-public function ptToMeta(Pt pt) returns r4:Meta {
+public isolated function ptToMeta(Pt pt) returns r4:Meta {
     r4:Coding[] coding = [
         {
             code: pt.pt1,
@@ -208,52 +208,52 @@ public function ptToMeta(Pt pt) returns r4:Meta {
     return meta;
 };
 
-public function ceToCode(Ce ce) returns r4:code {
+public isolated function ceToCode(Ce ce) returns r4:code {
     r4:code code = ce.ce1;
     return code;
 };
 
-public function cweToCode(Cwe cwe) returns r4:code {
+public isolated function cweToCode(Cwe cwe) returns r4:code {
     r4:code code = cwe.cwe1;
     return code;
 };
 
-public function eiToIdentifier(Ei ei) returns r4:Identifier => {
+public isolated function eiToIdentifier(Ei ei) returns r4:Identifier => {
     value: (ei.ei1 != "") ? ei.ei1 : ()
 };
 
-public function idToCodeableConceptArray(Id id) returns r4:CodeableConcept[] {
+public isolated function idToCodeableConceptArray(Id id) returns r4:CodeableConcept[] {
     r4:CodeableConcept[] codeableConcept = [];
     codeableConcept.push(idToCodeableConcept(id));
     return codeableConcept;
 }
 
-public function eiToCoding(Ei ei) returns r4:Coding => {
+public isolated function eiToCoding(Ei ei) returns r4:Coding => {
     code: (ei.ei1 != "") ? ei.ei1 : (),
     system: (ei.ei2 != "") ? ei.ei2 : ()
 };
 
-public function ceToUri(Ce ce) returns r4:uri {
+public isolated function ceToUri(Ce ce) returns r4:uri {
     return ce.ce1;
 };
 
-public function cweToUri(Cwe cwe) returns r4:uri {
+public isolated function cweToUri(Cwe cwe) returns r4:uri {
     return cwe.cwe1;
 };
 
-public function xcnToCodeableConcept(Xcn xcn) returns r4:CodeableConcept => {
+public isolated function xcnToCodeableConcept(Xcn xcn) returns r4:CodeableConcept => {
     id: xcn.xcn1
 };
 
-public function xcnToReference(Xcn xcn) returns r4:Reference => {
+public isolated function xcnToReference(Xcn xcn) returns r4:Reference => {
     reference: xcn.xcn1
 };
 
-public function idToCoding(hl7v23:ID id) returns r4:Coding => {
+public isolated function idToCoding(hl7v23:ID id) returns r4:Coding => {
     id: id
 };
 
-public function ceToCodeableConcepts(Ce|hl7v26:CWE ce) returns r4:CodeableConcept[] {
+public isolated function ceToCodeableConcepts(Ce|hl7v26:CWE ce) returns r4:CodeableConcept[] {
     r4:CodeableConcept[] codeableConcept = [];
     if ce is hl7v26:CWE {
         codeableConcept.push(cweToCodeableConcept(ce));
@@ -271,7 +271,7 @@ public function tsToDateTime(Ts ts) returns r4:dateTime {
     return ts.ts1;
 };
 
-public function idToCodeableConcept(hl7v23:ID id) returns r4:CodeableConcept {
+public isolated function idToCodeableConcept(hl7v23:ID id) returns r4:CodeableConcept {
     r4:Coding[] coding = [
         {
             code: id
@@ -284,11 +284,11 @@ public function idToCodeableConcept(hl7v23:ID id) returns r4:CodeableConcept {
     return codeableConcept;
 };
 
-public function dtmToInstant(Dtm ts) returns r4:instant {
+public isolated function dtmToInstant(Dtm ts) returns r4:instant {
     return ts;
 };
 
-public function tsToInstant(Ts ts) returns r4:instant {
+public isolated function tsToInstant(Ts ts) returns r4:instant {
     return ts.ts1;
 };
 

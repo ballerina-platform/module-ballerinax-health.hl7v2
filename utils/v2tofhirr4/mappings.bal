@@ -60,68 +60,108 @@ public function v2ToFhir(string|hl7:Message hl7) returns json|error {
 # + return - FHIR Bundle
 public function segmentToFhir(string segmentName, hl7:Segment segment) returns r4:BundleEntry[] {
     r4:BundleEntry[] entries = [];
+    V2toFhirMapperImpl impl = getMapperContext().getImpl();
     match segmentName {
         "NK1" => {
-            r4:BundleEntry entry = {'resource: nk1ToPatient(<Nk1>segment)};
-            entries.push(entry);
-            return entries;
+            Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
+            if nk1ToPatient is Nk1ToPatient {
+                r4:BundleEntry entry = {'resource: nk1ToPatient(<Nk1>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
         "PD1" => {
-            r4:BundleEntry entry = {'resource: pd1ToPatient(<Pd1>segment)};
-            entries.push(entry);
-            return entries;
+            Pd1ToPatient? pd1ToPatient = impl.pd1ToPatient;
+            if pd1ToPatient is Pd1ToPatient {
+                r4:BundleEntry entry = {'resource: pd1ToPatient(<Pd1>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
         "PID" => {
-            r4:BundleEntry entry = {'resource: pidToPatient(<Pid>segment)};
-            entries.push(entry);
-            return entries;
+            PidToPatient? pidToPatient = impl.pidToPatient;
+            if pidToPatient is PidToPatient {
+                r4:BundleEntry entry = {'resource: pidToPatient(<Pid>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
         "PV1" => {
-            r4:BundleEntry entryPatient = {'resource: pv1ToPatient(<Pv1>segment)};
-            entries.push(entryPatient);
-            r4:BundleEntry entryEncounter = {'resource: pv1ToEncounter(<Pv1>segment)};
-            entries.push(entryEncounter);
+            Pv1ToPatient? pv1ToPatientResult = impl.pv1ToPatient;
+            if pv1ToPatientResult is Pv1ToPatient {
+                r4:BundleEntry entryPatient = {'resource: pv1ToPatientResult(<Pv1>segment)};
+                entries.push(entryPatient);
+            }
+            Pv1ToEncounter? pv1ToEncounterResult = impl.pv1ToEncounter;
+            if pv1ToEncounterResult is Pv1ToEncounter {
+                r4:BundleEntry entryEncounter = {'resource: pv1ToEncounterResult(<Pv1>segment)};
+                entries.push(entryEncounter);
+            }
             return entries;
         }
         "DG1" => {
-            r4:BundleEntry entry = {'resource: dg1ToCondition(<Dg1>segment)};
-            entries.push(entry);
-            return entries;
+            Dg1ToCondition? dg1ToCondition = impl.dg1ToCondition;
+            if dg1ToCondition is Dg1ToCondition {
+                r4:BundleEntry entry = {'resource: dg1ToCondition(<Dg1>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
         "AL1" => {
-            r4:BundleEntry entry = {'resource: al1ToAllerygyIntolerance(<Al1>segment)};
-            entries.push(entry);
-            return entries;
+            Al1ToAllerygyIntolerance? al1ToAllerygyIntolerance = impl.al1ToAllerygyIntolerance;
+            if al1ToAllerygyIntolerance is Al1ToAllerygyIntolerance {
+                r4:BundleEntry entry = {'resource: al1ToAllerygyIntolerance(<Al1>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
         "EVN" => {
-            r4:BundleEntry entry = {'resource: evnToProvenance(<Evn>segment)};
-            entries.push(entry);
-            return entries;
+            EvnToProvenance? evnToProvenance = impl.evnToProvenance;
+            if evnToProvenance is EvnToProvenance {
+                r4:BundleEntry entry = {'resource: evnToProvenance(<Evn>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
         "MSH" => {
-            r4:BundleEntry entry = {'resource: mshToMessageHeader(<Msh>segment)};
-            entries.push(entry);
-            return entries;
+            MshToMessageHeader? mshToMessageHeader = impl.mshToMessageHeader;
+            if mshToMessageHeader is MshToMessageHeader {
+                r4:BundleEntry entry = {'resource: mshToMessageHeader(<Msh>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
         "PV2" => {
-            r4:BundleEntry entry = {'resource: pv2ToEncounter(<Pv2>segment)};
-            entries.push(entry);
-            return entries;
+            Pv2ToEncounter? pv2ToEncounter = impl.pv2ToEncounter;
+            if pv2ToEncounter is Pv2ToEncounter {
+                r4:BundleEntry entry = {'resource: pv2ToEncounter(<Pv2>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
         "OBX" => {
-            r4:BundleEntry entry = {'resource: obxToObservation(<Obx>segment)};
-            entries.push(entry);
-            return entries;
+            ObxToObservation? obxToObservation = impl.obxToObservation;
+            if obxToObservation is ObxToObservation {
+                r4:BundleEntry entry = {'resource: obxToObservation(<Obx>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
         "ORC" => {
-            r4:BundleEntry entry = {'resource: orcToImmunization(<Orc>segment)};
-            entries.push(entry);
-            return entries;
+            OrcToImmunization? orcToImmunization = impl.orcToImmunization;
+            if orcToImmunization is OrcToImmunization {
+                r4:BundleEntry entry = {'resource: orcToImmunization(<Orc>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
         "OBR" => {
-            r4:BundleEntry entry = {'resource: obrToDiagnosticReport(<Obr>segment)};
-            entries.push(entry);
-            return entries;
+            ObrToDiagnosticReport? obrToDiagnosticReport = impl.obrToDiagnosticReport;
+            if obrToDiagnosticReport is ObrToDiagnosticReport {
+                r4:BundleEntry entry = {'resource: obrToDiagnosticReport(<Obr>segment)};
+                entries.push(entry);
+                return entries;
+            }
         }
     }
     return entries;
