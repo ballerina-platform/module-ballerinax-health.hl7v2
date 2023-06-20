@@ -607,4 +607,3 @@ isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? cu
     }
     return getOperationOutcome(string `Unsupported message: ${message.name}`);
 }
-
