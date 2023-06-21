@@ -27,16 +27,16 @@ isolated function checkComputableAntlr(ANTLR[] antlrList) returns boolean {
     foreach ANTLR antlr in antlrList {
         match antlr.comparisonOperator {
             EQ => {
-                finalResult = finalResult && isContain(antlr.identifier, antlr.valueList);
+                finalResult = finalResult && contains(antlr.identifier, antlr.valueList);
             }
             IN => {
-                finalResult = finalResult && isContain(antlr.identifier, antlr.valueList);
+                finalResult = finalResult && contains(antlr.identifier, antlr.valueList);
             }
             NE => {
-                finalResult = finalResult && !isContain(antlr.identifier, antlr.valueList);
+                finalResult = finalResult && !contains(antlr.identifier, antlr.valueList);
             }
             NIN => {
-                finalResult = finalResult && !isContain(antlr.identifier, antlr.valueList);
+                finalResult = finalResult && !contains(antlr.identifier, antlr.valueList);
             }
         }
     }
@@ -45,12 +45,11 @@ isolated function checkComputableAntlr(ANTLR[] antlrList) returns boolean {
 }
 
 // Comparison Operaions
-isolated function isContain(string x, string[] valueList) returns boolean {
-    foreach string item in valueList {
-        if (item == x) {
-            return true;
-        }
-    }
+isolated function contains(string x, string[] valueList) returns boolean {
+    int? indexOf = valueList.indexOf(x);
+    if indexOf is int {
+        return true;
+    } 
     return false;
 }
 

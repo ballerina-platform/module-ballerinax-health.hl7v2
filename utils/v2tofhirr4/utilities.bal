@@ -26,7 +26,7 @@ import ballerinax/health.hl7v28;
 import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.fhir.r4 as r4;
 
-final V2ToFhirMapperContext context = new();
+final V2ToFhirMapperContext context = new;
 
 public function getMapperContext() returns V2ToFhirMapperContext {
     return context;

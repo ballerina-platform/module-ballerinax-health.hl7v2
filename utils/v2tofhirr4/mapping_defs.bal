@@ -16,9 +16,9 @@
 
 import ballerinax/health.fhir.r4;
 
-#####################################################################################################
+# ####################################################################################################
 # Mapping function definitions for V2 to FHIR
-#####################################################################################################
+# ####################################################################################################
 
 # Mapping function type for PV1 segment to Patient FHIR resource.
 public type Pv1ToPatient function (Pv1 pv1) returns r4:Patient;
@@ -91,7 +91,7 @@ public type V2toFhirMapperImpl record {
 };
 
 # Context class to hold v2tofhir mapper related context information.
-public isolated class V2ToFhirMapperContext {
+public class V2ToFhirMapperContext {
     private V2toFhirMapperImpl mapperImpl = {
         pv1ToPatient: pv1ToPatient,
         pv1ToEncounter: pv1ToEncounter,
@@ -113,37 +113,9 @@ public isolated class V2ToFhirMapperContext {
             V2toFhirMapperImpl mapperImplInstance = self.mapperImpl.clone();
             string[] keys = mapperImpl.keys();
             foreach string key in keys {
-                Pv1ToPatient?|Pv1ToEncounter?|Nk1ToPatient?|Pd1ToPatient?|PidToPatient?|Dg1ToCondition?|ObxToObservation?|
-                ObrToDiagnosticReport?|Al1ToAllerygyIntolerance?|EvnToProvenance?|MshToMessageHeader?|Pv2ToEncounter?|
-                OrcToImmunization?|(anydata & readonly) mappingFunc = mapperImpl.get(key);
-                if mappingFunc is Pv1ToPatient {
-                    mapperImplInstance.pv1ToPatient = mappingFunc;
-                } else if mappingFunc is Pv1ToEncounter {
-                    mapperImplInstance.pv1ToEncounter = mappingFunc;
-                } else if mappingFunc is Nk1ToPatient {
-                    mapperImplInstance.nk1ToPatient = mappingFunc;
-                } else if mappingFunc is Pd1ToPatient {
-                    mapperImplInstance.pd1ToPatient = mappingFunc;
-                } else if mappingFunc is PidToPatient {
-                    mapperImplInstance.pidToPatient = mappingFunc;
-                } else if mappingFunc is Dg1ToCondition {
-                    mapperImplInstance.dg1ToCondition = mappingFunc;
-                } else if mappingFunc is ObxToObservation {
-                    mapperImplInstance.obxToObservation = mappingFunc;
-                } else if mappingFunc is ObrToDiagnosticReport {
-                    mapperImplInstance.obrToDiagnosticReport = mappingFunc;
-                } else if mappingFunc is Al1ToAllerygyIntolerance {
-                    mapperImplInstance.al1ToAllerygyIntolerance = mappingFunc;
-                } else if mappingFunc is EvnToProvenance {
-                    mapperImplInstance.evnToProvenance = mappingFunc;
-                } else if mappingFunc is MshToMessageHeader {
-                    mapperImplInstance.mshToMessageHeader = mappingFunc;
-                } else if mappingFunc is Pv2ToEncounter {
-                    mapperImplInstance.pv2ToEncounter = mappingFunc;
-                } else if mappingFunc is OrcToImmunization {
-                    mapperImplInstance.orcToImmunization = mappingFunc;
-                } else {
-                    //TODO implement binding of custom functions
+                if mapperImpl.get(key) != () {
+                    //binding the custom mapping functions
+                    mapperImplInstance[key] = mapperImpl.get(key);
                 }
             }
             self.mapperImpl = mapperImplInstance;
@@ -151,9 +123,6 @@ public isolated class V2ToFhirMapperContext {
     }
 
     function getImpl() returns V2toFhirMapperImpl {
-        lock {
-            readonly & V2toFhirMapperImpl mapperImpl = self.mapperImpl.cloneReadOnly();
-            return mapperImpl;
-        }
+        return self.mapperImpl.cloneReadOnly();
     }
 }
