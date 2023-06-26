@@ -1,4 +1,4 @@
-name: CD hl7v2 Base
+name: CD - Hl7v25
 
 on:
   workflow_dispatch:
@@ -20,47 +20,47 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Ballerina Build hl7v2 Base
+      - name: Ballerina Build
         uses: ballerina-platform/ballerina-action@2201.6.0
         with:
           args:
             pack
         env:
-          WORKING_DIR: ./base
+          WORKING_DIR: ./hl7v25
           JAVA_HOME: /usr/lib/jvm/default-jvm
 
-      - name: Push to Staging hl7v2 Base
+      - name: Push to Staging
         if: github.event.inputs.bal_central_environment == 'STAGE'
         uses: ballerina-platform/ballerina-action@2201.6.0
         with:
           args:
             push
         env:
-          WORKING_DIR: ./base
+          WORKING_DIR: ./hl7v25
           JAVA_HOME: /usr/lib/jvm/default-jvm
           BALLERINA_STAGE_CENTRAL: true
           BALLERINA_CENTRAL_ACCESS_TOKEN: ${{ secrets.BALLERINA_CENTRAL_STAGE_ACCESS_TOKEN }}
 
-      - name: Push to Dev hl7v2 Base
+      - name: Push to Dev
         if: github.event.inputs.bal_central_environment == 'DEV'
         uses: ballerina-platform/ballerina-action@2201.6.0
         with:
           args:
             push
         env:
-          WORKING_DIR: ./base
+          WORKING_DIR: ./hl7v25
           JAVA_HOME: /usr/lib/jvm/default-jvm
           BALLERINA_DEV_CENTRAL: true
           BALLERINA_CENTRAL_ACCESS_TOKEN: ${{ secrets.BALLERINA_CENTRAL_DEV_ACCESS_TOKEN }}      
 
-      - name: Push to Prod hl7v2 Base
+      - name: Push to Prod
         if: github.event.inputs.bal_central_environment == 'PROD'
         uses: ballerina-platform/ballerina-action@2201.6.0
         with:
           args:
             push
         env:
-          WORKING_DIR: ./base
+          WORKING_DIR: ./hl7v25
           JAVA_HOME: /usr/lib/jvm/default-jvm
           BALLERINA_CENTRAL_ACCESS_TOKEN: ${{ secrets.BALLERINA_CENTRAL_ACCESS_TOKEN }}
 
@@ -90,11 +90,11 @@ jobs:
         if: ${{ github.event.inputs.bal_central_environment == 'PROD' }}
         id: increment_patch_version
         run: |
-          CURRENT_VERSION=$(grep -Po -m 1 '(?<=version = ")[\d.]+' ./base/Ballerina.toml)
+          CURRENT_VERSION=$(grep -Po -m 1 '(?<=version = ")[\d.]+' ./hl7v25/Ballerina.toml)
           IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
           PATCH_VERSION=$((VERSION_PARTS[2] + 1))
           NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$PATCH_VERSION-snapshot"
-          sed -i "s/version = \"${CURRENT_VERSION}\"/version = \"${NEW_VERSION}\"/" ./base/Ballerina.toml
+          sed -i "s/version = \"${CURRENT_VERSION}\"/version = \"${NEW_VERSION}\"/" ./hl7v25/Ballerina.toml
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_OUTPUT
 
       - name: Commit changes and make a PR
@@ -103,8 +103,8 @@ jobs:
           # Commit changes
           git config --global user.name ${{ secrets.BALLERINA_BOT_USERNAME }}
           git config --global user.email ${{ secrets.BALLERINA_BOT_EMAIL }}
-          git add ./base/Ballerina.toml
-          git commit -m "[Automated] Prepare hl7v2 Base for next dev cycle"
+          git add ./hl7v25/Ballerina.toml
+          git commit -m "[Automated] Prepare hl7v25 for next dev cycle"
           git push origin ${{ steps.publish_release.outputs.BRANCH_NAME }}
           
           # Set the base and head branches
@@ -115,7 +115,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.BALLERINA_BOT_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             -d '{
-              "title": "[Automated] Prepare hl7v2 Base for next dev cycle",
+              "title": "[Automated] Prepare hl7v25 for next dev cycle",
               "body": "",
               "head": "'"$HEAD_BRANCH"'",
               "base": "'"$BASE_BRANCH"'"

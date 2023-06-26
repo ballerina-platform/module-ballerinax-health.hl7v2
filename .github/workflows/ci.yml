@@ -8,6 +8,7 @@ on:
 
 env:
   HL7V2_PATTERN: '*/*'
+  UTILS_PATTERN: 'utils/*/*'
   GITHUB_WORKFLOWS_DIR: '.github'
 
 jobs:
@@ -38,7 +39,9 @@ jobs:
           # Remove duplicates from the CHANGED_FILES_ARRAY
           declare -A UNIQUE_PATHS_MAP
           for file in "${CHANGED_FILES_ARRAY[@]}"; do
-            if [[ $file == $HL7V2_PATTERN ]]; then
+            if [[ $file == $UTILS_PATTERN ]]; then
+              EXTRACTED_PATH=$(echo "$file" | cut -d '/' -f 1-2)
+            elif [[ $file == $HL7V2_PATTERN ]]; then
               EXTRACTED_PATH=$(echo "$file" | cut -d '/' -f 1)
             fi
 
