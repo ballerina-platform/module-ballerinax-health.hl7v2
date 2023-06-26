@@ -108,19 +108,5 @@ public class V2ToFhirMapperContext {
         orcToImmunization: orcToImmunization
     };
 
-    // public function setCustomMapper(readonly & SegmentToFhir customMapper) {
-    //     lock {
-    //         string[] keys = customMapper.keys();
-    //         foreach string key in keys {
-    //             if customMapper.get(key) != () {
-    //                 //binding the custom mapping functions
-    //                 self.mapperImpl[key] = customMapper.get(key);
-    //             }
-    //         }
-    //     }
-    // }
-
-    function getDefaultImpl() returns SegmentToFhir {
-        return self.mapperImpl;
-    }
+    function getDefaultImpl() returns SegmentToFhir => self.mapperImpl;
 }

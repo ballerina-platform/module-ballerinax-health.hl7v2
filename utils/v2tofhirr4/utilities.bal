@@ -28,13 +28,7 @@ import ballerinax/health.fhir.r4 as r4;
 
 final V2ToFhirMapperContext context = new;
 
-public function getMapperContext() returns V2ToFhirMapperContext {
-    return context;
-}
-
-// public function setCustomMapper(readonly & SegmentToFhir mapperImpl) {
-//     context.setCustomMapper(mapperImpl);
-// }
+public function getMapperContext() returns V2ToFhirMapperContext => context;
 
 public function pidToAdministrativeSex(string pid8) returns r4:PatientGender {
     match pid8 {
