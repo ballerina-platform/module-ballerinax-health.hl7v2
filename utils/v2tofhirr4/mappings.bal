@@ -37,17 +37,27 @@ public function stringToHl7(string msg) returns hl7:Message|error {
 
 # Transform an HL7 message to FHIR.
 #
-# + hl7 - HL7 message as a string or an hl7v2:Message
+# + hl7 - HL7 message as a string or an hl7v2:Message  
+# + customMapper - Custom mapper implementation
 # + return - FHIR Bundle as a json
-public function v2ToFhir(string|hl7:Message hl7) returns json|error {
+public function v2ToFhir(string|hl7:Message hl7, SegmentToFhir? customMapper = ()) returns json|error {
     hl7:Message hl7msg;
     if (hl7 is string) {
         hl7msg = check stringToHl7(hl7);
     } else {
         hl7msg = hl7;
     }
-    json transformToFHIRResult = check transformToFhir(hl7msg);
-    return transformToFHIRResult;
+    SegmentToFhir mapperImpl = getMapperContext().getDefaultImpl();
+    if customMapper is () {
+        return check transformToFhir(hl7msg, mapperImpl);
+    }
+    foreach string key in customMapper.keys() {
+        if customMapper.get(key) != () {
+            //binding the custom mapping functions
+            mapperImpl[key] = customMapper.get(key);
+        }
+    }
+    return check transformToFhir(hl7msg, mapperImpl);
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -57,11 +67,12 @@ public function v2ToFhir(string|hl7:Message hl7) returns json|error {
 # Transform an HL7 segment to FHIR.
 #
 # + segmentName - Name of the HL7 segment  
-# + segment - HL7 segment
+# + segment - HL7 segment  
+# + customMapper - Custom mapper implementation
 # + return - FHIR Bundle
-public function segmentToFhir(string segmentName, hl7:Segment segment) returns r4:BundleEntry[] {
+public function segmentToFhir(string segmentName, hl7:Segment segment, SegmentToFhir? customMapper) returns r4:BundleEntry[] {
     r4:BundleEntry[] entries = [];
-    V2toFhirMapperImpl impl = getMapperContext().getImpl();
+    SegmentToFhir impl = customMapper != () ? customMapper : getMapperContext().getDefaultImpl();
     match segmentName {
         "NK1" => {
             Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;

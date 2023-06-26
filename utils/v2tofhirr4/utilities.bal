@@ -32,9 +32,9 @@ public function getMapperContext() returns V2ToFhirMapperContext {
     return context;
 }
 
-public function setCustomMapperImpl(readonly & V2toFhirMapperImpl mapperImpl) {
-    context.setCustomMapperImpl(mapperImpl);
-}
+// public function setCustomMapper(readonly & SegmentToFhir mapperImpl) {
+//     context.setCustomMapper(mapperImpl);
+// }
 
 public function pidToAdministrativeSex(string pid8) returns r4:PatientGender {
     match pid8 {
@@ -568,7 +568,7 @@ public function nk1ToContact(Nk12 nk12, Nk14 nk14, Nk15 nk15, Nk16 nk16, Nk17 nk
     return patientContact;
 }
 
-function transformToFhir(hl7:Message message) returns json|error {
+function transformToFhir(hl7:Message message, SegmentToFhir? customMapper) returns json|error {
     r4:Bundle bundle = {'type: "searchset"};
     r4:BundleEntry[] entries = [];
     bundle.entry = entries;
@@ -579,14 +579,14 @@ function transformToFhir(hl7:Message message) returns json|error {
         [key, segment] = <[string, anydata]>triggerEventField;
         do {
             if segment is hl7:Segment {
-                r4:BundleEntry[] bundleEntries = segmentToFhir(segment.name, segment);
+                r4:BundleEntry[] bundleEntries = segmentToFhir(segment.name, segment, customMapper);
                 foreach r4:BundleEntry entry in bundleEntries {
                     entries.push(entry);
                 }
             }
             if segment is hl7:Segment[] {
                 foreach hl7:Segment segmentElem in segment {
-                    r4:BundleEntry[] bundleEntries = segmentToFhir(segmentElem.name, segmentElem);
+                    r4:BundleEntry[] bundleEntries = segmentToFhir(segmentElem.name, segmentElem, customMapper);
                     foreach r4:BundleEntry entry in bundleEntries {
                         entries.push(entry);
                     }
@@ -598,7 +598,7 @@ function transformToFhir(hl7:Message message) returns json|error {
                     anydata segmentComponent;
                     [_, segmentComponent] = <[string, anydata]>segmentComponentField;
                     if segmentComponent is hl7:Segment {
-                        r4:BundleEntry[] bundleEntries = segmentToFhir(segmentComponent.name, segmentComponent);
+                        r4:BundleEntry[] bundleEntries = segmentToFhir(segmentComponent.name, segmentComponent, customMapper);
                         foreach r4:BundleEntry entry in bundleEntries {
                             entries.push(entry);
                         }

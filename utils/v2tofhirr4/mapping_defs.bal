@@ -74,7 +74,7 @@ public type OrcToImmunization function (Orc orc) returns r4:Immunization;
 # + mshToMessageHeader - MSH segment to MessageHeader FHIR resource mapping function  
 # + pv2ToEncounter - PV2 segment to Encounter FHIR resource mapping function  
 # + orcToImmunization - ORC segment to Immunization FHIR resource mapping function
-public type V2toFhirMapperImpl record {
+public type SegmentToFhir record {
     Pv1ToPatient pv1ToPatient?;
     Pv1ToEncounter pv1ToEncounter?;
     Nk1ToPatient nk1ToPatient?;
@@ -92,7 +92,7 @@ public type V2toFhirMapperImpl record {
 
 # Context class to hold v2tofhir mapper related context information.
 public class V2ToFhirMapperContext {
-    private V2toFhirMapperImpl mapperImpl = {
+    private SegmentToFhir mapperImpl = {
         pv1ToPatient: pv1ToPatient,
         pv1ToEncounter: pv1ToEncounter,
         nk1ToPatient: nk1ToPatient,
@@ -108,21 +108,19 @@ public class V2ToFhirMapperContext {
         orcToImmunization: orcToImmunization
     };
 
-    public function setCustomMapperImpl(readonly & V2toFhirMapperImpl mapperImpl) {
-        lock {
-            V2toFhirMapperImpl mapperImplInstance = self.mapperImpl.clone();
-            string[] keys = mapperImpl.keys();
-            foreach string key in keys {
-                if mapperImpl.get(key) != () {
-                    //binding the custom mapping functions
-                    mapperImplInstance[key] = mapperImpl.get(key);
-                }
-            }
-            self.mapperImpl = mapperImplInstance;
-        }
-    }
+    // public function setCustomMapper(readonly & SegmentToFhir customMapper) {
+    //     lock {
+    //         string[] keys = customMapper.keys();
+    //         foreach string key in keys {
+    //             if customMapper.get(key) != () {
+    //                 //binding the custom mapping functions
+    //                 self.mapperImpl[key] = customMapper.get(key);
+    //             }
+    //         }
+    //     }
+    // }
 
-    function getImpl() returns V2toFhirMapperImpl {
-        return self.mapperImpl.cloneReadOnly();
+    function getDefaultImpl() returns SegmentToFhir {
+        return self.mapperImpl;
     }
 }
