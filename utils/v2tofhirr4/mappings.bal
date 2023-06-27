@@ -14,6 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/log;
 import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.hl7v23;
 import ballerinax/health.hl7v231;
@@ -31,34 +32,28 @@ import ballerinax/health.hl7v2commons;
 #
 # + msg - HL7 message as a string
 # + return - hl7v2:Message
-public function stringToHl7(string msg) returns hl7:Message|error {
-    hl7:Message hl7msg = check hl7:parse(msg);
-    return hl7msg;
-}
+public isolated function stringToHl7(string msg) returns hl7:Message|error => check hl7:parse(msg);
 
 # Transform an HL7 message to FHIR.
 #
 # + hl7 - HL7 message as a string or an hl7v2:Message  
 # + customMapper - Custom mapper implementation
 # + return - FHIR Bundle as a json
-public function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper? customMapper = ()) returns json|error {
+public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper? customMapper = ()) returns json|error {
     hl7:Message hl7msg;
     if (hl7 is string) {
         hl7msg = check stringToHl7(hl7);
     } else {
         hl7msg = hl7;
     }
-    V2SegmentToFhirMapper mapperImpl = getMapperContext().getDefaultImpl();
     if customMapper is () {
-        return check transformToFhir(hl7msg, mapperImpl);
+        return transformToFhir(hl7msg, defaultMapper);
     }
+    V2SegmentToFhirMapper mapper = {...defaultMapper};
     foreach string key in customMapper.keys() {
-        if customMapper.get(key) != () {
-            //binding the custom mapping functions
-            mapperImpl[key] = customMapper.get(key);
-        }
+        mapper[key] = customMapper.get(key);
     }
-    return check transformToFhir(hl7msg, mapperImpl);
+    return transformToFhir(hl7msg, mapper);
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -71,9 +66,12 @@ public function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper? customMa
 # + segment - HL7 segment  
 # + customMapper - Custom mapper implementation
 # + return - FHIR Bundle
-public function segmentToFhir(string segmentName, hl7:Segment segment, V2SegmentToFhirMapper? customMapper) returns r4:BundleEntry[] {
+public isolated function segmentToFhir(string segmentName, hl7:Segment segment, V2SegmentToFhirMapper? customMapper) returns r4:BundleEntry[] {
     r4:BundleEntry[] entries = [];
-    V2SegmentToFhirMapper impl = customMapper != () ? customMapper : getMapperContext().getDefaultImpl();
+    V2SegmentToFhirMapper impl;
+    lock {
+        impl = customMapper != () ? customMapper.clone() : defaultMapper.clone();
+    }
     match segmentName {
         "NK1" => {
             Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;

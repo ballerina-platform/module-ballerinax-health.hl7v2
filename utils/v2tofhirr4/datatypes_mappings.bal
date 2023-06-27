@@ -29,11 +29,7 @@ import ballerinax/health.hl7v28;
 // URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/datatype_maps.html
 // --------------------------------------------------------------------------------------------#
 
-public isolated function ceToCodings(Ce ce) returns r4:Coding[] {
-    r4:Coding[] codings = [];
-    codings.push(ceToCoding(ce));
-    return codings;
-}
+public isolated function ceToCodings(Ce ce) returns r4:Coding[] => [ceToCoding(ce)];
 
 public isolated function cweToCodings(Cwe ce) returns r4:Coding[] {
     r4:Coding[] codings = [];

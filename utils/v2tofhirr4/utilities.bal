@@ -30,7 +30,6 @@ import ballerinax/health.hl7v2commons;
 final V2ToFhirMapperContext context = new;
 
 public function getMapperContext() returns V2ToFhirMapperContext => context;
-
 public function pidToAdministrativeSex(string pid8) returns r4:PatientGender {
     match pid8 {
         "M" => {
