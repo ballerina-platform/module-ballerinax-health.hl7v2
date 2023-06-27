@@ -14,8 +14,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerinax/health.fhir.r4;
 import ballerina/lang.array;
+import ballerinax/health.fhir.r4;
 
 # Computable ANTLR checker
 #
