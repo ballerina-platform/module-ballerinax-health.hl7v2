@@ -24,6 +24,7 @@ import ballerinax/health.hl7v26;
 import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 import ballerinax/health.fhir.r4 as r4;
+import ballerina/log;
 
 # Parse a string to an HL7 message.
 #
@@ -36,17 +37,27 @@ public function stringToHl7(string msg) returns hl7:Message|error {
 
 # Transform an HL7 message to FHIR.
 #
-# + hl7 - HL7 message as a string or an hl7v2:Message
+# + hl7 - HL7 message as a string or an hl7v2:Message  
+# + customMapper - Custom mapper implementation
 # + return - FHIR Bundle as a json
-public function v2ToFhir(string|hl7:Message hl7) returns json|error {
+public function v2ToFhir(string|hl7:Message hl7, SegmentToFhir? customMapper = ()) returns json|error {
     hl7:Message hl7msg;
     if (hl7 is string) {
         hl7msg = check stringToHl7(hl7);
     } else {
         hl7msg = hl7;
     }
-    json transformToFHIRResult = check transformToFhir(hl7msg);
-    return transformToFHIRResult;
+    SegmentToFhir mapperImpl = getMapperContext().getDefaultImpl();
+    if customMapper is () {
+        return check transformToFhir(hl7msg, mapperImpl);
+    }
+    foreach string key in customMapper.keys() {
+        if customMapper.get(key) != () {
+            //binding the custom mapping functions
+            mapperImpl[key] = customMapper.get(key);
+        }
+    }
+    return check transformToFhir(hl7msg, mapperImpl);
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -56,73 +67,91 @@ public function v2ToFhir(string|hl7:Message hl7) returns json|error {
 # Transform an HL7 segment to FHIR.
 #
 # + segmentName - Name of the HL7 segment  
-# + segment - HL7 segment
+# + segment - HL7 segment  
+# + customMapper - Custom mapper implementation
 # + return - FHIR Bundle
-public function segmentToFhir(string segmentName, hl7:Segment segment) returns r4:BundleEntry[] {
+public function segmentToFhir(string segmentName, hl7:Segment segment, SegmentToFhir? customMapper) returns r4:BundleEntry[] {
     r4:BundleEntry[] entries = [];
+    SegmentToFhir impl = customMapper != () ? customMapper : getMapperContext().getDefaultImpl();
     match segmentName {
         "NK1" => {
-            r4:BundleEntry entry = {'resource: nk1ToPatient(<Nk1>segment)};
-            entries.push(entry);
-            return entries;
+            Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
+            if nk1ToPatient is Nk1ToPatient {
+                entries.push({'resource: nk1ToPatient(check segment.ensureType(Nk1))});
+            }
         }
         "PD1" => {
-            r4:BundleEntry entry = {'resource: pd1ToPatient(<Pd1>segment)};
-            entries.push(entry);
-            return entries;
+            Pd1ToPatient? pd1ToPatient = impl.pd1ToPatient;
+            if pd1ToPatient is Pd1ToPatient {
+                entries.push({'resource: pd1ToPatient(check segment.ensureType(Pd1))});
+            }
         }
         "PID" => {
-            r4:BundleEntry entry = {'resource: pidToPatient(<Pid>segment)};
-            entries.push(entry);
-            return entries;
+            PidToPatient? pidToPatient = impl.pidToPatient;
+            if pidToPatient is PidToPatient {
+                entries.push({'resource: pidToPatient(check segment.ensureType(Pid))});
+            }
         }
         "PV1" => {
-            r4:BundleEntry entryPatient = {'resource: pv1ToPatient(<Pv1>segment)};
-            entries.push(entryPatient);
-            r4:BundleEntry entryEncounter = {'resource: pv1ToEncounter(<Pv1>segment)};
-            entries.push(entryEncounter);
-            return entries;
+            Pv1ToPatient? pv1ToPatientResult = impl.pv1ToPatient;
+            if pv1ToPatientResult is Pv1ToPatient {
+                entries.push({'resource: pv1ToPatientResult(check segment.ensureType(Pv1))});
+            }
+            Pv1ToEncounter? pv1ToEncounterResult = impl.pv1ToEncounter;
+            if pv1ToEncounterResult is Pv1ToEncounter {
+                entries.push({'resource: pv1ToEncounterResult(check segment.ensureType(Pv1))});
+            }
         }
         "DG1" => {
-            r4:BundleEntry entry = {'resource: dg1ToCondition(<Dg1>segment)};
-            entries.push(entry);
-            return entries;
+            Dg1ToCondition? dg1ToCondition = impl.dg1ToCondition;
+            if dg1ToCondition is Dg1ToCondition {
+                entries.push({'resource: dg1ToCondition(check segment.ensureType(Dg1))});
+            }
         }
         "AL1" => {
-            r4:BundleEntry entry = {'resource: al1ToAllerygyIntolerance(<Al1>segment)};
-            entries.push(entry);
-            return entries;
+            Al1ToAllerygyIntolerance? al1ToAllerygyIntolerance = impl.al1ToAllerygyIntolerance;
+            if al1ToAllerygyIntolerance is Al1ToAllerygyIntolerance {
+                entries.push({'resource: al1ToAllerygyIntolerance(check segment.ensureType(Al1))});
+            }
         }
         "EVN" => {
-            r4:BundleEntry entry = {'resource: evnToProvenance(<Evn>segment)};
-            entries.push(entry);
-            return entries;
+            EvnToProvenance? evnToProvenance = impl.evnToProvenance;
+            if evnToProvenance is EvnToProvenance {
+                entries.push({'resource: evnToProvenance(check segment.ensureType(Evn))});
+            }
         }
         "MSH" => {
-            r4:BundleEntry entry = {'resource: mshToMessageHeader(<Msh>segment)};
-            entries.push(entry);
-            return entries;
+            MshToMessageHeader? mshToMessageHeader = impl.mshToMessageHeader;
+            if mshToMessageHeader is MshToMessageHeader {
+                entries.push({'resource: mshToMessageHeader(check segment.ensureType(Msh))});
+            }
         }
         "PV2" => {
-            r4:BundleEntry entry = {'resource: pv2ToEncounter(<Pv2>segment)};
-            entries.push(entry);
-            return entries;
+            Pv2ToEncounter? pv2ToEncounter = impl.pv2ToEncounter;
+            if pv2ToEncounter is Pv2ToEncounter {
+                entries.push({'resource: pv2ToEncounter(check segment.ensureType(Pv2))});
+            }
         }
         "OBX" => {
-            r4:BundleEntry entry = {'resource: obxToObservation(<Obx>segment)};
-            entries.push(entry);
-            return entries;
+            ObxToObservation? obxToObservation = impl.obxToObservation;
+            if obxToObservation is ObxToObservation {
+                entries.push({'resource: obxToObservation(check segment.ensureType(Obx))});
+            }
         }
         "ORC" => {
-            r4:BundleEntry entry = {'resource: orcToImmunization(<Orc>segment)};
-            entries.push(entry);
-            return entries;
+            OrcToImmunization? orcToImmunization = impl.orcToImmunization;
+            if orcToImmunization is OrcToImmunization {
+                entries.push({'resource: orcToImmunization(check segment.ensureType(Orc))});
+            }
         }
         "OBR" => {
-            r4:BundleEntry entry = {'resource: obrToDiagnosticReport(<Obr>segment)};
-            entries.push(entry);
-            return entries;
+            ObrToDiagnosticReport? obrToDiagnosticReport = impl.obrToDiagnosticReport;
+            if obrToDiagnosticReport is ObrToDiagnosticReport {
+                entries.push({'resource: obrToDiagnosticReport(check segment.ensureType(Obr))});
+            }
         }
+    } on fail var e {
+        log:printError(string `Error while transforming segment ${segmentName} to FHIR : ${e.detail().toString()}`, e, e.stackTrace());
     }
     return entries;
 }

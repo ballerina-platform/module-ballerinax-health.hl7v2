@@ -21,22 +21,22 @@ import ballerinax/health.fhir.r4;
 # Parameter list: (identifier, comparisonOperator, value list)
 # + antlrList - ANTLR expressions list
 # + return - Return Value Description# 
-function checkComputableAntlr(ANTLR[] antlrList) returns boolean {
+isolated function checkComputableAntlr(ANTLR[] antlrList) returns boolean {
     boolean finalResult = true;
 
     foreach ANTLR antlr in antlrList {
         match antlr.comparisonOperator {
             EQ => {
-                finalResult = finalResult && isContain(antlr.identifier, antlr.valueList);
+                finalResult = finalResult && contains(antlr.identifier, antlr.valueList);
             }
             IN => {
-                finalResult = finalResult && isContain(antlr.identifier, antlr.valueList);
+                finalResult = finalResult && contains(antlr.identifier, antlr.valueList);
             }
             NE => {
-                finalResult = finalResult && !isContain(antlr.identifier, antlr.valueList);
+                finalResult = finalResult && !contains(antlr.identifier, antlr.valueList);
             }
             NIN => {
-                finalResult = finalResult && !isContain(antlr.identifier, antlr.valueList);
+                finalResult = finalResult && !contains(antlr.identifier, antlr.valueList);
             }
         }
     }
@@ -45,12 +45,11 @@ function checkComputableAntlr(ANTLR[] antlrList) returns boolean {
 }
 
 // Comparison Operaions
-function isContain(string x, string[] valueList) returns boolean {
-    foreach string item in valueList {
-        if (item == x) {
-            return true;
-        }
-    }
+isolated function contains(string x, string[] valueList) returns boolean {
+    int? indexOf = valueList.indexOf(x);
+    if indexOf is int {
+        return true;
+    } 
     return false;
 }
 

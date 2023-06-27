@@ -16,7 +16,7 @@
 
 import ballerinax/health.fhir.r4;
 
-function getStringExtension(string[] itemList) returns r4:StringExtension[] {
+isolated function getStringExtension(string[] itemList) returns r4:StringExtension[] {
     r4:StringExtension[] stringExtensions = [];
 
     foreach string item in itemList {

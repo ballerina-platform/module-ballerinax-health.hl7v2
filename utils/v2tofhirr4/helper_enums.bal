@@ -17,7 +17,7 @@
 import ballerinax/health.fhir.r4;
 import ballerinax/health.hl7v23;
 
-public function idToHumanNameUse(Id id) returns r4:HumanNameUse {
+public isolated function idToHumanNameUse(Id id) returns r4:HumanNameUse {
     match id {
         "L" => {
             return "official";
@@ -40,9 +40,9 @@ public function idToHumanNameUse(Id id) returns r4:HumanNameUse {
     }
 }
 
-public function idToAddressType(Id id) returns r4:AddressType => id is r4:AddressType ? id : "postal";
+public isolated function idToAddressType(Id id) returns r4:AddressType => id is r4:AddressType ? id : "postal";
 
-public function idToAddressUse(Id id) returns r4:AddressUse? {
+public isolated function idToAddressUse(Id id) returns r4:AddressUse? {
     match id {
         "O" => {
             return "work";
@@ -63,21 +63,21 @@ public function idToAddressUse(Id id) returns r4:AddressUse? {
     return ();
 }
 
-public function idToContactPointUse(Id id) returns r4:ContactPointUse => id is r4:ContactPointUse ? id : "home";
+public isolated function idToContactPointUse(Id id) returns r4:ContactPointUse => id is r4:ContactPointUse ? id : "home";
 
-public function idToContactPointSystem(Id id) returns r4:ContactPointSystem => id is r4:ContactPointSystem ? id : "phone";
+public isolated function idToContactPointSystem(Id id) returns r4:ContactPointSystem => id is r4:ContactPointSystem ? id : "phone";
 
-public function isToAllergyIntoleranceCategory(Is 'is) returns r4:AllergyIntoleranceCategory => 'is is r4:AllergyIntoleranceCategory ? 'is : "environment";
+public isolated function isToAllergyIntoleranceCategory(Is 'is) returns r4:AllergyIntoleranceCategory => 'is is r4:AllergyIntoleranceCategory ? 'is : "environment";
 
-public function isToAllergyIntoleranceType(string 'is) returns r4:AllergyIntoleranceType => 'is is r4:AllergyIntoleranceType ? 'is : "intolerance";
+public isolated function isToAllergyIntoleranceType(string 'is) returns r4:AllergyIntoleranceType => 'is is r4:AllergyIntoleranceType ? 'is : "intolerance";
 
-public function isToAllergyIntoleranceCriticality(Is 'is) returns r4:AllergyIntoleranceCriticality => 'is is r4:AllergyIntoleranceCriticality ? 'is : "high";
+public isolated function isToAllergyIntoleranceCriticality(Is 'is) returns r4:AllergyIntoleranceCriticality => 'is is r4:AllergyIntoleranceCriticality ? 'is : "high";
 
-public function idToDiagnosticReportStatus(hl7v23:ID id) returns r4:DiagnosticReportStatus => id is r4:DiagnosticReportStatus ? id : "final";
+public isolated function idToDiagnosticReportStatus(hl7v23:ID id) returns r4:DiagnosticReportStatus => id is r4:DiagnosticReportStatus ? id : "final";
 
-public function nameToServiceRequestIntent(string name) returns r4:ServiceRequestIntent => name is r4:ServiceRequestIntent ? name : "proposal";
+public isolated function nameToServiceRequestIntent(string name) returns r4:ServiceRequestIntent => name is r4:ServiceRequestIntent ? name : "proposal";
 
-public function idToServiceRequestPriority(hl7v23:ID id) returns r4:ServiceRequestPriority => id is r4:ServiceRequestPriority ? id : "stat";
+public isolated function idToServiceRequestPriority(hl7v23:ID id) returns r4:ServiceRequestPriority => id is r4:ServiceRequestPriority ? id : "stat";
 
 enum ComparisonOperator {
     EQ, // Matches values that are equal to a specified value.
