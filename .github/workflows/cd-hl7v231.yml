@@ -93,7 +93,7 @@ jobs:
           CURRENT_VERSION=$(grep -Po -m 1 '(?<=version = ")[\d.]+' ./hl7v231/Ballerina.toml)
           IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
           PATCH_VERSION=$((VERSION_PARTS[2] + 1))
-          NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$PATCH_VERSION-snapshot"
+          NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$PATCH_VERSION"
           sed -i "s/version = \"${CURRENT_VERSION}\"/version = \"${NEW_VERSION}\"/" ./hl7v231/Ballerina.toml
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_OUTPUT
 
