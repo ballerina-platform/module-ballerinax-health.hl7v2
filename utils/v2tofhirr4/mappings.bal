@@ -14,6 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/log;
 import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.hl7v23;
 import ballerinax/health.hl7v231;
@@ -24,7 +25,6 @@ import ballerinax/health.hl7v26;
 import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 import ballerinax/health.fhir.r4 as r4;
-import ballerina/log;
 
 # Parse a string to an HL7 message.
 #
@@ -47,9 +47,10 @@ public function v2ToFhir(string|hl7:Message hl7, SegmentToFhir? customMapper = (
     } else {
         hl7msg = hl7;
     }
-    SegmentToFhir mapperImpl = getMapperContext().getDefaultImpl();
-    if customMapper is () {
-        return check transformToFhir(hl7msg, mapperImpl);
+    // SegmentToFhir mapperImpl = getMapperContext().getDefaultImpl();
+    SegmentToFhir mapperImpl = defaultMapperImpl;
+    if customMapper == () {
+        return transformToFhir(hl7msg, mapperImpl);
     }
     foreach string key in customMapper.keys() {
         if customMapper.get(key) != () {
@@ -57,7 +58,7 @@ public function v2ToFhir(string|hl7:Message hl7, SegmentToFhir? customMapper = (
             mapperImpl[key] = customMapper.get(key);
         }
     }
-    return check transformToFhir(hl7msg, mapperImpl);
+    return transformToFhir(hl7msg, mapperImpl);
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -72,7 +73,7 @@ public function v2ToFhir(string|hl7:Message hl7, SegmentToFhir? customMapper = (
 # + return - FHIR Bundle
 public function segmentToFhir(string segmentName, hl7:Segment segment, SegmentToFhir? customMapper) returns r4:BundleEntry[] {
     r4:BundleEntry[] entries = [];
-    SegmentToFhir impl = customMapper != () ? customMapper : getMapperContext().getDefaultImpl();
+    SegmentToFhir impl = customMapper != () ? customMapper : defaultMapperImpl;
     match segmentName {
         "NK1" => {
             Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
