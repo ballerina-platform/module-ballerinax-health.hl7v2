@@ -91,7 +91,8 @@ public type V2SegmentToFhirMapper record {
     OrcToImmunization orcToImmunization?;
 };
 
-SegmentToFhir defaultMapperImpl = {
+// Record initialized with the default mapping functions.
+isolated SegmentToFhir defaultMapperImpl = {
     pv1ToPatient: pv1ToPatient,
     pv1ToEncounter: pv1ToEncounter,
     nk1ToPatient: nk1ToPatient,
