@@ -92,39 +92,19 @@ public type V2SegmentToFhirMapper record {
 };
 
 // Record initialized with the default mapping functions.
-isolated V2SegmentToFhirMapper defaultMapper = {
-    pv1ToPatient: pv1ToPatient,
-    pv1ToEncounter: pv1ToEncounter,
-    nk1ToPatient: nk1ToPatient,
-    pd1ToPatient: pd1ToPatient,
-    pidToPatient: pidToPatient,
-    dg1ToCondition: dg1ToCondition,
-    obxToObservation: obxToObservation,
-    obrToDiagnosticReport: obrToDiagnosticReport,
-    al1ToAllerygyIntolerance: al1ToAllerygyIntolerance,
-    evnToProvenance: evnToProvenance,
-    mshToMessageHeader: mshToMessageHeader,
-    pv2ToEncounter: pv2ToEncounter,
-    orcToImmunization: orcToImmunization
+final readonly & V2SegmentToFhirMapper defaultMapper = {
+    pv1ToPatient,
+    pv1ToEncounter,
+    nk1ToPatient,
+    pd1ToPatient,
+    pidToPatient,
+    dg1ToCondition,
+    obxToObservation,
+    obrToDiagnosticReport,
+    al1ToAllerygyIntolerance,
+    evnToProvenance,
+    mshToMessageHeader,
+    pv2ToEncounter,
+    orcToImmunization
 };
 
-# Context class to hold v2tofhir mapper related context information.
-public class V2ToFhirMapperContext {
-    private V2SegmentToFhirMapper mapperImpl = {
-        pv1ToPatient: pv1ToPatient,
-        pv1ToEncounter: pv1ToEncounter,
-        nk1ToPatient: nk1ToPatient,
-        pd1ToPatient: pd1ToPatient,
-        pidToPatient: pidToPatient,
-        dg1ToCondition: dg1ToCondition,
-        obxToObservation: obxToObservation,
-        obrToDiagnosticReport: obrToDiagnosticReport,
-        al1ToAllerygyIntolerance: al1ToAllerygyIntolerance,
-        evnToProvenance: evnToProvenance,
-        mshToMessageHeader: mshToMessageHeader,
-        pv2ToEncounter: pv2ToEncounter,
-        orcToImmunization: orcToImmunization
-    };
-
-    function getDefaultImpl() returns V2SegmentToFhirMapper => self.mapperImpl;
-}

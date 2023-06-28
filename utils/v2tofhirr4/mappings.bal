@@ -46,7 +46,7 @@ public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper?
     } else {
         hl7msg = hl7;
     }
-    if customMapper is () {
+    if customMapper == () {
         return transformToFhir(hl7msg, defaultMapper);
     }
     V2SegmentToFhirMapper mapper = {...defaultMapper};
