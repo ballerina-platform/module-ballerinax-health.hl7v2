@@ -74,7 +74,7 @@ public type OrcToImmunization function (Orc orc) returns r4:Immunization;
 # + mshToMessageHeader - MSH segment to MessageHeader FHIR resource mapping function  
 # + pv2ToEncounter - PV2 segment to Encounter FHIR resource mapping function  
 # + orcToImmunization - ORC segment to Immunization FHIR resource mapping function
-public type SegmentToFhir record {
+public type V2SegmentToFhirMapper record {
     Pv1ToPatient pv1ToPatient?;
     Pv1ToEncounter pv1ToEncounter?;
     Nk1ToPatient nk1ToPatient?;
@@ -91,7 +91,7 @@ public type SegmentToFhir record {
 };
 
 // Record initialized with the default mapping functions.
-isolated SegmentToFhir defaultMapperImpl = {
+isolated V2SegmentToFhirMapper defaultMapper = {
     pv1ToPatient: pv1ToPatient,
     pv1ToEncounter: pv1ToEncounter,
     nk1ToPatient: nk1ToPatient,

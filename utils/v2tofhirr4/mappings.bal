@@ -40,27 +40,27 @@ public isolated function stringToHl7(string msg) returns hl7:Message|error {
 # + hl7 - HL7 message as a string or an hl7v2:Message  
 # + customMapper - Custom mapper implementation
 # + return - FHIR Bundle as a json
-public isolated function v2ToFhir(string|hl7:Message hl7, SegmentToFhir? customMapper = ()) returns json|error {
+public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper? customMapper = ()) returns json|error {
     hl7:Message hl7msg;
     if (hl7 is string) {
         hl7msg = check stringToHl7(hl7);
     } else {
         hl7msg = hl7;
     }
-    SegmentToFhir mapperImpl;
+    V2SegmentToFhirMapper mapper;
     lock {
-        mapperImpl = defaultMapperImpl.clone();
+        mapper = defaultMapper.clone();
     }
     if customMapper == () {
-        return transformToFhir(hl7msg, mapperImpl.cloneReadOnly());
+        return transformToFhir(hl7msg, mapper.cloneReadOnly());
     }
     foreach string key in customMapper.keys() {
         if customMapper.get(key) != () {
             //binding the custom mapping functions
-            mapperImpl[key] = customMapper.get(key);
+            mapper[key] = customMapper.get(key);
         }
     }
-    return transformToFhir(hl7msg, mapperImpl.cloneReadOnly());
+    return transformToFhir(hl7msg, mapper.cloneReadOnly());
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -73,11 +73,11 @@ public isolated function v2ToFhir(string|hl7:Message hl7, SegmentToFhir? customM
 # + segment - HL7 segment  
 # + customMapper - Custom mapper implementation
 # + return - FHIR Bundle
-public isolated function segmentToFhir(string segmentName, hl7:Segment segment, SegmentToFhir? customMapper) returns r4:BundleEntry[] {
+public isolated function segmentToFhir(string segmentName, hl7:Segment segment, V2SegmentToFhirMapper? customMapper) returns r4:BundleEntry[] {
     r4:BundleEntry[] entries = [];
-    SegmentToFhir impl;
+    V2SegmentToFhirMapper impl;
     lock {
-        impl = customMapper != () ? customMapper.clone() : defaultMapperImpl.clone();
+        impl = customMapper != () ? customMapper.clone() : defaultMapper.clone();
     }
     match segmentName {
         "NK1" => {

@@ -558,7 +558,7 @@ public function nk1ToContact(Nk12 nk12, Nk14 nk14, Nk15 nk15, Nk16 nk16, Nk17 nk
     return patientContact;
 }
 
-isolated function transformToFhir(hl7:Message message, readonly & SegmentToFhir? customMapper) returns json|error {
+isolated function transformToFhir(hl7:Message message, readonly & V2SegmentToFhirMapper? customMapper) returns json|error {
     r4:Bundle bundle = {'type: "searchset"};
     r4:BundleEntry[] entries = [];
     bundle.entry = entries;
