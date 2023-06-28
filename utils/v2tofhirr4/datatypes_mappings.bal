@@ -151,18 +151,12 @@ public isolated function xpnToHumanName(Xpn xpn) returns r4:HumanName {
 };
 
 public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
-    string telephone = "";
-    if xtn is hl7v26:XTN {
-        telephone = xtn.xtn12;
-    } else {
-        telephone = xtn.xtn1;
-    }
     r4:ContactPoint contactPoint = {
         value: checkComputableAntlr([
                 {identifier: xtn.xtn3, comparisonOperator: "NIN", valueList: ["Internet", "X.400"]},
                 {identifier: xtn.xtn7.toString(), comparisonOperator: "IN", valueList: []}
                 //, {identifier: xtn.xtn12, comparisonOperator: "IN", valueList: []}                    //TODO: xtn12 is not defined yet
-            ]) ? telephone :
+            ]) ? ((xtn is hl7v26:XTN)? xtn.xtn12 : xtn.xtn1) :
                 (checkComputableAntlr([{identifier: xtn.xtn3, comparisonOperator: "NIN", valueList: ["Internet", "X.400"]}])) ? (xtn.xtn4) : (),
         use: idToContactPointUse(xtn.xtn2),
         system: idToContactPointSystem(xtn.xtn3),

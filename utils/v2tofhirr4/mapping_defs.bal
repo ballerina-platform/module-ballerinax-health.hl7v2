@@ -92,7 +92,7 @@ public type V2SegmentToFhirMapper record {
 };
 
 // Record initialized with the default mapping functions.
-isolated SegmentToFhir defaultMapperImpl = {
+isolated V2SegmentToFhirMapper defaultMapper = {
     pv1ToPatient: pv1ToPatient,
     pv1ToEncounter: pv1ToEncounter,
     nk1ToPatient: nk1ToPatient,
