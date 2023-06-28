@@ -30,10 +30,7 @@ import ballerinax/health.fhir.r4 as r4;
 #
 # + msg - HL7 message as a string
 # + return - hl7v2:Message
-public isolated function stringToHl7(string msg) returns hl7:Message|error {
-    hl7:Message hl7msg = check hl7:parse(msg);
-    return hl7msg;
-}
+public isolated function stringToHl7(string msg) returns hl7:Message|error => check hl7:parse(msg);
 
 # Transform an HL7 message to FHIR.
 #
@@ -47,20 +44,14 @@ public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper?
     } else {
         hl7msg = hl7;
     }
-    V2SegmentToFhirMapper mapper;
-    lock {
-        mapper = defaultMapper.clone();
-    }
     if customMapper == () {
-        return transformToFhir(hl7msg, mapper.cloneReadOnly());
+        return transformToFhir(hl7msg, defaultMapper);
     }
+    V2SegmentToFhirMapper mapper = {...defaultMapper};
     foreach string key in customMapper.keys() {
-        if customMapper.get(key) != () {
-            //binding the custom mapping functions
-            mapper[key] = customMapper.get(key);
-        }
+        mapper[key] = customMapper.get(key);
     }
-    return transformToFhir(hl7msg, mapper.cloneReadOnly());
+    return transformToFhir(hl7msg, mapper);
 }
 
 // --------------------------------------------------------------------------------------------#
