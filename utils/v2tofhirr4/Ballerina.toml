@@ -1,9 +1,64 @@
 [package]
 authors = ["Ballerina"]
-distribution = "2201.5.0"
+distribution = "2201.6.0"
 export = ["health.hl7v2.utils.v2tofhirr4"]
 keywords = ["Healthcare", "HL7", "FHIR"]
 name = "health.hl7v2.utils.v2tofhirr4"
 org = "ballerinax"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
-version = "1.0.2"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v2"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v23"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v231"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v24"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v25"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v251"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v26"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v27"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v271"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v28"
+version = "2.0.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.fhir.r4"
+version = "2.0.0"
