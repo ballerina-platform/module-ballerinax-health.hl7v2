@@ -74,7 +74,7 @@ public type OrcToImmunization function (Orc orc) returns r4:Immunization;
 # + mshToMessageHeader - MSH segment to MessageHeader FHIR resource mapping function  
 # + pv2ToEncounter - PV2 segment to Encounter FHIR resource mapping function  
 # + orcToImmunization - ORC segment to Immunization FHIR resource mapping function
-public type SegmentToFhir record {
+public type V2SegmentToFhirMapper record {
     Pv1ToPatient pv1ToPatient?;
     Pv1ToEncounter pv1ToEncounter?;
     Nk1ToPatient nk1ToPatient?;
@@ -92,7 +92,7 @@ public type SegmentToFhir record {
 
 # Context class to hold v2tofhir mapper related context information.
 public class V2ToFhirMapperContext {
-    private SegmentToFhir mapperImpl = {
+    private V2SegmentToFhirMapper mapperImpl = {
         pv1ToPatient: pv1ToPatient,
         pv1ToEncounter: pv1ToEncounter,
         nk1ToPatient: nk1ToPatient,
@@ -108,5 +108,5 @@ public class V2ToFhirMapperContext {
         orcToImmunization: orcToImmunization
     };
 
-    function getDefaultImpl() returns SegmentToFhir => self.mapperImpl;
+    function getDefaultImpl() returns V2SegmentToFhirMapper => self.mapperImpl;
 }
