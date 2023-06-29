@@ -40,14 +40,14 @@ public function stringToHl7(string msg) returns hl7:Message|error {
 # + hl7 - HL7 message as a string or an hl7v2:Message  
 # + customMapper - Custom mapper implementation
 # + return - FHIR Bundle as a json
-public function v2ToFhir(string|hl7:Message hl7, SegmentToFhir? customMapper = ()) returns json|error {
+public function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper? customMapper = ()) returns json|error {
     hl7:Message hl7msg;
     if (hl7 is string) {
         hl7msg = check stringToHl7(hl7);
     } else {
         hl7msg = hl7;
     }
-    SegmentToFhir mapperImpl = getMapperContext().getDefaultImpl();
+    V2SegmentToFhirMapper mapperImpl = getMapperContext().getDefaultImpl();
     if customMapper is () {
         return check transformToFhir(hl7msg, mapperImpl);
     }
@@ -70,9 +70,9 @@ public function v2ToFhir(string|hl7:Message hl7, SegmentToFhir? customMapper = (
 # + segment - HL7 segment  
 # + customMapper - Custom mapper implementation
 # + return - FHIR Bundle
-public function segmentToFhir(string segmentName, hl7:Segment segment, SegmentToFhir? customMapper) returns r4:BundleEntry[] {
+public function segmentToFhir(string segmentName, hl7:Segment segment, V2SegmentToFhirMapper? customMapper) returns r4:BundleEntry[] {
     r4:BundleEntry[] entries = [];
-    SegmentToFhir impl = customMapper != () ? customMapper : getMapperContext().getDefaultImpl();
+    V2SegmentToFhirMapper impl = customMapper != () ? customMapper : getMapperContext().getDefaultImpl();
     match segmentName {
         "NK1" => {
             Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
