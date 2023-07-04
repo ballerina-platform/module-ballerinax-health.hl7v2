@@ -25,6 +25,7 @@ import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 import ballerinax/health.fhir.r4 as r4;
 import ballerina/log;
+import ballerinax/health.hl7v2commons;
 
 # Parse a string to an HL7 message.
 #
@@ -77,77 +78,77 @@ public function segmentToFhir(string segmentName, hl7:Segment segment, V2Segment
         "NK1" => {
             Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
             if nk1ToPatient is Nk1ToPatient {
-                entries.push({'resource: nk1ToPatient(check segment.ensureType(Nk1))});
+                entries.push({'resource: nk1ToPatient(check segment.ensureType(hl7v2commons:Nk1))});
             }
         }
         "PD1" => {
             Pd1ToPatient? pd1ToPatient = impl.pd1ToPatient;
             if pd1ToPatient is Pd1ToPatient {
-                entries.push({'resource: pd1ToPatient(check segment.ensureType(Pd1))});
+                entries.push({'resource: pd1ToPatient(check segment.ensureType(hl7v2commons:Pd1))});
             }
         }
         "PID" => {
             PidToPatient? pidToPatient = impl.pidToPatient;
             if pidToPatient is PidToPatient {
-                entries.push({'resource: pidToPatient(check segment.ensureType(Pid))});
+                entries.push({'resource: pidToPatient(check segment.ensureType(hl7v2commons:Pid))});
             }
         }
         "PV1" => {
             Pv1ToPatient? pv1ToPatientResult = impl.pv1ToPatient;
             if pv1ToPatientResult is Pv1ToPatient {
-                entries.push({'resource: pv1ToPatientResult(check segment.ensureType(Pv1))});
+                entries.push({'resource: pv1ToPatientResult(check segment.ensureType(hl7v2commons:Pv1))});
             }
             Pv1ToEncounter? pv1ToEncounterResult = impl.pv1ToEncounter;
             if pv1ToEncounterResult is Pv1ToEncounter {
-                entries.push({'resource: pv1ToEncounterResult(check segment.ensureType(Pv1))});
+                entries.push({'resource: pv1ToEncounterResult(check segment.ensureType(hl7v2commons:Pv1))});
             }
         }
         "DG1" => {
             Dg1ToCondition? dg1ToCondition = impl.dg1ToCondition;
             if dg1ToCondition is Dg1ToCondition {
-                entries.push({'resource: dg1ToCondition(check segment.ensureType(Dg1))});
+                entries.push({'resource: dg1ToCondition(check segment.ensureType(hl7v2commons:Dg1))});
             }
         }
         "AL1" => {
             Al1ToAllerygyIntolerance? al1ToAllerygyIntolerance = impl.al1ToAllerygyIntolerance;
             if al1ToAllerygyIntolerance is Al1ToAllerygyIntolerance {
-                entries.push({'resource: al1ToAllerygyIntolerance(check segment.ensureType(Al1))});
+                entries.push({'resource: al1ToAllerygyIntolerance(check segment.ensureType(hl7v2commons:Al1))});
             }
         }
         "EVN" => {
             EvnToProvenance? evnToProvenance = impl.evnToProvenance;
             if evnToProvenance is EvnToProvenance {
-                entries.push({'resource: evnToProvenance(check segment.ensureType(Evn))});
+                entries.push({'resource: evnToProvenance(check segment.ensureType(hl7v2commons:Evn))});
             }
         }
         "MSH" => {
             MshToMessageHeader? mshToMessageHeader = impl.mshToMessageHeader;
             if mshToMessageHeader is MshToMessageHeader {
-                entries.push({'resource: mshToMessageHeader(check segment.ensureType(Msh))});
+                entries.push({'resource: mshToMessageHeader(check segment.ensureType(hl7v2commons:Msh))});
             }
         }
         "PV2" => {
             Pv2ToEncounter? pv2ToEncounter = impl.pv2ToEncounter;
             if pv2ToEncounter is Pv2ToEncounter {
-                entries.push({'resource: pv2ToEncounter(check segment.ensureType(Pv2))});
+                entries.push({'resource: pv2ToEncounter(check segment.ensureType(hl7v2commons:Pv2))});
             }
         }
         "OBX" => {
             ObxToObservation? obxToObservation = impl.obxToObservation;
             if obxToObservation is ObxToObservation {
-                entries.push({'resource: obxToObservation(check segment.ensureType(Obx))});
+                entries.push({'resource: obxToObservation(check segment.ensureType(hl7v2commons:Obx))});
             }
         }
         "ORC" => {
             OrcToImmunization? orcToImmunization = impl.orcToImmunization;
             if orcToImmunization is OrcToImmunization {
-                entries.push({'resource: orcToImmunization(check segment.ensureType(Orc))});
+                entries.push({'resource: orcToImmunization(check segment.ensureType(hl7v2commons:Orc))});
             }
         }
         "OBR" => {
             ObrToDiagnosticReport? obrToDiagnosticReport = impl.obrToDiagnosticReport;
             if obrToDiagnosticReport is ObrToDiagnosticReport {
-                entries.push({'resource: obrToDiagnosticReport(check segment.ensureType(Obr))});
+                entries.push({'resource: obrToDiagnosticReport(check segment.ensureType(hl7v2commons:Obr))});
             }
         }
     } on fail var e {
@@ -156,7 +157,7 @@ public function segmentToFhir(string segmentName, hl7:Segment segment, V2Segment
     return entries;
 }
 
-public function mshToMessageHeader(Msh msh) returns r4:MessageHeader => {
+public function mshToMessageHeader(hl7v2commons:Msh msh) returns r4:MessageHeader => {
     'source: hdToMessageHeaderSource(msh.msh3),
     destination: [hdToMessageHeaderDestination(msh.msh5)],
     eventCoding: (msh.msh9 is hl7v23:CM_MSG) ? msgToCoding(<hl7v23:CM_MSG>msh.msh9) : {},
@@ -165,7 +166,7 @@ public function mshToMessageHeader(Msh msh) returns r4:MessageHeader => {
 };
 
 // --- Patient Administation
-public function al1ToAllerygyIntolerance(Al1 al1) returns r4:AllergyIntolerance {
+public function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns r4:AllergyIntolerance {
     r4:Coding[] coding = [
         {
             code: al1.al11.toString(),
@@ -288,7 +289,7 @@ public function al1ToAllerygyIntolerance(Al1 al1) returns r4:AllergyIntolerance 
 };
 
 // TODO: Ballerina FHIR EVN and HL7 EVN is different for some fields
-public function evnToProvenance(Evn evn) returns r4:Provenance {
+public function evnToProvenance(hl7v2commons:Evn evn) returns r4:Provenance {
     r4:Coding[] coding = [
         {
             display: evn.name
@@ -389,11 +390,11 @@ public function evnToProvenance(Evn evn) returns r4:Provenance {
     return provenance;
 };
 
-public function nk1ToPatient(Nk1 nk1) returns r4:Patient => {
+public function nk1ToPatient(hl7v2commons:Nk1 nk1) returns r4:Patient => {
     contact: nk1ToContact(nk1.nk12, nk1.nk14, nk1.nk15, nk1.nk16, nk1.nk17, nk1.nk18, nk1.nk19, nk1.nk113, nk1.nk115, nk1.nk130, nk1.nk131, nk1.nk132)
 };
 
-public function pd1ToPatient(Pd1 pd1) returns r4:Patient {
+public function pd1ToPatient(hl7v2commons:Pd1 pd1) returns r4:Patient {
     r4:Reference[] generalPractitioner = [];
     r4:Extension[]? extension = [];
     if pd1 is hl7v27:PD1 {
@@ -409,7 +410,7 @@ public function pd1ToPatient(Pd1 pd1) returns r4:Patient {
     };
 };
 
-public function pidToPatient(Pid pid) returns r4:Patient {
+public function pidToPatient(hl7v2commons:Pid pid) returns r4:Patient {
     r4:HumanName[] name = [];
     string birthDate = "";
     string deceasedDateTime = "";
@@ -451,7 +452,7 @@ public function pidToPatient(Pid pid) returns r4:Patient {
     return patient;
 };
 
-public function pv1ToPatient(Pv1 pv1) returns r4:Patient {
+public function pv1ToPatient(hl7v2commons:Pv1 pv1) returns r4:Patient {
     string extension = "";
 
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
@@ -464,7 +465,7 @@ public function pv1ToPatient(Pv1 pv1) returns r4:Patient {
     };
 };
 
-public function pv1ToEncounter(Pv1 pv1) returns r4:Encounter {
+public function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns r4:Encounter {
     string location1Display = "";
     string location1Status = "";
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
@@ -888,7 +889,7 @@ public function pv1ToEncounter(Pv1 pv1) returns r4:Encounter {
     return encounter;
 };
 
-public function pv2ToEncounter(Pv2 pv2) returns r4:Encounter {
+public function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns r4:Encounter {
     string display = "";
     if pv2 is hl7v23:PV2|hl7v231:PV2|hl7v24:PV2|hl7v25:PV2|hl7v251:PV2|hl7v26:PV2 {
         display = pv2.pv21.pl1;
@@ -988,7 +989,7 @@ public function pv2ToEncounter(Pv2 pv2) returns r4:Encounter {
 };
 
 // --- Financial Management ---
-public function dg1ToCondition(Dg1 dg1) returns r4:Condition {
+public function dg1ToCondition(hl7v2commons:Dg1 dg1) returns r4:Condition {
     r4:CodeableConcept code = {};
     string onsetDateTime = "";
     string recordedDate = "";
@@ -1009,7 +1010,7 @@ public function dg1ToCondition(Dg1 dg1) returns r4:Condition {
     };
 }
 
-public function obxToObservation(Obx obx) returns r4:Observation {
+public function obxToObservation(hl7v2commons:Obx obx) returns r4:Observation {
     r4:CodeableConcept code = {};
     r4:dateTime effectiveDateTime = "";
     r4:CodeableConcept method = {};
@@ -1034,7 +1035,7 @@ public function obxToObservation(Obx obx) returns r4:Observation {
     };
 };
 
-public function obrToDiagnosticReport(Obr obr) returns r4:DiagnosticReport {
+public function obrToDiagnosticReport(hl7v2commons:Obr obr) returns r4:DiagnosticReport {
     r4:CodeableConcept code = {};
     r4:dateTime effectiveDateTime = "";
     r4:dateTime effectivePeriodStart = "";
@@ -1074,7 +1075,7 @@ public function obrToDiagnosticReport(Obr obr) returns r4:DiagnosticReport {
     return diagnosticReport;
 };
 
-public function obrToServiceRequest(Obr obr) returns r4:ServiceRequest {
+public function obrToServiceRequest(hl7v2commons:Obr obr) returns r4:ServiceRequest {
     r4:CodeableConcept code = {};
     r4:dateTime occurrenceDateTime = "";
     r4:CodeableConcept reasonCode = {};
@@ -1102,7 +1103,7 @@ public function obrToServiceRequest(Obr obr) returns r4:ServiceRequest {
     };
 };
 
-public function orcToDiagnosticReport(Orc orc) returns r4:DiagnosticReport {
+public function orcToDiagnosticReport(hl7v2commons:Orc orc) returns r4:DiagnosticReport {
     // Identifier
     r4:Identifier[] identifierList = [];
 
@@ -1170,7 +1171,7 @@ public function orcToDiagnosticReport(Orc orc) returns r4:DiagnosticReport {
     return diagnosticReport;
 };
 
-public function orcToImmunization(Orc orc) returns r4:Immunization {
+public function orcToImmunization(hl7v2commons:Orc orc) returns r4:Immunization {
     // Identifier
     r4:Identifier[] identifierList = [];
     r4:Identifier id1 = {};
