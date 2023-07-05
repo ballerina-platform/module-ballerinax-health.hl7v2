@@ -25,7 +25,6 @@ import ballerinax/health.hl7v26;
 import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 import ballerinax/health.fhir.r4 as r4;
-import ballerina/log;
 import ballerinax/health.hl7v2commons;
 
 # Parse a string to an HL7 message.
@@ -60,7 +59,7 @@ public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper?
 // Source HL7 Version 2 to FHIR - Segment Maps
 // URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/segment_maps.html
 // --------------------------------------------------------------------------------------------#
-# Transform an HL7 segment to FHIR.
+# Transform an HL7 segment to FHIR Bundle.
 #
 # + segmentName - Name of the HL7 segment  
 # + segment - HL7 segment  
