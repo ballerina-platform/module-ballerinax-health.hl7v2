@@ -27,10 +27,6 @@ import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.fhir.r4 as r4;
 import ballerinax/health.hl7v2commons;
 
-final V2ToFhirMapperContext context = new;
-
-public function getMapperContext() returns V2ToFhirMapperContext => context;
-
 public function pidToAdministrativeSex(string pid8) returns r4:PatientGender {
     match pid8 {
         "M" => {
@@ -564,15 +560,14 @@ public function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 nk14, hl7
     return patientContact;
 }
 
-function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMapper) returns json|error {
+isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMapper) returns json|error {
     r4:Bundle bundle = {'type: "searchset"};
     r4:BundleEntry[] entries = [];
     bundle.entry = entries;
-
-    message.entries().forEach(function(anydata triggerEventField) {
+    foreach anydata segmentField in message.entries() {
         string key;
         anydata segment;
-        [key, segment] = <[string, anydata]>triggerEventField;
+        [key, segment] = <[string, anydata]>segmentField;
         do {
             if segment is hl7:Segment {
                 r4:BundleEntry[] bundleEntries = segmentToFhir(segment.name, segment, customMapper);
@@ -589,7 +584,7 @@ function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMappe
                 }
             }
             if segment is hl7:SegmentComponent {
-                segment.entries().forEach(function(anydata segmentComponentField) {
+                foreach anydata segmentComponentField in segment.entries() {
                     // string groupKey;
                     anydata segmentComponent;
                     [_, segmentComponent] = <[string, anydata]>segmentComponentField;
@@ -599,13 +594,13 @@ function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMappe
                             entries.push(entry);
                         }
                     }
-                });
+                }
             }
         } on fail error e {
             log:printError(string `Error occurred while converting [segment] ${key} to FHIR.
             Continuing to next segment..`, e, e.stackTrace());
         }
-    });
+    }
     if entries.length() > 0 {
         return bundle.toJson();
     }

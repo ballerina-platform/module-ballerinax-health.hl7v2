@@ -14,6 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/lang.array;
 import ballerinax/health.fhir.r4;
 
 # Computable ANTLR checker
@@ -45,13 +46,7 @@ isolated function checkComputableAntlr(ANTLR[] antlrList) returns boolean {
 }
 
 // Comparison Operaions
-isolated function contains(string x, string[] valueList) returns boolean {
-    int? indexOf = valueList.indexOf(x);
-    if indexOf is int {
-        return true;
-    } 
-    return false;
-}
+isolated function contains(string x, string[] valueList) returns boolean => array:some(valueList, n => n == x);
 
 // This utility function is used to construct the OperationOutcome resource for error scenarios.
 isolated function getOperationOutcome(string detail) returns json {
