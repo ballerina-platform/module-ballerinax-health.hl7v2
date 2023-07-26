@@ -22,43 +22,43 @@ import ballerinax/health.hl7v2commons;
 # ####################################################################################################
 
 # Mapping function type for PV1 segment to Patient FHIR resource.
-public type Pv1ToPatient function (hl7v2commons:Pv1 pv1) returns r4:Patient;
+public type Pv1ToPatient isolated function (hl7v2commons:Pv1 pv1) returns r4:Patient;
 
 # Mapping function type for PV1 segment to Encounter FHIR resource.
-public type Pv1ToEncounter function (hl7v2commons:Pv1 pv1) returns r4:Encounter;
+public type Pv1ToEncounter isolated function (hl7v2commons:Pv1 pv1) returns r4:Encounter;
 
 # Mapping function type for NK1 segment to Patient FHIR resource.
-public type Nk1ToPatient function (hl7v2commons:Nk1 nk1) returns r4:Patient;
+public type Nk1ToPatient isolated function (hl7v2commons:Nk1 nk1) returns r4:Patient;
 
 # Mapping function type for PD1 segment to Patient FHIR resource.
-public type Pd1ToPatient function (hl7v2commons:Pd1 pd1) returns r4:Patient;
+public type Pd1ToPatient isolated function (hl7v2commons:Pd1 pd1) returns r4:Patient;
 
 # Mapping function type for PID segment to Patient FHIR resource.
-public type PidToPatient function (hl7v2commons:Pid pid) returns r4:Patient;
+public type PidToPatient isolated function (hl7v2commons:Pid pid) returns r4:Patient;
 
 # Mapping function type for DG1 segment to Condition FHIR resource.
-public type Dg1ToCondition function (hl7v2commons:Dg1 dg1) returns r4:Condition;
+public type Dg1ToCondition isolated function (hl7v2commons:Dg1 dg1) returns r4:Condition;
 
 # Mapping function type for OBX segment to Observation FHIR resource.
-public type ObxToObservation function (hl7v2commons:Obx obx) returns r4:Observation;
+public type ObxToObservation isolated function (hl7v2commons:Obx obx) returns r4:Observation;
 
 # Mapping function type for OBR segment to DiagnosticReport FHIR resource.
-public type ObrToDiagnosticReport function (hl7v2commons:Obr obr) returns r4:DiagnosticReport;
+public type ObrToDiagnosticReport isolated function (hl7v2commons:Obr obr) returns r4:DiagnosticReport;
 
 # Mapping function type for AL1 segment to AllergyIntolerance FHIR resource.
-public type Al1ToAllerygyIntolerance function (hl7v2commons:Al1 al1) returns r4:AllergyIntolerance;
+public type Al1ToAllerygyIntolerance isolated function (hl7v2commons:Al1 al1) returns r4:AllergyIntolerance;
 
 # Mapping function type for EVN segment to Provenance FHIR resource.
-public type EvnToProvenance function (hl7v2commons:Evn evn) returns r4:Provenance;
+public type EvnToProvenance isolated function (hl7v2commons:Evn evn) returns r4:Provenance;
 
 # Mapping function type for MSH segment to MessageHeader FHIR resource.
-public type MshToMessageHeader function (hl7v2commons:Msh msh) returns r4:MessageHeader;
+public type MshToMessageHeader isolated function (hl7v2commons:Msh msh) returns r4:MessageHeader;
 
 # Mapping function type for PV2 segment to Encounter FHIR resource.
-public type Pv2ToEncounter function (hl7v2commons:Pv2 pv2) returns r4:Encounter;
+public type Pv2ToEncounter isolated function (hl7v2commons:Pv2 pv2) returns r4:Encounter;
 
 # Mapping function type for ORC segment to Immunization FHIR resource.
-public type OrcToImmunization function (hl7v2commons:Orc orc) returns r4:Immunization;
+public type OrcToImmunization isolated function (hl7v2commons:Orc orc) returns r4:Immunization;
 
 # V2toFHIR Mapper function implementation holder record.
 #

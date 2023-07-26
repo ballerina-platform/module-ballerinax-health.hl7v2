@@ -27,7 +27,7 @@ import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.fhir.r4 as r4;
 import ballerinax/health.hl7v2commons;
 
-public function pidToAdministrativeSex(string pid8) returns r4:PatientGender {
+public isolated function pidToAdministrativeSex(string pid8) returns r4:PatientGender {
     match pid8 {
         "M" => {
             return "male";
@@ -47,7 +47,7 @@ public function pidToAdministrativeSex(string pid8) returns r4:PatientGender {
     }
 }
 
-public function pidToPatientName(hl7v2commons:Pid5 pid5, hl7v2commons:Pid9 pid9) returns r4:HumanName[] {
+public isolated function pidToPatientName(hl7v2commons:Pid5 pid5, hl7v2commons:Pid9 pid9) returns r4:HumanName[] {
     r4:HumanName[] humanNames = [];
     if pid5 is hl7v23:XPN[] {
         foreach hl7v23:XPN item in pid5 {
@@ -112,7 +112,7 @@ public function pidToPatientName(hl7v2commons:Pid5 pid5, hl7v2commons:Pid9 pid9)
     return humanNames;
 }
 
-public function pidToAddress(string pid12, hl7v2commons:Pid11 pid11) returns r4:Address[] {
+public isolated function pidToAddress(string pid12, hl7v2commons:Pid11 pid11) returns r4:Address[] {
     r4:Address[] address = [];
     if pid12 != "" {
         address.push({district: pid12});
@@ -147,7 +147,7 @@ public function pidToAddress(string pid12, hl7v2commons:Pid11 pid11) returns r4:
     return address;
 }
 
-public function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons:Pid14 pid14) returns r4:ContactPoint[] {
+public isolated function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons:Pid14 pid14) returns r4:ContactPoint[] {
     r4:ContactPoint[] phoneNumbers = [];
 
     //get ContactPointFromXTN use this
@@ -200,7 +200,7 @@ public function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons:Pid14 pi
     return phoneNumbers;
 }
 
-public function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns r4:PatientCommunication[] {
+public isolated function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns r4:PatientCommunication[] {
     string id = "";
     string text = "";
 
@@ -227,7 +227,7 @@ public function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns r4:Patien
     return [];
 }
 
-public function pidToMaritalStatus(hl7v2commons:Pid16 pid16) returns r4:Coding[] {
+public isolated function pidToMaritalStatus(hl7v2commons:Pid16 pid16) returns r4:Coding[] {
     r4:Coding[] maritialStatues = [];
     if pid16 is hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE {
         maritialStatues = [{code: pid16.ce1}];
@@ -239,7 +239,7 @@ public function pidToMaritalStatus(hl7v2commons:Pid16 pid16) returns r4:Coding[]
     return maritialStatues;
 }
 
-public function pidToSsnNumberIdentifier(string pid19) returns r4:Identifier[] {
+public isolated function pidToSsnNumberIdentifier(string pid19) returns r4:Identifier[] {
     r4:Identifier[] identifier = [];
     if pid19 != "" {
         identifier.push({value: pid19});
@@ -247,13 +247,13 @@ public function pidToSsnNumberIdentifier(string pid19) returns r4:Identifier[] {
     return identifier;
 }
 
-public function pidToBirthPlace(string pid23) returns r4:Extension[] {
+public isolated function pidToBirthPlace(string pid23) returns r4:Extension[] {
     r4:StringExtension[] extension = [{url: pid23, valueString: pid23}];
 
     return extension;
 }
 
-public function pidToMultipleBirthIndicator(string pid24) returns boolean {
+public isolated function pidToMultipleBirthIndicator(string pid24) returns boolean {
     match pid24 {
         "N" => {
             return false;
@@ -267,7 +267,7 @@ public function pidToMultipleBirthIndicator(string pid24) returns boolean {
     }
 }
 
-public function pidToBirthOrder(float|string pid25) returns int {
+public isolated function pidToBirthOrder(float|string pid25) returns int {
 
     if pid25 is float {
         return <int>pid25;
@@ -282,7 +282,7 @@ public function pidToBirthOrder(float|string pid25) returns int {
     }
 }
 
-public function pidToPatientDeathIndicator(string pid30) returns boolean {
+public isolated function pidToPatientDeathIndicator(string pid30) returns boolean {
     match pid30 {
         "false" => {
             return false;
@@ -297,7 +297,7 @@ public function pidToPatientDeathIndicator(string pid30) returns boolean {
 }
 
 // PV1
-public function pv1ToExtension(string pv116) returns r4:Extension[] {
+public isolated function pv1ToExtension(string pv116) returns r4:Extension[] {
     r4:CodeableConcept codeableConcept = {text: pv116};
     r4:CodeableConceptExtension[] extension = [{url: pv116, valueCodeableConcept: codeableConcept}];
 
@@ -305,7 +305,7 @@ public function pv1ToExtension(string pv116) returns r4:Extension[] {
 }
 
 // PD1
-public function pd1ToGeneralPractitioner(hl7v2commons:Pd13 pd13, hl7v2commons:Pd14 pd14) returns r4:Reference[] {
+public isolated function pd1ToGeneralPractitioner(hl7v2commons:Pd13 pd13, hl7v2commons:Pd14 pd14) returns r4:Reference[] {
     r4:Reference[] reference = [];
 
     if pd13 is hl7v23:XON[] {
@@ -439,14 +439,14 @@ public function pd1ToGeneralPractitioner(hl7v2commons:Pd13 pd13, hl7v2commons:Pd
     return reference;
 }
 
-public function pd1ToExtension(string pd16) returns r4:Extension[] {
+public isolated function pd1ToExtension(string pd16) returns r4:Extension[] {
     r4:CodeableConcept codeableConcept = {text: pd16};
     r4:CodeableConceptExtension[] extension = [{url: pd16, valueCodeableConcept: codeableConcept}];
 
     return extension;
 }
 
-public function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 nk14, hl7v2commons:Nk15 nk15, hl7v2commons:Nk16 nk16, hl7v2commons:Nk17 nk17,
+public isolated function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 nk14, hl7v2commons:Nk15 nk15, hl7v2commons:Nk16 nk16, hl7v2commons:Nk17 nk17,
         hl7v2commons:Nk18 nk18, hl7v2commons:Nk19 nk19, hl7v2commons:Nk113 nk113, hl7v2commons:Nk115 nk115, hl7v2commons:Nk130 nk130,
         hl7v2commons:Nk131 nk131, hl7v2commons:Nk132 nk132) returns r4:PatientContact[] {
     r4:PatientContact[] patientContact = [];

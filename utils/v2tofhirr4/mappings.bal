@@ -154,7 +154,7 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
     return entries;
 }
 
-public function mshToMessageHeader(hl7v2commons:Msh msh) returns r4:MessageHeader => {
+public isolated function mshToMessageHeader(hl7v2commons:Msh msh) returns r4:MessageHeader => {
     'source: hdToMessageHeaderSource(msh.msh3),
     destination: [hdToMessageHeaderDestination(msh.msh5)],
     eventCoding: (msh.msh9 is hl7v23:CM_MSG) ? msgToCoding(<hl7v23:CM_MSG>msh.msh9) : {},
@@ -163,7 +163,7 @@ public function mshToMessageHeader(hl7v2commons:Msh msh) returns r4:MessageHeade
 };
 
 // --- Patient Administation
-public function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns r4:AllergyIntolerance {
+public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns r4:AllergyIntolerance {
     r4:Coding[] coding = [
         {
             code: al1.al11.toString(),
@@ -286,7 +286,7 @@ public function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns r4:Allerg
 };
 
 // TODO: Ballerina FHIR EVN and HL7 EVN is different for some fields
-public function evnToProvenance(hl7v2commons:Evn evn) returns r4:Provenance {
+public isolated function evnToProvenance(hl7v2commons:Evn evn) returns r4:Provenance {
     r4:Coding[] coding = [
         {
             display: evn.name
@@ -387,11 +387,11 @@ public function evnToProvenance(hl7v2commons:Evn evn) returns r4:Provenance {
     return provenance;
 };
 
-public function nk1ToPatient(hl7v2commons:Nk1 nk1) returns r4:Patient => {
+public isolated function nk1ToPatient(hl7v2commons:Nk1 nk1) returns r4:Patient => {
     contact: nk1ToContact(nk1.nk12, nk1.nk14, nk1.nk15, nk1.nk16, nk1.nk17, nk1.nk18, nk1.nk19, nk1.nk113, nk1.nk115, nk1.nk130, nk1.nk131, nk1.nk132)
 };
 
-public function pd1ToPatient(hl7v2commons:Pd1 pd1) returns r4:Patient {
+public isolated function pd1ToPatient(hl7v2commons:Pd1 pd1) returns r4:Patient {
     r4:Reference[] generalPractitioner = [];
     r4:Extension[]? extension = [];
     if pd1 is hl7v27:PD1 {
@@ -407,7 +407,7 @@ public function pd1ToPatient(hl7v2commons:Pd1 pd1) returns r4:Patient {
     };
 };
 
-public function pidToPatient(hl7v2commons:Pid pid) returns r4:Patient {
+public isolated function pidToPatient(hl7v2commons:Pid pid) returns r4:Patient {
     r4:HumanName[] name = [];
     string birthDate = "";
     string deceasedDateTime = "";
@@ -449,7 +449,7 @@ public function pidToPatient(hl7v2commons:Pid pid) returns r4:Patient {
     return patient;
 };
 
-public function pv1ToPatient(hl7v2commons:Pv1 pv1) returns r4:Patient {
+public isolated function pv1ToPatient(hl7v2commons:Pv1 pv1) returns r4:Patient {
     string extension = "";
 
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
@@ -462,7 +462,7 @@ public function pv1ToPatient(hl7v2commons:Pv1 pv1) returns r4:Patient {
     };
 };
 
-public function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns r4:Encounter {
+public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns r4:Encounter {
     string location1Display = "";
     string location1Status = "";
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
@@ -886,7 +886,7 @@ public function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns r4:Encounter {
     return encounter;
 };
 
-public function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns r4:Encounter {
+public isolated function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns r4:Encounter {
     string display = "";
     if pv2 is hl7v23:PV2|hl7v231:PV2|hl7v24:PV2|hl7v25:PV2|hl7v251:PV2|hl7v26:PV2 {
         display = pv2.pv21.pl1;
@@ -986,7 +986,7 @@ public function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns r4:Encounter {
 };
 
 // --- Financial Management ---
-public function dg1ToCondition(hl7v2commons:Dg1 dg1) returns r4:Condition {
+public isolated function dg1ToCondition(hl7v2commons:Dg1 dg1) returns r4:Condition {
     r4:CodeableConcept code = {};
     string onsetDateTime = "";
     string recordedDate = "";
@@ -1007,7 +1007,7 @@ public function dg1ToCondition(hl7v2commons:Dg1 dg1) returns r4:Condition {
     };
 }
 
-public function obxToObservation(hl7v2commons:Obx obx) returns r4:Observation {
+public isolated function obxToObservation(hl7v2commons:Obx obx) returns r4:Observation {
     r4:CodeableConcept code = {};
     r4:dateTime effectiveDateTime = "";
     r4:CodeableConcept method = {};
@@ -1032,7 +1032,7 @@ public function obxToObservation(hl7v2commons:Obx obx) returns r4:Observation {
     };
 };
 
-public function obrToDiagnosticReport(hl7v2commons:Obr obr) returns r4:DiagnosticReport {
+public isolated function obrToDiagnosticReport(hl7v2commons:Obr obr) returns r4:DiagnosticReport {
     r4:CodeableConcept code = {};
     r4:dateTime effectiveDateTime = "";
     r4:dateTime effectivePeriodStart = "";
@@ -1168,7 +1168,7 @@ public function orcToDiagnosticReport(hl7v2commons:Orc orc) returns r4:Diagnosti
     return diagnosticReport;
 };
 
-public function orcToImmunization(hl7v2commons:Orc orc) returns r4:Immunization {
+public isolated function orcToImmunization(hl7v2commons:Orc orc) returns r4:Immunization {
     // Identifier
     r4:Identifier[] identifierList = [];
     r4:Identifier id1 = {};
