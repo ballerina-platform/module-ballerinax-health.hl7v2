@@ -42,18 +42,20 @@ function testEncodeHl7Message() returns error? {
             msh5: {hd1: "LABADT"},
             msh6: {hd1: "MCM"},
             msh8: "SECURITY",
-            msh9: {cm_msg1: "QRY", cm_msg2: "A19"},
+            msh9: {msg1: "QRY", msg2: "A19"},
             msh10: "MSG00001",
             msh11: {pt1: "P"},
-            msh12: "2.3.1s"
+            msh12: {
+                vid1: "2.3.1"
+            }
         },
         qrd: {
             qrd1: {ts1: "20220828104856+0000"},
             qrd2: "R",
             qrd3: "I",
             qrd4: "QueryID01",
-            qrd7: {cq1: 5},
-            qrd8: [{xcn1: "1", xcn2: "ADAM", xcn3: "EVERMAN"}],
+            qrd7: {cq1: "5"},
+            qrd8: [{xcn1: "1", xcn2: {fn1: "ADAM"}, xcn3: "EVERMAN"}],
             qrd9: [{ce1: "VXI"}],
             qrd10: [{ce1: "SIIS"}]    
         }
