@@ -26,6 +26,7 @@ import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 import ballerinax/health.fhir.r4 as r4;
 import ballerinax/health.hl7v2commons;
+import ballerinax/health.fhir.r4.international401;
 
 # Parse a string to an HL7 message.
 #
@@ -154,7 +155,7 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
     return entries;
 }
 
-public isolated function mshToMessageHeader(hl7v2commons:Msh msh) returns r4:MessageHeader => {
+public isolated function mshToMessageHeader(hl7v2commons:Msh msh) returns international401:MessageHeader => {
     'source: hdToMessageHeaderSource(msh.msh3),
     destination: [hdToMessageHeaderDestination(msh.msh5)],
     eventCoding: (msh.msh9 is hl7v23:CM_MSG) ? msgToCoding(<hl7v23:CM_MSG>msh.msh9) : {},
@@ -163,7 +164,7 @@ public isolated function mshToMessageHeader(hl7v2commons:Msh msh) returns r4:Mes
 };
 
 // --- Patient Administation
-public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns r4:AllergyIntolerance {
+public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns international401:AllergyIntolerance {
     r4:Coding[] coding = [
         {
             code: al1.al11.toString(),
@@ -171,7 +172,7 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
         }
     ];
 
-    r4:AllergyIntoleranceReaction[] allergyIntoleranceReaction = [];
+    international401:AllergyIntoleranceReaction[] allergyIntoleranceReaction = [];
     string onset = "";
     onset = al1.al16;
     if al1.al15 is hl7v23:ST {
@@ -263,7 +264,7 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
             });
         }
     }
-    r4:AllergyIntolerance allergyIntolerance = {
+    international401:AllergyIntolerance allergyIntolerance = {
         clinicalStatus: {
             coding: coding
         },
@@ -286,7 +287,7 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
 };
 
 // TODO: Ballerina FHIR EVN and HL7 EVN is different for some fields
-public isolated function evnToProvenance(hl7v2commons:Evn evn) returns r4:Provenance {
+public isolated function evnToProvenance(hl7v2commons:Evn evn) returns international401:Provenance {
     r4:Coding[] coding = [
         {
             display: evn.name
@@ -309,7 +310,7 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns r4:Proven
         }
     ];
 
-    r4:ProvenanceAgent[] agent = [];
+    international401:ProvenanceAgent[] agent = [];
     if evn.evn5 is hl7v23:XCN {
         agent = [
             {
@@ -370,7 +371,7 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns r4:Proven
         occurredDateTime = evn.evn6;
     }
 
-    r4:Provenance provenance = {
+    international401:Provenance provenance = {
         activity: {
             coding: coding
         },
@@ -387,11 +388,11 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns r4:Proven
     return provenance;
 };
 
-public isolated function nk1ToPatient(hl7v2commons:Nk1 nk1) returns r4:Patient => {
+public isolated function nk1ToPatient(hl7v2commons:Nk1 nk1) returns international401:Patient => {
     contact: nk1ToContact(nk1.nk12, nk1.nk14, nk1.nk15, nk1.nk16, nk1.nk17, nk1.nk18, nk1.nk19, nk1.nk113, nk1.nk115, nk1.nk130, nk1.nk131, nk1.nk132)
 };
 
-public isolated function pd1ToPatient(hl7v2commons:Pd1 pd1) returns r4:Patient {
+public isolated function pd1ToPatient(hl7v2commons:Pd1 pd1) returns international401:Patient {
     r4:Reference[] generalPractitioner = [];
     r4:Extension[]? extension = [];
     if pd1 is hl7v27:PD1 {
@@ -407,11 +408,11 @@ public isolated function pd1ToPatient(hl7v2commons:Pd1 pd1) returns r4:Patient {
     };
 };
 
-public isolated function pidToPatient(hl7v2commons:Pid pid) returns r4:Patient {
+public isolated function pidToPatient(hl7v2commons:Pid pid) returns international401:Patient {
     r4:HumanName[] name = [];
     string birthDate = "";
     string deceasedDateTime = "";
-    r4:PatientGender gender = r4:CODE_GENDER_UNKNOWN;
+    international401:PatientGender gender = international401:CODE_GENDER_UNKNOWN;
 
     if pid is hl7v23:PID|hl7v231:PID|hl7v24:PID|hl7v25:PID|hl7v251:PID {
         name = pidToPatientName(pid.pid5, pid.pid9);
@@ -429,7 +430,7 @@ public isolated function pidToPatient(hl7v2commons:Pid pid) returns r4:Patient {
         deceasedDateTime = pid.pid29;
         gender = pidToAdministrativeSex(pid.pid8.cwe1);
     }
-    r4:Patient patient = {
+    international401:Patient patient = {
         name: name,
         birthDate: (birthDate != "") ? birthDate : (),
         gender: gender,
@@ -449,7 +450,7 @@ public isolated function pidToPatient(hl7v2commons:Pid pid) returns r4:Patient {
     return patient;
 };
 
-public isolated function pv1ToPatient(hl7v2commons:Pv1 pv1) returns r4:Patient {
+public isolated function pv1ToPatient(hl7v2commons:Pv1 pv1) returns international401:Patient {
     string extension = "";
 
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
@@ -462,7 +463,7 @@ public isolated function pv1ToPatient(hl7v2commons:Pv1 pv1) returns r4:Patient {
     };
 };
 
-public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns r4:Encounter {
+public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns international401:Encounter {
     string location1Display = "";
     string location1Status = "";
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
@@ -510,40 +511,40 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns r4:Encount
     }
     location5Status = pv1.pv143.pl5;
 
-    r4:EncounterLocation[] location = [
+    international401:EncounterLocation[] location = [
         {
             location: {
                 display: location1Display != "" ? location1Display : ()
             },
-            status: location1Status != "" ? <r4:EncounterLocationStatus>location1Status : ()
+            status: location1Status != "" ? <international401:EncounterLocationStatus>location1Status : ()
         },
         {
             location: {
                 display: location2Display != "" ? location2Display : ()
             },
-            status: location2Status != "" ? <r4:EncounterLocationStatus>location2Status : ()
+            status: location2Status != "" ? <international401:EncounterLocationStatus>location2Status : ()
         },
         {
             location: {
                 display: location3Display != "" ? location3Display : ()
             },
-            status: location3Status != "" ? <r4:EncounterLocationStatus>location3Status : ()
+            status: location3Status != "" ? <international401:EncounterLocationStatus>location3Status : ()
         },
         {
             location: {
                 display: location4Display != "" ? location4Display : ()
             },
-            status: location4Status != "" ? <r4:EncounterLocationStatus>location4Status : ()
+            status: location4Status != "" ? <international401:EncounterLocationStatus>location4Status : ()
         },
         {
             location: {
                 display: location5Display != "" ? location5Display : ()
             },
-            status: location5Status != "" ? <r4:EncounterLocationStatus>location5Status : ()
+            status: location5Status != "" ? <international401:EncounterLocationStatus>location5Status : ()
         }
     ];
 
-    r4:EncounterParticipant[] participants = [];
+    international401:EncounterParticipant[] participants = [];
 
     int i = 0;
     while i < pv1.pv17.length() {
@@ -832,7 +833,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns r4:Encount
         periodEnd = pv1.pv145;
     }
 
-    r4:EncounterStatusHistoryStatus status = "in-progress";
+    international401:EncounterStatusHistoryStatus status = "in-progress";
     if pv1 is hl7v23:PV1|hl7v231:PV1 {
         if pv1.pv145.ts1 != "" {
             status = "finished";
@@ -854,7 +855,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns r4:Encount
         });
     }
 
-    r4:Encounter encounter = {
+    international401:Encounter encounter = {
         location: location,
         participant: participants,
         'class: 'class,
@@ -886,14 +887,14 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns r4:Encount
     return encounter;
 };
 
-public isolated function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns r4:Encounter {
+public isolated function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns international401:Encounter {
     string display = "";
     if pv2 is hl7v23:PV2|hl7v231:PV2|hl7v24:PV2|hl7v25:PV2|hl7v251:PV2|hl7v26:PV2 {
         display = pv2.pv21.pl1;
     } else if pv2 is hl7v27:PV2|hl7v28:PV2 {
         display = pv2.pv21.pl1.hd1;
     }
-    r4:EncounterLocation[] location = [
+    international401:EncounterLocation[] location = [
         {
             location: {
                 display: display // TODO: location need to mapped correctly
@@ -903,7 +904,7 @@ public isolated function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns r4:Encount
 
     r4:Coding[] coding = [idToCoding(pv2.pv222)];
 
-    r4:EncounterParticipant[] participant = []; // TODO: participant need to mapped correctly
+    international401:EncounterParticipant[] participant = []; // TODO: participant need to mapped correctly
     if pv2.pv213 is hl7v23:XCN {
         participant = [
             {
@@ -961,7 +962,7 @@ public isolated function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns r4:Encount
         priority = pv2.pv225.cwe1;
     }
 
-    r4:Encounter encounter = {
+    international401:Encounter encounter = {
         location: location,
         reasonCode: ceToCodeableConcepts(pv2.pv23),
         length: {
@@ -986,7 +987,7 @@ public isolated function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns r4:Encount
 };
 
 // --- Financial Management ---
-public isolated function dg1ToCondition(hl7v2commons:Dg1 dg1) returns r4:Condition {
+public isolated function dg1ToCondition(hl7v2commons:Dg1 dg1) returns international401:Condition {
     r4:CodeableConcept code = {};
     string onsetDateTime = "";
     string recordedDate = "";
@@ -1007,7 +1008,7 @@ public isolated function dg1ToCondition(hl7v2commons:Dg1 dg1) returns r4:Conditi
     };
 }
 
-public isolated function obxToObservation(hl7v2commons:Obx obx) returns r4:Observation {
+public isolated function obxToObservation(hl7v2commons:Obx obx) returns international401:Observation {
     r4:CodeableConcept code = {};
     r4:dateTime effectiveDateTime = "";
     r4:CodeableConcept method = {};
@@ -1032,7 +1033,7 @@ public isolated function obxToObservation(hl7v2commons:Obx obx) returns r4:Obser
     };
 };
 
-public isolated function obrToDiagnosticReport(hl7v2commons:Obr obr) returns r4:DiagnosticReport {
+public isolated function obrToDiagnosticReport(hl7v2commons:Obr obr) returns international401:DiagnosticReport {
     r4:CodeableConcept code = {};
     r4:dateTime effectiveDateTime = "";
     r4:dateTime effectivePeriodStart = "";
@@ -1053,7 +1054,7 @@ public isolated function obrToDiagnosticReport(hl7v2commons:Obr obr) returns r4:
         issued = tsToInstant(obr.obr22);
     }
 
-    r4:DiagnosticReport diagnosticReport = {
+    international401:DiagnosticReport diagnosticReport = {
         code: code,
         effectiveDateTime: effectiveDateTime,
         effectivePeriod: {
@@ -1072,7 +1073,7 @@ public isolated function obrToDiagnosticReport(hl7v2commons:Obr obr) returns r4:
     return diagnosticReport;
 };
 
-public function obrToServiceRequest(hl7v2commons:Obr obr) returns r4:ServiceRequest {
+public function obrToServiceRequest(hl7v2commons:Obr obr) returns international401:ServiceRequest {
     r4:CodeableConcept code = {};
     r4:dateTime occurrenceDateTime = "";
     r4:CodeableConcept reasonCode = {};
@@ -1100,7 +1101,7 @@ public function obrToServiceRequest(hl7v2commons:Obr obr) returns r4:ServiceRequ
     };
 };
 
-public function orcToDiagnosticReport(hl7v2commons:Orc orc) returns r4:DiagnosticReport {
+public function orcToDiagnosticReport(hl7v2commons:Orc orc) returns international401:DiagnosticReport {
     // Identifier
     r4:Identifier[] identifierList = [];
 
@@ -1158,7 +1159,7 @@ public function orcToDiagnosticReport(hl7v2commons:Orc orc) returns r4:Diagnosti
         }
     ];
 
-    r4:DiagnosticReport diagnosticReport = {
+    international401:DiagnosticReport diagnosticReport = {
         identifier: [...identifierList, id1, eiToIdentifier(orc.orc3), id2, eiToIdentifier(orc.orc3), id3],
         extension: ext,
         code: {},
@@ -1168,7 +1169,7 @@ public function orcToDiagnosticReport(hl7v2commons:Orc orc) returns r4:Diagnosti
     return diagnosticReport;
 };
 
-public isolated function orcToImmunization(hl7v2commons:Orc orc) returns r4:Immunization {
+public isolated function orcToImmunization(hl7v2commons:Orc orc) returns international401:Immunization {
     // Identifier
     r4:Identifier[] identifierList = [];
     r4:Identifier id1 = {};
@@ -1205,7 +1206,7 @@ public isolated function orcToImmunization(hl7v2commons:Orc orc) returns r4:Immu
     };
 
     // performer
-    r4:ImmunizationPerformer[] immunizationPerformer = [
+    international401:ImmunizationPerformer[] immunizationPerformer = [
         {
             actor: xcnToReference(orc.orc12[0]),
             'function: xcnToCodeableConcept(orc.orc12[0])
@@ -1220,7 +1221,7 @@ public isolated function orcToImmunization(hl7v2commons:Orc orc) returns r4:Immu
         recorded = tsToDateTime(orc.orc9);
     }
 
-    r4:Immunization immunization = {
+    international401:Immunization immunization = {
         identifier: [...identifierList, id1, eiToIdentifier(orc.orc3), id2],
         recorded: recorded,
         performer: immunizationPerformer,

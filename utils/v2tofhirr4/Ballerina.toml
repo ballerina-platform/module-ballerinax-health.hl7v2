@@ -1,6 +1,6 @@
 [package]
 authors = ["Ballerina"]
-distribution = "2201.6.0"
+distribution = "2201.7.0"
 export = ["health.hl7v2.utils.v2tofhirr4"]
 keywords = ["Healthcare", "HL7", "FHIR"]
 name = "health.hl7v2.utils.v2tofhirr4"
@@ -61,7 +61,7 @@ version = "2.0.0"
 [[dependency]]
 org = "ballerinax"
 name = "health.fhir.r4"
-version = "2.0.0"
+version = "4.0.0"
 
 [[dependency]]
 org = "ballerinax"

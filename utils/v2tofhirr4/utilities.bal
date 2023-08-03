@@ -15,6 +15,8 @@
 // under the License.
 
 import ballerina/log;
+import ballerinax/health.fhir.r4 as r4;
+import ballerinax/health.fhir.r4.international401;
 import ballerinax/health.hl7v23;
 import ballerinax/health.hl7v231;
 import ballerinax/health.hl7v24;
@@ -24,10 +26,9 @@ import ballerinax/health.hl7v26;
 import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 import ballerinax/health.hl7v2 as hl7;
-import ballerinax/health.fhir.r4 as r4;
 import ballerinax/health.hl7v2commons;
 
-public isolated function pidToAdministrativeSex(string pid8) returns r4:PatientGender {
+public isolated function pidToAdministrativeSex(string pid8) returns international401:PatientGender {
     match pid8 {
         "M" => {
             return "male";
@@ -200,7 +201,7 @@ public isolated function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons
     return phoneNumbers;
 }
 
-public isolated function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns r4:PatientCommunication[] {
+public isolated function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns international401:PatientCommunication[] {
     string id = "";
     string text = "";
 
@@ -448,8 +449,8 @@ public isolated function pd1ToExtension(string pd16) returns r4:Extension[] {
 
 public isolated function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 nk14, hl7v2commons:Nk15 nk15, hl7v2commons:Nk16 nk16, hl7v2commons:Nk17 nk17,
         hl7v2commons:Nk18 nk18, hl7v2commons:Nk19 nk19, hl7v2commons:Nk113 nk113, hl7v2commons:Nk115 nk115, hl7v2commons:Nk130 nk130,
-        hl7v2commons:Nk131 nk131, hl7v2commons:Nk132 nk132) returns r4:PatientContact[] {
-    r4:PatientContact[] patientContact = [];
+        hl7v2commons:Nk131 nk131, hl7v2commons:Nk132 nk132) returns international401:PatientContact[] {
+    international401:PatientContact[] patientContact = [];
 
     if nk12 is hl7v23:XPN[] {
         foreach hl7v23:XPN item in nk12 {
