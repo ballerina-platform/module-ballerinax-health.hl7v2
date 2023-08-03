@@ -15,6 +15,7 @@
 // under the License.
 
 import ballerinax/health.fhir.r4;
+import ballerinax/health.fhir.r4.international401;
 import ballerinax/health.hl7v23;
 import ballerinax/health.hl7v231;
 import ballerinax/health.hl7v24;
@@ -87,7 +88,7 @@ public isolated function xadToAddress(Xad xad) returns r4:Address {
     return address;
 };
 
-public isolated function xonToOrganization(Xon xon) returns r4:Organization {
+public isolated function xonToOrganization(Xon xon) returns international401:Organization {
     r4:Coding coding = {
         code: xon.xon7,
         system: xon.xon7
@@ -104,7 +105,7 @@ public isolated function xonToOrganization(Xon xon) returns r4:Organization {
         'type: codeableConcept
     };
 
-    r4:Organization organization = {
+    international401:Organization organization = {
         name: xon.xon1,
         identifier: [identifier]
     };
@@ -168,13 +169,13 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
     return contactPoint;
 };
 
-public isolated function hdToMessageHeaderSource(Hd hd) returns r4:MessageHeaderSource => {
+public isolated function hdToMessageHeaderSource(Hd hd) returns international401:MessageHeaderSource => {
     name: hd.hd1,
     endpoint: hd.hd2,
     extension: getStringExtension([hd.hd3])
 };
 
-public isolated function hdToMessageHeaderDestination(Hd hd) returns r4:MessageHeaderDestination => {
+public isolated function hdToMessageHeaderDestination(Hd hd) returns international401:MessageHeaderDestination => {
     name: hd.hd1,
     endpoint: hd.hd2,
     extension: getStringExtension([hd.hd3])

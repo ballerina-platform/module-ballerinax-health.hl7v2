@@ -15,6 +15,7 @@
 // under the License.
 
 import ballerinax/health.fhir.r4;
+import ballerinax/health.fhir.r4.international401;
 import ballerinax/health.hl7v23;
 
 public isolated function idToHumanNameUse(Id id) returns r4:HumanNameUse {
@@ -67,17 +68,17 @@ public isolated function idToContactPointUse(Id id) returns r4:ContactPointUse =
 
 public isolated function idToContactPointSystem(Id id) returns r4:ContactPointSystem => id is r4:ContactPointSystem ? id : "phone";
 
-public isolated function isToAllergyIntoleranceCategory(Is 'is) returns r4:AllergyIntoleranceCategory => 'is is r4:AllergyIntoleranceCategory ? 'is : "environment";
+public isolated function isToAllergyIntoleranceCategory(Is 'is) returns international401:AllergyIntoleranceCategory => 'is is international401:AllergyIntoleranceCategory ? 'is : "environment";
 
-public isolated function isToAllergyIntoleranceType(string 'is) returns r4:AllergyIntoleranceType => 'is is r4:AllergyIntoleranceType ? 'is : "intolerance";
+public isolated function isToAllergyIntoleranceType(string 'is) returns international401:AllergyIntoleranceType => 'is is international401:AllergyIntoleranceType ? 'is : "intolerance";
 
-public isolated function isToAllergyIntoleranceCriticality(Is 'is) returns r4:AllergyIntoleranceCriticality => 'is is r4:AllergyIntoleranceCriticality ? 'is : "high";
+public isolated function isToAllergyIntoleranceCriticality(Is 'is) returns international401:AllergyIntoleranceCriticality => 'is is international401:AllergyIntoleranceCriticality ? 'is : "high";
 
-public isolated function idToDiagnosticReportStatus(hl7v23:ID id) returns r4:DiagnosticReportStatus => id is r4:DiagnosticReportStatus ? id : "final";
+public isolated function idToDiagnosticReportStatus(hl7v23:ID id) returns international401:DiagnosticReportStatus => id is international401:DiagnosticReportStatus ? id : "final";
 
-public isolated function nameToServiceRequestIntent(string name) returns r4:ServiceRequestIntent => name is r4:ServiceRequestIntent ? name : "proposal";
+public isolated function nameToServiceRequestIntent(string name) returns international401:ServiceRequestIntent => name is international401:ServiceRequestIntent ? name : "proposal";
 
-public isolated function idToServiceRequestPriority(hl7v23:ID id) returns r4:ServiceRequestPriority => id is r4:ServiceRequestPriority ? id : "stat";
+public isolated function idToServiceRequestPriority(hl7v23:ID id) returns international401:ServiceRequestPriority => id is international401:ServiceRequestPriority ? id : "stat";
 
 enum ComparisonOperator {
     EQ, // Matches values that are equal to a specified value.
