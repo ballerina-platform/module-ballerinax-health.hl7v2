@@ -253,11 +253,11 @@ public isolated function ceToCodeableConcepts(Ce|hl7v26:CWE ce) returns r4:Codea
     return codeableConcept;
 }
 
-public function dtmToDateTime(Dtm ts) returns r4:dateTime {
+public isolated function dtmToDateTime(Dtm ts) returns r4:dateTime {
     return ts;
 };
 
-public function tsToDateTime(Ts ts) returns r4:dateTime {
+public isolated function tsToDateTime(Ts ts) returns r4:dateTime {
     return ts.ts1;
 };
 
