@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-     uses: ./.github/workflows/balbuild.yml
+     uses: ./.github/workflows/build-executor.yml
      with:
       working_dir: ./commons
       bal_central_environment: ${{ inputs.bal_central_environment }}
