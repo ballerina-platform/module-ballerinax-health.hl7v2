@@ -2,8 +2,8 @@
 org = "ballerinax"
 name = "health.hl7v2"
 version = "2.0.1"
-authors=["Ballerina"]
-keywords=["Healthcare", "HL7"]
-distribution = "2201.6.0"
-export=["health.hl7v2"]
-repository="https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
+authors = ["Ballerina"]
+keywords = ["Healthcare", "HL7"]
+distribution = "2201.7.0"
+export = ["health.hl7v2"]
+repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
