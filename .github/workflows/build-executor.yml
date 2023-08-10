@@ -138,4 +138,3 @@ jobs:
           PR_URL=$(echo "$RESPONSE" | jq -r '.html_url')
 
           echo "Pull Request created: $PR_URL"
-          

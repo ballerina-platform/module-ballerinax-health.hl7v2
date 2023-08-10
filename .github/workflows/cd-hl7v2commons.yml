@@ -18,4 +18,3 @@ jobs:
      with:
       working_dir: ./commons
       bal_central_environment: ${{ inputs.bal_central_environment }}
-      
