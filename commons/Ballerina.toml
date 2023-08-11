@@ -2,7 +2,60 @@
 org = "ballerinax"
 name = "health.hl7v2commons"
 version = "1.0.1"
-distribution = "2201.6.0"
+authors = ["WSO2 Healthcare"]
+keywords = ["Healthcare", "HL7", "Commons"]
+distribution = "2201.7.0"
+repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
 
 [build-options]
 observabilityIncluded = true
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v2"
+version = "2.0.1"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v23"
+version = "2.0.1"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v231"
+version = "2.0.1"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v24"
+version = "2.0.1"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v25"
+version = "2.0.1"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v251"
+version = "2.0.1"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v26"
+version = "2.0.1"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v27"
+version = "2.0.1"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v271"
+version = "2.0.1"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v28"
+version = "2.0.1"
