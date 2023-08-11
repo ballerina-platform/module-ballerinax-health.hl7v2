@@ -15,6 +15,7 @@ on:
 jobs:
   build:
      uses: ./.github/workflows/build-executor.yml
+     secrets: inherit
      with:
       working_dir: ./utils/v2tofhirr4
       bal_central_environment: ${{ inputs.bal_central_environment }}
