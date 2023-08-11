@@ -17,7 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run ballerina build
+      - name: Run ballerina build for staging
+        if: inputs.bal_central_environment == 'STAGE'
         uses: ballerina-platform/ballerina-action@2201.7.0
         with:
           args:
@@ -25,6 +26,26 @@ jobs:
         env:
           WORKING_DIR: ${{ inputs.working_dir }}
           JAVA_HOME: /usr/lib/jvm/default-jvm   
+
+      - name: Run ballerina build for dev
+        if: inputs.bal_central_environment == 'DEV'
+        uses: ballerina-platform/ballerina-action@2201.7.0
+        with:
+          args:
+            pack
+        env:
+          WORKING_DIR: ${{ inputs.working_dir }}
+          JAVA_HOME: /usr/lib/jvm/default-jvm 
+
+      - name: Run ballerina build for prod
+        if: inputs.bal_central_environment == 'PROD'
+        uses: ballerina-platform/ballerina-action@2201.7.0
+        with:
+          args:
+            pack
+        env:
+          WORKING_DIR: ${{ inputs.working_dir }}
+          JAVA_HOME: /usr/lib/jvm/default-jvm 
 
       - name: Push to Staging
         if: inputs.bal_central_environment == 'STAGE'
