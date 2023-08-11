@@ -11,52 +11,52 @@ version = "2.0.2"
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v2"
-version = "2.0.0"
+version = "2.0.1"
 
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v23"
-version = "2.0.0"
+version = "2.0.1"
 
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v231"
-version = "2.0.0"
+version = "2.0.1"
 
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v24"
-version = "2.0.0"
+version = "2.0.1"
 
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v25"
-version = "2.0.0"
+version = "2.0.1"
 
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v251"
-version = "2.0.0"
+version = "2.0.1"
 
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v26"
-version = "2.0.0"
+version = "2.0.1"
 
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v27"
-version = "2.0.0"
+version = "2.0.1"
 
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v271"
-version = "2.0.0"
+version = "2.0.1"
 
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v28"
-version = "2.0.0"
+version = "2.0.1"
 
 [[dependency]]
 org = "ballerinax"
@@ -66,4 +66,4 @@ version = "4.0.0"
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v2commons"
-version = "1.0.0"
+version = "1.0.1"
