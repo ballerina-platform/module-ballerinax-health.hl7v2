@@ -153,7 +153,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.BALLERINA_BOT_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             -d '{
-              "title": "[Release ${packageName} ${{ steps.increment_patch_version.outputs.CURRENT_VERSION }}] Prepare for next dev cycle",
+              "title": "[Release '"$packageName"' ${{ steps.increment_patch_version.outputs.CURRENT_VERSION }}] Prepare for next dev cycle",
               "body": "",
               "head": "'"$HEAD_BRANCH"'",
               "base": "'"$BASE_BRANCH"'"
