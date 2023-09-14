@@ -111,7 +111,7 @@ isolated function extractHL7Version(string message) returns string? {
 #
 # + dateStrInUtc - Date string in UTC format
 # + return - Converted HL7 TS timestamp value
-function utcToTSFormat(string dateStrInUtc) returns string {
+function utcToTSFormat(string dateStrInUtc) returns string|HL7Error {
     string tsTimeStr;
     do {
         time:Civil timeInstance = check time:civilFromString(dateStrInUtc);
@@ -120,7 +120,9 @@ function utcToTSFormat(string dateStrInUtc) returns string {
         //todo: validate fields with single digit values and add leading 0s
     } on fail var e {
         //todo: introduce hl7 error and wrap the specific error
-        log:printError(string `error occurred while converting UTC time string to TS format: ${e.message()}.`);
+        string errorMessage = string `error occurred while converting UTC time string to TS format: ${e.message()}.`;
+        log:printError(errorMessage);
+        return error(HL7_V2_PARSER_ERROR, message = errorMessage);
     }
     return tsTimeStr;
 }

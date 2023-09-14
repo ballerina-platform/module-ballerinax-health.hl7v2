@@ -106,7 +106,7 @@ function testHL7MsgParse() {
 @test:Config {}
 function testCovertUTCtoTS() {
     string utcTime = "2020-10-10T10:10:10.000Z";
-    string ts = utcToTSFormat(utcTime);
+    string|HL7Error ts = utcToTSFormat(utcTime);
     test:assertEquals(ts, "202010101010", "Error occurred while converting UTC to TS format.");
 }
 
