@@ -28,7 +28,10 @@ import ballerinax/health.hl7v28;
 import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.hl7v2commons;
 
-public isolated function pidToAdministrativeSex(string pid8) returns international401:PatientGender {
+public isolated function pidToAdministrativeSex(string pid8) returns international401:PatientGender? {
+    if pid8 == "" {
+        return ();
+    }
     match pid8 {
         "M" => {
             return "male";
@@ -48,7 +51,7 @@ public isolated function pidToAdministrativeSex(string pid8) returns internation
     }
 }
 
-public isolated function pidToPatientName(hl7v2commons:Pid5 pid5, hl7v2commons:Pid9 pid9) returns r4:HumanName[] {
+public isolated function pidToPatientName(hl7v2commons:Pid5 pid5, hl7v2commons:Pid9 pid9) returns r4:HumanName[]? {
     r4:HumanName[] humanNames = [];
     if pid5 is hl7v23:XPN[] {
         foreach hl7v23:XPN item in pid5 {
@@ -110,10 +113,10 @@ public isolated function pidToPatientName(hl7v2commons:Pid5 pid5, hl7v2commons:P
         }
     }
 
-    return humanNames;
+    return (humanNames.length() > 0) ? humanNames : ();
 }
 
-public isolated function pidToAddress(string pid12, hl7v2commons:Pid11 pid11) returns r4:Address[] {
+public isolated function pidToAddress(string pid12, hl7v2commons:Pid11 pid11) returns r4:Address[]? {
     r4:Address[] address = [];
     if pid12 != "" {
         address.push({district: pid12});
@@ -121,34 +124,51 @@ public isolated function pidToAddress(string pid12, hl7v2commons:Pid11 pid11) re
 
     if pid11 is hl7v23:XAD[] {
         foreach hl7v23:XAD item in pid11 {
-            address.push(xadToAddress(item));
+            r4:Address? xadToAddressResult = xadToAddress(item);
+            if xadToAddressResult is r4:Address {
+                address.push(xadToAddressResult);
+            }
         }
     } else if pid11 is hl7v24:XAD[] {
         foreach hl7v24:XAD item in pid11 {
-            address.push(xadToAddress(item));
+            r4:Address? xadToAddressResult = xadToAddress(item);
+            if xadToAddressResult is r4:Address {
+                address.push(xadToAddressResult);
+            }
         }
     } else if pid11 is hl7v25:XAD[] {
         foreach hl7v25:XAD item in pid11 {
-            address.push(xadToAddress(item));
+            r4:Address? xadToAddressResult = xadToAddress(item);
+            if xadToAddressResult is r4:Address {
+                address.push(xadToAddressResult);
+            }
         }
     } else if pid11 is hl7v26:XAD[] {
         foreach hl7v26:XAD item in pid11 {
-            address.push(xadToAddress(item));
+            r4:Address? xadToAddressResult = xadToAddress(item);
+            if xadToAddressResult is r4:Address {
+                address.push(xadToAddressResult);
+            }
         }
     } else if pid11 is hl7v27:XAD[] {
         foreach hl7v27:XAD item in pid11 {
-            address.push(xadToAddress(item));
+            r4:Address? xadToAddressResult = xadToAddress(item);
+            if xadToAddressResult is r4:Address {
+                address.push(xadToAddressResult);
+            }
         }
     } else if pid11 is hl7v28:XAD[] {
         foreach hl7v28:XAD item in pid11 {
-            address.push(xadToAddress(item));
+            r4:Address? xadToAddressResult = xadToAddress(item);
+            if xadToAddressResult is r4:Address {
+                address.push(xadToAddressResult);
+            }
         }
     }
-
-    return address;
+    return (address != []) ? address : ();
 }
 
-public isolated function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons:Pid14 pid14) returns r4:ContactPoint[] {
+public isolated function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons:Pid14 pid14) returns r4:ContactPoint[]? {
     r4:ContactPoint[] phoneNumbers = [];
 
     //get ContactPointFromXTN use this
@@ -198,10 +218,10 @@ public isolated function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons
         }
     }
 
-    return phoneNumbers;
+    return (phoneNumbers.length() > 0) ? phoneNumbers : ();
 }
 
-public isolated function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns international401:PatientCommunication[] {
+public isolated function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns international401:PatientCommunication[]? {
     string id = "";
     string text = "";
 
@@ -225,7 +245,7 @@ public isolated function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns 
             }
         ];
     }
-    return [];
+    return ();
 }
 
 public isolated function pidToMaritalStatus(hl7v2commons:Pid16 pid16) returns r4:Coding[] {
@@ -240,12 +260,12 @@ public isolated function pidToMaritalStatus(hl7v2commons:Pid16 pid16) returns r4
     return maritialStatues;
 }
 
-public isolated function pidToSsnNumberIdentifier(string pid19) returns r4:Identifier[] {
+public isolated function pidToSsnNumberIdentifier(string pid19) returns r4:Identifier[]? {
     r4:Identifier[] identifier = [];
     if pid19 != "" {
         identifier.push({value: pid19});
     }
-    return identifier;
+    return (identifier.length() > 0) ? identifier : ();
 }
 
 public isolated function pidToBirthPlace(string pid23) returns r4:Extension[] {
@@ -306,7 +326,7 @@ public isolated function pv1ToExtension(string pv116) returns r4:Extension[] {
 }
 
 // PD1
-public isolated function pd1ToGeneralPractitioner(hl7v2commons:Pd13 pd13, hl7v2commons:Pd14 pd14) returns r4:Reference[] {
+public isolated function pd1ToGeneralPractitioner(hl7v2commons:Pd13 pd13, hl7v2commons:Pd14 pd14) returns r4:Reference[]? {
     r4:Reference[] reference = [];
 
     if pd13 is hl7v23:XON[] {
@@ -437,14 +457,11 @@ public isolated function pd1ToGeneralPractitioner(hl7v2commons:Pd13 pd13, hl7v2c
         }
     }
 
-    return reference;
+    return (reference != []) ? reference : ();
 }
 
-public isolated function pd1ToExtension(string pd16) returns r4:Extension[] {
-    r4:CodeableConcept codeableConcept = {text: pd16};
-    r4:CodeableConceptExtension[] extension = [{url: pd16, valueCodeableConcept: codeableConcept}];
-
-    return extension;
+public isolated function pd1ToExtension(string pd16) returns r4:Extension[]? {
+    return pd16 != "" ? [{url: pd16, valueCodeableConcept: {text: pd16}}] : ();
 }
 
 public isolated function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 nk14, hl7v2commons:Nk15 nk15, hl7v2commons:Nk16 nk16, hl7v2commons:Nk17 nk17,
@@ -483,8 +500,8 @@ public isolated function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 
 
     if nk14 is hl7v23:XAD[] {
         foreach hl7v23:XAD item in nk14 {
-            r4:Address address = xadToAddress(item);
-            if address != {} {
+            r4:Address? address = xadToAddress(item);
+            if address != () {
                 patientContact.push({
                     address: xadToAddress(item)
                 });
@@ -492,8 +509,8 @@ public isolated function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 
         }
     } else if nk14 is hl7v24:XAD[] {
         foreach hl7v24:XAD item in nk14 {
-            r4:Address address = xadToAddress(item);
-            if address != {} {
+            r4:Address? address = xadToAddress(item);
+            if address != () {
                 patientContact.push({
                     address: xadToAddress(item)
                 });
@@ -501,8 +518,8 @@ public isolated function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 
         }
     } else if nk14 is hl7v25:XAD[] {
         foreach hl7v25:XAD item in nk14 {
-            r4:Address address = xadToAddress(item);
-            if address != {} {
+            r4:Address? address = xadToAddress(item);
+            if address != () {
                 patientContact.push({
                     address: xadToAddress(item)
                 });
