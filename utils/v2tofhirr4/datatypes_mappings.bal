@@ -1,19 +1,15 @@
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
-
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
-
 // Unless required by applicable law or agreed to in writing,
 // software distributed under the License is distributed on an
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.fhir.r4;
 import ballerinax/health.fhir.r4.international401;
 import ballerinax/health.hl7v23;
@@ -30,12 +26,22 @@ import ballerinax/health.hl7v28;
 // URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/datatype_maps.html
 // --------------------------------------------------------------------------------------------#
 
-public isolated function ceToCodings(Ce ce) returns r4:Coding[] => [ceToCoding(ce)];
+public isolated function ceToCodings(Ce ce) returns r4:Coding[]? {
+     r4:Coding[] codings = [];
+    r4:Coding ceToCodingResult = ceToCoding(ce);
+    if ceToCodingResult != {} {
+        codings.push(ceToCodingResult);
+    }
+    return (codings.length() > 0) ? codings : ();
+};
 
-public isolated function cweToCodings(Cwe ce) returns r4:Coding[] {
+public isolated function cweToCodings(Cwe ce) returns r4:Coding[]? {
     r4:Coding[] codings = [];
-    codings.push(cweToCoding(ce));
-    return codings;
+    r4:Coding cweToCodingResult = cweToCoding(ce);
+    if cweToCodingResult != {} {
+        codings.push(cweToCodingResult);
+    }
+    return (codings.length() > 0) ? codings : ();
 }
 
 public isolated function ceToCodeableConcept(Ce ce) returns r4:CodeableConcept => {
@@ -58,8 +64,8 @@ public isolated function cweToCoding(Cwe cwe) returns r4:Coding => {
     system: (cwe.cwe3 != "") ? cwe.cwe3 : ()
 };
 
-public isolated function xadToAddress(Xad xad) returns r4:Address {
-    r4:Extension[] extension = [];
+public isolated function xadToAddress(Xad xad) returns r4:Address? {
+    r4:Extension[]? extension = [];
     string district = "";
 
     if xad is hl7v23:XAD|hl7v231:XAD|hl7v24:XAD|hl7v25:XAD|hl7v251:XAD|hl7v26:XAD {
@@ -77,36 +83,46 @@ public isolated function xadToAddress(Xad xad) returns r4:Address {
         country: (xad.xad6 != "") ? xad.xad6 : (),
         'type: checkComputableAntlr([{identifier: xad.xad7, comparisonOperator: "IN", valueList: ["M", "SH"]}]) ? idToAddressType(xad.xad7) : (),
         use: checkComputableAntlr([{identifier: xad.xad7, comparisonOperator: "IN", valueList: ["BA", "BI", "C", "B", "H", "O"]}]) ? idToAddressUse(xad.xad7) : (),
-        extension: extension,
         district: (district != "") ? district : ()
     };
+    address.extension = extension;
     if xad is hl7v23:XAD {
-        address.line = [xad.xad1, xad.xad2];
+        if xad.xad1 != "" && xad.xad2 != "" {
+            address.line = [xad.xad1, xad.xad2];
+        } else if xad.xad1 != "" {
+            address.line = [xad.xad1];
+        } else if xad.xad2 != "" {
+            address.line = [xad.xad2];
+        }
     } else if xad is hl7v24:XAD|hl7v25:XAD {
-        address.line = [xad.xad1.sad1, xad.xad2];
+        if xad.xad1.sad1 != "" && xad.xad2 != "" {
+            address.line = [xad.xad1.sad1, xad.xad2];
+        } else if xad.xad1.sad1 != "" {
+            address.line = [xad.xad1.sad1];
+        } else if xad.xad2 != "" {
+            address.line = [xad.xad2];
+        }
     }
-    return address;
+    return (address != {}) ? address : ();
 };
 
 public isolated function xonToOrganization(Xon xon) returns international401:Organization {
-    r4:Coding coding = {
-        code: xon.xon7,
-        system: xon.xon7
-    };
-
     r4:CodeableConcept codeableConcept = {
-        coding: [
-            coding
-        ]
+        coding: (xon.xon7 != "") ? [
+                {
+                    code: xon.xon7,
+                    system: string `urn:oid: ${xon.xon7}`
+                }
+            ] : ()
     };
 
     r4:Identifier identifier = {
-        value: xon.xon3.toString(),
+        value: (xon.xon3 != "") ? xon.xon3.toString() : (),
         'type: codeableConcept
     };
 
     international401:Organization organization = {
-        name: xon.xon1,
+        name: (xon.xon1 != "") ? xon.xon1 : (),
         identifier: [identifier]
     };
 
@@ -157,7 +173,7 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
                 {identifier: xtn.xtn3, comparisonOperator: "NIN", valueList: ["Internet", "X.400"]},
                 {identifier: xtn.xtn7.toString(), comparisonOperator: "IN", valueList: []}
                 //, {identifier: xtn.xtn12, comparisonOperator: "IN", valueList: []}                    //TODO: xtn12 is not defined yet
-            ]) ? ((xtn is hl7v26:XTN)? xtn.xtn12 : xtn.xtn1) :
+            ]) ? ((xtn is hl7v26:XTN) ? xtn.xtn12 : xtn.xtn1) :
                 (checkComputableAntlr([{identifier: xtn.xtn3, comparisonOperator: "NIN", valueList: ["Internet", "X.400"]}])) ? (xtn.xtn4) : (),
         use: idToContactPointUse(xtn.xtn2),
         system: idToContactPointSystem(xtn.xtn3),
@@ -169,44 +185,47 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
     return contactPoint;
 };
 
-public isolated function hdToMessageHeaderSource(Hd hd) returns international401:MessageHeaderSource => {
-    name: hd.hd1,
-    endpoint: hd.hd2,
-    extension: getStringExtension([hd.hd3])
+public isolated function hdToMessageHeaderSource(Hd hd) returns international401:MessageHeaderSource {
+    if hd.hd1 == "" && hd.hd2 == "" && hd.hd3 == "" {
+        return {
+            endpoint: ""
+        };
+    }
+    return {
+        name: (hd.hd1 != "") ? hd.hd1 : (),
+        endpoint: hd.hd2,
+        extension: getStringExtension([hd.hd3])
+    };
 };
 
 public isolated function hdToMessageHeaderDestination(Hd hd) returns international401:MessageHeaderDestination => {
-    name: hd.hd1,
+    name: (hd.hd1 != "") ? hd.hd1 : (),
     endpoint: hd.hd2,
     extension: getStringExtension([hd.hd3])
 };
 
 public isolated function msgToCoding(hl7v23:CM_MSG msg) returns r4:Coding => {
-    code: msg.cm_msg1,
-    system: msg.cm_msg2
+    code: (msg.cm_msg1 != "") ? msg.cm_msg1 : (),
+    system: (msg.cm_msg2 != "") ? msg.cm_msg2 : ()
 };
 
 public isolated function ptToMeta(Pt pt) returns r4:Meta {
-    r4:Coding[] coding = [
-        {
-            code: pt.pt1,
-            system: pt.pt2
-        }
-    ];
-    r4:Meta meta = {
-        tag: coding
+    return {
+        tag: [
+            {
+                code: (pt.pt1 != "") ? pt.pt1 : (),
+                system: (pt.pt2 != "") ? pt.pt2 : ()
+            }
+        ]
     };
-    return meta;
 };
 
-public isolated function ceToCode(Ce ce) returns r4:code {
-    r4:code code = ce.ce1;
-    return code;
+public isolated function ceToCode(Ce ce) returns r4:code? {
+    return (ce.ce1 != "") ? ce.ce1 : ();
 };
 
-public isolated function cweToCode(Cwe cwe) returns r4:code {
-    r4:code code = cwe.cwe1;
-    return code;
+public isolated function cweToCode(Cwe cwe) returns r4:code? {
+    return (cwe.cwe1 != "") ? cwe.cwe1 : ();
 };
 
 public isolated function eiToIdentifier(Ei ei) returns r4:Identifier => {
@@ -215,7 +234,10 @@ public isolated function eiToIdentifier(Ei ei) returns r4:Identifier => {
 
 public isolated function idToCodeableConceptArray(Id id) returns r4:CodeableConcept[] {
     r4:CodeableConcept[] codeableConcept = [];
-    codeableConcept.push(idToCodeableConcept(id));
+    r4:CodeableConcept? idToCodeableConceptResult = idToCodeableConcept(id);
+    if idToCodeableConceptResult is r4:CodeableConcept {
+        codeableConcept.push(idToCodeableConceptResult);
+    }
     return codeableConcept;
 }
 
@@ -224,24 +246,30 @@ public isolated function eiToCoding(Ei ei) returns r4:Coding => {
     system: (ei.ei2 != "") ? ei.ei2 : ()
 };
 
-public isolated function ceToUri(Ce ce) returns r4:uri {
-    return ce.ce1;
+public isolated function ceToUri(Ce ce) returns r4:uri? {
+    return (ce.ce1 != "") ? ce.ce1 : ();
 };
 
-public isolated function cweToUri(Cwe cwe) returns r4:uri {
-    return cwe.cwe1;
+public isolated function cweToUri(Cwe cwe) returns r4:uri? {
+    return (cwe.cwe1 != "") ? cwe.cwe1 : ();
 };
 
-public isolated function xcnToCodeableConcept(Xcn xcn) returns r4:CodeableConcept => {
-    id: xcn.xcn1
+public isolated function xcnToCodeableConcept(Xcn xcn) returns r4:CodeableConcept {
+    return {
+        id: (xcn.xcn1 != "") ? xcn.xcn1 : ()
+    };
 };
 
-public isolated function xcnToReference(Xcn xcn) returns r4:Reference => {
-    reference: xcn.xcn1
+public isolated function xcnToReference(Xcn xcn) returns r4:Reference {
+    return {
+        reference: (xcn.xcn1 != "") ? xcn.xcn1 : ()
+    };
 };
 
-public isolated function idToCoding(hl7v23:ID id) returns r4:Coding => {
-    id: id
+public isolated function idToCoding(hl7v23:ID id) returns r4:Coding {
+    return {
+        id: (id != "") ? id : ()
+    };
 };
 
 public isolated function ceToCodeableConcepts(Ce|hl7v26:CWE ce) returns r4:CodeableConcept[] {
@@ -254,33 +282,32 @@ public isolated function ceToCodeableConcepts(Ce|hl7v26:CWE ce) returns r4:Codea
     return codeableConcept;
 }
 
-public isolated function dtmToDateTime(Dtm ts) returns r4:dateTime {
-    return ts;
+public isolated function dtmToDateTime(Dtm ts) returns r4:dateTime? {
+    return (ts != "") ? ts : ();
 };
 
-public isolated function tsToDateTime(Ts ts) returns r4:dateTime {
-    return ts.ts1;
+public isolated function tsToDateTime(Ts ts) returns r4:dateTime? {
+    return (ts.ts1 != "") ? ts.ts1 : ();
 };
 
-public isolated function idToCodeableConcept(hl7v23:ID id) returns r4:CodeableConcept {
-    r4:Coding[] coding = [
-        {
-            code: id
-        }
-    ];
+public isolated function idToCodeableConcept(hl7v23:ID id) returns r4:CodeableConcept? {
 
     r4:CodeableConcept codeableConcept = {
-        coding: coding
+        coding: [
+            {
+                code: id
+            }
+        ]
     };
-    return codeableConcept;
+    return id != "" ? codeableConcept : ();
 };
 
 public isolated function dtmToInstant(Dtm ts) returns r4:instant {
     return ts;
 };
 
-public isolated function tsToInstant(Ts ts) returns r4:instant {
-    return ts.ts1;
+public isolated function tsToInstant(Ts ts) returns r4:instant? {
+    return (ts.ts1 != "") ? ts.ts1 : ();
 };
 
 # Union type for CE data type for all supported hl7 versions.
