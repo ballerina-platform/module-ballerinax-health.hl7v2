@@ -165,7 +165,7 @@ public isolated function pidToAddress(string pid12, hl7v2commons:Pid11 pid11) re
             }
         }
     }
-    return (address != []) ? address : ();
+    return (address.length() > 0) ? address : ();
 }
 
 public isolated function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons:Pid14 pid14) returns r4:ContactPoint[]? {
@@ -248,16 +248,20 @@ public isolated function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns 
     return ();
 }
 
-public isolated function pidToMaritalStatus(hl7v2commons:Pid16 pid16) returns r4:Coding[] {
+public isolated function pidToMaritalStatus(hl7v2commons:Pid16 pid16) returns r4:CodeableConcept? {
     r4:Coding[] maritialStatues = [];
     if pid16 is hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE {
-        maritialStatues = [{code: pid16.ce1}];
+        if pid16.ce1 != "" {
+            maritialStatues.push({code: pid16.ce1});
+        }
     } else if pid16 is hl7v26:CWE {
-        maritialStatues = [{code: pid16.cwe1}];
-    } else if pid16 is string {
-        maritialStatues = [{code: pid16}];
+        if pid16.cwe1 != "" {
+            maritialStatues.push({code: pid16.cwe1});
+        }
+    } else if pid16 is string && pid16 != "" {
+        maritialStatues.push({code: pid16});
     }
-    return maritialStatues;
+    return (maritialStatues.length() > 0) ? {coding: maritialStatues} : ();
 }
 
 public isolated function pidToSsnNumberIdentifier(string pid19) returns r4:Identifier[]? {
@@ -288,22 +292,25 @@ public isolated function pidToMultipleBirthIndicator(string pid24) returns boole
     }
 }
 
-public isolated function pidToBirthOrder(float|string pid25) returns int {
+public isolated function pidToBirthOrder(float|string pid25) returns int? {
 
     if pid25 is float {
         return <int>pid25;
     } else {
+        if pid25 == "" {
+            return ();
+        }
         do {
             int intResult = check int:fromString(pid25);
             return intResult;
         } on fail var e {
             log:printError(string `[pidToBirthOrder] Error while converting [pid25] ${pid25} to int.`, e);
-            return -1;
+            return ();
         }
     }
 }
 
-public isolated function pidToPatientDeathIndicator(string pid30) returns boolean {
+public isolated function pidToPatientDeathIndicator(string pid30) returns boolean? {
     match pid30 {
         "false" => {
             return false;
@@ -312,7 +319,7 @@ public isolated function pidToPatientDeathIndicator(string pid30) returns boolea
             return true;
         }
         _ => {
-            return false;
+            return ();
         }
     }
 }
@@ -457,7 +464,7 @@ public isolated function pd1ToGeneralPractitioner(hl7v2commons:Pd13 pd13, hl7v2c
         }
     }
 
-    return (reference != []) ? reference : ();
+    return (reference.length() > 0) ? reference : ();
 }
 
 public isolated function pd1ToExtension(string pd16) returns r4:Extension[]? {

@@ -167,7 +167,6 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
 
     international401:AllergyIntoleranceReaction[] allergyIntoleranceReactions = [];
     if al1.al15 is hl7v23:ST {
-
         allergyIntoleranceReactions = [
             {
                 manifestation: (al1.al15 != "") ? [
@@ -178,105 +177,22 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
                 onset: (al1.al16 != "") ? al1.al16 : ()
             }
         ];
-    } else if al1.al15 is hl7v231:ST[] {
-        foreach hl7v231:ST reaction in <hl7v231:ST[]>al1.al15 {
-            international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
-                manifestation: (reaction != "") ? [
-                        {
-                            text: reaction
-                        }
-                    ] : [],
-                onset: (al1.al16 != "") ? al1.al16 : ()
-            };
-            if allergyIntoleranceReaction.manifestation != [] || allergyIntoleranceReaction.onset != () {
-                allergyIntoleranceReactions.push(allergyIntoleranceReaction);
-            }
-        }
-    } else if al1.al15 is hl7v24:ST[] {
-        foreach hl7v24:ST reaction in <hl7v24:ST[]>al1.al15 {
-            international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
-                manifestation: (reaction != "") ? [
-                        {
-                            text: reaction
-                        }
-                    ] : [],
-                onset: (al1.al16 != "") ? al1.al16 : ()
-            };
-            if allergyIntoleranceReaction.manifestation != [] || allergyIntoleranceReaction.onset != () {
-                allergyIntoleranceReactions.push(allergyIntoleranceReaction);
-            }
-        }
-    } else if al1.al15 is hl7v25:ST[] {
-        foreach hl7v25:ST reaction in <hl7v25:ST[]>al1.al15 {
-            international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
-                manifestation: (reaction != "") ? [
-                        {
-                            text: reaction
-                        }
-                    ] : [],
-                onset: (al1.al16 != "") ? al1.al16 : ()
-            };
-            if allergyIntoleranceReaction.manifestation != [] || allergyIntoleranceReaction.onset != () {
-                allergyIntoleranceReactions.push(allergyIntoleranceReaction);
-            }
-        }
-    } else if al1.al15 is hl7v251:ST[] {
-        foreach hl7v251:ST reaction in <hl7v251:ST[]>al1.al15 {
-            international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
-                manifestation: (reaction != "") ? [
-                        {
-                            text: reaction
-                        }
-                    ] : [],
-                onset: (al1.al16 != "") ? al1.al16 : ()
-            };
-            if allergyIntoleranceReaction.manifestation != [] || allergyIntoleranceReaction.onset != () {
-                allergyIntoleranceReactions.push(allergyIntoleranceReaction);
-            }
-        }
-    } else if al1.al15 is hl7v26:ST[] {
-        foreach hl7v26:ST reaction in <hl7v26:ST[]>al1.al15 {
-            international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
-                manifestation: (reaction != "") ? [
-                        {
-                            text: reaction
-                        }
-                    ] : [],
-                onset: (al1.al16 != "") ? al1.al16 : ()
-            };
-            if allergyIntoleranceReaction.manifestation != [] || allergyIntoleranceReaction.onset != () {
-                allergyIntoleranceReactions.push(allergyIntoleranceReaction);
-            }
-        }
-    } else if al1.al15 is hl7v27:ST[] {
-        foreach hl7v27:ST reaction in <hl7v27:ST[]>al1.al15 {
-            international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
-                manifestation: (reaction != "") ? [
-                        {
-                            text: reaction
-                        }
-                    ] : [],
-                onset: (al1.al16 != "") ? al1.al16 : ()
-            };
-            if allergyIntoleranceReaction.manifestation != [] || allergyIntoleranceReaction.onset != () {
-                allergyIntoleranceReactions.push(allergyIntoleranceReaction);
-            }
-        }
-    } else if al1.al15 is hl7v28:ST[] {
-        foreach hl7v28:ST reaction in <hl7v28:ST[]>al1.al15 {
-            international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
-                manifestation: (reaction != "") ? [
-                        {
-                            text: reaction
-                        }
-                    ] : [],
-                onset: (al1.al16 != "") ? al1.al16 : ()
-            };
-            if allergyIntoleranceReaction.manifestation != [] || allergyIntoleranceReaction.onset != () {
+    } else {
+        foreach var reaction in <anydata[]>al1.al15 {
+            if reaction != "" {
+                international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
+                    manifestation: [
+                            {
+                                text: <string?>reaction
+                            }
+                        ],
+                    onset: (al1.al16 != "") ? al1.al16 : ()
+                };
                 allergyIntoleranceReactions.push(allergyIntoleranceReaction);
             }
         }
     }
+    r4:CodeableConcept allergyCode = (al1 is hl7v26:AL1|hl7v27:AL1|hl7v28:AL1) ? cweToCodeableConcept(<hl7v26:CWE|hl7v27:CWE|hl7v28:CWE>al1.al13) : ceToCodeableConcept(<hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE>al1.al13);
     international401:AllergyIntolerance allergyIntolerance = {
         clinicalStatus: {
             coding: [
@@ -286,10 +202,8 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
                 }
             ]
         },
-        // category: [V2ToFHIR_GetAllergyIntoleranceCategory(al1.al12)],
-        code: (al1 is hl7v26:AL1|hl7v27:AL1|hl7v28:AL1) ? cweToCodeableConcept(<hl7v26:CWE|hl7v27:CWE|hl7v28:CWE>al1.al13) : ceToCodeableConcept(<hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE>al1.al13),
-        // criticality: V2ToFHIR_GetAllergyIntoleranceCriticality(al1.al14),
-        reaction: (allergyIntoleranceReactions != []) ? allergyIntoleranceReactions : (),
+        code: (allergyCode != {}) ? allergyCode : (),
+        reaction: (allergyIntoleranceReactions.length() > 0) ? allergyIntoleranceReactions : (),
         patient: {}
     };
 
@@ -326,63 +240,9 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns internati
                 who: xcnToReferenceResult
             });
         }
-    } else if evn.evn5 is hl7v231:XCN[] {
-        foreach hl7v231:XCN xcn in <hl7v231:XCN[]>evn.evn5 {
-            r4:Reference xcnToReferenceResult = xcnToReference(xcn);
-            if xcnToReferenceResult != {} {
-                agent.push({
-                    who: xcnToReferenceResult
-                });
-            }
-        }
-    } else if evn.evn5 is hl7v24:XCN[] {
-        foreach hl7v24:XCN xcn in <hl7v24:XCN[]>evn.evn5 {
-            r4:Reference xcnToReferenceResult = xcnToReference(xcn);
-            if xcnToReferenceResult != {} {
-                agent.push({
-                    who: xcnToReferenceResult
-                });
-            }
-        }
-    } else if evn.evn5 is hl7v25:XCN[] {
-        foreach hl7v25:XCN xcn in <hl7v25:XCN[]>evn.evn5 {
-            r4:Reference xcnToReferenceResult = xcnToReference(xcn);
-            if xcnToReferenceResult != {} {
-                agent.push({
-                    who: xcnToReferenceResult
-                });
-            }
-        }
-    } else if evn.evn5 is hl7v251:XCN[] {
-        foreach hl7v251:XCN xcn in <hl7v251:XCN[]>evn.evn5 {
-            r4:Reference xcnToReferenceResult = xcnToReference(xcn);
-            if xcnToReferenceResult != {} {
-                agent.push({
-                    who: xcnToReferenceResult
-                });
-            }
-        }
-    } else if evn.evn5 is hl7v26:XCN[] {
-        foreach hl7v26:XCN xcn in <hl7v26:XCN[]>evn.evn5 {
-            r4:Reference xcnToReferenceResult = xcnToReference(xcn);
-            if xcnToReferenceResult != {} {
-                agent.push({
-                    who: xcnToReferenceResult
-                });
-            }
-        }
-    } else if evn.evn5 is hl7v27:XCN[] {
-        foreach hl7v27:XCN xcn in <hl7v27:XCN[]>evn.evn5 {
-            r4:Reference xcnToReferenceResult = xcnToReference(xcn);
-            if xcnToReferenceResult != {} {
-                agent.push({
-                    who: xcnToReferenceResult
-                });
-            }
-        }
-    } else if evn.evn5 is hl7v28:XCN[] {
-        foreach hl7v28:XCN xcn in <hl7v28:XCN[]>evn.evn5 {
-            r4:Reference xcnToReferenceResult = xcnToReference(xcn);
+    } else {
+        foreach var xcn in <anydata[]>evn.evn5 {
+            r4:Reference xcnToReferenceResult = xcnToReference(<Xcn>xcn);
             if xcnToReferenceResult != {} {
                 agent.push({
                     who: xcnToReferenceResult
@@ -457,9 +317,7 @@ public isolated function pidToPatient(hl7v2commons:Pid pid) returns internationa
         address: pidToAddress(pid.pid12, pid.pid11),
         telecom: pidToPhoneNumber(pid.pid13, pid.pid14),
         communication: pidToPrimaryLanguage(pid.pid15),
-        maritalStatus: (pid.pid16 != "") ? {
-                coding: pidToMaritalStatus(pid.pid16)
-            } : (),
+        maritalStatus: pidToMaritalStatus(pid.pid16),
         identifier: pidToSsnNumberIdentifier(pid.pid19),
         extension: (pid.pid23 != "") ? pidToBirthPlace(pid.pid23) : (),
         multipleBirthBoolean: (pid.pid24 != "") ? pidToMultipleBirthIndicator(pid.pid24) : (),
@@ -959,7 +817,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             }
         });
     }
-    encounter.identifier = (identifier != []) ? identifier : ();
+    encounter.identifier = (identifier.length() > 0) ? identifier : ();
 
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1 {
         encounter.period.'start = (pv1.pv144.ts1 != "") ? pv1.pv144.ts1 : ();
@@ -1002,8 +860,8 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             ];
         }
     }
-    encounter.location = (encounterLocations != []) ? encounterLocations : ();
-    encounter.participant = (participants != []) ? participants : ();
+    encounter.location = (encounterLocations.length() > 0) ? encounterLocations : ();
+    encounter.participant = (participants.length() > 0) ? participants : ();
 
     return encounter;
 };
@@ -1153,7 +1011,7 @@ public isolated function obxToObservation(hl7v2commons:Obx obx) returns internat
         if code != {} {
             observation.code = code;
         }
-        observation.effectiveDateTime = (obx.obx14.ts1 != "") ? tsToDateTime(obx.obx14): ();
+        observation.effectiveDateTime = (obx.obx14.ts1 != "") ? tsToDateTime(obx.obx14) : ();
         r4:CodeableConcept method = ceToCodeableConcept(obx.obx17[0]);
         if method != {} {
             observation.method = method;

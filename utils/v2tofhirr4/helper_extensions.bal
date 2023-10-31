@@ -28,7 +28,7 @@ isolated function getStringExtension(string[] itemList) returns r4:StringExtensi
         }
     }
 
-    return (stringExtensions != []) ? stringExtensions : ();
+    return (stringExtensions.length() > 0) ? stringExtensions : ();
 }
 
 function getIntegerExtension(string[] itemList) returns r4:IntegerExtension[]|error {
