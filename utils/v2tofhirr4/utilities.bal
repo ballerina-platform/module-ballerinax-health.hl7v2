@@ -575,10 +575,12 @@ public isolated function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 
         relationship: relationship
     });
 
-    r4:Period period = {'start: nk18, end: nk19};
-    patientContact.push({
-        period: period
-    });
+    r4:Period period = {'start: nk18 != "" ? nk18 : (), end: (nk19 != "") ? nk19 : ()};
+    if period != {} {
+        patientContact.push({
+            period: period
+        });
+    }
 
     // nk115, nk130, nk131, nk132 needs to be considered
 
