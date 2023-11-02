@@ -336,131 +336,19 @@ public isolated function pv1ToExtension(string pv116) returns r4:Extension[] {
 public isolated function pd1ToGeneralPractitioner(hl7v2commons:Pd13 pd13, hl7v2commons:Pd14 pd14) returns r4:Reference[]? {
     r4:Reference[] reference = [];
 
-    if pd13 is hl7v23:XON[] {
-        foreach hl7v23:XON item in pd13 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Organization",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd13 is hl7v231:XON[] {
-        foreach hl7v231:XON item in pd13 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Organization",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd13 is hl7v24:XON[] {
-        foreach hl7v24:XON item in pd13 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Organization",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd13 is hl7v25:XON[] {
-        foreach hl7v25:XON item in pd13 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Organization",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd13 is hl7v251:XON[] {
-        foreach hl7v251:XON item in pd13 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Organization",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd13 is hl7v26:XON[] {
-        foreach hl7v26:XON item in pd13 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Organization",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd13 is hl7v27:XON[] {
-        foreach hl7v27:XON item in pd13 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Organization",
-                    display: item.toString()
-                });
-            }
+    foreach Xon item in <Xon[]>pd13 {
+        r4:Reference? referenceResult = xonToReference(item);
+        if referenceResult is r4:Reference {
+            referenceResult.'type = "Organization";
+            reference.push(referenceResult);
         }
     }
 
-    if pd14 is hl7v23:XCN[] {
-        foreach hl7v23:XCN item in pd14 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Practitioner",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd14 is hl7v231:XCN[] {
-        foreach hl7v231:XCN item in pd14 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Practitioner",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd14 is hl7v24:XCN[] {
-        foreach hl7v24:XCN item in pd14 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Practitioner",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd14 is hl7v25:XCN[] {
-        foreach hl7v25:XCN item in pd14 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Practitioner",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd14 is hl7v251:XCN[] {
-        foreach hl7v251:XCN item in pd14 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Practitioner",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd14 is hl7v26:XCN[] {
-        foreach hl7v26:XCN item in pd14 {
-            if item.toString() != "" {
-                reference.push({
-                    'type: "Practitioner",
-                    display: item.toString()
-                });
-            }
-        }
-    } else if pd14 is hl7v27:ST {
-        if pd14.toString() != "" {
-            reference.push({
-                'type: "Practitioner",
-                display: pd14.toString()
-            });
+    foreach Xcn item in <Xcn[]>pd14 {
+        r4:Reference? referenceResult = xcnToReference(item);
+        if referenceResult is r4:Reference {
+            referenceResult.'type = "Practitioner";
+            reference.push(referenceResult);
         }
     }
 
