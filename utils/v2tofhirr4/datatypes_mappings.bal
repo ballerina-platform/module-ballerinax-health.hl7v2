@@ -202,11 +202,6 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
 };
 
 public isolated function hdToMessageHeaderSource(Hd hd) returns international401:MessageHeaderSource {
-    if hd.hd1 == "" && hd.hd2 == "" && hd.hd3 == "" {
-        return {
-            endpoint: ""
-        };
-    }
     return {
         name: (hd.hd1 != "") ? hd.hd1 : (),
         endpoint: hd.hd2,
