@@ -1,13 +1,13 @@
 [package]
 org = "ballerinax"
 name = "health.hl7v27"
-version = "2.0.2"
+version = "2.1.1"
 authors = ["WSO2 Healthcare"]
 keywords = ["Healthcare", "HL7", "HL7v2.7"]
-distribution = "2201.7.0"
+distribution = "2201.8.1"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
 
 [[dependency]]
 org = "ballerinax"
 name = "health.hl7v2"
-version = "2.0.1"
+version = "2.1.0"
