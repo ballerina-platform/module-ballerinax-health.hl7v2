@@ -27,7 +27,7 @@ import ballerinax/health.hl7v28;
 // --------------------------------------------------------------------------------------------#
 
 public isolated function ceToCodings(Ce ce) returns r4:Coding[]? {
-     r4:Coding[] codings = [];
+    r4:Coding[] codings = [];
     r4:Coding ceToCodingResult = ceToCoding(ce);
     if ceToCodingResult != {} {
         codings.push(ceToCodingResult);
@@ -107,26 +107,42 @@ public isolated function xadToAddress(Xad xad) returns r4:Address? {
 };
 
 public isolated function xonToOrganization(Xon xon) returns international401:Organization {
-    r4:CodeableConcept codeableConcept = {
-        coding: (xon.xon7 != "") ? [
-                {
-                    code: xon.xon7,
-                    system: string `urn:oid: ${xon.xon7}`
-                }
-            ] : ()
-    };
-
     r4:Identifier identifier = {
         value: (xon.xon3 != "") ? xon.xon3.toString() : (),
-        'type: codeableConcept
+        'type: (xon.xon7 != "") ? {
+                coding: [
+                    {
+                        code: xon.xon7,
+                        system: string `urn:oid: ${xon.xon7}`
+                    }
+                ]
+            } : ()
     };
 
     international401:Organization organization = {
         name: (xon.xon1 != "") ? xon.xon1 : (),
-        identifier: [identifier]
+        identifier: (identifier != {}) ? [identifier] : ()
     };
 
     return organization;
+};
+
+public isolated function xonToReference(Xon xon) returns r4:Reference? {
+    r4:Identifier identifier = {
+        value: (xon.xon3 != "") ? xon.xon3.toString() : (),
+        'type: (xon.xon7 != "") ? {
+                coding: [
+                    {
+                        code: xon.xon7,
+                        system: string `urn:oid: ${xon.xon7}`
+                    }
+                ]
+            } : ()
+    };
+    r4:Reference reference = {
+        identifier: (identifier != {}) ? identifier : ()
+    };
+    return (reference != {}) ? reference : ();
 };
 
 public isolated function xpnToHumanName(Xpn xpn) returns r4:HumanName {
@@ -186,11 +202,6 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
 };
 
 public isolated function hdToMessageHeaderSource(Hd hd) returns international401:MessageHeaderSource {
-    if hd.hd1 == "" && hd.hd2 == "" && hd.hd3 == "" {
-        return {
-            endpoint: ""
-        };
-    }
     return {
         name: (hd.hd1 != "") ? hd.hd1 : (),
         endpoint: hd.hd2,

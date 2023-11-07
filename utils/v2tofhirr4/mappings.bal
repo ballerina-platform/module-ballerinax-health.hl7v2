@@ -72,77 +72,116 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "NK1" => {
             Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
             if nk1ToPatient is Nk1ToPatient {
-                entries.push({'resource: nk1ToPatient(check segment.ensureType(hl7v2commons:Nk1))});
+                map<anydata> constructedResource = nk1ToPatient(check segment.ensureType(hl7v2commons:Nk1));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "PD1" => {
             Pd1ToPatient? pd1ToPatient = impl.pd1ToPatient;
             if pd1ToPatient is Pd1ToPatient {
-                entries.push({'resource: pd1ToPatient(check segment.ensureType(hl7v2commons:Pd1))});
+                map<anydata> constructedResource = pd1ToPatient(check segment.ensureType(hl7v2commons:Pd1));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "PID" => {
             PidToPatient? pidToPatient = impl.pidToPatient;
             if pidToPatient is PidToPatient {
-                entries.push({'resource: pidToPatient(check segment.ensureType(hl7v2commons:Pid))});
+                map<anydata> constructedResource = pidToPatient(check segment.ensureType(hl7v2commons:Pid));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "PV1" => {
             Pv1ToPatient? pv1ToPatientResult = impl.pv1ToPatient;
             if pv1ToPatientResult is Pv1ToPatient {
-                entries.push({'resource: pv1ToPatientResult(check segment.ensureType(hl7v2commons:Pv1))});
+                map<anydata> constructedResource = pv1ToPatientResult(check segment.ensureType(hl7v2commons:Pv1));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
             Pv1ToEncounter? pv1ToEncounterResult = impl.pv1ToEncounter;
             if pv1ToEncounterResult is Pv1ToEncounter {
-                entries.push({'resource: pv1ToEncounterResult(check segment.ensureType(hl7v2commons:Pv1))});
+                map<anydata> constructedResource = pv1ToEncounterResult(check segment.ensureType(hl7v2commons:Pv1));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "DG1" => {
             Dg1ToCondition? dg1ToCondition = impl.dg1ToCondition;
             if dg1ToCondition is Dg1ToCondition {
-                entries.push({'resource: dg1ToCondition(check segment.ensureType(hl7v2commons:Dg1))});
+                map<anydata> constructedResource = dg1ToCondition(check segment.ensureType(hl7v2commons:Dg1));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "AL1" => {
             Al1ToAllerygyIntolerance? al1ToAllerygyIntolerance = impl.al1ToAllerygyIntolerance;
             if al1ToAllerygyIntolerance is Al1ToAllerygyIntolerance {
-                entries.push({'resource: al1ToAllerygyIntolerance(check segment.ensureType(hl7v2commons:Al1))});
+                map<anydata> constructedResource = al1ToAllerygyIntolerance(check segment.ensureType(hl7v2commons:Al1));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "EVN" => {
             EvnToProvenance? evnToProvenance = impl.evnToProvenance;
             if evnToProvenance is EvnToProvenance {
-                entries.push({'resource: evnToProvenance(check segment.ensureType(hl7v2commons:Evn))});
+                map<anydata> constructedResource = evnToProvenance(check segment.ensureType(hl7v2commons:Evn));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "MSH" => {
             MshToMessageHeader? mshToMessageHeader = impl.mshToMessageHeader;
             if mshToMessageHeader is MshToMessageHeader {
-                entries.push({'resource: mshToMessageHeader(check segment.ensureType(hl7v2commons:Msh))});
+                map<anydata> constructedResource = mshToMessageHeader(check segment.ensureType(hl7v2commons:Msh));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "PV2" => {
             Pv2ToEncounter? pv2ToEncounter = impl.pv2ToEncounter;
             if pv2ToEncounter is Pv2ToEncounter {
-                entries.push({'resource: pv2ToEncounter(check segment.ensureType(hl7v2commons:Pv2))});
+                map<anydata> constructedResource = pv2ToEncounter(check segment.ensureType(hl7v2commons:Pv2));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "OBX" => {
             ObxToObservation? obxToObservation = impl.obxToObservation;
             if obxToObservation is ObxToObservation {
-                entries.push({'resource: obxToObservation(check segment.ensureType(hl7v2commons:Obx))});
+                map<anydata> constructedResource = obxToObservation(check segment.ensureType(hl7v2commons:Obx));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "ORC" => {
             OrcToImmunization? orcToImmunization = impl.orcToImmunization;
             if orcToImmunization is OrcToImmunization {
-                entries.push({'resource: orcToImmunization(check segment.ensureType(hl7v2commons:Orc))});
+                map<anydata> constructedResource = orcToImmunization(check segment.ensureType(hl7v2commons:Orc));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
         "OBR" => {
             ObrToDiagnosticReport? obrToDiagnosticReport = impl.obrToDiagnosticReport;
             if obrToDiagnosticReport is ObrToDiagnosticReport {
-                entries.push({'resource: obrToDiagnosticReport(check segment.ensureType(hl7v2commons:Obr))});
+                map<anydata> constructedResource = obrToDiagnosticReport(check segment.ensureType(hl7v2commons:Obr));
+                if constructedResource.keys().length() > 1 {
+                    entries.push({'resource: constructedResource});
+                }
             }
         }
     } on fail var e {
