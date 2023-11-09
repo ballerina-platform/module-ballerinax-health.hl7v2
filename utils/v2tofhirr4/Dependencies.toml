@@ -311,7 +311,7 @@ dependencies = [
 [[package]]
 org = "ballerinax"
 name = "health.base"
-version = "1.0.4"
+version = "1.0.3"
 dependencies = [
 	{org = "ballerina", name = "http"},
 	{org = "ballerina", name = "io"},
@@ -373,7 +373,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2.utils.v2tofhirr4"
-version = "2.1.0"
+version = "2.1.1"
 dependencies = [
 	{org = "ballerina", name = "lang.array"},
 	{org = "ballerina", name = "log"},
