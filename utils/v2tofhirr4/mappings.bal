@@ -246,6 +246,20 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
         patient: {}
     };
 
+    if al1.al14 is hl7v23:IS|hl7v231:IS {
+        if al1.al14 == "SV" {
+            allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
+        }
+    } else if al1.al14 is hl7v24:CE|hl7v25:CE|hl7v251:CE {
+        if (<hl7v24:CE|hl7v25:CE|hl7v251:CE>al1.al14).ce1 == "SV" {
+            allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
+        }
+    } else if al1.al14 is hl7v26:CWE|hl7v27:CWE|hl7v28:CWE {
+        if (<hl7v26:CWE|hl7v27:CWE|hl7v28:CWE>al1.al14).cwe1 == "SV" {
+            allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
+        }
+    }
+
     if al1.al12 is hl7v23:IS|hl7v231:IS {
         allergyIntolerance.'type = isToAllergyIntoleranceType(<hl7v23:IS>al1.al12);
     } else if al1.al12 is hl7v24:CE|hl7v25:CE|hl7v251:CE {
