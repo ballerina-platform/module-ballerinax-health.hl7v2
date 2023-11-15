@@ -185,16 +185,13 @@ public isolated function xpnToHumanName(Xpn xpn) returns r4:HumanName {
 
 public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
     r4:ContactPoint contactPoint = {
-        value: checkComputableAntlr([
-                {identifier: xtn.xtn3, comparisonOperator: "NIN", valueList: ["Internet", "X.400"]},
-                {identifier: xtn.xtn7.toString(), comparisonOperator: "IN", valueList: []}
-                //, {identifier: xtn.xtn12, comparisonOperator: "IN", valueList: []}                    //TODO: xtn12 is not defined yet
-            ]) ? ((xtn is hl7v26:XTN) ? xtn.xtn12 : xtn.xtn1) :
-                (checkComputableAntlr([{identifier: xtn.xtn3, comparisonOperator: "NIN", valueList: ["Internet", "X.400"]}])) ? (xtn.xtn4) : (),
         use: idToContactPointUse(xtn.xtn2),
         system: idToContactPointSystem(xtn.xtn3),
-        extension: getStringExtension([xtn.xtn5.toString(), xtn.xtn6.toString(), xtn.xtn7.toString(), xtn.xtn8.toString()])
+        extension: xtn.xtn5 != -1.0 ? getStringExtension([xtn.xtn5.toString()]) : ()
     };
+    if (xtn.xtn3 != "Internet" || xtn.xtn3 != "X.400") && xtn.xtn7 != "" {
+        contactPoint.value = xtn.xtn1;
+    }
     if contactPoint.value == "" {
         return {};
     }

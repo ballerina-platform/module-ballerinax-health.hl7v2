@@ -22,7 +22,7 @@ isolated function getStringExtension(string[] itemList) returns r4:StringExtensi
     foreach string item in itemList {
         if item != "" {
             stringExtensions.push({
-                url: item,
+                url: "http://hl7.org/fhir/StructureDefinition/contactpoint-country",
                 valueString: item
             });
         }
