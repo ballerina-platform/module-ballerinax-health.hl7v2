@@ -274,6 +274,12 @@ public isolated function xcnToReference(Xcn xcn) returns r4:Reference {
     };
 };
 
+public isolated function xcnToReferenceWithType(Xcn xcn, string resourceType) returns r4:Reference {
+    return {
+        reference: (xcn.xcn1 != "") ? string `${resourceType}/${xcn.xcn1}` : ()
+    };
+};
+
 public isolated function idToCoding(hl7v23:ID id) returns r4:Coding {
     return {
         id: (id != "") ? id : ()

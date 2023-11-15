@@ -221,10 +221,10 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
             if reaction != "" {
                 international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
                     manifestation: [
-                            {
-                                text: <string?>reaction
-                            }
-                        ],
+                        {
+                            text: <string?>reaction
+                        }
+                    ],
                     onset: (al1.al16 != "") ? al1.al16 : ()
                 };
                 allergyIntoleranceReactions.push(allergyIntoleranceReaction);
@@ -278,16 +278,10 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns internati
             display: evn.name
         }
     ];
-    r4:uri url = "";
-    if evn is hl7v23:EVN|hl7v231:EVN|hl7v24:EVN|hl7v25:EVN|hl7v251:EVN|hl7v26:EVN {
-        url = evn.evn4;
-    } else if evn is hl7v27:EVN|hl7v28:EVN {
-        url = evn.evn4.cwe1;
-    }
 
     international401:ProvenanceAgent[] agent = [];
     if evn.evn5 is hl7v23:XCN {
-        r4:Reference xcnToReferenceResult = xcnToReference(<hl7v23:XCN>evn.evn5);
+        r4:Reference xcnToReferenceResult = xcnToReferenceWithType(<hl7v23:XCN>evn.evn5, "Practitioner");
         if xcnToReferenceResult != {} {
             agent.push({
                 who: xcnToReferenceResult
@@ -295,7 +289,7 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns internati
         }
     } else {
         foreach var xcn in <anydata[]>evn.evn5 {
-            r4:Reference xcnToReferenceResult = xcnToReference(<Xcn>xcn);
+            r4:Reference xcnToReferenceResult = xcnToReferenceWithType(<Xcn>xcn, "Practitioner");
             if xcnToReferenceResult != {} {
                 agent.push({
                     who: xcnToReferenceResult
@@ -311,26 +305,31 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns internati
             coding: coding
         },
         recorded: recorded,
-        reason: (url != "") ? [
-                {
-                    extension: [
-                        {
-                            url: url
-                        }
-                    ]
-                }
-            ] : (),
-        meta: (url != "") ? {
-                extension: [
-                    {
-                        url: url
-                    }
-                ]
-            } : (),
         agent: agent,
         occurredDateTime: (occurredDateTime != "") ? occurredDateTime : (),
         target: []
     };
+
+    if evn is hl7v23:EVN|hl7v231:EVN|hl7v24:EVN|hl7v25:EVN|hl7v251:EVN|hl7v26:EVN {
+        if evn.evn4 != "" && evn.evn4 != "U" {
+            provenance.reason = [
+                {
+                    coding: [
+                        {
+                            code: evn.evn4
+                        }
+                    ]
+                }
+            ];
+        }
+    } else if evn is hl7v27:EVN|hl7v28:EVN {
+        if evn.evn4.cwe1 != "" && evn.evn4.cwe1 != "U" {
+            r4:CodeableConcept cweToCodeableConceptResult = cweToCodeableConcept(evn.evn4);
+            if cweToCodeableConceptResult != {} {
+                provenance.reason = [cweToCodeableConceptResult];
+            }
+        }
+    }
 
     if evn is hl7v23:EVN|hl7v231:EVN|hl7v24:EVN|hl7v25:EVN|hl7v251:EVN {
         if evn.evn2.ts1 != "" {
