@@ -1,22 +1,19 @@
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
-
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
-
 // Unless required by applicable law or agreed to in writing,
 // software distributed under the License is distributed on an
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerina/log;
 import ballerinax/health.fhir.r4 as r4;
 import ballerinax/health.fhir.r4.international401;
+import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.hl7v23;
 import ballerinax/health.hl7v231;
 import ballerinax/health.hl7v24;
@@ -25,7 +22,6 @@ import ballerinax/health.hl7v251;
 import ballerinax/health.hl7v26;
 import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
-import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.hl7v2commons;
 
 public isolated function pidToAdministrativeSex(string pid8) returns international401:PatientGender? {
@@ -174,22 +170,22 @@ public isolated function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons
     //get ContactPointFromXTN use this
     if pid13 is hl7v23:XTN[] {
         foreach hl7v23:XTN item in pid13 {
-            r4:ContactPoint contactPoint = xtnToContactPoint(item);
-            if contactPoint != {} {
+            r4:ContactPoint? contactPoint = xtnToContactPoint(item);
+            if contactPoint != () {
                 phoneNumbers.push(contactPoint);
             }
         }
     } else if pid13 is hl7v24:XTN[] {
         foreach hl7v24:XTN item in pid13 {
-            r4:ContactPoint contactPoint = xtnToContactPoint(item);
-            if contactPoint != {} {
+            r4:ContactPoint? contactPoint = xtnToContactPoint(item);
+            if contactPoint != () {
                 phoneNumbers.push(contactPoint);
             }
         }
     } else if pid13 is hl7v25:XTN[] {
         foreach hl7v25:XTN item in pid13 {
-            r4:ContactPoint contactPoint = xtnToContactPoint(item);
-            if contactPoint != {} {
+            r4:ContactPoint? contactPoint = xtnToContactPoint(item);
+            if contactPoint != () {
                 phoneNumbers.push(contactPoint);
             }
         }
@@ -197,22 +193,22 @@ public isolated function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons
 
     if pid14 is hl7v23:XTN[] {
         foreach hl7v23:XTN item in pid14 {
-            r4:ContactPoint contactPoint = xtnToContactPoint(item);
-            if contactPoint != {} {
+            r4:ContactPoint? contactPoint = xtnToContactPoint(item);
+            if contactPoint != () {
                 phoneNumbers.push(contactPoint);
             }
         }
     } else if pid14 is hl7v24:XTN[] {
         foreach hl7v24:XTN item in pid14 {
-            r4:ContactPoint contactPoint = xtnToContactPoint(item);
-            if contactPoint != {} {
+            r4:ContactPoint? contactPoint = xtnToContactPoint(item);
+            if contactPoint != () {
                 phoneNumbers.push(contactPoint);
             }
         }
     } else if pid14 is hl7v25:XTN[] {
         foreach hl7v25:XTN item in pid14 {
-            r4:ContactPoint contactPoint = xtnToContactPoint(item);
-            if contactPoint != {} {
+            r4:ContactPoint? contactPoint = xtnToContactPoint(item);
+            if contactPoint != () {
                 phoneNumbers.push(contactPoint);
             }
         }
@@ -352,117 +348,60 @@ public isolated function pd1ToExtension(string pd16) returns r4:Extension[]? {
 public isolated function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 nk14, hl7v2commons:Nk15 nk15, hl7v2commons:Nk16 nk16, hl7v2commons:Nk17 nk17,
         hl7v2commons:Nk18 nk18, hl7v2commons:Nk19 nk19, hl7v2commons:Nk113 nk113, hl7v2commons:Nk115 nk115, hl7v2commons:Nk130 nk130,
         hl7v2commons:Nk131 nk131, hl7v2commons:Nk132 nk132) returns international401:PatientContact[] {
-    international401:PatientContact[] patientContact = [];
+    international401:PatientContact patientContact = {};
 
-    if nk12 is hl7v23:XPN[] {
-        foreach hl7v23:XPN item in nk12 {
-            r4:HumanName name = xpnToHumanName(item);
-            if name != {} {
-                patientContact.push({
-                    name: name
-                });
-            }
-        }
-    } else if nk12 is hl7v24:XPN[] {
-        foreach hl7v24:XPN item in nk12 {
-            r4:HumanName name = xpnToHumanName(item);
-            if name != {} {
-                patientContact.push({
-                    name: name
-                });
-            }
-        }
-    } else if nk12 is hl7v25:XPN[] {
-        foreach hl7v25:XPN item in nk12 {
-            r4:HumanName name = xpnToHumanName(item);
-            if name != {} {
-                patientContact.push({
-                    name: name
-                });
-            }
+    foreach Xpn item in <Xpn[]>nk12 {
+        r4:HumanName name = xpnToHumanName(item);
+        if name != {} {
+            patientContact.name = name;
         }
     }
 
-    if nk14 is hl7v23:XAD[] {
-        foreach hl7v23:XAD item in nk14 {
-            r4:Address? address = xadToAddress(item);
-            if address != () {
-                patientContact.push({
-                    address: xadToAddress(item)
-                });
-            }
-        }
-    } else if nk14 is hl7v24:XAD[] {
-        foreach hl7v24:XAD item in nk14 {
-            r4:Address? address = xadToAddress(item);
-            if address != () {
-                patientContact.push({
-                    address: xadToAddress(item)
-                });
-            }
-        }
-    } else if nk14 is hl7v25:XAD[] {
-        foreach hl7v25:XAD item in nk14 {
-            r4:Address? address = xadToAddress(item);
-            if address != () {
-                patientContact.push({
-                    address: xadToAddress(item)
-                });
-            }
+    foreach Xad item in <Xad[]>nk14 {
+        r4:Address? address = xadToAddress(item);
+        if address != () {
+            patientContact.address = xadToAddress(item);
         }
     }
 
     r4:ContactPoint[] telecoms = [];
-
-    if nk15 is hl7v23:XTN[] {
-        foreach hl7v23:XTN item in nk15 {
-            telecoms.push(xtnToContactPoint(item));
-        }
-    } else if nk15 is hl7v24:XTN[] {
-        foreach hl7v24:XTN item in nk15 {
-            telecoms.push(xtnToContactPoint(item));
-        }
-    } else if nk15 is hl7v25:XTN[] {
-        foreach hl7v25:XTN item in nk15 {
-            telecoms.push(xtnToContactPoint(item));
+    foreach Xtn item in <Xtn[]>nk15 {
+        r4:ContactPoint? xtnToContactPointResult = xtnToContactPoint(item);
+        if xtnToContactPointResult != () {
+            telecoms.push(xtnToContactPointResult);
         }
     }
 
-    if nk16 is hl7v23:XTN[] {
-        foreach hl7v23:XTN item in nk16 {
-            telecoms.push(xtnToContactPoint(item));
-        }
-    } else if nk16 is hl7v24:XTN[] {
-        foreach hl7v24:XTN item in nk16 {
-            telecoms.push(xtnToContactPoint(item));
-        }
-    } else if nk16 is hl7v25:XTN[] {
-        foreach hl7v25:XTN item in nk16 {
-            telecoms.push(xtnToContactPoint(item));
+    foreach Xtn item in <Xtn[]>nk16 {
+        r4:ContactPoint? xtnToContactPointResult = xtnToContactPoint(item);
+        if xtnToContactPointResult != () {
+            telecoms.push(xtnToContactPointResult);
         }
     }
 
-    patientContact.push({
-        telecom: telecoms
-    });
+    patientContact.telecom = telecoms;
 
     r4:CodeableConcept[] relationship = [];
     r4:CodeableConcept relation = (nk17 is hl7v26:CWE) ? cweToCodeableConcept(nk17) : ceToCodeableConcept(<hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE>nk17);
     relationship.push(relation);
-    patientContact.push({
-        relationship: relationship
-    });
+    patientContact.relationship = relationship;
 
     r4:Period period = {'start: nk18 != "" ? nk18 : (), end: (nk19 != "") ? nk19 : ()};
     if period != {} {
-        patientContact.push({
-            period: period
-        });
+        patientContact.period = period;
     }
 
     // nk115, nk130, nk131, nk132 needs to be considered
+    if nk115 is hl7v27:CWE {
+        r4:code? cweToCodeResult = cweToCode(nk115);
+        if cweToCodeResult is r4:code {
+            patientContact.gender = pidToAdministrativeSex(cweToCodeResult);
+        }
+    } else {
+        patientContact.gender = pidToAdministrativeSex(nk115);
+    }
 
-    return patientContact;
+    return [patientContact];
 }
 
 isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMapper) returns json|error {

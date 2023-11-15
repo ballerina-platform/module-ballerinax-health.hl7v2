@@ -183,7 +183,7 @@ public isolated function xpnToHumanName(Xpn xpn) returns r4:HumanName {
     return humanName;
 };
 
-public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
+public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint? {
     r4:ContactPoint contactPoint = {
         use: idToContactPointUse(xtn.xtn2),
         system: idToContactPointSystem(xtn.xtn3),
@@ -193,7 +193,7 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
         contactPoint.value = xtn.xtn1;
     }
     if contactPoint.value == "" {
-        return {};
+        return ();
     }
     return contactPoint;
 };
