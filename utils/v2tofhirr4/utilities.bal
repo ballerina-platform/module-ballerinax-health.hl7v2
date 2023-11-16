@@ -23,6 +23,7 @@ import ballerinax/health.hl7v26;
 import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 import ballerinax/health.hl7v2commons;
+import ballerina/uuid;
 
 public isolated function pidToAdministrativeSex(string pid8) returns international401:PatientGender? {
     if pid8 == "" {
@@ -449,4 +450,10 @@ isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? cu
         return bundle.toJson();
     }
     return getOperationOutcome(string `Unsupported message: ${message.name}`);
+}
+
+
+public isolated function generateFhirResourceId() returns string {
+    // Generate a version 4 (random) UUID
+    return uuid:createType4AsString();
 }

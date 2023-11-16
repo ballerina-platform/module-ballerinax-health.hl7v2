@@ -240,6 +240,12 @@ public isolated function eiToIdentifier(Ei ei) returns r4:Identifier => {
     value: (ei.ei1 != "") ? ei.ei1 : ()
 };
 
+public isolated function eiToReferenceWithType(Ei ei, string resourceType) returns r4:Reference {
+    return {
+        reference: (ei.ei1 != "") ? string `${resourceType}/${ei.ei1}` : ()
+    };
+};
+
 public isolated function idToCodeableConceptArray(Id id) returns r4:CodeableConcept[] {
     r4:CodeableConcept[] codeableConcept = [];
     r4:CodeableConcept? idToCodeableConceptResult = idToCodeableConcept(id);

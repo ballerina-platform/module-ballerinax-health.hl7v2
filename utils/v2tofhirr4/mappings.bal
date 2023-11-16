@@ -114,9 +114,29 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         }
         "DG1" => {
             Dg1ToCondition? dg1ToCondition = impl.dg1ToCondition;
+            string? conditionId = ();
+            string? patientId = ();
             if dg1ToCondition is Dg1ToCondition {
                 map<anydata> constructedResource = dg1ToCondition(check segment.ensureType(hl7v2commons:Dg1));
-                if constructedResource.keys().length() > 1 {
+                if constructedResource["id"] != () {
+                    conditionId = <string?>constructedResource["id"];
+                    entries.push({'resource: constructedResource});
+                }
+            }
+            Dg1ToEncounter? dg1ToEncounter = impl.dg1ToEncounter;
+            if dg1ToEncounter is Dg1ToEncounter {
+                r4:BundleEntry bundleEntry = entries[entries.length() - 1];
+                if bundleEntry?.'resource is international401:Condition {
+                    map<anydata> constructedResource = dg1ToEncounter(check segment.ensureType(hl7v2commons:Dg1), conditionId);
+                    if constructedResource["id"] != () {
+                        entries.push({'resource: constructedResource});
+                    }
+                }
+            }
+            Dg1ToEpisodeOfCare? dg1ToEpisodeOfCare = impl.dg1ToEpisodeOfCare;
+            if dg1ToEpisodeOfCare is Dg1ToEpisodeOfCare {
+                map<anydata> constructedResource = dg1ToEpisodeOfCare(check segment.ensureType(hl7v2commons:Dg1), conditionId, patientId);
+                if constructedResource["id"] != () {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -1025,19 +1045,117 @@ public isolated function dg1ToCondition(hl7v2commons:Dg1 dg1) returns internatio
     if dg1 is hl7v26:DG1|hl7v27:DG1|hl7v28:DG1 {
         r4:CodeableConcept cweToCodeableConceptResult = cweToCodeableConcept(dg1.dg13);
         if cweToCodeableConceptResult != {} {
+            cweToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();
             condition.code = cweToCodeableConceptResult;
         }
         condition.onsetDateTime = dg1.dg15 != "" ? dg1.dg15 : ();
         condition.recordedDate = dg1.dg119 != "" ? dg1.dg119 : ();
+        if dg1.dg120.ei1 != "" {
+            condition.identifier = [eiToIdentifier(dg1.dg120)];
+        }
+        if dg1.dg122.ei1 != "" {
+            r4:ReferenceExtension ref = {
+                url: "http://hl7.org/fhir/StructureDefinition/condition-dueTo",
+                valueReference: {
+                    reference: dg1.dg122.ei1
+                }
+            };
+            condition.extension = [ref];
+        }
     } else if dg1 is hl7v23:DG1|hl7v231:DG1|hl7v24:DG1|hl7v25:DG1|hl7v251:DG1 {
         r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(dg1.dg13);
         if ceToCodeableConceptResult != {} {
+            ceToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();
             condition.code = ceToCodeableConceptResult;
         }
         condition.onsetDateTime = dg1.dg15.ts1 != "" ? dg1.dg15.ts1 : ();
         condition.recordedDate = dg1.dg119.ts1 != "" ? dg1.dg119.ts1 : ();
     }
+    Xcn[] dg116 = dg1.dg116;
+    foreach var item in dg116 {
+        if item.xcn1 != "" {
+            condition.asserter.reference = item.xcn1;
+        }
+    }
+    if condition.keys().length() > 1 {
+        condition.id = generateFhirResourceId();
+    }
+
     return condition;
+}
+
+public isolated function dg1ToEncounter(hl7v2commons:Dg1 dg1, string? conditionId) returns international401:Encounter {
+    international401:Encounter encounter = {
+        'class: {},
+        status: "finished"
+    };
+    if dg1 is hl7v27:DG1|hl7v28:DG1 {
+        hl7v27:CWE|hl7v28:CWE dg16 = dg1.dg16;
+        if conditionId is string {
+            international401:EncounterDiagnosis encounterDiagnosis = {
+                condition: {
+                    reference: string `Condition/${conditionId}`
+                }
+            };
+            encounterDiagnosis.use = cweToCodeableConcept(dg16);
+            encounter.diagnosis = [encounterDiagnosis];
+            hl7v27:NM|hl7v28:NM dg115 = dg1.dg115;
+            int|error rankVal = int:fromString(dg115);
+            if rankVal is int {
+                encounterDiagnosis.rank = rankVal;
+            }
+            encounter.id = generateFhirResourceId();
+        }
+    } else if dg1 is hl7v23:DG1|hl7v231:DG1|hl7v24:DG1|hl7v25:DG1|hl7v251:DG1|hl7v26:DG1 {
+        Is dg16 = dg1.dg16;
+        if conditionId is string {
+            international401:EncounterDiagnosis encounterDiagnosis = {
+                condition: {
+                    reference: string `Condition/${conditionId}`
+                }
+            };
+            if dg16 != "" {
+                encounterDiagnosis.use = {
+                    text: dg16
+                };
+            }
+            encounter.diagnosis = [encounterDiagnosis];
+            encounter.id = generateFhirResourceId();
+        }
+    }
+    return encounter;
+}
+
+public isolated function dg1ToEpisodeOfCare(hl7v2commons:Dg1 dg1, string? conditionId, string? patientId) returns international401:EpisodeOfCare {
+    international401:EpisodeOfCare episodeOfCare = {
+        patient: {},
+        status: "active"
+    };
+    if conditionId is string {
+        international401:EpisodeOfCareDiagnosis episodeOfCareDiagnosis = {
+            condition: {
+                reference: string `Condition/${conditionId}`
+            }
+        };
+        episodeOfCare.diagnosis = [episodeOfCareDiagnosis];
+        if dg1 is hl7v27:DG1|hl7v28:DG1 {
+            hl7v27:CWE|hl7v28:CWE dg16 = dg1.dg16;
+            episodeOfCareDiagnosis.role = cweToCodeableConcept(dg16);
+        } else if dg1 is hl7v23:DG1|hl7v231:DG1|hl7v24:DG1|hl7v25:DG1|hl7v251:DG1|hl7v26:DG1 {
+            Is dg16 = dg1.dg16;
+            if dg16 != "" {
+                episodeOfCareDiagnosis.role = {
+                    text: dg16
+                };
+            }
+        }
+    }
+    if patientId is string {
+        episodeOfCare.patient.reference = string `Patient/${patientId}`;
+        episodeOfCare.id = generateFhirResourceId();
+    }
+
+    return episodeOfCare;
 }
 
 public isolated function obxToObservation(hl7v2commons:Obx obx) returns international401:Observation {

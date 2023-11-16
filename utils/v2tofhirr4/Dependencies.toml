@@ -298,6 +298,9 @@ dependencies = [
 	{org = "ballerina", name = "lang.int"},
 	{org = "ballerina", name = "time"}
 ]
+modules = [
+	{org = "ballerina", packageName = "uuid", moduleName = "uuid"}
+]
 
 [[package]]
 org = "ballerinai"
@@ -377,6 +380,7 @@ version = "2.1.1"
 dependencies = [
 	{org = "ballerina", name = "lang.array"},
 	{org = "ballerina", name = "log"},
+	{org = "ballerina", name = "uuid"},
 	{org = "ballerinax", name = "health.fhir.r4"},
 	{org = "ballerinax", name = "health.fhir.r4.international401"},
 	{org = "ballerinax", name = "health.hl7v2"},
