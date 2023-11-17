@@ -1,20 +1,16 @@
 import ballerina/log;
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
-
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
-
 // Unless required by applicable law or agreed to in writing,
 // software distributed under the License is distributed on an
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # Returns instance of segment record given the segment name.
@@ -520,7 +516,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             return messageInstance;
         }
         "QRY_A19" => {
-            QRY_A19 messageInstance =  {msh: {}, qrd: {}};
+            QRY_A19 messageInstance = {msh: {}, qrd: {}};
             return messageInstance;
         }
         "CRM_C01" => {
@@ -544,15 +540,15 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             return messageInstance;
         }
         "ADT_A01" => {
-            ADT_A01 messageInstance = {msh: {},pid: {}};
+            ADT_A01 messageInstance = {msh: {}, pid: {}};
             return messageInstance;
         }
         "ADT_A04" => {
-            ADT_A04 messageInstance = {msh: {},pid: {}};
+            ADT_A04 messageInstance = {msh: {}, pid: {}};
             return messageInstance;
         }
         "ADR_A19" => {
-            ADR_A19 messageInstance = {msh: {},qrd: {}, msa: {}};
+            ADR_A19 messageInstance = {msh: {}, qrd: {}, msa: {}};
             return messageInstance;
         }
         "ADT_A02" => {
@@ -672,7 +668,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             return messageInstance;
         }
         "ACK" => {
-            ACK messageInstance = {msh: {},msa: {}};
+            ACK messageInstance = {msh: {}, msa: {}};
             return messageInstance;
         }
         "VXX_V02" => {
@@ -1084,9 +1080,17 @@ isolated function isValidSegmentField(hl7v2:Segment segment, int repetitionNum, 
 # + delimeter - Delimeter
 # + return - String without the extra delimeters
 isolated function stripExtraDelimeters(string inputStr, string delimeter) returns string {
-    if inputStr.endsWith(delimeter) {
-        return inputStr.substring(0, inputStr.length() - 1);
+    int len = string:length(inputStr);
+    int lastIndex = len - 1;
+
+    // Find the last non-delimeter character index from the end
+    while (lastIndex >= 0 && inputStr[lastIndex] == delimeter) {
+        lastIndex = lastIndex - 1;
     }
+    if (lastIndex < len - 1) {
+        return string:substring(inputStr, 0, lastIndex + 1);
+    }
+
     return inputStr;
 }
 

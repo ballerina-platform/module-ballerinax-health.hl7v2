@@ -1,19 +1,15 @@
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
-
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
-
 // Unless required by applicable law or agreed to in writing,
 // software distributed under the License is distributed on an
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerina/log;
 import ballerina/regex;
 import ballerinax/health.hl7v2;
@@ -359,7 +355,24 @@ class HL7Parser {
                 }
 
             } else if segment is hl7v2:SegmentComponent[] {
-
+                foreach hl7v2:SegmentComponent childSegmentComponent in segment {
+                    [string, anydata][] innerSegments = childSegmentComponent.entries().toArray();
+                    foreach var innerSegmentItem in innerSegments {
+                        string innerSegmentKey;
+                        anydata innerSegment;
+                        [innerSegmentKey, innerSegment] = innerSegmentItem;
+                        log:printDebug(string `current processing segment: ${innerSegmentKey} of segment component: ${childSegmentComponent.name}`);
+                        if innerSegment is hl7v2:Segment {
+                            string encodedSegment = self.encodeSegment(innerSegment);
+                            encodedMessage = string:concat(encodedMessage, "\r", encodedSegment);
+                        } else if innerSegment is hl7v2:Segment[] {
+                            foreach hl7v2:Segment childSegment in innerSegment {
+                                string encodedSegment = self.encodeSegment(childSegment);
+                                encodedMessage = string:concat(encodedMessage, "\r", encodedSegment);
+                            }
+                        }
+                    }
+                }
             } else if segment is hl7v2:Segment {
                 string encodedSegment = self.encodeSegment(segment);
                 encodedMessage = string:concat(encodedMessage, "\r", encodedSegment);
@@ -443,7 +456,7 @@ class HL7Parser {
                         anydata subComponent;
                         [subCompKey, subComponent] = subComponents[subComponentNum];
                         log:printDebug(string `current processing subComponent: ${subCompKey}`);
-                        updatedEncodedTypeStr = self.encodePrimitive(subComponent, separator, updatedEncodedTypeStr);
+                        updatedEncodedTypeStr = self.encodePrimitive(subComponent, self.encodingCharacters.getSubcomponentSeparator(), updatedEncodedTypeStr);
                     }
                     updatedEncodedTypeStr = stripExtraDelimeters(updatedEncodedTypeStr, self.encodingCharacters.getSubcomponentSeparator());
                     if updatedEncodedTypeStr != "" {
@@ -460,27 +473,28 @@ class HL7Parser {
 
     # Encode the primitive type and return the encoded string.
     #
-    # + typ - Primitive type model
-    # + separator - Seperator character of HL7 datatypes
+    # + typ - Primitive type model  
+    # + separator - Seperator character of HL7 datatypes  
     # + encodedTypeStr - Encoded type string value
     # + return - Encoded type string
     private isolated function encodePrimitive(anydata typ, string separator, string encodedTypeStr) returns string {
 
         string updatedEncodedTypeStr = encodedTypeStr;
-        if isPrimitiveType(typ) && typ != "" && typ != () {
+        if isPrimitiveType(typ) && typ != () {
             if typ is int {
                 //todo: handle this check by using data type annotations
                 if typ != -1 {
-                    updatedEncodedTypeStr = string:concat(encodedTypeStr, typ.toString(), separator);
+                    updatedEncodedTypeStr = string:concat(encodedTypeStr, typ.toString());
                 }
             } else if typ is float {
                 //todo: handle this check by using data type annotations
                 if typ != -1.0 {
-                    updatedEncodedTypeStr = string:concat(encodedTypeStr, typ.toString(), separator);
+                    updatedEncodedTypeStr = string:concat(encodedTypeStr, typ.toString());
                 }
-            } else {
-                updatedEncodedTypeStr = string:concat(encodedTypeStr, <string>typ, separator);
+            } else if typ != "" {
+                updatedEncodedTypeStr = string:concat(encodedTypeStr, <string>typ);
             }
+            updatedEncodedTypeStr = string:concat(updatedEncodedTypeStr, separator);
         }
         return updatedEncodedTypeStr;
     }
