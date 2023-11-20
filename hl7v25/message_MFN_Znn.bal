@@ -13,27 +13,38 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const MFN_Znn_MESSAGE_TYPE = "MFN_Znn";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + mfi - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + mfi - MFI Segment
+# + mf_site_defined - MFN_Znn_MF_SITE_DEFINED Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "MFI": {name: "MFI", maxReps: 1, required: false, segmentType: MFI}
+        "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
+    }
+    ,groups: {
+        "MFN_Znn_MF_SITE_DEFINED": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "MFE": {name: "MFE", maxReps: 1, required: true, segmentType: typeof MFE},
+                "anydata": {name: "anyHL7Segment", maxReps: 1, required: true, segmentType: typeof anydata}
+            }
+        }
     }
 }
 public type MFN_Znn record {
     *hl7v2:Message;
     string name = MFN_Znn_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    MFI mfi?;
+    MFI mfi;
+    MFN_Znn_MF_SITE_DEFINED[] mf_site_defined = [{mfe:{}, anyhl7segment:{}}];
 };

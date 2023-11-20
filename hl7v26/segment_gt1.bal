@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,69 +13,68 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + gt11 - Segment Record Field
-# + gt12 - Segment Record Field
-# + gt13 - Segment Record Field
-# + gt14 - Segment Record Field
-# + gt15 - Segment Record Field
-# + gt16 - Segment Record Field
-# + gt17 - Segment Record Field
-# + gt18 - Segment Record Field
-# + gt19 - Segment Record Field
-# + gt110 - Segment Record Field
-# + gt111 - Segment Record Field
-# + gt112 - Segment Record Field
-# + gt113 - Segment Record Field
-# + gt114 - Segment Record Field
-# + gt115 - Segment Record Field
-# + gt116 - Segment Record Field
-# + gt117 - Segment Record Field
-# + gt118 - Segment Record Field
-# + gt119 - Segment Record Field
-# + gt120 - Segment Record Field
-# + gt121 - Segment Record Field
-# + gt122 - Segment Record Field
-# + gt123 - Segment Record Field
-# + gt124 - Segment Record Field
-# + gt125 - Segment Record Field
-# + gt126 - Segment Record Field
-# + gt127 - Segment Record Field
-# + gt128 - Segment Record Field
-# + gt129 - Segment Record Field
-# + gt130 - Segment Record Field
-# + gt131 - Segment Record Field
-# + gt132 - Segment Record Field
-# + gt133 - Segment Record Field
-# + gt134 - Segment Record Field
-# + gt135 - Segment Record Field
-# + gt136 - Segment Record Field
-# + gt137 - Segment Record Field
-# + gt138 - Segment Record Field
-# + gt139 - Segment Record Field
-# + gt140 - Segment Record Field
-# + gt141 - Segment Record Field
-# + gt142 - Segment Record Field
-# + gt143 - Segment Record Field
-# + gt144 - Segment Record Field
-# + gt145 - Segment Record Field
-# + gt146 - Segment Record Field
-# + gt147 - Segment Record Field
-# + gt148 - Segment Record Field
-# + gt149 - Segment Record Field
-# + gt150 - Segment Record Field
-# + gt151 - Segment Record Field
-# + gt152 - Segment Record Field
-# + gt153 - Segment Record Field
-# + gt154 - Segment Record Field
-# + gt155 - Segment Record Field
-# + gt156 - Segment Record Field
-# + gt157 - Segment Record Field
+# + gt11 - GT1-Segmentnummer
+# + gt12 - Identifikationsnummer des Zahlungspflichtigen
+# + gt13 - Name des Zahlungspflichtigen
+# + gt14 - Ehegatte des Zahlungspflichtigen
+# + gt15 - Anschrift des Zahlungspflichtigen
+# + gt16 - Telefonnummer des Zahlungspflichtigen (privat)
+# + gt17 - Telefonnummer des Zahlungspflichtigen (dienstlich)
+# + gt18 - Geburtsdatum des Zahlungspflichtigen
+# + gt19 - Geschlecht des Zahlungspflichtigen
+# + gt110 - Art des Zahlungspflichtigen
+# + gt111 - Beziehung des Zahlungspflichtigen zum Patienten
+# + gt112 - Sozialversicherungsnummer des Zahlungspflichtigen
+# + gt113 - Beginn der Kostenübernahme durch den Zahlungspflichtigen
+# + gt114 - Ende der Kostenübernahme durch den Zahlungspflichtigen
+# + gt115 - Rangfolge der Zahlungspflichtigen
+# + gt116 - Arbeitgeber des Zahlungspflichtigen - Name
+# + gt117 - Arbeitgeber des Zahlungspflichtigen - Anschrift
+# + gt118 - Arbeitgeber des Zahlungspflichtigen - Telefonnummer
+# + gt119 - Personalnummer des Zahlungspflichtigen
+# + gt120 - Arbeitsverhältnis des Zahlungspflichtigen
+# + gt121 - Name der Organisation des Zahlungspflichtigen
+# + gt122 - Merkmal Rechnungsdruck verhindern
+# + gt123 - Kreditwürdigkeit des Zahlungspflichtigen
+# + gt124 - Todeszeitpunkt des Zahlungspflichtigen
+# + gt125 - Merkmal Tod des Zahlungspflichtigen
+# + gt126 - Sonderkonditionen für den Zahlungspflichtigen
+# + gt127 - Jahresgehalt des Zahlungspflichtigen
+# + gt128 - Haushaltsgröße des Zahlungspflichtigen
+# + gt129 - ID des Arbeitgebers des Zahlungspflichtigen
+# + gt130 - Familienstand des Zahlungspflichtigen
+# + gt131 - Beginn des Arbeitsverhältnisses des Zahlungspflichtigen
+# + gt132 - Endzeitpunkt des Arbeitsverhältnisses des Zahlungspflichtigen
+# + gt133 - Besondere Lebensabhängigkeiten
+# + gt134 - Mobilitätsstatus
+# + gt135 - Länderkennzeichen / Staatsangehörigkeit
+# + gt136 - Muttersprache
+# + gt137 - Besondere Lebensumstände
+# + gt138 - Auskunftsbeschränkung
+# + gt139 - Merkmal Vertrauensschutz
+# + gt140 - Studentenstatus
+# + gt141 - Religion
+# + gt142 - veraltet; korrespondierendes Namensfeld verwenden
+# + gt143 - Nationalität
+# + gt144 - Ethnische Zugehörigkeit
+# + gt145 - Ansprechpartner falls NK1 Organisation
+# + gt146 - Telefonnummer des Ansprechpartners
+# + gt147 - Grund für eine Kontaktaufnahme
+# + gt148 - Beziehung des Zahlungspflichtigen zur Kontaktperson
+# + gt149 - Dienststellung
+# + gt150 - Berufsgruppe
+# + gt151 - Arbeitgeber des Zahlungspflichtigen
+# + gt152 - permanente Behinderung
+# + gt153 - Beruflicher Status
+# + gt154 - nicht verwendet
+# + gt155 - nicht verwendet
+# + gt156 - Geburtsort des Zahlungspflichtigen
+# + gt157 - VIP
 @hl7v2:SegmentDefinition {
     name: "GT1",
     required: false,

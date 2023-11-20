@@ -13,37 +13,35 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const INR_U06_MESSAGE_TYPE = "INR_U06";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + equ - Message Record Field
-# + inv - Message Record Field
-# + rol - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + equ - EQU Segment
+# + inv - INV Segment
+# + rol - ROL Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "EQU": {name: "EQU", maxReps: 1, required: false, segmentType: EQU},
-        "INV": {name: "INV", maxReps: -1, required: false, segmentType: INV},
+        "EQU": {name: "EQU", maxReps: 1, required: true, segmentType: EQU},
+        "INV": {name: "INV", maxReps: -1, required: true, segmentType: INV},
         "ROL": {name: "ROL", maxReps: 1, required: false, segmentType: ROL}
     }
 }
 public type INR_U06 record {
     *hl7v2:Message;
     string name = INR_U06_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    EQU equ?;
+    EQU equ;
     INV[] inv = [];
     ROL rol?;
 };

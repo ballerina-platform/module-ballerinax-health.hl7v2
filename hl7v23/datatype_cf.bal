@@ -16,15 +16,14 @@
 
 import ballerinax/health.hl7v2;
 
-# Coded Element With Formatted Values. 
-# This data type transmits codes and the formatted text associated with the code.
+# Data type description
 #
-# + cf1 - Identifier 
-# + cf2 - Formatted Text  
-# + cf3 - Name Of Coding System  
-# + cf4 - Alternate Identifier  
-# + cf5 - Alternate Formatted Text  
-# + cf6 - Name Of Alternate Coding System
+# + cf1 - identifier
+# + cf2 - formatted text
+# + cf3 - name of coding system
+# + cf4 - alternate identifier
+# + cf5 - alternate formatted text
+# + cf6 - name of alternate coding system
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -13,27 +13,58 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const OMS_O05_MESSAGE_TYPE = "OMS_O05";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + nte - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + nte - NTE Segment
+# + patient - OMS_O05_PATIENT Segment Group
+# + order - OMS_O05_ORDER Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
+    }
+    ,groups: {
+        "OMS_O05_PATIENT": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
+                "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: typeof PD1},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
+                "OMS_O05_PATIENT_VISIT": {name: "OMS_O05_PATIENT_VISIT", maxReps: 1, required: false, segmentType: typeof OMS_O05_PATIENT_VISIT},
+                "OMS_O05_INSURANCE": {name: "OMS_O05_INSURANCE", maxReps: -1, required: false, segmentType: typeof OMS_O05_INSURANCE},
+                "GT1": {name: "GT1", maxReps: 1, required: false, segmentType: typeof GT1},
+                "AL1": {name: "AL1", maxReps: -1, required: false, segmentType: typeof AL1}
+            }
+        },
+        "OMS_O05_ORDER": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "ORC": {name: "ORC", maxReps: 1, required: true, segmentType: typeof ORC},
+                "OMS_O05_TIMING": {name: "OMS_O05_TIMING", maxReps: -1, required: false, segmentType: typeof OMS_O05_TIMING},
+                "RQD": {name: "RQD", maxReps: 1, required: true, segmentType: typeof RQD},
+                "RQ1": {name: "RQ1", maxReps: 1, required: false, segmentType: typeof RQ1},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
+                "OMS_O05_OBSERVATION": {name: "OMS_O05_OBSERVATION", maxReps: -1, required: false, segmentType: typeof OMS_O05_OBSERVATION},
+                "BLG": {name: "BLG", maxReps: 1, required: false, segmentType: typeof BLG}
+            }
+        }
     }
 }
 public type OMS_O05 record {
     *hl7v2:Message;
     string name = OMS_O05_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     NTE[] nte = [];
+    OMS_O05_PATIENT[] patient = [{pid:{}}];
+    OMS_O05_ORDER[] 'order = [{orc:{}, rqd:{}}];
 };

@@ -18,18 +18,18 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + tq1 - Data type field
-# + tq2 - Data type field
-# + tq3 - Data type field
-# + tq4 - Data type field
-# + tq5 - Data type field
-# + tq6 - Data type field
-# + tq7 - Data type field
-# + tq8 - Data type field
-# + tq9 - Data type field
-# + tq10 - Data type field
-# + tq11 - Data type field
-# + tq12 - Data type field
+# + tq1 - Quantity
+# + tq2 - Interval
+# + tq3 - Duration
+# + tq4 - Start Date/Time
+# + tq5 - End Date/Time
+# + tq6 - Priority
+# + tq7 - Condition
+# + tq8 - Text
+# + tq9 - Conjunction
+# + tq10 - Order Sequencing
+# + tq11 - Occurrence Duration
+# + tq12 - Total Occurrences
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

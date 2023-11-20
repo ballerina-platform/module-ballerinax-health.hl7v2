@@ -16,11 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_ocd1 - Data type field
-# + cm_ocd2 - Data type field
+# + cm_ocd1 - occurrence code
+# + cm_ocd2 - occurrence date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

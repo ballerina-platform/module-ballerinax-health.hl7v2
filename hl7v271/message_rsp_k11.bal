@@ -13,45 +13,52 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RSP_K11_MESSAGE_TYPE = "RSP_K11";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + qak - Message Record Field
-# + qpd - Message Record Field
-# + dsc - Message Record Field
-# + row_definition - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + qak - QAK Segment
+# + qpd - QPD Segment
+# + dsc - DSC Segment
+# + row_definition - RSP_K11_ROW_DEFINITION Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
-        "QAK": {name: "QAK", maxReps: 1, required: false, segmentType: QAK},
-        "QPD": {name: "QPD", maxReps: 1, required: false, segmentType: QPD},
+        "QAK": {name: "QAK", maxReps: 1, required: true, segmentType: QAK},
+        "QPD": {name: "QPD", maxReps: 1, required: true, segmentType: QPD},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
+    }
+    ,groups: {
+        "RSP_K11_ROW_DEFINITION": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "anydata": {name: "anyHL7Segment", maxReps: 1, required: true, segmentType: typeof anydata}
+            }
+        }
     }
 }
 public type RSP_K11 record {
     *hl7v2:Message;
     string name = RSP_K11_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    MSA msa?;
+    MSA msa;
     ERR err?;
-    QAK qak?;
-    QPD qpd?;
+    QAK qak;
+    QPD qpd;
     DSC dsc?;
-    ROW_DEFINITION[] row_definition = [{}];
+    RSP_K11_ROW_DEFINITION[] row_definition = [{anyhl7segment:{}}];
 };

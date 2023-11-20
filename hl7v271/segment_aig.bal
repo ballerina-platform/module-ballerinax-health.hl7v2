@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + aig1 - Segment Record Field
-# + aig2 - Segment Record Field
-# + aig3 - Segment Record Field
-# + aig4 - Segment Record Field
-# + aig5 - Segment Record Field
-# + aig6 - Segment Record Field
-# + aig7 - Segment Record Field
-# + aig8 - Segment Record Field
-# + aig9 - Segment Record Field
-# + aig10 - Segment Record Field
-# + aig11 - Segment Record Field
-# + aig12 - Segment Record Field
-# + aig13 - Segment Record Field
-# + aig14 - Segment Record Field
+# + aig1 - AIG-Segmentnummer
+# + aig2 - Auszuführende Aktion
+# + aig3 - Ressource ID
+# + aig4 - Ressource Type
+# + aig5 - Ressourcengruppe
+# + aig6 - Ressourcenmenge
+# + aig7 - Ressourceneinheit zu Datenelement 0900
+# + aig8 - Startzeitpunkt
+# + aig9 - Startzeitverschiebung bezogen auf SCH-11
+# + aig10 - Einheiten zu Datenelement 00891
+# + aig11 - Dauer
+# + aig12 - Einheiten zu Datenelement 00893
+# + aig13 - Ersetzungserlaubnis
+# + aig14 - Statuscode Leistungsstelle
 @hl7v2:SegmentDefinition {
     name: "AIG",
     required: false,

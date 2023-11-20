@@ -13,26 +13,24 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const ORA_R33_MESSAGE_TYPE = "ORA_R33";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + orc - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + orc - ORC Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
         "ORC": {name: "ORC", maxReps: 1, required: false, segmentType: ORC}
     }
@@ -40,10 +38,10 @@ public const ORA_R33_MESSAGE_TYPE = "ORA_R33";
 public type ORA_R33 record {
     *hl7v2:Message;
     string name = ORA_R33_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    MSA msa?;
+    MSA msa;
     ERR[] err = [];
     ORC orc?;
 };

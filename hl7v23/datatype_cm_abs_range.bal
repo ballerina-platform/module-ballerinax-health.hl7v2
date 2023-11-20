@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cm_abs_range1 - Data type field
-# + cm_abs_range2 - Data type field
-# + cm_abs_range3 - Data type field
-# + cm_abs_range4 - Data type field
+# + cm_abs_range1 - Range
+# + cm_abs_range2 - Numeric Change
+# + cm_abs_range3 - Percent per Change
+# + cm_abs_range4 - Days
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -30,7 +30,7 @@ import ballerinax/health.hl7v2;
 public type CM_ABS_RANGE record {
     *hl7v2:CompositeType;
     CM_RANGE cm_abs_range1 = {};
-    NM cm_abs_range2 = -1;
-    NM cm_abs_range3 = -1;
-    NM cm_abs_range4 = -1;
+    NM cm_abs_range2 = "";
+    NM cm_abs_range3 = "";
+    NM cm_abs_range4 = "";
 };

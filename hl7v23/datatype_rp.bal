@@ -16,12 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-# Reference Pointer.
+# Data type description
 #
-# + rp1 - Pointer  
-# + rp2 - Application ID  
-# + rp3 - Type Of Data  
-# + rp4 - Subtype
+# + rp1 - pointer
+# + rp2 - application ID
+# + rp3 - type of data
+# + rp4 - subtype
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

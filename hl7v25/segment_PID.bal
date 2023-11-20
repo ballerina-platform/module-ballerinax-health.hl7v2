@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,51 +13,50 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pid1 - Segment Record Field
-# + pid2 - Segment Record Field
-# + pid3 - Segment Record Field
-# + pid4 - Segment Record Field
-# + pid5 - Segment Record Field
-# + pid6 - Segment Record Field
-# + pid7 - Segment Record Field
-# + pid8 - Segment Record Field
-# + pid9 - Segment Record Field
-# + pid10 - Segment Record Field
-# + pid11 - Segment Record Field
-# + pid12 - Segment Record Field
-# + pid13 - Segment Record Field
-# + pid14 - Segment Record Field
-# + pid15 - Segment Record Field
-# + pid16 - Segment Record Field
-# + pid17 - Segment Record Field
-# + pid18 - Segment Record Field
-# + pid19 - Segment Record Field
-# + pid20 - Segment Record Field
-# + pid21 - Segment Record Field
-# + pid22 - Segment Record Field
-# + pid23 - Segment Record Field
-# + pid24 - Segment Record Field
-# + pid25 - Segment Record Field
-# + pid26 - Segment Record Field
-# + pid27 - Segment Record Field
-# + pid28 - Segment Record Field
-# + pid29 - Segment Record Field
-# + pid30 - Segment Record Field
-# + pid31 - Segment Record Field
-# + pid32 - Segment Record Field
-# + pid33 - Segment Record Field
-# + pid34 - Segment Record Field
-# + pid35 - Segment Record Field
-# + pid36 - Segment Record Field
-# + pid37 - Segment Record Field
-# + pid38 - Segment Record Field
-# + pid39 - Segment Record Field
+# + pid1 - Set ID - PID
+# + pid2 - Patient ID
+# + pid3 - Patient Identifier List
+# + pid4 - Alternate Patient ID - PID
+# + pid5 - Patient Name
+# + pid6 - Mother's Maiden Name
+# + pid7 - Date/Time of Birth
+# + pid8 - Administrative Sex
+# + pid9 - Patient Alias
+# + pid10 - Race
+# + pid11 - Patient Address
+# + pid12 - County Code
+# + pid13 - Phone Number - Home
+# + pid14 - Phone Number - Business
+# + pid15 - Primary Language
+# + pid16 - Marital Status
+# + pid17 - Religion
+# + pid18 - Patient Account Number
+# + pid19 - SSN Number - Patient
+# + pid20 - Driver's License Number - Patient
+# + pid21 - Mother's Identifier
+# + pid22 - Ethnic Group
+# + pid23 - Birth Place
+# + pid24 - Multiple Birth Indicator
+# + pid25 - Birth Order
+# + pid26 - Citizenship
+# + pid27 - Veterans Military Status
+# + pid28 - Nationality
+# + pid29 - Patient Death Date and Time
+# + pid30 - Patient Death Indicator
+# + pid31 - Identity Unknown Indicator
+# + pid32 - Identity Reliability Code
+# + pid33 - Last Update Date/Time
+# + pid34 - Last Update Facility
+# + pid35 - Species Code
+# + pid36 - Breed Code
+# + pid37 - Strain
+# + pid38 - Production Class Code
+# + pid39 - Tribal Citizenship
 @hl7v2:SegmentDefinition {
     name: "PID",
     required: false,

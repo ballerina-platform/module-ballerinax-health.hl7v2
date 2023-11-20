@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,36 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pcr1 - Segment Record Field
-# + pcr2 - Segment Record Field
-# + pcr3 - Segment Record Field
-# + pcr4 - Segment Record Field
-# + pcr5 - Segment Record Field
-# + pcr6 - Segment Record Field
-# + pcr7 - Segment Record Field
-# + pcr8 - Segment Record Field
-# + pcr9 - Segment Record Field
-# + pcr10 - Segment Record Field
-# + pcr11 - Segment Record Field
-# + pcr12 - Segment Record Field
-# + pcr13 - Segment Record Field
-# + pcr14 - Segment Record Field
-# + pcr15 - Segment Record Field
-# + pcr16 - Segment Record Field
-# + pcr17 - Segment Record Field
-# + pcr18 - Segment Record Field
-# + pcr19 - Segment Record Field
-# + pcr20 - Segment Record Field
-# + pcr21 - Segment Record Field
-# + pcr22 - Segment Record Field
-# + pcr23 - Segment Record Field
+# + pcr1 - Implicated Product
+# + pcr2 - Generic Product
+# + pcr3 - Product Class
+# + pcr4 - Total Duration Of Therapy
+# + pcr5 - Product Manufacture Date
+# + pcr6 - Product Expiration Date
+# + pcr7 - Product Implantation Date
+# + pcr8 - Product Explantation Date
+# + pcr9 - Single Use Device
+# + pcr10 - Indication For Product Use
+# + pcr11 - Product Problem
+# + pcr12 - Product Serial/Lot Number
+# + pcr13 - Product Available For Inspection
+# + pcr14 - Product Evaluation Performed
+# + pcr15 - Product Evaluation Status
+# + pcr16 - Product Evaluation Results
+# + pcr17 - Evaluated Product Source
+# + pcr18 - Date Product Returned To Manufacturer
+# + pcr19 - Device Operator Qualifications
+# + pcr20 - Relatedness Assessment
+# + pcr21 - Action Taken In Response To The Event
+# + pcr22 - Event Causality Observations
+# + pcr23 - Indirect Exposure Mechanism
 @hl7v2:SegmentDefinition {
     name: "PCR",
     required: false,

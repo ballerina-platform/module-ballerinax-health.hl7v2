@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + na1 - Data type field
-# + na2 - Data type field
-# + na3 - Data type field
-# + na4 - Data type field
+# + na1 - value1
+# + na2 - value2
+# + na3 - value3
+# + na4 - value4
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

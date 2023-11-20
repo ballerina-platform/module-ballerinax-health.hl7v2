@@ -13,34 +13,46 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RGR_RGR_MESSAGE_TYPE = "RGR_RGR";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + sft - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + sft - SFT Segment
+# + dsc - DSC Segment
+# + definition - RGR_RGR_DEFINITION Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
+    }
+    ,groups: {
+        "RGR_RGR_DEFINITION": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: typeof QRD},
+                "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: typeof QRF},
+                "RGR_RGR_PATIENT": {name: "RGR_RGR_PATIENT", maxReps: 1, required: false, segmentType: typeof RGR_RGR_PATIENT},
+                "RGR_RGR_ORDER": {name: "RGR_RGR_ORDER", maxReps: -1, required: true, segmentType: typeof RGR_RGR_ORDER}
+            }
+        }
     }
 }
 public type RGR_RGR record {
     *hl7v2:Message;
     string name = RGR_RGR_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
+    MSH msh;
+    MSA msa;
     ERR[] err = [];
     SFT[] sft = [];
     DSC dsc?;
+    RGR_RGR_DEFINITION[] definition = [{qrd:{}}];
 };

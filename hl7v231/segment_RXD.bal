@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,36 +13,35 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rxd1 - Segment Record Field
-# + rxd2 - Segment Record Field
-# + rxd3 - Segment Record Field
-# + rxd4 - Segment Record Field
-# + rxd5 - Segment Record Field
-# + rxd6 - Segment Record Field
-# + rxd7 - Segment Record Field
-# + rxd8 - Segment Record Field
-# + rxd9 - Segment Record Field
-# + rxd10 - Segment Record Field
-# + rxd11 - Segment Record Field
-# + rxd12 - Segment Record Field
-# + rxd13 - Segment Record Field
-# + rxd14 - Segment Record Field
-# + rxd15 - Segment Record Field
-# + rxd16 - Segment Record Field
-# + rxd17 - Segment Record Field
-# + rxd18 - Segment Record Field
-# + rxd19 - Segment Record Field
-# + rxd20 - Segment Record Field
-# + rxd21 - Segment Record Field
-# + rxd22 - Segment Record Field
-# + rxd23 - Segment Record Field
-# + rxd24 - Segment Record Field
+# + rxd1 - Dispense Sub-ID Counter
+# + rxd2 - Dispense/Give Code
+# + rxd3 - Date/Time Dispensed
+# + rxd4 - Actual Dispense Amount
+# + rxd5 - Actual Dispense Units
+# + rxd6 - Actual Dosage Form
+# + rxd7 - Prescription Number
+# + rxd8 - Number of Refills Remaining
+# + rxd9 - Dispense Notes
+# + rxd10 - Dispensing Provider
+# + rxd11 - Substitution Status
+# + rxd12 - Total Daily Dose
+# + rxd13 - Dispense-To Location
+# + rxd14 - Needs Human Review
+# + rxd15 - Pharmacy/Treatment Supplier’s Special Dispensing Instructions
+# + rxd16 - Actual Strength
+# + rxd17 - Actual Strength Unit
+# + rxd18 - Substance Lot Number
+# + rxd19 - Substance Expiration Date
+# + rxd20 - Substance Manufacturer Name
+# + rxd21 - Indication
+# + rxd22 - Dispense Package Size
+# + rxd23 - Dispense Package Size Unit
+# + rxd24 - Dispense Package Method
 @hl7v2:SegmentDefinition {
     name: "RXD",
     required: false,

@@ -16,17 +16,17 @@
 
 import ballerinax/health.hl7v2;
 
-# Person Location.
+# Data type description
 #
-# + pl1 - Point Of Care  
-# + pl2 - Room  
-# + pl3 - Bed  
-# + pl4 - Facility  
-# + pl5 - Location Status  
-# + pl6 - Person Location Type  
-# + pl7 - Building  
-# + pl8 - Floor  
-# + pl9 - Location Type
+# + pl1 - point of care (ID)
+# + pl2 - room
+# + pl3 - bed
+# + pl4 - facility (HD)
+# + pl5 - location status
+# + pl6 - person location type
+# + pl7 - building
+# + pl8 - floor
+# + pl9 - Location type
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -34,13 +34,13 @@ import ballerinax/health.hl7v2;
 }
 public type PL record {
     *hl7v2:CompositeType;
-    IS pl1 = "";
+    ID pl1 = "";
     IS pl2 = "";
     IS pl3 = "";
     HD pl4 = {};
     IS pl5 = "";
     IS pl6 = "";
     IS pl7 = "";
-    IS pl8 = "";
+    ST pl8 = "";
     ST pl9 = "";
 };

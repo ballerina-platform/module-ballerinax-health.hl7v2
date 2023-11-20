@@ -16,10 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Discharge Location.
+# Data type description
 #
-# + cm_dld1 - Discharge Location  
-# + cm_dld2 - Effective Date
+# + cm_dld1 - discharge location
+# + cm_dld2 - effective date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

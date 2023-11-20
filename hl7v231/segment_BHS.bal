@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + bhs1 - Segment Record Field
-# + bhs2 - Segment Record Field
-# + bhs3 - Segment Record Field
-# + bhs4 - Segment Record Field
-# + bhs5 - Segment Record Field
-# + bhs6 - Segment Record Field
-# + bhs7 - Segment Record Field
-# + bhs8 - Segment Record Field
-# + bhs9 - Segment Record Field
-# + bhs10 - Segment Record Field
-# + bhs11 - Segment Record Field
-# + bhs12 - Segment Record Field
+# + bhs1 - Batch Field Separator
+# + bhs2 - Batch Encoding Characters
+# + bhs3 - Batch Sending Application
+# + bhs4 - Batch Sending Facility
+# + bhs5 - Batch Receiving Application
+# + bhs6 - Batch Receiving Facility
+# + bhs7 - Batch Creation Date/Time
+# + bhs8 - Batch Security
+# + bhs9 - Batch Name/ID/Type
+# + bhs10 - Batch Comment
+# + bhs11 - Batch Control ID
+# + bhs12 - Reference Batch Control ID
 @hl7v2:SegmentDefinition {
     name: "BHS",
     required: false,

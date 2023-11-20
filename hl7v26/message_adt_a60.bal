@@ -13,38 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const ADT_A60_MESSAGE_TYPE = "ADT_A60";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + evn - Message Record Field
-# + pid - Message Record Field
-# + arv - Message Record Field
-# + iam - Message Record Field
-# + visit - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + evn - EVN Segment
+# + pid - PID Segment
+# + arv - ARV Segment
+# + iam - IAM Segment
+# + visit - ADT_A60_VISIT Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "ARV": {name: "ARV", maxReps: -1, required: false, segmentType: ARV},
         "IAM": {name: "IAM", maxReps: -1, required: false, segmentType: IAM}
     }
     ,groups: {
-        "VISIT": {
+        "ADT_A60_VISIT": {
             maxReps: 1,
             required: false,
             segments: {
-                "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: typeof PV1},
+                "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
                 "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2},
                 "ARV": {name: "ARV", maxReps: -1, required: false, segmentType: typeof ARV}
             }
@@ -54,12 +52,12 @@ public const ADT_A60_MESSAGE_TYPE = "ADT_A60";
 public type ADT_A60 record {
     *hl7v2:Message;
     string name = ADT_A60_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    EVN evn?;
-    PID pid?;
+    EVN evn;
+    PID pid;
     ARV[] arv = [];
     IAM[] iam = [];
-    VISIT[] visit = [{}];
+    ADT_A60_VISIT[] visit = [{pv1:{}}];
 };

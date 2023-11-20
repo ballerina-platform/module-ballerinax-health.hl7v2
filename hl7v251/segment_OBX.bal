@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,34 +13,33 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + obx1 - Segment Record Field
-# + obx2 - Segment Record Field
-# + obx3 - Segment Record Field
-# + obx4 - Segment Record Field
-# + obx5 - Segment Record Field
-# + obx6 - Segment Record Field
-# + obx7 - Segment Record Field
-# + obx8 - Segment Record Field
-# + obx9 - Segment Record Field
-# + obx10 - Segment Record Field
-# + obx11 - Segment Record Field
-# + obx12 - Segment Record Field
-# + obx13 - Segment Record Field
-# + obx14 - Segment Record Field
-# + obx15 - Segment Record Field
-# + obx16 - Segment Record Field
-# + obx17 - Segment Record Field
-# + obx18 - Segment Record Field
-# + obx19 - Segment Record Field
-# + obx20 - Segment Record Field
-# + obx21 - Segment Record Field
-# + obx22 - Segment Record Field
+# + obx1 - Set ID - OBX
+# + obx2 - Value Type
+# + obx3 - Observation Identifier
+# + obx4 - Observation Sub-ID
+# + obx5 - Observation Value
+# + obx6 - Units
+# + obx7 - References Range
+# + obx8 - Abnormal Flags
+# + obx9 - Probability
+# + obx10 - Nature of Abnormal Test
+# + obx11 - Observation Result Status
+# + obx12 - Effective Date of Reference Range Values
+# + obx13 - User Defined Access Checks
+# + obx14 - Date/Time of the Observation
+# + obx15 - Producer's Reference
+# + obx16 - Responsible Observer
+# + obx17 - Observation Method
+# + obx18 - Equipment Instance Identifier
+# + obx19 - Date/Time of the Analysis
+# + obx20 - Performing Organization Name
+# + obx21 - Performing Organization Address
+# + obx22 - Performing Organization Medical Director
 @hl7v2:SegmentDefinition {
     name: "OBX",
     required: false,

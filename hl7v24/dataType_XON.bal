@@ -18,15 +18,15 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + xon1 - Data type field
-# + xon2 - Data type field
-# + xon3 - Data type field
-# + xon4 - Data type field
-# + xon5 - Data type field
-# + xon6 - Data type field
-# + xon7 - Data type field
-# + xon8 - Data type field
-# + xon9 - Data type field
+# + xon1 - organization name
+# + xon2 - organization name type code
+# + xon3 - ID number (NM)
+# + xon4 - check digit (NM)
+# + xon5 - code identifying the check digit scheme employed
+# + xon6 - assigning authority
+# + xon7 - identifier type code (IS)
+# + xon8 - assigning facility ID
+# + xon9 - Name Representation code
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

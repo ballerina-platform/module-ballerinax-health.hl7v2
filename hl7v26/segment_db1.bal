@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,20 +13,19 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + db11 - Segment Record Field
-# + db12 - Segment Record Field
-# + db13 - Segment Record Field
-# + db14 - Segment Record Field
-# + db15 - Segment Record Field
-# + db16 - Segment Record Field
-# + db17 - Segment Record Field
-# + db18 - Segment Record Field
+# + db11 - DB1-Segmentnummer
+# + db12 - Behinderte Person
+# + db13 - ID der behinderten Person
+# + db14 - Merkmal Behinderung
+# + db15 - Datum Beginn der Behinderung
+# + db16 - Datum Ende der Behinderung
+# + db17 - Ende der Arbeitsunfähigkeit
+# + db18 - Beginn der Arbeitsunfähigkeit
 @hl7v2:SegmentDefinition {
     name: "DB1",
     required: false,

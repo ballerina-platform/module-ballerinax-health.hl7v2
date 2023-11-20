@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + nr1 - Data type field
-# + nr2 - Data type field
+# + nr1 - Low Value
+# + nr2 - High Value
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

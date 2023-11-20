@@ -13,31 +13,29 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const CCF_I22_MESSAGE_TYPE = "CCF_I22";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + pid - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + pid - PID Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID}
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID}
     }
 }
 public type CCF_I22 record {
     *hl7v2:Message;
     string name = CCF_I22_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    PID pid?;
+    PID pid;
 };

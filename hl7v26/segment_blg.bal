@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,16 +13,15 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + blg1 - Segment Record Field
-# + blg2 - Segment Record Field
-# + blg3 - Segment Record Field
-# + blg4 - Segment Record Field
+# + blg1 - Abrechnungszeitpunkt
+# + blg2 - Art der Leistungsabrechnung
+# + blg3 - Kontonummer / Kostenstelle
+# + blg4 - Begründung der Abrechnungsart
 @hl7v2:SegmentDefinition {
     name: "BLG",
     required: false,

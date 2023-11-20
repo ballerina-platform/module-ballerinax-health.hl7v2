@@ -13,28 +13,26 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const EHC_E01_MESSAGE_TYPE = "EHC_E01";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + invoice_information - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + invoice_information - EHC_E01_INVOICE_INFORMATION Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: -1, required: false, segmentType: UAC}
     }
     ,groups: {
-        "INVOICE_INFORMATION": {
+        "EHC_E01_INVOICE_INFORMATION": {
             maxReps: 1,
-            required: false,
+            required: true,
             segments: {
             }
         }
@@ -43,8 +41,8 @@ public const EHC_E01_MESSAGE_TYPE = "EHC_E01";
 public type EHC_E01 record {
     *hl7v2:Message;
     string name = EHC_E01_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC[] uac = [];
-    INVOICE_INFORMATION[] invoice_information = [{}];
+    EHC_E01_INVOICE_INFORMATION[] invoice_information = [{}];
 };

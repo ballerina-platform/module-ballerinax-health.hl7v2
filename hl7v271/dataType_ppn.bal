@@ -18,30 +18,30 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ppn1 - Data type field
-# + ppn2 - Data type field
-# + ppn3 - Data type field
-# + ppn4 - Data type field
-# + ppn5 - Data type field
-# + ppn6 - Data type field
-# + ppn8 - Data type field
-# + ppn9 - Data type field
-# + ppn10 - Data type field
-# + ppn11 - Data type field
-# + ppn12 - Data type field
-# + ppn13 - Data type field
-# + ppn14 - Data type field
-# + ppn15 - Data type field
-# + ppn16 - Data type field
-# + ppn17 - Data type field
-# + ppn19 - Data type field
-# + ppn20 - Data type field
-# + ppn21 - Data type field
-# + ppn22 - Data type field
-# + ppn23 - Data type field
-# + ppn24 - Data type field
-# + ppn25 - Data type field
-# + ppn26 - Data type field
+# + ppn1 - Person Identifier
+# + ppn2 - Family Name
+# + ppn3 - Given Name
+# + ppn4 - Second and Further Given Names or Initials Thereof
+# + ppn5 - Suffix (e.g., JR or III)
+# + ppn6 - Prefix (e.g., DR)
+# + ppn8 - Source Table
+# + ppn9 - Assigning Authority
+# + ppn10 - Name Type Code
+# + ppn11 - Identifier Check Digit
+# + ppn12 - Check Digit Scheme
+# + ppn13 - Identifier Type Code
+# + ppn14 - Assigning Facility
+# + ppn15 - Date/Time Action Performed
+# + ppn16 - Name Representation Code
+# + ppn17 - Name Context
+# + ppn19 - Name Assembly Order
+# + ppn20 - Effective Date
+# + ppn21 - Expiration Date
+# + ppn22 - Professional Suffix
+# + ppn23 - Assigning Jurisdiction
+# + ppn24 - Assigning Agency or Department
+# + ppn25 - Security Check
+# + ppn26 - Security Check Scheme
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

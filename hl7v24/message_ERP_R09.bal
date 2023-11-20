@@ -13,36 +13,35 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const ERP_R09_MESSAGE_TYPE = "ERP_R09";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + qak - Message Record Field
-# + erq - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + qak - QAK Segment
+# + erq - ERQ Segment
+# + dsc - DSC Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
-        "QAK": {name: "QAK", maxReps: 1, required: false, segmentType: QAK},
-        "ERQ": {name: "ERQ", maxReps: 1, required: false, segmentType: ERQ},
+        "QAK": {name: "QAK", maxReps: 1, required: true, segmentType: QAK},
+        "ERQ": {name: "ERQ", maxReps: 1, required: true, segmentType: ERQ},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
 }
 public type ERP_R09 record {
     *hl7v2:Message;
     string name = ERP_R09_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
+    MSH msh;
+    MSA msa;
     ERR err?;
-    QAK qak?;
-    ERQ erq?;
+    QAK qak;
+    ERQ erq;
     DSC dsc?;
 };

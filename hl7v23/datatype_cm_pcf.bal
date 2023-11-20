@@ -16,12 +16,11 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_pcf1 - Data type field
-# + cm_pcf2 - Data type field
-# + cm_pcf3 - Data type field
+# + cm_pcf1 - pre-certification patient type
+# + cm_pcf2 - pre-certification required
+# + cm_pcf3 - pre-certification windwow
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

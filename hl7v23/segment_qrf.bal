@@ -13,77 +13,76 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-# Query filter segment.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment Name  
-# + qrf1 - Where Subject Filter  
-# + qrf2 - When Data Start Date/Time  
-# + qrf3 - When Data End Date/Time  
-# + qrf4 - What User Qualifier  
-# + qrf5 - Other QRY Subject Filter  
-# + qrf6 - Which Date/Time Qualifier  
-# + qrf7 - Which Date/Time Status Qualifier  
-# + qrf8 - Date/Time Selection Qualifier  
+# + name - Segment Name
+# + qrf1 - Where Subject Filter
+# + qrf2 - When Data Start Date/Time
+# + qrf3 - When Data End Date/Time
+# + qrf4 - What User Qualifier
+# + qrf5 - Other QRY Subject Filter
+# + qrf6 - Which Date/Time Qualifier
+# + qrf7 - Which Date/Time Status Qualifier
+# + qrf8 - Date/Time Selection Qualifier
 # + qrf9 - When Quantity/Timing Qualifier
 @hl7v2:SegmentDefinition {
     name: "QRF",
     required: false,
-    maxReps: 1,
+    maxReps: 0,
     fields: {
         "qrf1": {
             required: true,
-            length: 20,
+            length: 1,
             maxReps: -1,
             dataType: ST
         },
         "qrf2": {
-            required: true,
-            length: 26,
+            required: false,
+            length: 1,
             maxReps: 1,
             dataType: TS
         },
         "qrf3": {
             required: false,
-            length: 26,
+            length: 1,
             maxReps: 1,
             dataType: TS
         },
         "qrf4": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: -1,
             dataType: ST
         },
         "qrf5": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: -1,
             dataType: ST
         },
         "qrf6": {
             required: false,
-            length: 12,
+            length: 1,
             maxReps: -1,
             dataType: ID
         },
         "qrf7": {
             required: false,
-            length: 12,
+            length: 1,
             maxReps: -1,
             dataType: ID
         },
         "qrf8": {
             required: false,
-            length: 12,
+            length: 1,
             maxReps: -1,
             dataType: ID
         },
         "qrf9": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
             dataType: TQ
         }

@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + uvc1 - Data type field
-# + uvc2 - Data type field
+# + uvc1 - Value Code
+# + uvc2 - Value Amount
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

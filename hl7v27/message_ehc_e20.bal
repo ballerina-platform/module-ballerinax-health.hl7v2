@@ -13,28 +13,26 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const EHC_E20_MESSAGE_TYPE = "EHC_E20";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + authorization_request - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + authorization_request - EHC_E20_AUTHORIZATION_REQUEST Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: -1, required: false, segmentType: UAC}
     }
     ,groups: {
-        "AUTHORIZATION_REQUEST": {
+        "EHC_E20_AUTHORIZATION_REQUEST": {
             maxReps: 1,
-            required: false,
+            required: true,
             segments: {
             }
         }
@@ -43,8 +41,8 @@ public const EHC_E20_MESSAGE_TYPE = "EHC_E20";
 public type EHC_E20 record {
     *hl7v2:Message;
     string name = EHC_E20_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC[] uac = [];
-    AUTHORIZATION_REQUEST[] authorization_request = [{}];
+    EHC_E20_AUTHORIZATION_REQUEST[] authorization_request = [{}];
 };

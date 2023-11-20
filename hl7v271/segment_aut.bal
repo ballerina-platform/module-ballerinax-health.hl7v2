@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + aut1 - Segment Record Field
-# + aut2 - Segment Record Field
-# + aut3 - Segment Record Field
-# + aut4 - Segment Record Field
-# + aut5 - Segment Record Field
-# + aut6 - Segment Record Field
-# + aut7 - Segment Record Field
-# + aut8 - Segment Record Field
-# + aut9 - Segment Record Field
-# + aut10 - Segment Record Field
-# + aut11 - Segment Record Field
-# + aut12 - Segment Record Field
+# + aut1 - Tarifbezeichnung Kostenträger
+# + aut2 - Institutskennzeichen Kostenträger
+# + aut3 - Institutsbezeichnung Kostenträger
+# + aut4 - Gültigkeitsbeginn der Kostenübernahme
+# + aut5 - Gültigkeitsende der Kostenübernahme
+# + aut6 - Aktenzeichen
+# + aut7 - Erstattungsgrenze
+# + aut8 - angeforderte Anzahl an Behandlungen
+# + aut9 - genehmigte Anzahl an Behandlungen
+# + aut10 - Ausstellungsdatum
+# + aut11 - 2375CWEHL7Requested Discipline(s)
+# + aut12 - 2376CWEHL7Authorized Discipline(s)
 @hl7v2:SegmentDefinition {
     name: "AUT",
     required: false,

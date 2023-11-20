@@ -16,15 +16,14 @@
 
 import ballerinax/health.hl7v2;
 
-# This data type transmits codes and the text associated with the code.  
-# To allow all six components of a CE data type to be valued, the maximum length of this data type must be at  least 60
+# Data type description
 #
-# + ce1 - Identifier  
-# + ce2 - Text
-# + ce3 - Name Of Coding System  
-# + ce4 - Alternate Identifier  
-# + ce5 - Alternate Text  
-# + ce6 - Name Of Alternate Coding System
+# + ce1 - identifier
+# + ce2 - text
+# + ce3 - name of coding system
+# + ce4 - alternate identifier
+# + ce5 - alternate text
+# + ce6 - name of alternate coding system
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -32,10 +31,10 @@ import ballerinax/health.hl7v2;
 }
 public type CE record {
     *hl7v2:CompositeType;
-    ST ce1 = "";
+    ID ce1 = "";
     ST ce2 = "";
     ST ce3 = "";
-    ST ce4 = "";
+    ID ce4 = "";
     ST ce5 = "";
     ST ce6 = "";
 };

@@ -13,41 +13,39 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-
-# Disability Segment.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name  
-# + db11 - Set ID - DB1  
-# + db12 - Disabled person code  
-# + db13 - Disabled person identifier  
-# + db14 - Disabled Indicator  
-# + db15 - Disability start date  
-# + db16 - Disability end date  
-# + db17 - Disability return to work date  
+# + name - Segment Name
+# + db11 - Set ID - DB1
+# + db12 - Disabled person code
+# + db13 - Disabled person identifier
+# + db14 - Disabled Indicator
+# + db15 - Disability start date
+# + db16 - Disability end date
+# + db17 - Disability return to work date
 # + db18 - Disability unable to work date
 @hl7v2:SegmentDefinition {
     name: "DB1",
     required: false,
-    maxReps: 1,
+    maxReps: 0,
     fields: {
         "db11": {
             required: true,
-            length: 4,
+            length: 1,
             maxReps: 1,
             dataType: SI
         },
         "db12": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "db13": {
             required: false,
-            length: 32,
+            length: 1,
             maxReps: -1,
             dataType: CX
         },
@@ -59,25 +57,25 @@ import ballerinax/health.hl7v2;
         },
         "db15": {
             required: false,
-            length: 6,
+            length: 1,
             maxReps: 1,
             dataType: DT
         },
         "db16": {
             required: false,
-            length: 8,
+            length: 1,
             maxReps: 1,
             dataType: DT
         },
         "db17": {
             required: false,
-            length: 8,
+            length: 1,
             maxReps: 1,
             dataType: DT
         },
         "db18": {
             required: false,
-            length: 8,
+            length: 1,
             maxReps: 1,
             dataType: DT
         }
@@ -86,7 +84,7 @@ import ballerinax/health.hl7v2;
 public type DB1 record {
     *hl7v2:Segment;
     string name = DB1_SEGMENT_NAME;
-    SI db11 = -1;
+    SI db11 = "";
     IS db12 = "";
     CX[] db13 = [{}];
     ID db14 = "";

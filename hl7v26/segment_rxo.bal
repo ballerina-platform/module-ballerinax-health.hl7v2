@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,47 +13,46 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rxo1 - Segment Record Field
-# + rxo2 - Segment Record Field
-# + rxo3 - Segment Record Field
-# + rxo4 - Segment Record Field
-# + rxo5 - Segment Record Field
-# + rxo6 - Segment Record Field
-# + rxo7 - Segment Record Field
-# + rxo8 - Segment Record Field
-# + rxo9 - Segment Record Field
-# + rxo10 - Segment Record Field
-# + rxo11 - Segment Record Field
-# + rxo12 - Segment Record Field
-# + rxo13 - Segment Record Field
-# + rxo14 - Segment Record Field
-# + rxo15 - Segment Record Field
-# + rxo16 - Segment Record Field
-# + rxo17 - Segment Record Field
-# + rxo18 - Segment Record Field
-# + rxo19 - Segment Record Field
-# + rxo20 - Segment Record Field
-# + rxo21 - Segment Record Field
-# + rxo22 - Segment Record Field
-# + rxo23 - Segment Record Field
-# + rxo24 - Segment Record Field
-# + rxo25 - Segment Record Field
-# + rxo26 - Segment Record Field
-# + rxo27 - Segment Record Field
-# + rxo28 - Segment Record Field
-# + rxo29 - Segment Record Field
-# + rxo30 - Segment Record Field
-# + rxo31 - Segment Record Field
-# + rxo32 - Segment Record Field
-# + rxo33 - Segment Record Field
-# + rxo34 - Segment Record Field
-# + rxo35 - Segment Record Field
+# + rxo1 - Verordnetes Medikament / Wirkstoff
+# + rxo2 - Verordnete (Mindest-) Dosis (z.B. "2")
+# + rxo3 - Verordnete Höchstdosis (z.B. "3")
+# + rxo4 - Maßeinheit der Verordnung (z.B. "Tablette")
+# + rxo5 - Verordnete Verabreichungsform
+# + rxo6 - Spezielle Anweisungen des Verordnenden an die Apotheke
+# + rxo7 - Verabreichungsanweisungen
+# + rxo8 - Lieferadresse
+# + rxo9 - Substitutionsmöglichkeiten
+# + rxo10 - Verordnete Abgabeform des Medikaments / Wirkstoffs
+# + rxo11 - Verordnete Abgabemenge
+# + rxo12 - Verordnete Abgabeeinheit
+# + rxo13 - Anzahl wiederholter Abgaben wie verordnet
+# + rxo14 - Arztnummer des Verordnenden bei der DEA
+# + rxo15 - Kennzeichen und Name des prüfenden Apothekers
+# + rxo16 - Besondere Anweisungen beachten
+# + rxo17 - Verordnete Zeiteinheit für Verabreichung
+# + rxo18 - Verordnete Menge pro Verabreichungseinheit (z.B. "250")
+# + rxo19 - Einheit zu Feld 18 (z.B. "mg")
+# + rxo20 - Indikation
+# + rxo21 - Verordnete Verabreichungsrate
+# + rxo22 - Einheit zu Feld 21
+# + rxo23 - Tägliche Gesamtdosis
+# + rxo24 - zusätzlicher Code
+# + rxo25 - Lösungsvolumen des verordneten Wirkstoffs
+# + rxo26 - Maßeinheit des Lösungsvolumens des verordneten Wirkstoffs
+# + rxo27 - Zusatzinformation Auftragslogistik
+# + rxo28 - minimales Lieferintervall
+# + rxo29 - ID des Medikaments
+# + rxo30 - ID des Segments (über Nachrichteninstanzen hinweg)
+# + rxo31 - Mood-Code
+# + rxo32 - Liefernde Apotheke
+# + rxo33 - Adresse der liefernden Apotheke
+# + rxo34 - Aufenthaltsort des Patienten zur Medikamentenlieferung
+# + rxo35 - Adresse zur Medikamentenlieferung
 @hl7v2:SegmentDefinition {
     name: "RXO",
     required: false,

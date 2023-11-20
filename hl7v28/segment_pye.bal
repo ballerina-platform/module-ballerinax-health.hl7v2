@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,19 +13,18 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pye1 - Segment Record Field
-# + pye2 - Segment Record Field
-# + pye3 - Segment Record Field
-# + pye4 - Segment Record Field
-# + pye5 - Segment Record Field
-# + pye6 - Segment Record Field
-# + pye7 - Segment Record Field
+# + pye1 - PYE Segmentnummer
+# + pye2 - 1940CWEHL70557HL7Payee Type
+# + pye3 - 1941CWEHL70558HL7Payee Relationship to Invoice (Patient)
+# + pye4 - 1942XONHL7Payee Identification List
+# + pye5 - 1943XPNHL7Payee Person Name
+# + pye6 - 1944XADHL7Payee Address
+# + pye7 - 1945CWEHL70570HL7Payment Method
 @hl7v2:SegmentDefinition {
     name: "PYE",
     required: false,

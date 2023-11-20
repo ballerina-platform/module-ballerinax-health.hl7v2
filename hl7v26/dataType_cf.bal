@@ -18,12 +18,12 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cf1 - Data type field
-# + cf2 - Data type field
-# + cf3 - Data type field
-# + cf4 - Data type field
-# + cf5 - Data type field
-# + cf6 - Data type field
+# + cf1 - Identifier
+# + cf2 - Formatted Text
+# + cf3 - Name of Coding System
+# + cf4 - Alternate Identifier
+# + cf5 - Alternate Formatted Text
+# + cf6 - Name of Alternate Coding System
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

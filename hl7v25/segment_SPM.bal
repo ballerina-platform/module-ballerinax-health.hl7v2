@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,41 +13,40 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + spm1 - Segment Record Field
-# + spm2 - Segment Record Field
-# + spm3 - Segment Record Field
-# + spm4 - Segment Record Field
-# + spm5 - Segment Record Field
-# + spm6 - Segment Record Field
-# + spm7 - Segment Record Field
-# + spm8 - Segment Record Field
-# + spm9 - Segment Record Field
-# + spm10 - Segment Record Field
-# + spm11 - Segment Record Field
-# + spm12 - Segment Record Field
-# + spm13 - Segment Record Field
-# + spm14 - Segment Record Field
-# + spm15 - Segment Record Field
-# + spm16 - Segment Record Field
-# + spm17 - Segment Record Field
-# + spm18 - Segment Record Field
-# + spm19 - Segment Record Field
-# + spm20 - Segment Record Field
-# + spm21 - Segment Record Field
-# + spm22 - Segment Record Field
-# + spm23 - Segment Record Field
-# + spm24 - Segment Record Field
-# + spm25 - Segment Record Field
-# + spm26 - Segment Record Field
-# + spm27 - Segment Record Field
-# + spm28 - Segment Record Field
-# + spm29 - Segment Record Field
+# + spm1 - Set ID _ SPM
+# + spm2 - Specimen ID
+# + spm3 - Specimen Parent IDs
+# + spm4 - Specimen Type
+# + spm5 - Specimen Type Modifier
+# + spm6 - Specimen Additives
+# + spm7 - Specimen Collection Method
+# + spm8 - Specimen Source Site
+# + spm9 - Specimen Source Site Modifier
+# + spm10 - Specimen Collection Site
+# + spm11 - Specimen Role
+# + spm12 - Specimen Collection Amount
+# + spm13 - Grouped Specimen Count
+# + spm14 - Specimen Description
+# + spm15 - Specimen Handling Code
+# + spm16 - Specimen Risk Code
+# + spm17 - Specimen Collection Date/Time
+# + spm18 - Specimen Received Date/Time
+# + spm19 - Specimen Expiration Date/Time
+# + spm20 - Specimen Availability
+# + spm21 - Specimen Reject Reason
+# + spm22 - Specimen Quality
+# + spm23 - Specimen Appropriateness
+# + spm24 - Specimen Condition
+# + spm25 - Specimen Current Quantity
+# + spm26 - Number of Specimen Containers
+# + spm27 - Container Type
+# + spm28 - Container Condition
+# + spm29 - Specimen Child Role
 @hl7v2:SegmentDefinition {
     name: "SPM",
     required: false,

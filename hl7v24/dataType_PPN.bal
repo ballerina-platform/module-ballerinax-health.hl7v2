@@ -18,25 +18,25 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ppn1 - Data type field
-# + ppn2 - Data type field
-# + ppn3 - Data type field
-# + ppn4 - Data type field
-# + ppn5 - Data type field
-# + ppn6 - Data type field
-# + ppn7 - Data type field
-# + ppn8 - Data type field
-# + ppn9 - Data type field
-# + ppn10 - Data type field
-# + ppn11 - Data type field
-# + ppn12 - Data type field
-# + ppn13 - Data type field
-# + ppn14 - Data type field
-# + ppn15 - Data type field
-# + ppn16 - Data type field
-# + ppn17 - Data type field
-# + ppn18 - Data type field
-# + ppn19 - Data type field
+# + ppn1 - ID number (ST)
+# + ppn2 - family name
+# + ppn3 - given name
+# + ppn4 - second and further given names or initials thereof
+# + ppn5 - suffix (e.g., JR or III)
+# + ppn6 - prefix (e.g., DR)
+# + ppn7 - degree (e.g., MD)
+# + ppn8 - source table
+# + ppn9 - assigning authority
+# + ppn10 - name type code
+# + ppn11 - identifier check digit
+# + ppn12 - code identifying the check digit scheme employed
+# + ppn13 - identifier type code (IS)
+# + ppn14 - assigning facility
+# + ppn15 - Date/Time Action Performed
+# + ppn16 - Name Representation code
+# + ppn17 - name context
+# + ppn18 - name validity range
+# + ppn19 - name assembly order
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

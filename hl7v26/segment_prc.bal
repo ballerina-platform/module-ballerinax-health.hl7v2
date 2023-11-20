@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,30 +13,29 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + prc1 - Segment Record Field
-# + prc2 - Segment Record Field
-# + prc3 - Segment Record Field
-# + prc4 - Segment Record Field
-# + prc5 - Segment Record Field
-# + prc6 - Segment Record Field
-# + prc7 - Segment Record Field
-# + prc8 - Segment Record Field
-# + prc9 - Segment Record Field
-# + prc10 - Segment Record Field
-# + prc11 - Segment Record Field
-# + prc12 - Segment Record Field
-# + prc13 - Segment Record Field
-# + prc14 - Segment Record Field
-# + prc15 - Segment Record Field
-# + prc16 - Segment Record Field
-# + prc17 - Segment Record Field
-# + prc18 - Segment Record Field
+# + prc1 - Primärschlüssel
+# + prc2 - ID der Einrichtung
+# + prc3 - Abteilung  / Klinik
+# + prc4 - gültige Patientenstati
+# + prc5 - Preis
+# + prc6 - Formel
+# + prc7 - Mindestmenge
+# + prc8 - Höchstmenge
+# + prc9 - Mindestpreis
+# + prc10 - Höchstpreis
+# + prc11 - gültig ab
+# + prc12 - gültig bis
+# + prc13 - Preis änderbar
+# + prc14 - Abrechnungskategorie
+# + prc15 - Merkmal abrechenbar
+# + prc16 - Aktiv / inaktiv
+# + prc17 - Gestehungskosten
+# + prc18 - Rechnungsstellung bei
 @hl7v2:SegmentDefinition {
     name: "PRC",
     required: false,

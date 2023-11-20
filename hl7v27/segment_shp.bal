@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,23 +13,22 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + shp1 - Segment Record Field
-# + shp2 - Segment Record Field
-# + shp3 - Segment Record Field
-# + shp4 - Segment Record Field
-# + shp5 - Segment Record Field
-# + shp6 - Segment Record Field
-# + shp7 - Segment Record Field
-# + shp8 - Segment Record Field
-# + shp9 - Segment Record Field
-# + shp10 - Segment Record Field
-# + shp11 - Segment Record Field
+# + shp1 - Shipment ID
+# + shp2 - Internal Shipment ID
+# + shp3 - Shipment Status
+# + shp4 - Shipment Status Date/Time
+# + shp5 - Shipment Status Reason
+# + shp6 - Shipment Priority
+# + shp7 - Shipment Confidentiality
+# + shp8 - Number of Packages in Shipment
+# + shp9 - Shipment Condition
+# + shp10 - Shipment Handling Code
+# + shp11 - Shipment Risk Code
 @hl7v2:SegmentDefinition {
     name: "SHP",
     required: false,

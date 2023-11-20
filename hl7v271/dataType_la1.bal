@@ -18,15 +18,15 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + la11 - Data type field
-# + la12 - Data type field
-# + la13 - Data type field
-# + la14 - Data type field
-# + la15 - Data type field
-# + la16 - Data type field
-# + la17 - Data type field
-# + la18 - Data type field
-# + la19 - Data type field
+# + la11 - Point of Care
+# + la12 - Room
+# + la13 - Bed
+# + la14 - Facility
+# + la15 - Location Status
+# + la16 - Patient Location Type
+# + la17 - Building
+# + la18 - Floor
+# + la19 - Address
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

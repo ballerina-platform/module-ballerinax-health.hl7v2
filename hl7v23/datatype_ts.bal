@@ -16,9 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Time Stamp.
+# Data type description
 #
-# + ts1 - Time Of An Event
+# + ts1 - time of an event
+# + ts2 - degree of precision
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -27,4 +28,5 @@ import ballerinax/health.hl7v2;
 public type TS record {
     *hl7v2:CompositeType;
     ST ts1 = "";
+    ST ts2 = "";
 };

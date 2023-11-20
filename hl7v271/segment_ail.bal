@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ail1 - Segment Record Field
-# + ail2 - Segment Record Field
-# + ail3 - Segment Record Field
-# + ail4 - Segment Record Field
-# + ail5 - Segment Record Field
-# + ail6 - Segment Record Field
-# + ail7 - Segment Record Field
-# + ail8 - Segment Record Field
-# + ail9 - Segment Record Field
-# + ail10 - Segment Record Field
-# + ail11 - Segment Record Field
-# + ail12 - Segment Record Field
+# + ail1 - AIL-Segmentnummer
+# + ail2 - Auszuführende Aktion
+# + ail3 - Lokalisation der Ressource
+# + ail4 - Lokalisationstype
+# + ail5 - Lokalisationsgruppe
+# + ail6 - Startzeitpunkt
+# + ail7 - Startzeitverschiebung bezogen auf SCH-11
+# + ail8 - Einheiten zu Datenelement 00891
+# + ail9 - Dauer
+# + ail10 - Einheiten zu Datenelement 00893
+# + ail11 - Ersetzungserlaubnis
+# + ail12 - Statuscode Leistungsstelle
 @hl7v2:SegmentDefinition {
     name: "AIL",
     required: false,

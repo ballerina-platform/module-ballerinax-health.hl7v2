@@ -16,22 +16,22 @@
 
 import ballerinax/health.hl7v2;
 
-# Performing Person Time Stamp.
+# Data type description
 #
-# + ppn1 - ID Number  
-# + ppn2 - Family Name  
-# + ppn3 - Given Name  
-# + ppn4 - Middle Initial Or Name  
-# + ppn5 - Suffix  
-# + ppn6 - Prefix  
-# + ppn7 - Degree  
-# + ppn8 - Source Table  
-# + ppn9 - Assigning Authority  
-# + ppn10 - Name Type Code  
-# + ppn11 - Identifier Check Digit  
-# + ppn12 - Code Identifying The Check Digit Scheme Employed  
-# + ppn13 - Identifier Type Code  
-# + ppn14 - Assigning Facility  
+# + ppn1 - ID number
+# + ppn2 - family name
+# + ppn3 - given name
+# + ppn4 - middle initial or name
+# + ppn5 - suffix (e.g., JR or III)
+# + ppn6 - prefix (e.g., DR)
+# + ppn7 - degree (e.g., MD)
+# + ppn8 - source table
+# + ppn9 - assigning authority
+# + ppn10 - name type code
+# + ppn11 - identifier check digit
+# + ppn12 - code identifying the check digit scheme employed
+# + ppn13 - identifier type code
+# + ppn14 - assigning facility
 # + ppn15 - Date/Time Action Performed
 @hl7v2:TypeDefinition {
     length: (),

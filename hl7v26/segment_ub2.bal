@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,29 +13,28 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ub21 - Segment Record Field
-# + ub22 - Segment Record Field
-# + ub23 - Segment Record Field
-# + ub24 - Segment Record Field
-# + ub25 - Segment Record Field
-# + ub26 - Segment Record Field
-# + ub27 - Segment Record Field
-# + ub28 - Segment Record Field
-# + ub29 - Segment Record Field
-# + ub210 - Segment Record Field
-# + ub211 - Segment Record Field
-# + ub212 - Segment Record Field
-# + ub213 - Segment Record Field
-# + ub214 - Segment Record Field
-# + ub215 - Segment Record Field
-# + ub216 - Segment Record Field
-# + ub217 - Segment Record Field
+# + ub21 - (Segment UB2 wird nicht verwendet)
+# + ub22 - nicht verwendet
+# + ub23 - nicht verwendet
+# + ub24 - nicht verwendet
+# + ub25 - nicht verwendet
+# + ub26 - nicht verwendet
+# + ub27 - nicht verwendet
+# + ub28 - nicht verwendet
+# + ub29 - nicht verwendet
+# + ub210 - nicht verwendet
+# + ub211 - nicht verwendet
+# + ub212 - nicht verwendet
+# + ub213 - nicht verwendet
+# + ub214 - nicht verwendet
+# + ub215 - nicht verwendet
+# + ub216 - nicht verwendet
+# + ub217 - nicht verwendet
 @hl7v2:SegmentDefinition {
     name: "UB2",
     required: false,

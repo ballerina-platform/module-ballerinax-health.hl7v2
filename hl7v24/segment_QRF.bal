@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,22 +13,21 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + qrf1 - Segment Record Field
-# + qrf2 - Segment Record Field
-# + qrf3 - Segment Record Field
-# + qrf4 - Segment Record Field
-# + qrf5 - Segment Record Field
-# + qrf6 - Segment Record Field
-# + qrf7 - Segment Record Field
-# + qrf8 - Segment Record Field
-# + qrf9 - Segment Record Field
-# + qrf10 - Segment Record Field
+# + qrf1 - Where Subject Filter
+# + qrf2 - When Data Start Date/Time
+# + qrf3 - When Data End Date/Time
+# + qrf4 - What User Qualifier
+# + qrf5 - Other QRY Subject Filter
+# + qrf6 - Which Date/Time Qualifier
+# + qrf7 - Which Date/Time Status Qualifier
+# + qrf8 - Date/Time Selection Qualifier
+# + qrf9 - When Quantity/Timing Qualifier
+# + qrf10 - Search Confidence Threshold
 @hl7v2:SegmentDefinition {
     name: "QRF",
     required: false,

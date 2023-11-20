@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,21 +13,20 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ipc1 - Segment Record Field
-# + ipc2 - Segment Record Field
-# + ipc3 - Segment Record Field
-# + ipc4 - Segment Record Field
-# + ipc5 - Segment Record Field
-# + ipc6 - Segment Record Field
-# + ipc7 - Segment Record Field
-# + ipc8 - Segment Record Field
-# + ipc9 - Segment Record Field
+# + ipc1 - Auftrags-ID des Labors
+# + ipc2 - ID der angeforderten Untersuchung
+# + ipc3 - UID der Fragestellung (Klärung notwendig)
+# + ipc4 - ID der geplanten Teiluntersuchung
+# + ipc5 - Modalität
+# + ipc6 - Verfahrensvorschriften
+# + ipc7 - Name des geplanten Untersuchungsgeräts
+# + ipc8 - Ort der geplanten Untersuchung
+# + ipc9 - AE Title des geplanten Untersuchungsgeräts
 @hl7v2:SegmentDefinition {
     name: "IPC",
     required: false,

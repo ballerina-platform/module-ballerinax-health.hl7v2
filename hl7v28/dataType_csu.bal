@@ -18,29 +18,29 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + csu1 - Data type field
-# + csu2 - Data type field
-# + csu3 - Data type field
-# + csu4 - Data type field
-# + csu5 - Data type field
-# + csu6 - Data type field
-# + csu7 - Data type field
-# + csu8 - Data type field
-# + csu9 - Data type field
-# + csu10 - Data type field
-# + csu11 - Data type field
-# + csu12 - Data type field
-# + csu13 - Data type field
-# + csu14 - Data type field
-# + csu15 - Data type field
-# + csu16 - Data type field
-# + csu17 - Data type field
-# + csu18 - Data type field
-# + csu19 - Data type field
-# + csu20 - Data type field
-# + csu21 - Data type field
-# + csu22 - Data type field
-# + csu23 - Data type field
+# + csu1 - Channel Sensitivity
+# + csu2 - Unit of Measure Identifier
+# + csu3 - Unit of Measure Description
+# + csu4 - Unit of Measure Coding System
+# + csu5 - Alternate Unit of Measure Identifier
+# + csu6 - Alternate Unit of Measure Description
+# + csu7 - Alternate Unit of Measure Coding System
+# + csu8 - Unit of Measure Coding System Version ID
+# + csu9 - Alternate Unit of Measure Coding System Version ID
+# + csu10 - Original Text
+# + csu11 - Second Alternate Unit of Measure Identifier
+# + csu12 - Second Alternate Unit of Measure Text
+# + csu13 - Name of Second Alternate Unit of Measure Coding Sy
+# + csu14 - Second Alternate Unit of Measure Coding System Ver
+# + csu15 - Unit of Measure Coding System OID
+# + csu16 - Unit of Measure Value Set OID
+# + csu17 - Unit of Measure Value Set Version ID
+# + csu18 - Alternate Unit of Measure Coding System OID
+# + csu19 - Alternate Unit of Measure Value Set OID
+# + csu20 - Alternate Unit of Measure Value Set Version ID
+# + csu21 - Alternate Unit of Measure Coding System OID
+# + csu22 - Alternate Unit of Measure Value Set OID
+# + csu23 - Alternate Unit of Measure Value Set Version ID
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

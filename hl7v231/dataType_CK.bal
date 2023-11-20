@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ck1 - Data type field
-# + ck2 - Data type field
-# + ck3 - Data type field
-# + ck4 - Data type field
+# + ck1 - ID number (NM)
+# + ck2 - check digit
+# + ck3 - code identifying the check digit scheme employed
+# + ck4 - assigning authority
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

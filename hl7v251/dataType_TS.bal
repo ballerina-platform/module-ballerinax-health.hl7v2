@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ts1 - Data type field
-# + ts2 - Data type field
+# + ts1 - Time
+# + ts2 - Degree of Precision
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

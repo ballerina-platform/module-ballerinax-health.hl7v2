@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,59 +13,58 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + om11 - Segment Record Field
-# + om12 - Segment Record Field
-# + om13 - Segment Record Field
-# + om14 - Segment Record Field
-# + om15 - Segment Record Field
-# + om16 - Segment Record Field
-# + om17 - Segment Record Field
-# + om18 - Segment Record Field
-# + om19 - Segment Record Field
-# + om110 - Segment Record Field
-# + om111 - Segment Record Field
-# + om112 - Segment Record Field
-# + om113 - Segment Record Field
-# + om114 - Segment Record Field
-# + om115 - Segment Record Field
-# + om116 - Segment Record Field
-# + om117 - Segment Record Field
-# + om118 - Segment Record Field
-# + om119 - Segment Record Field
-# + om120 - Segment Record Field
-# + om121 - Segment Record Field
-# + om122 - Segment Record Field
-# + om123 - Segment Record Field
-# + om124 - Segment Record Field
-# + om125 - Segment Record Field
-# + om126 - Segment Record Field
-# + om127 - Segment Record Field
-# + om128 - Segment Record Field
-# + om129 - Segment Record Field
-# + om130 - Segment Record Field
-# + om131 - Segment Record Field
-# + om132 - Segment Record Field
-# + om133 - Segment Record Field
-# + om134 - Segment Record Field
-# + om135 - Segment Record Field
-# + om136 - Segment Record Field
-# + om137 - Segment Record Field
-# + om138 - Segment Record Field
-# + om139 - Segment Record Field
-# + om140 - Segment Record Field
-# + om141 - Segment Record Field
-# + om142 - Segment Record Field
-# + om143 - Segment Record Field
-# + om144 - Segment Record Field
-# + om145 - Segment Record Field
-# + om146 - Segment Record Field
-# + om147 - Segment Record Field
+# + om11 - Laufende Nummer des OMx-Segment des gleichen Typs in einer Nachricht
+# + om12 - Untersuchungsbezeichnung der Leistungsstelle
+# + om13 - Erlaubte Datentypen
+# + om14 - Merkmal Untersuchungsmaterial erforderlich
+# + om15 - Kennzeichen der Untersuchungsstelle
+# + om16 - Beschreibung der Untersuchung
+# + om17 - Untersuchungs-/Leistungscode
+# + om18 - Andere Untersuchungsbezeichnungen
+# + om19 - Bevorzugte Untersuchungsbezeichnung in Berichten
+# + om110 - Bevorzugte Kurzbezeichnung
+# + om111 - Bevorzugte ausführliche Bezeichnung
+# + om112 - Merkmal Untersuchung einzeln anforderbar
+# + om113 - Benutztes Untersuchungsgerät
+# + om114 - Schlüssel der Untersuchungsmethode
+# + om115 - Merkmal Untersuchung am Patientenbett möglich
+# + om116 - Ausführender Funktionsbereich
+# + om117 - Telefonnummer des Funktionsbereichs
+# + om118 - Art der Untersuchung gemäß Tabelle 174
+# + om119 - Zusammenfassende Überschrift
+# + om120 - Hinweis für Reihenfolge der Ergebnisse
+# + om121 - Zeitpunkt der lÄnderung von Untersuchungsdefinition/-parameter
+# + om122 - Zeitpunkt der letzten, die Vergleichbarkeit von Erg. beeinflussenden Änderung
+# + om123 - Bearbeitungszeit von Probenannahme bis Ergebnisausgabe in Minuten
+# + om124 - Dauer der Analyse/Untersuchung in Minuten
+# + om125 - Priorität der Untersuchung
+# + om126 - Priorität der Ergebnismitteilung
+# + om127 - Externe Untersuchungsstelle
+# + om128 - Adresse der externen Untersuchungsstelle
+# + om129 - Telefonnummer der externen Untersuchungsstelle
+# + om130 - Vertraulichkeitscode
+# + om131 - Notwendige Zusatzinformationen
+# + om132 - Notwendige klinische Informationen
+# + om133 - Kontraindikationen
+# + om134 - Automatisch zu generierende Zusatzuntersuchungen
+# + om135 - Regeln für automatisch zu generierende Zusatzuntersuchungen
+# + om136 - Abkürzungsdefinitionen für Ergebnisse
+# + om137 - Vorbereitung des Patienten
+# + om138 - Notwendige Medikamentation
+# + om139 - Ergebnisbeeinflussende Faktoren
+# + om140 - Untersuchungszeiten
+# + om141 - Ausführliche Beschreibung der Untersuchung
+# + om142 - Bestimmungsgröße
+# + om143 - Punkt bzw. Intervall
+# + om144 - Beschreibung der Provokation
+# + om145 - Querverweis
+# + om146 - anatomisches Zielgebiet des Tests
+# + om147 - Bildgebendes Verfahren
 @hl7v2:SegmentDefinition {
     name: "OM1",
     required: false,

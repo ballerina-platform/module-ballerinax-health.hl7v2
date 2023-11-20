@@ -13,67 +13,65 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-
-# Diagnosis Related Group.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name 
-# + drg1 - Diagnostic Related Group   
-# + drg2 - DRG Assigned Date/Time  
-# + drg3 - DRG Approval Indicator  
-# + drg4 - DRG Grouper Review Code  
-# + drg5 - Outlier Type  
-# + drg6 - Outlier Days  
-# + drg7 - Outlier Cost  
-# + drg8 - DRG Payor  
-# + drg9 - Outlier Reimbursement  
+# + name - Segment Name
+# + drg1 - Diagnostic Related Group
+# + drg2 - DRG Assigned Date/Time
+# + drg3 - DRG Approval Indicator
+# + drg4 - DRG Grouper Review Code
+# + drg5 - Outlier Type
+# + drg6 - Outlier Days
+# + drg7 - Outlier Cost
+# + drg8 - DRG Payor
+# + drg9 - Outlier Reimbursement
 # + drg10 - Confidential Indicator
 @hl7v2:SegmentDefinition {
     name: "DRG",
     required: false,
-    maxReps: 1,
+    maxReps: 0,
     fields: {
         "drg1": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
             dataType: CE
         },
         "drg2": {
             required: false,
-            length: 26,
+            length: 1,
             maxReps: 1,
             dataType: TS
         },
         "drg3": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: ID
         },
         "drg4": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "drg5": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
             dataType: CE
         },
         "drg6": {
             required: false,
-            length: 3,
+            length: 1,
             maxReps: 1,
             dataType: NM
         },
         "drg7": {
             required: false,
-            length: 12,
+            length: 1,
             maxReps: 1,
             dataType: CP
         },
@@ -85,7 +83,7 @@ import ballerinax/health.hl7v2;
         },
         "drg9": {
             required: false,
-            length: 9,
+            length: 1,
             maxReps: 1,
             dataType: CP
         },
@@ -105,7 +103,7 @@ public type DRG record {
     ID drg3 = "";
     IS drg4 = "";
     CE drg5 = {};
-    NM drg6 = -1;
+    NM drg6 = "";
     CP drg7 = {};
     IS drg8 = "";
     CP drg9 = {};

@@ -13,33 +13,44 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const RPL_I02_MESSAGE_TYPE = "RPL_I02";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + nte - Message Record Field
-# + dsp - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + nte - NTE Segment
+# + dsp - DSP Segment
+# + dsc - DSC Segment
+# + provider - RPL_I02_PROVIDER Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE},
         "DSP": {name: "DSP", maxReps: -1, required: false, segmentType: DSP},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
+    }
+    ,groups: {
+        "RPL_I02_PROVIDER": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "PRD": {name: "PRD", maxReps: 1, required: true, segmentType: typeof PRD},
+                "CTD": {name: "CTD", maxReps: -1, required: false, segmentType: typeof CTD}
+            }
+        }
     }
 }
 public type RPL_I02 record {
     *hl7v2:Message;
     string name = RPL_I02_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
+    MSH msh;
+    MSA msa;
     NTE[] nte = [];
     DSP[] dsp = [];
     DSC dsc?;
+    RPL_I02_PROVIDER[] provider = [{prd:{}}];
 };

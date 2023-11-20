@@ -13,39 +13,37 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RER_RER_MESSAGE_TYPE = "RER_RER";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + dsc - Message Record Field
-# + definition - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + dsc - DSC Segment
+# + definition - RER_RER_DEFINITION Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
     ,groups: {
-        "DEFINITION": {
+        "RER_RER_DEFINITION": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "QRD": {name: "QRD", maxReps: 1, required: false, segmentType: typeof QRD},
+                "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: typeof QRD},
                 "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: typeof QRF},
-                "PATIENT": {name: "PATIENT", maxReps: 1, required: false, segmentType: typeof PATIENT},
-                "'ORDER": {name: "'ORDER", maxReps: -1, required: false, segmentType: typeof 'ORDER}
+                "RER_RER_PATIENT": {name: "RER_RER_PATIENT", maxReps: 1, required: false, segmentType: typeof RER_RER_PATIENT},
+                "RER_RER_ORDER": {name: "RER_RER_ORDER", maxReps: -1, required: true, segmentType: typeof RER_RER_ORDER}
             }
         }
     }
@@ -53,11 +51,11 @@ public const RER_RER_MESSAGE_TYPE = "RER_RER";
 public type RER_RER record {
     *hl7v2:Message;
     string name = RER_RER_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
+    MSH msh;
+    MSA msa;
     ERR[] err = [];
     SFT[] sft = [];
     UAC uac?;
     DSC dsc?;
-    DEFINITION[] definition = [{}];
+    RER_RER_DEFINITION[] definition = [{qrd:{}}];
 };

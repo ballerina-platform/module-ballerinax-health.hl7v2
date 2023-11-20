@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,84 +13,83 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + in21 - Segment Record Field
-# + in22 - Segment Record Field
-# + in23 - Segment Record Field
-# + in24 - Segment Record Field
-# + in25 - Segment Record Field
-# + in26 - Segment Record Field
-# + in27 - Segment Record Field
-# + in28 - Segment Record Field
-# + in29 - Segment Record Field
-# + in210 - Segment Record Field
-# + in211 - Segment Record Field
-# + in212 - Segment Record Field
-# + in213 - Segment Record Field
-# + in214 - Segment Record Field
-# + in215 - Segment Record Field
-# + in216 - Segment Record Field
-# + in217 - Segment Record Field
-# + in218 - Segment Record Field
-# + in219 - Segment Record Field
-# + in220 - Segment Record Field
-# + in221 - Segment Record Field
-# + in222 - Segment Record Field
-# + in223 - Segment Record Field
-# + in224 - Segment Record Field
-# + in225 - Segment Record Field
-# + in226 - Segment Record Field
-# + in227 - Segment Record Field
-# + in228 - Segment Record Field
-# + in229 - Segment Record Field
-# + in230 - Segment Record Field
-# + in231 - Segment Record Field
-# + in232 - Segment Record Field
-# + in233 - Segment Record Field
-# + in234 - Segment Record Field
-# + in235 - Segment Record Field
-# + in236 - Segment Record Field
-# + in237 - Segment Record Field
-# + in238 - Segment Record Field
-# + in239 - Segment Record Field
-# + in240 - Segment Record Field
-# + in241 - Segment Record Field
-# + in242 - Segment Record Field
-# + in243 - Segment Record Field
-# + in244 - Segment Record Field
-# + in245 - Segment Record Field
-# + in246 - Segment Record Field
-# + in247 - Segment Record Field
-# + in248 - Segment Record Field
-# + in249 - Segment Record Field
-# + in250 - Segment Record Field
-# + in251 - Segment Record Field
-# + in252 - Segment Record Field
-# + in253 - Segment Record Field
-# + in254 - Segment Record Field
-# + in255 - Segment Record Field
-# + in256 - Segment Record Field
-# + in257 - Segment Record Field
-# + in258 - Segment Record Field
-# + in259 - Segment Record Field
-# + in260 - Segment Record Field
-# + in261 - Segment Record Field
-# + in262 - Segment Record Field
-# + in263 - Segment Record Field
-# + in264 - Segment Record Field
-# + in265 - Segment Record Field
-# + in266 - Segment Record Field
-# + in267 - Segment Record Field
-# + in268 - Segment Record Field
-# + in269 - Segment Record Field
-# + in270 - Segment Record Field
-# + in271 - Segment Record Field
-# + in272 - Segment Record Field
+# + in21 - Insured's Employee ID
+# + in22 - Insured's Social Security Number
+# + in23 - Insured's Employer's Name and ID
+# + in24 - Employer Information Data
+# + in25 - Mail Claim Party
+# + in26 - Medicare Health Ins Card Number
+# + in27 - Medicaid Case Name
+# + in28 - Medicaid Case Number
+# + in29 - Military Sponsor Name
+# + in210 - Military ID Number
+# + in211 - Dependent Of Military Recipient
+# + in212 - Military Organization
+# + in213 - Military Station
+# + in214 - Military Service
+# + in215 - Military Rank/Grade
+# + in216 - Military Status
+# + in217 - Military Retire Date
+# + in218 - Military Non-Avail Cert On File
+# + in219 - Baby Coverage
+# + in220 - Combine Baby Bill
+# + in221 - Blood Deductible
+# + in222 - Special Coverage Approval Name
+# + in223 - Special Coverage Approval Title
+# + in224 - Non-Covered Insurance Code
+# + in225 - Payor ID
+# + in226 - Payor Subscriber ID
+# + in227 - Eligibility Source
+# + in228 - Room Coverage Type/Amount
+# + in229 - Policy Type/Amount
+# + in230 - Daily Deductible
+# + in231 - Living Dependency
+# + in232 - Ambulatory Status
+# + in233 - Citizenship
+# + in234 - Primary Language
+# + in235 - Living Arrangement
+# + in236 - Publicity Code
+# + in237 - Protection Indicator
+# + in238 - Student Indicator
+# + in239 - Religion
+# + in240 - Mother's Maiden Name
+# + in241 - Nationality
+# + in242 - Ethnic Group
+# + in243 - Marital Status
+# + in244 - Insured's Employment Start Date
+# + in245 - Employment Stop Date
+# + in246 - Job Title
+# + in247 - Job Code/Class
+# + in248 - Job Status
+# + in249 - Employer Contact Person Name
+# + in250 - Employer Contact Person Phone Number
+# + in251 - Employer Contact Reason
+# + in252 - Insured's Contact Person's Name
+# + in253 - Insured's Contact Person Phone Number
+# + in254 - Insured's Contact Person Reason
+# + in255 - Relationship to the Patient Start Date
+# + in256 - Relationship to the Patient Stop Date
+# + in257 - Insurance Co. Contact Reason
+# + in258 - Insurance Co Contact Phone Number
+# + in259 - Policy Scope
+# + in260 - Policy Source
+# + in261 - Patient Member Number
+# + in262 - Guarantor's Relationship To Insured
+# + in263 - Insured's Phone Number - Home
+# + in264 - Insured's Employer Phone Number
+# + in265 - Military Handicapped Program
+# + in266 - Suspend Flag
+# + in267 - Copay Limit Flag
+# + in268 - Stoploss Limit Flag
+# + in269 - Insured Organization Name and ID
+# + in270 - Insured Employer Organization Name and ID
+# + in271 - Race
+# + in272 - CMS Patient_s Relationship to Insured
 @hl7v2:SegmentDefinition {
     name: "IN2",
     required: false,

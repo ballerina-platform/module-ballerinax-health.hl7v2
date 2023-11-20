@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ccp1 - Data type field
-# + ccp2 - Data type field
-# + ccp3 - Data type field
+# + ccp1 - channel calibration sensitivity correction factor
+# + ccp2 - channel calibration baseline
+# + ccp3 - channel calibration time skew
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

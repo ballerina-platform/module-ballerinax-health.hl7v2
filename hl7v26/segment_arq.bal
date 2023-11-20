@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,37 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + arq1 - Segment Record Field
-# + arq2 - Segment Record Field
-# + arq3 - Segment Record Field
-# + arq4 - Segment Record Field
-# + arq5 - Segment Record Field
-# + arq6 - Segment Record Field
-# + arq7 - Segment Record Field
-# + arq8 - Segment Record Field
-# + arq9 - Segment Record Field
-# + arq10 - Segment Record Field
-# + arq11 - Segment Record Field
-# + arq12 - Segment Record Field
-# + arq13 - Segment Record Field
-# + arq14 - Segment Record Field
-# + arq15 - Segment Record Field
-# + arq16 - Segment Record Field
-# + arq17 - Segment Record Field
-# + arq18 - Segment Record Field
-# + arq19 - Segment Record Field
-# + arq20 - Segment Record Field
-# + arq21 - Segment Record Field
-# + arq22 - Segment Record Field
-# + arq23 - Segment Record Field
-# + arq24 - Segment Record Field
-# + arq25 - Segment Record Field
+# + arq1 - ID der Terminanforderung
+# + arq2 - ID der Terminvergabe
+# + arq3 - Nummer der Wiederholung
+# + arq4 - Auftragsgruppennummer
+# + arq5 - ID des Terminplans
+# + arq6 - Grund der Nachricht
+# + arq7 - Grund der Terminanforderung
+# + arq8 - Typ der Terminanforderung
+# + arq9 - Dauer des Termin
+# + arq10 - Einheit der Dauer des Termins
+# + arq11 - Gewünschtes Zeitfenster für den Beginn
+# + arq12 - nicht verwendet (veraltet; sechste Komponente von OBR-27 benutzen)
+# + arq13 - Wiederholungsintervall
+# + arq14 - Wiederholungszeitraum
+# + arq15 - Ansprechpartner beim Auftraggeber
+# + arq16 - Telefonnummer des Ansprechpartner beim Auftraggeber
+# + arq17 - Adresse des Ansprechpartners
+# + arq18 - Aufenthaltsort des Ansprechpartners
+# + arq19 - Erfasser
+# + arq20 - Telefonnummer des Erfassers
+# + arq21 - Aufenthaltsort des Erfassers
+# + arq22 - ID der übergeordneten Terminanforderung
+# + arq23 - ID der übergeordneten Terminvergabe
+# + arq24 - Auftragsnummer des Auftraggebers / der auftraggebenden Stelle
+# + arq25 - Bearbeitungsnummer der Leistungsstelle
 @hl7v2:SegmentDefinition {
     name: "ARQ",
     required: false,

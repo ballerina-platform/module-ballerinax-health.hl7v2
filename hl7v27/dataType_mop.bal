@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + mop1 - Data type field
-# + mop2 - Data type field
-# + mop3 - Data type field
+# + mop1 - Money or Percentage Indicator
+# + mop2 - Money or Percentage Quantity
+# + mop3 - Monetary Denomination
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

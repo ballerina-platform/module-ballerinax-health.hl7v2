@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,15 +13,13 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rdf1 - Segment Record Field
-# + rdf2 - Segment Record Field
+# + rdf1 - Number of Columns per Row
+# + rdf2 - Column Description
 @hl7v2:SegmentDefinition {
     name: "RDF",
     required: false,
@@ -45,7 +42,7 @@ import ballerinax/health.hl7v2;
 public type RDF record {
     *hl7v2:Segment;
     string name = RDF_SEGMENT_NAME;
-    NM rdf1 = -1;
+    NM rdf1 = "";
     RCD[] rdf2 = [{}];
 };
 

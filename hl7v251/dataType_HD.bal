@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + hd1 - Data type field
-# + hd2 - Data type field
-# + hd3 - Data type field
+# + hd1 - Namespace ID
+# + hd2 - Universal ID
+# + hd3 - Universal ID Type
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

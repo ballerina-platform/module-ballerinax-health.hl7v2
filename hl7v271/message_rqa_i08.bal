@@ -13,38 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RQA_I08_MESSAGE_TYPE = "RQA_I08";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + rf1 - Message Record Field
-# + pid - Message Record Field
-# + nk1 - Message Record Field
-# + acc - Message Record Field
-# + dg1 - Message Record Field
-# + drg - Message Record Field
-# + al1 - Message Record Field
-# + nte - Message Record Field
-# + authorization - Message Record Field
-# + provider - Message Record Field
-# + guarantor_insurance - Message Record Field
-# + procedure - Message Record Field
-# + observation - Message Record Field
-# + visit - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + rf1 - RF1 Segment
+# + pid - PID Segment
+# + nk1 - NK1 Segment
+# + acc - ACC Segment
+# + dg1 - DG1 Segment
+# + drg - DRG Segment
+# + al1 - AL1 Segment
+# + nte - NTE Segment
+# + authorization - RQA_I08_AUTHORIZATION Segment Group
+# + provider - RQA_I08_PROVIDER Segment Group
+# + guarantor_insurance - RQA_I08_GUARANTOR_INSURANCE Segment Group
+# + procedure - RQA_I08_PROCEDURE Segment Group
+# + observation - RQA_I08_OBSERVATION Segment Group
+# + visit - RQA_I08_VISIT Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
         "RF1": {name: "RF1", maxReps: 1, required: false, segmentType: RF1},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "NK1": {name: "NK1", maxReps: -1, required: false, segmentType: NK1},
         "ACC": {name: "ACC", maxReps: 1, required: false, segmentType: ACC},
         "DG1": {name: "DG1", maxReps: -1, required: false, segmentType: DG1},
@@ -52,25 +50,76 @@ public const RQA_I08_MESSAGE_TYPE = "RQA_I08";
         "AL1": {name: "AL1", maxReps: -1, required: false, segmentType: AL1},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
     }
+    ,groups: {
+        "RQA_I08_AUTHORIZATION": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "AUT": {name: "AUT", maxReps: 1, required: true, segmentType: typeof AUT},
+                "CTD": {name: "CTD", maxReps: 1, required: false, segmentType: typeof CTD}
+            }
+        },
+        "RQA_I08_PROVIDER": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "PRD": {name: "PRD", maxReps: 1, required: true, segmentType: typeof PRD},
+                "CTD": {name: "CTD", maxReps: -1, required: false, segmentType: typeof CTD}
+            }
+        },
+        "RQA_I08_GUARANTOR_INSURANCE": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "GT1": {name: "GT1", maxReps: -1, required: false, segmentType: typeof GT1},
+                "RQA_I08_INSURANCE": {name: "RQA_I08_INSURANCE", maxReps: -1, required: true, segmentType: typeof RQA_I08_INSURANCE}
+            }
+        },
+        "RQA_I08_PROCEDURE": {
+            maxReps: -1,
+            required: false,
+            segments: {
+                "PR1": {name: "PR1", maxReps: 1, required: true, segmentType: typeof PR1},
+                "RQA_I08_AUTHORIZATION": {name: "RQA_I08_AUTHORIZATION", maxReps: 1, required: false, segmentType: typeof RQA_I08_AUTHORIZATION}
+            }
+        },
+        "RQA_I08_OBSERVATION": {
+            maxReps: -1,
+            required: false,
+            segments: {
+                "OBR": {name: "OBR", maxReps: 1, required: true, segmentType: typeof OBR},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
+                "RQA_I08_RESULTS": {name: "RQA_I08_RESULTS", maxReps: -1, required: false, segmentType: typeof RQA_I08_RESULTS}
+            }
+        },
+        "RQA_I08_VISIT": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
+                "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2}
+            }
+        }
+    }
 }
 public type RQA_I08 record {
     *hl7v2:Message;
     string name = RQA_I08_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
     RF1 rf1?;
-    PID pid?;
+    PID pid;
     NK1[] nk1 = [];
     ACC acc?;
     DG1[] dg1 = [];
     DRG[] drg = [];
     AL1[] al1 = [];
     NTE[] nte = [];
-    AUTHORIZATION[] authorization = [{}];
-    PROVIDER[] provider = [{}];
-    GUARANTOR_INSURANCE[] guarantor_insurance = [{}];
-    PROCEDURE[] procedure = [{}];
-    OBSERVATION[] observation = [{}];
-    VISIT[] visit = [{}];
+    RQA_I08_AUTHORIZATION[] authorization = [{aut:{}}];
+    RQA_I08_PROVIDER[] provider = [{prd:{}}];
+    RQA_I08_GUARANTOR_INSURANCE[] guarantor_insurance = [{}];
+    RQA_I08_PROCEDURE[] procedure = [{pr1:{}}];
+    RQA_I08_OBSERVATION[] observation = [{obr:{}}];
+    RQA_I08_VISIT[] visit = [{pv1:{}}];
 };

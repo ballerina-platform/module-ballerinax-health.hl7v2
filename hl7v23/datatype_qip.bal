@@ -16,10 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Query Input Parameter List.
+# Data type description
 #
-# + qip1 - Field Name  
-# + qip2 - Value1&value2&value3
+# + qip1 - field name
+# + qip2 - value1&value2&value3
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

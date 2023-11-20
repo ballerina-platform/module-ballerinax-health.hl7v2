@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ddi1 - Data type field
-# + ddi2 - Data type field
-# + ddi3 - Data type field
+# + ddi1 - delay days
+# + ddi2 - amount
+# + ddi3 - number of days
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

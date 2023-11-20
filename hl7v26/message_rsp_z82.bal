@@ -13,43 +13,41 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RSP_Z82_MESSAGE_TYPE = "RSP_Z82";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + qak - Message Record Field
-# + qpd - Message Record Field
-# + rcp - Message Record Field
-# + dsc - Message Record Field
-# + query_response - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + qak - QAK Segment
+# + qpd - QPD Segment
+# + rcp - RCP Segment
+# + dsc - DSC Segment
+# + query_response - RSP_Z82_QUERY_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
-        "QAK": {name: "QAK", maxReps: 1, required: false, segmentType: QAK},
-        "QPD": {name: "QPD", maxReps: 1, required: false, segmentType: QPD},
-        "RCP": {name: "RCP", maxReps: 1, required: false, segmentType: RCP},
+        "QAK": {name: "QAK", maxReps: 1, required: true, segmentType: QAK},
+        "QPD": {name: "QPD", maxReps: 1, required: true, segmentType: QPD},
+        "RCP": {name: "RCP", maxReps: 1, required: true, segmentType: RCP},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
     ,groups: {
-        "QUERY_RESPONSE": {
+        "RSP_Z82_QUERY_RESPONSE": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "PATIENT": {name: "PATIENT", maxReps: 1, required: false, segmentType: typeof PATIENT},
-                "COMMON_ORDER": {name: "COMMON_ORDER", maxReps: -1, required: false, segmentType: typeof COMMON_ORDER}
+                "RSP_Z82_PATIENT": {name: "RSP_Z82_PATIENT", maxReps: 1, required: false, segmentType: typeof RSP_Z82_PATIENT},
+                "RSP_Z82_COMMON_ORDER": {name: "RSP_Z82_COMMON_ORDER", maxReps: -1, required: true, segmentType: typeof RSP_Z82_COMMON_ORDER}
             }
         }
     }
@@ -57,14 +55,14 @@ public const RSP_Z82_MESSAGE_TYPE = "RSP_Z82";
 public type RSP_Z82 record {
     *hl7v2:Message;
     string name = RSP_Z82_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    MSA msa?;
+    MSA msa;
     ERR err?;
-    QAK qak?;
-    QPD qpd?;
-    RCP rcp?;
+    QAK qak;
+    QPD qpd;
+    RCP rcp;
     DSC dsc?;
-    QUERY_RESPONSE[] query_response = [{}];
+    RSP_Z82_QUERY_RESPONSE[] query_response = [{}];
 };

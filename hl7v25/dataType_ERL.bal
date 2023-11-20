@@ -18,12 +18,12 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + erl1 - Data type field
-# + erl2 - Data type field
-# + erl3 - Data type field
-# + erl4 - Data type field
-# + erl5 - Data type field
-# + erl6 - Data type field
+# + erl1 - Segment ID
+# + erl2 - Segment Sequence
+# + erl3 - Field Position
+# + erl4 - Field Repetition
+# + erl5 - Component Number
+# + erl6 - Sub-Component Number
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -16,16 +16,16 @@
 
 import ballerinax/health.hl7v2;
 
-# Extended Composite Name And ID For Organizations.
+# Data type description
 #
-# + xon1 - Organization Name  
-# + xon2 - Organization Name Type Code  
-# + xon3 - ID Number  
-# + xon4 - Check Digit  
-# + xon5 - Code Identifying The Check Digit Scheme Employed  
-# + xon6 - Assigning Authority  
-# + xon7 - Identifier Type Code  
-# + xon8 - Assigning Facility ID
+# + xon1 - organization name
+# + xon2 - organization name type code
+# + xon3 - ID number (NM)
+# + xon4 - check digit
+# + xon5 - code identifying the check digit scheme employed
+# + xon6 - assigning authority
+# + xon7 - identifier type code
+# + xon8 - assigning facility ID
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -35,7 +35,7 @@ public type XON record {
     *hl7v2:CompositeType;
     ST xon1 = "";
     IS xon2 = "";
-    NM xon3 = -1;
+    NM xon3 = "";
     ST xon4 = "";
     ID xon5 = "";
     HD xon6 = {};

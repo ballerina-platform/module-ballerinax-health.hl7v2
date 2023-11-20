@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + qsc1 - Data type field
-# + qsc2 - Data type field
-# + qsc3 - Data type field
-# + qsc4 - Data type field
+# + qsc1 - Segment Field Name
+# + qsc2 - Relational Operator
+# + qsc3 - Value
+# + qsc4 - Relational Conjunction
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + err1 - Segment Record Field
-# + err2 - Segment Record Field
-# + err3 - Segment Record Field
-# + err4 - Segment Record Field
-# + err5 - Segment Record Field
-# + err6 - Segment Record Field
-# + err7 - Segment Record Field
-# + err8 - Segment Record Field
-# + err9 - Segment Record Field
-# + err10 - Segment Record Field
-# + err11 - Segment Record Field
-# + err12 - Segment Record Field
+# + err1 - Fehlernummer und -ort
+# + err2 - Fehlerort
+# + err3 - HL7-Fehlernummer
+# + err4 - Schweregrad des Fehlers
+# + err5 - applikationsspezifischer Fehlercode
+# + err6 - applikationsspezifische Fehlerzusatzinformation
+# + err7 - Information zur Fehlerdiagnose
+# + err8 - Nachricht für den Benutzer
+# + err9 - Benachrichtigungssteuerung
+# + err10 - Art möglicher Übersteuerung
+# + err11 - Gründe für eine mögliche Übersteuerung
+# + err12 - Kontaktinformation Help-Desk
 @hl7v2:SegmentDefinition {
     name: "ERR",
     required: false,

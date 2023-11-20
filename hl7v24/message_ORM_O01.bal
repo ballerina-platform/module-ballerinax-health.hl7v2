@@ -13,44 +13,53 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const ORM_O01_MESSAGE_TYPE = "ORM_O01";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + nte - Message Record Field
+# + msh - MSH Segment
+# + nte - NTE Segment
+# + patient - ORM_O01_PATIENT Segment Group
+# + order - ORM_O01_ORDER Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
-        "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
-        "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: PV1},
-        "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: PV2},
-        "IN1": {name: "IN1", maxReps: 1, required: false, segmentType: IN1},
-        "IN2": {name: "IN2", maxReps: 1, required: false, segmentType: IN2},
-        "IN3": {name: "IN3", maxReps: 1, required: false, segmentType: IN3},
-        "GT1": {name: "GT1", maxReps: 1, required: false, segmentType: GT1},
-        "AL1": {name: "AL1", maxReps: 1, required: false, segmentType: AL1},
-        "ORC": {name: "ORC", maxReps: 1, required: false, segmentType: ORC},
-        "OBR": {name: "OBR", maxReps: 1, required: false, segmentType: OBR},
-        "RQD": {name: "RQD", maxReps: 1, required: false, segmentType: RQD},
-        "RQ1": {name: "RQ1", maxReps: 1, required: false, segmentType: RQ1},
-        "RXO": {name: "RXO", maxReps: 1, required: false, segmentType: RXO},
-        "ODS": {name: "ODS", maxReps: 1, required: false, segmentType: ODS},
-        "ODT": {name: "ODT", maxReps: 1, required: false, segmentType: ODT},
-        "DG1": {name: "DG1", maxReps: 1, required: false, segmentType: DG1},
-        "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: OBX},
-        "CTI": {name: "CTI", maxReps: 1, required: false, segmentType: CTI},
-        "BLG": {name: "BLG", maxReps: 1, required: false, segmentType: BLG}
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
+    }
+    ,groups: {
+        "ORM_O01_PATIENT": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
+                "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: typeof PD1},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
+                "ORM_O01_PATIENT_VISIT": {name: "ORM_O01_PATIENT_VISIT", maxReps: 1, required: false, segmentType: typeof ORM_O01_PATIENT_VISIT},
+                "ORM_O01_INSURANCE": {name: "ORM_O01_INSURANCE", maxReps: -1, required: false, segmentType: typeof ORM_O01_INSURANCE},
+                "GT1": {name: "GT1", maxReps: 1, required: false, segmentType: typeof GT1},
+                "AL1": {name: "AL1", maxReps: -1, required: false, segmentType: typeof AL1}
+            }
+        },
+        "ORM_O01_ORDER": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "ORC": {name: "ORC", maxReps: 1, required: true, segmentType: typeof ORC},
+                "ORM_O01_ORDER_DETAIL": {name: "ORM_O01_ORDER_DETAIL", maxReps: 1, required: false, segmentType: typeof ORM_O01_ORDER_DETAIL},
+                "FT1": {name: "FT1", maxReps: -1, required: false, segmentType: typeof FT1},
+                "CTI": {name: "CTI", maxReps: -1, required: false, segmentType: typeof CTI},
+                "BLG": {name: "BLG", maxReps: 1, required: false, segmentType: typeof BLG}
+            }
+        }
     }
 }
 public type ORM_O01 record {
     *hl7v2:Message;
     string name = ORM_O01_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     NTE[] nte = [];
+    ORM_O01_PATIENT[] patient = [{pid:{}}];
+    ORM_O01_ORDER[] 'order = [{orc:{}}];
 };

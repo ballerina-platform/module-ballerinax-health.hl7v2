@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + gp21 - Segment Record Field
-# + gp22 - Segment Record Field
-# + gp23 - Segment Record Field
-# + gp24 - Segment Record Field
-# + gp25 - Segment Record Field
-# + gp26 - Segment Record Field
-# + gp27 - Segment Record Field
-# + gp28 - Segment Record Field
-# + gp29 - Segment Record Field
-# + gp210 - Segment Record Field
-# + gp211 - Segment Record Field
-# + gp212 - Segment Record Field
-# + gp213 - Segment Record Field
-# + gp214 - Segment Record Field
+# + gp21 - nicht verwendet
+# + gp22 - nicht verwendet
+# + gp23 - nicht verwendet
+# + gp24 - nicht verwendet
+# + gp25 - nicht verwendet
+# + gp26 - nicht verwendet
+# + gp27 - nicht verwendet
+# + gp28 - nicht verwendet
+# + gp29 - nicht verwendet
+# + gp210 - nicht verwendet
+# + gp211 - nicht verwendet
+# + gp212 - nicht verwendet
+# + gp213 - nicht verwendet
+# + gp214 - nicht verwendet
 @hl7v2:SegmentDefinition {
     name: "GP2",
     required: false,

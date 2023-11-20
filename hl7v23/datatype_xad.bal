@@ -16,18 +16,18 @@
 
 import ballerinax/health.hl7v2;
 
-# Extended Address.
+# Data type description
 #
-# + xad1 - Street Address  
-# + xad2 - Other Designation  
-# + xad3 - City  
-# + xad4 - State Or Province  
-# + xad5 - Zip Or Postal Code  
-# + xad6 - Country  
-# + xad7 - Address Type  
-# + xad8 - Other Geographic Designation  
-# + xad9 - County/parish Code  
-# + xad10 - Census Tract
+# + xad1 - street address
+# + xad2 - other designation
+# + xad3 - city
+# + xad4 - state or province
+# + xad5 - zip or postal code
+# + xad6 - country
+# + xad7 - address type
+# + xad8 - other geographic designation
+# + xad9 - county/parish code
+# + xad10 - census tract
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

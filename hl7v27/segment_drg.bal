@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,45 +13,44 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + drg1 - Segment Record Field
-# + drg2 - Segment Record Field
-# + drg3 - Segment Record Field
-# + drg4 - Segment Record Field
-# + drg5 - Segment Record Field
-# + drg6 - Segment Record Field
-# + drg7 - Segment Record Field
-# + drg8 - Segment Record Field
-# + drg9 - Segment Record Field
-# + drg10 - Segment Record Field
-# + drg11 - Segment Record Field
-# + drg12 - Segment Record Field
-# + drg13 - Segment Record Field
-# + drg14 - Segment Record Field
-# + drg15 - Segment Record Field
-# + drg16 - Segment Record Field
-# + drg17 - Segment Record Field
-# + drg18 - Segment Record Field
-# + drg19 - Segment Record Field
-# + drg20 - Segment Record Field
-# + drg21 - Segment Record Field
-# + drg22 - Segment Record Field
-# + drg23 - Segment Record Field
-# + drg24 - Segment Record Field
-# + drg25 - Segment Record Field
-# + drg26 - Segment Record Field
-# + drg27 - Segment Record Field
-# + drg28 - Segment Record Field
-# + drg29 - Segment Record Field
-# + drg30 - Segment Record Field
-# + drg31 - Segment Record Field
-# + drg32 - Segment Record Field
-# + drg33 - Segment Record Field
+# + drg1 - Diagnostic Related Group
+# + drg2 - DRG Assigned Date/Time
+# + drg3 - DRG Approval Indicator
+# + drg4 - DRG Grouper Review Code
+# + drg5 - Outlier Type
+# + drg6 - Outlier Days
+# + drg7 - Outlier Cost
+# + drg8 - DRG Payor
+# + drg9 - Outlier Reimbursement
+# + drg10 - Confidential Indicator
+# + drg11 - DRG Transfer Type
+# + drg12 - Name of Coder
+# + drg13 - Grouper Status
+# + drg14 - PCCL Value Code
+# + drg15 - Effective Weight
+# + drg16 - Monetary Amount
+# + drg17 - Status Patient
+# + drg18 - Grouper Software Name
+# + drg19 - Grouper Software Version
+# + drg20 - Status Financial Calculation
+# + drg21 - Relative Discount/Surcharge
+# + drg22 - Basic Charge
+# + drg23 - Total Charge
+# + drg24 - Discount/Surcharge
+# + drg25 - Calculated Days
+# + drg26 - Status Gender
+# + drg27 - Status Age
+# + drg28 - Status Length of Stay
+# + drg29 - Status Same Day Flag
+# + drg30 - Status Separation Mode
+# + drg31 - Status Weight at Birth
+# + drg32 - Status Respiration Minutes
+# + drg33 - Status Admission
 @hl7v2:SegmentDefinition {
     name: "DRG",
     required: false,

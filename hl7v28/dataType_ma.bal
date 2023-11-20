@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ma1 - Data type field
-# + ma2 - Data type field
-# + ma3 - Data type field
-# + ma4 - Data type field
+# + ma1 - Sample Y From Channel 1
+# + ma2 - Sample Y From Channel 2
+# + ma3 - Sample Y From Channel 3
+# + ma4 - Sample Y From Channel 4
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

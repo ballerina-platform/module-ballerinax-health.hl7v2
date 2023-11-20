@@ -13,30 +13,39 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const MFN_M03_MESSAGE_TYPE = "MFN_M03";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + mfi - Message Record Field
-# + mf_test - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + mfi - MFI Segment
+# + mf_test - MFN_M03_MF_TEST Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "MFI": {name: "MFI", maxReps: 1, required: false, segmentType: MFI}
+        "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
+    }
+    ,groups: {
+        "MFN_M03_MF_TEST": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "MFE": {name: "MFE", maxReps: 1, required: true, segmentType: typeof MFE},
+                "OM1": {name: "OM1", maxReps: 1, required: true, segmentType: typeof OM1},
+                "anydata": {name: "anyHL7Segment", maxReps: 1, required: true, segmentType: typeof anydata}
+            }
+        }
     }
 }
 public type MFN_M03 record {
     *hl7v2:Message;
     string name = MFN_M03_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    MFI mfi?;
-    MF_TEST[] mf_test = [{}];
+    MFI mfi;
+    MFN_M03_MF_TEST[] mf_test = [{mfe:{}, om1:{}, anyhl7segment:{}}];
 };

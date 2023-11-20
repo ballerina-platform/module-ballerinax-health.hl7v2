@@ -16,13 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_pln1 - Data type field
-# + cm_pln2 - Data type field
-# + cm_pln3 - Data type field
-# + cm_pln4 - Data type field
+# + cm_pln1 - ID number
+# + cm_pln2 - type of ID number (IS)
+# + cm_pln3 - state/other qualifying info
+# + cm_pln4 - expiration date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

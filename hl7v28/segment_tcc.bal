@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,24 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + tcc1 - Segment Record Field
-# + tcc2 - Segment Record Field
-# + tcc3 - Segment Record Field
-# + tcc4 - Segment Record Field
-# + tcc5 - Segment Record Field
-# + tcc6 - Segment Record Field
-# + tcc7 - Segment Record Field
-# + tcc8 - Segment Record Field
-# + tcc9 - Segment Record Field
-# + tcc10 - Segment Record Field
-# + tcc11 - Segment Record Field
-# + tcc12 - Segment Record Field
-# + tcc13 - Segment Record Field
-# + tcc14 - Segment Record Field
+# + tcc1 - Leistungsidentifikation
+# + tcc2 - Hersteller-/gerätespezifische Testbezeichnung
+# + tcc4 - Voreingestellter automatischer Verdünnungsfaktor
+# + tcc5 - Voreingestellter Verdünnungsfaktor bei Neustart
+# + tcc6 - Voreingestellter Vorverdünnungsfaktor
+# + tcc7 - Beeinflussung der Basislinie durch Vorverdünnung
+# + tcc8 - Grenzwert für Bestandswarnungen
+# + tcc9 - Merkmal automatischer Neustart erlaubt
+# + tcc10 - Merkmal Wiederholungsmessung erlaubt
+# + tcc11 - Merkmal automatische Reflexmessung erlaubt
+# + tcc12 - Messbereich des Geräts
+# + tcc13 - Maßeinheit
+# + tcc14 - Produktionsmodus
 @hl7v2:SegmentDefinition {
     name: "TCC",
     required: false,
@@ -50,12 +47,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: EI
-        },
-        "tcc3": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "tcc4": {
             required: false,
@@ -130,7 +121,6 @@ public type TCC record {
     string name = TCC_SEGMENT_NAME;
     CWE tcc1 = {};
     EI tcc2 = {};
-    ST tcc3 = "";
     SN tcc4 = {};
     SN tcc5 = {};
     SN tcc6 = {};

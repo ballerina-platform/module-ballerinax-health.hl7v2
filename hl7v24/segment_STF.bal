@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,41 +13,40 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + stf1 - Segment Record Field
-# + stf2 - Segment Record Field
-# + stf3 - Segment Record Field
-# + stf4 - Segment Record Field
-# + stf5 - Segment Record Field
-# + stf6 - Segment Record Field
-# + stf7 - Segment Record Field
-# + stf8 - Segment Record Field
-# + stf9 - Segment Record Field
-# + stf10 - Segment Record Field
-# + stf11 - Segment Record Field
-# + stf12 - Segment Record Field
-# + stf13 - Segment Record Field
-# + stf14 - Segment Record Field
-# + stf15 - Segment Record Field
-# + stf16 - Segment Record Field
-# + stf17 - Segment Record Field
-# + stf18 - Segment Record Field
-# + stf19 - Segment Record Field
-# + stf20 - Segment Record Field
-# + stf21 - Segment Record Field
-# + stf22 - Segment Record Field
-# + stf23 - Segment Record Field
-# + stf24 - Segment Record Field
-# + stf25 - Segment Record Field
-# + stf26 - Segment Record Field
-# + stf27 - Segment Record Field
-# + stf28 - Segment Record Field
-# + stf29 - Segment Record Field
+# + stf1 - Primary Key Value - STF
+# + stf2 - Staff ID Code
+# + stf3 - Staff Name
+# + stf4 - Staff Type
+# + stf5 - Administrative Sex
+# + stf6 - Date/Time Of Birth
+# + stf7 - Active/Inactive Flag
+# + stf8 - Department
+# + stf9 - Hospital Service
+# + stf10 - Phone
+# + stf11 - Office/Home Address
+# + stf12 - Institution Activation Date
+# + stf13 - Institution Inactivation Date
+# + stf14 - Backup Person ID
+# + stf15 - E-Mail Address
+# + stf16 - Preferred Method of Contact
+# + stf17 - Marital Status
+# + stf18 - Job Title
+# + stf19 - Job Code/Class
+# + stf20 - Employment Status Code
+# + stf21 - Additional Insured on  Auto
+# + stf22 - Driver's License Number - Staff
+# + stf23 - Copy  Auto Ins
+# + stf24 - Auto Ins. Expires
+# + stf25 - Date Last DMV Review
+# + stf26 - Date Next DMV Review
+# + stf27 - Race
+# + stf28 - Ethnic Group
+# + stf29 - Re-activation Approval Indicator
 @hl7v2:SegmentDefinition {
     name: "STF",
     required: false,

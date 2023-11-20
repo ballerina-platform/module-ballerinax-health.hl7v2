@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,19 +13,18 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + mrg1 - Segment Record Field
-# + mrg2 - Segment Record Field
-# + mrg3 - Segment Record Field
-# + mrg4 - Segment Record Field
-# + mrg5 - Segment Record Field
-# + mrg6 - Segment Record Field
-# + mrg7 - Segment Record Field
+# + mrg1 - bisherige Patienten-ID-Liste
+# + mrg2 - Frühere alternative Patienten-ID
+# + mrg3 - Frühere Abrechnungsnummer / Debitorenkontonummer
+# + mrg4 - Frühere Patienten-ID
+# + mrg5 - Frühere Fallnummer
+# + mrg6 - Frühere alternative Fallnummer
+# + mrg7 - Früherer Patientenname
 @hl7v2:SegmentDefinition {
     name: "MRG",
     required: false,

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,17 +13,16 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ovr1 - Segment Record Field
-# + ovr2 - Segment Record Field
-# + ovr3 - Segment Record Field
-# + ovr4 - Segment Record Field
-# + ovr5 - Segment Record Field
+# + ovr1 - Business Rule Override Type
+# + ovr2 - Business Rule Override Code
+# + ovr3 - Override Comments
+# + ovr4 - Override Entered By
+# + ovr5 - Override Authorized By
 @hl7v2:SegmentDefinition {
     name: "OVR",
     required: false,

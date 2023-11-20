@@ -16,11 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_uvc1 - Data type field
-# + cm_uvc2 - Data type field
+# + cm_uvc1 - value code
+# + cm_uvc2 - value amount
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -29,5 +28,5 @@ import ballerinax/health.hl7v2;
 public type CM_UVC record {
     *hl7v2:CompositeType;
     IS cm_uvc1 = "";
-    NM cm_uvc2 = -1;
+    NM cm_uvc2 = "";
 };

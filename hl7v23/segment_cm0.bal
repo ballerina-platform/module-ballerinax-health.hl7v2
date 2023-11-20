@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,22 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + cm01 - Segment Record Field
-# + cm02 - Segment Record Field
-# + cm03 - Segment Record Field
-# + cm04 - Segment Record Field
-# + cm05 - Segment Record Field
-# + cm06 - Segment Record Field
-# + cm07 - Segment Record Field
-# + cm08 - Segment Record Field
-# + cm09 - Segment Record Field
-# + cm010 - Segment Record Field
-# + cm011 - Segment Record Field
+# + cm01 - CM0 - Set ID
+# + cm02 - Sponsor Study ID
+# + cm03 - Alternate Study ID
+# + cm04 - Title of Study
+# + cm05 - Chairman of Study
+# + cm06 - Last IRB Approval Date
+# + cm07 - Total Accrual to Date
+# + cm08 - Last Accrual Date
+# + cm09 - Contact for Study
+# + cm010 - Contact's Tel. Number
+# + cm011 - Contact's Address
 @hl7v2:SegmentDefinition {
     name: "CM0",
     required: false,
@@ -108,13 +105,13 @@ import ballerinax/health.hl7v2;
 public type CM0 record {
     *hl7v2:Segment;
     string name = CM0_SEGMENT_NAME;
-    SI cm01 = -1;
+    SI cm01 = "";
     EI cm02 = {};
     CE[] cm03 = [{}];
     ST cm04 = "";
     XCN cm05 = {};
     DT cm06 = "";
-    NM cm07 = -1;
+    NM cm07 = "";
     DT cm08 = "";
     XCN cm09 = {};
     XTN cm010 = {};

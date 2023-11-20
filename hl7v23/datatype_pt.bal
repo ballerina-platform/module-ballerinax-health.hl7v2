@@ -16,10 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Processing Type.
+# Data type description
 #
-# + pt1 - Processing ID  
-# + pt2 - Processing Mode
+# + pt1 - processing ID
+# + pt2 - processing mode
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

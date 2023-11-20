@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,43 +13,42 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ft11 - Segment Record Field
-# + ft12 - Segment Record Field
-# + ft13 - Segment Record Field
-# + ft14 - Segment Record Field
-# + ft15 - Segment Record Field
-# + ft16 - Segment Record Field
-# + ft17 - Segment Record Field
-# + ft18 - Segment Record Field
-# + ft19 - Segment Record Field
-# + ft110 - Segment Record Field
-# + ft111 - Segment Record Field
-# + ft112 - Segment Record Field
-# + ft113 - Segment Record Field
-# + ft114 - Segment Record Field
-# + ft115 - Segment Record Field
-# + ft116 - Segment Record Field
-# + ft117 - Segment Record Field
-# + ft118 - Segment Record Field
-# + ft119 - Segment Record Field
-# + ft120 - Segment Record Field
-# + ft121 - Segment Record Field
-# + ft122 - Segment Record Field
-# + ft123 - Segment Record Field
-# + ft124 - Segment Record Field
-# + ft125 - Segment Record Field
-# + ft126 - Segment Record Field
-# + ft127 - Segment Record Field
-# + ft128 - Segment Record Field
-# + ft129 - Segment Record Field
-# + ft130 - Segment Record Field
-# + ft131 - Segment Record Field
+# + ft11 - Set ID - FT1
+# + ft12 - Transaction ID
+# + ft13 - Transaction Batch ID
+# + ft14 - Transaction Date
+# + ft15 - Transaction Posting Date
+# + ft16 - Transaction Type
+# + ft17 - Transaction Code
+# + ft18 - Transaction Description
+# + ft19 - Transaction Description - Alt
+# + ft110 - Transaction Quantity
+# + ft111 - Transaction Amount - Extended
+# + ft112 - Transaction Amount - Unit
+# + ft113 - Department Code
+# + ft114 - Insurance Plan ID
+# + ft115 - Insurance Amount
+# + ft116 - Assigned Patient Location
+# + ft117 - Fee Schedule
+# + ft118 - Patient Type
+# + ft119 - Diagnosis Code - FT1
+# + ft120 - Performed By Code
+# + ft121 - Ordered By Code
+# + ft122 - Unit Cost
+# + ft123 - Filler Order Number
+# + ft124 - Entered By Code
+# + ft125 - Procedure Code
+# + ft126 - Procedure Code Modifier
+# + ft127 - Advanced Beneficiary Notice Code
+# + ft128 - Medically Necessary Duplicate Procedure Reason.
+# + ft129 - NDC Code
+# + ft130 - Payment Reference ID
+# + ft131 - Transaction Reference Key
 @hl7v2:SegmentDefinition {
     name: "FT1",
     required: false,

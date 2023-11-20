@@ -18,29 +18,29 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + xad1 - Data type field
-# + xad2 - Data type field
-# + xad3 - Data type field
-# + xad4 - Data type field
-# + xad5 - Data type field
-# + xad6 - Data type field
-# + xad7 - Data type field
-# + xad8 - Data type field
-# + xad9 - Data type field
-# + xad10 - Data type field
-# + xad11 - Data type field
-# + xad12 - Data type field
-# + xad13 - Data type field
-# + xad14 - Data type field
-# + xad15 - Data type field
-# + xad16 - Data type field
-# + xad17 - Data type field
-# + xad18 - Data type field
-# + xad19 - Data type field
-# + xad20 - Data type field
-# + xad21 - Data type field
-# + xad22 - Data type field
-# + xad23 - Data type field
+# + xad1 - Street Address
+# + xad2 - Other Designation
+# + xad3 - City
+# + xad4 - State or Province
+# + xad5 - Zip or Postal Code
+# + xad6 - Country
+# + xad7 - Address Type
+# + xad8 - Other Geographic Designation
+# + xad9 - County/Parish Code
+# + xad10 - Census Tract
+# + xad11 - Address Representation Code
+# + xad12 - Address Validity Range
+# + xad13 - Effective Date
+# + xad14 - Expiration Date
+# + xad15 - Expiration Reason
+# + xad16 - Temporary Indicator
+# + xad17 - Bad Address Indicator
+# + xad18 - Address Usage
+# + xad19 - Addressee
+# + xad20 - Comment
+# + xad21 - Preference Order
+# + xad22 - Protection Code
+# + xad23 - Address Identifier
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

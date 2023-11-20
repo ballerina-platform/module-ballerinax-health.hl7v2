@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,37 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + peo1 - Segment Record Field
-# + peo2 - Segment Record Field
-# + peo3 - Segment Record Field
-# + peo4 - Segment Record Field
-# + peo5 - Segment Record Field
-# + peo6 - Segment Record Field
-# + peo7 - Segment Record Field
-# + peo8 - Segment Record Field
-# + peo9 - Segment Record Field
-# + peo10 - Segment Record Field
-# + peo11 - Segment Record Field
-# + peo12 - Segment Record Field
-# + peo13 - Segment Record Field
-# + peo14 - Segment Record Field
-# + peo15 - Segment Record Field
-# + peo16 - Segment Record Field
-# + peo17 - Segment Record Field
-# + peo18 - Segment Record Field
-# + peo19 - Segment Record Field
-# + peo20 - Segment Record Field
-# + peo21 - Segment Record Field
-# + peo22 - Segment Record Field
-# + peo23 - Segment Record Field
-# + peo24 - Segment Record Field
-# + peo25 - Segment Record Field
+# + peo1 - Verwendete Ereignis-ID
+# + peo2 - Symptom/Diagnose-Code
+# + peo3 - Zeitpunkt des Beginns
+# + peo4 - Zeitpunkt der Verstärkung
+# + peo5 - Zeitpunkt der Besserung
+# + peo6 - Zeitpunkt des Endes
+# + peo7 - Adresse des Ereignisortes
+# + peo8 - Ereignistyp/Ursache
+# + peo9 - Ereignis schwerwiegend
+# + peo10 - Ereignis erwartet
+# + peo11 - Folge des Ereignisses
+# + peo12 - Folge für den Patienten
+# + peo13 - Beschreibung durch Andere
+# + peo14 - Beschreibung durch den Erstberichtenden
+# + peo15 - Beschreibung durch Patienten
+# + peo16 - Beschreibung durch den Arzt
+# + peo17 - Autopsieergebnis
+# + peo18 - Todesursache
+# + peo19 - Name des Erstberichtenden
+# + peo20 - Adresse des Erstberichtenden
+# + peo21 - Telefonnummer des Erstberichtenden
+# + peo22 - Qualifikation des Erstberichtenden
+# + peo23 - Qualifikation des Bestätigenden
+# + peo24 - Zeitpunkt der Wahrnehmung durch den Erstberichtenden
+# + peo25 - Identität des Erstberichtenden kann weitergegeben werden
 @hl7v2:SegmentDefinition {
     name: "PEO",
     required: false,

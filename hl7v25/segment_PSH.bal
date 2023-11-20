@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + psh1 - Segment Record Field
-# + psh2 - Segment Record Field
-# + psh3 - Segment Record Field
-# + psh4 - Segment Record Field
-# + psh5 - Segment Record Field
-# + psh6 - Segment Record Field
-# + psh7 - Segment Record Field
-# + psh8 - Segment Record Field
-# + psh9 - Segment Record Field
-# + psh10 - Segment Record Field
-# + psh11 - Segment Record Field
-# + psh12 - Segment Record Field
-# + psh13 - Segment Record Field
-# + psh14 - Segment Record Field
+# + psh1 - Report Type
+# + psh2 - Report Form Identifier
+# + psh3 - Report Date
+# + psh4 - Report Interval Start Date
+# + psh5 - Report Interval End Date
+# + psh6 - Quantity Manufactured
+# + psh7 - Quantity Distributed
+# + psh8 - Quantity Distributed Method
+# + psh9 - Quantity Distributed Comment
+# + psh10 - Quantity in Use
+# + psh11 - Quantity in Use Method
+# + psh12 - Quantity in Use Comment
+# + psh13 - Number of Product Experience Reports Filed by Facility
+# + psh14 - Number of Product Experience Reports Filed by Distributor
 @hl7v2:SegmentDefinition {
     name: "PSH",
     required: false,

@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + din1 - Data type field
-# + din2 - Data type field
+# + din1 - date
+# + din2 - institution name
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

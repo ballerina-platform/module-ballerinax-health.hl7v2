@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + prd1 - Segment Record Field
-# + prd2 - Segment Record Field
-# + prd3 - Segment Record Field
-# + prd4 - Segment Record Field
-# + prd5 - Segment Record Field
-# + prd6 - Segment Record Field
-# + prd7 - Segment Record Field
-# + prd8 - Segment Record Field
-# + prd9 - Segment Record Field
-# + prd10 - Segment Record Field
-# + prd11 - Segment Record Field
-# + prd12 - Segment Record Field
-# + prd13 - Segment Record Field
-# + prd14 - Segment Record Field
+# + prd1 - Provider Role
+# + prd2 - Provider Name
+# + prd3 - Provider Address
+# + prd4 - Provider Location
+# + prd5 - Provider Communication Information
+# + prd6 - Preferred Method of Contact
+# + prd7 - Provider Identifiers
+# + prd8 - Effective Start Date of Provider Role
+# + prd9 - Effective End Date of Provider Role
+# + prd10 - Provider Organization Name and Identifier
+# + prd11 - Provider Organization Address
+# + prd12 - Provider Organization Location Information
+# + prd13 - Provider Organization Communication Information
+# + prd14 - Provider Organization Method of Contact
 @hl7v2:SegmentDefinition {
     name: "PRD",
     required: false,

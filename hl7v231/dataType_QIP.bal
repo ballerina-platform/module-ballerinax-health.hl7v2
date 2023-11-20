@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + qip1 - Data type field
-# + qip2 - Data type field
+# + qip1 - field name
+# + qip2 - value1&value2&value3
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

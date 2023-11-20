@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + pt1 - Data type field
-# + pt2 - Data type field
+# + pt1 - processing ID
+# + pt2 - processing mode
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

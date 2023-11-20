@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + aui1 - Data type field
-# + aui2 - Data type field
-# + aui3 - Data type field
+# + aui1 - Authorization Number
+# + aui2 - Date
+# + aui3 - Source
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

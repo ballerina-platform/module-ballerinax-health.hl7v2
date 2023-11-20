@@ -13,27 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const ADT_A60_MESSAGE_TYPE = "ADT_A60";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + evn - Message Record Field
-# + pid - Message Record Field
-# + pv1 - Message Record Field
-# + pv2 - Message Record Field
-# + iam - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + evn - EVN Segment
+# + pid - PID Segment
+# + pv1 - PV1 Segment
+# + pv2 - PV2 Segment
+# + iam - IAM Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: PV1},
         "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: PV2},
         "IAM": {name: "IAM", maxReps: -1, required: false, segmentType: IAM}
@@ -42,10 +40,10 @@ public const ADT_A60_MESSAGE_TYPE = "ADT_A60";
 public type ADT_A60 record {
     *hl7v2:Message;
     string name = ADT_A60_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    EVN evn?;
-    PID pid?;
+    EVN evn;
+    PID pid;
     PV1 pv1?;
     PV2 pv2?;
     IAM[] iam = [];

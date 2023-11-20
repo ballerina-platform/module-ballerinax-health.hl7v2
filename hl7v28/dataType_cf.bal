@@ -18,28 +18,28 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cf1 - Data type field
-# + cf2 - Data type field
-# + cf3 - Data type field
-# + cf4 - Data type field
-# + cf5 - Data type field
-# + cf6 - Data type field
-# + cf7 - Data type field
-# + cf8 - Data type field
-# + cf9 - Data type field
-# + cf10 - Data type field
-# + cf11 - Data type field
-# + cf12 - Data type field
-# + cf13 - Data type field
-# + cf14 - Data type field
-# + cf15 - Data type field
-# + cf16 - Data type field
-# + cf17 - Data type field
-# + cf18 - Data type field
-# + cf19 - Data type field
-# + cf20 - Data type field
-# + cf21 - Data type field
-# + cf22 - Data type field
+# + cf1 - Identifier
+# + cf2 - Formatted Text
+# + cf3 - Name of Coding System
+# + cf4 - Alternate Identifier
+# + cf5 - Alternate Formatted Text
+# + cf6 - Name of Alternate Coding System
+# + cf7 - Coding System Version ID
+# + cf8 - Alternate Coding System Version ID
+# + cf9 - Original Text
+# + cf10 - Second Alternate Identifier
+# + cf11 - Second Alternate Formatted Text
+# + cf12 - Name of Second Alternate Coding System
+# + cf13 - Second Alternate Coding System Version ID
+# + cf14 - Coding System OID
+# + cf15 - Value Set OID
+# + cf16 - Value Set Version ID
+# + cf17 - Alternate Coding System OID
+# + cf18 - Alternate Value Set OID
+# + cf19 - Alternate Value Set Version ID
+# + cf20 - Second Alternate Coding System OID
+# + cf21 - Second Alternate Value Set OID
+# + cf22 - Second Alternate Value Set Version ID
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

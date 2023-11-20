@@ -18,24 +18,23 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + xtn1 - Data type field
-# + xtn2 - Data type field
-# + xtn3 - Data type field
-# + xtn4 - Data type field
-# + xtn5 - Data type field
-# + xtn6 - Data type field
-# + xtn7 - Data type field
-# + xtn8 - Data type field
-# + xtn9 - Data type field
-# + xtn10 - Data type field
-# + xtn11 - Data type field
-# + xtn12 - Data type field
-# + xtn13 - Data type field
-# + xtn14 - Data type field
-# + xtn15 - Data type field
-# + xtn16 - Data type field
-# + xtn17 - Data type field
-# + xtn18 - Data type field
+# + xtn2 - Telecommunication Use Code
+# + xtn3 - Telecommunication Equipment Type
+# + xtn4 - Communication Address
+# + xtn5 - Country Code
+# + xtn6 - Area/City Code
+# + xtn7 - Local Number
+# + xtn8 - Extension
+# + xtn9 - Any Text
+# + xtn10 - Extension Prefix
+# + xtn11 - Speed Dial Code
+# + xtn12 - Unformatted Telephone number
+# + xtn13 - Effective Start Date
+# + xtn14 - Expiration Date
+# + xtn15 - Expiration Reason
+# + xtn16 - Protection Code
+# + xtn17 - Shared Telecommunication Identifier
+# + xtn18 - Preference Order
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -43,7 +42,6 @@ import ballerinax/health.hl7v2;
 }
 public type XTN record {
     *hl7v2:CompositeType;
-    ST xtn1 = "";
     ID xtn2 = "";
     ID xtn3 = "";
     ST xtn4 = "";

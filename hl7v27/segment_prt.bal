@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,27 +13,26 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + prt1 - Segment Record Field
-# + prt2 - Segment Record Field
-# + prt3 - Segment Record Field
-# + prt4 - Segment Record Field
-# + prt5 - Segment Record Field
-# + prt6 - Segment Record Field
-# + prt7 - Segment Record Field
-# + prt8 - Segment Record Field
-# + prt9 - Segment Record Field
-# + prt10 - Segment Record Field
-# + prt11 - Segment Record Field
-# + prt12 - Segment Record Field
-# + prt13 - Segment Record Field
-# + prt14 - Segment Record Field
-# + prt15 - Segment Record Field
+# + prt1 - Participation Instance ID
+# + prt2 - Action Code
+# + prt3 - Action Reason
+# + prt4 - Participation
+# + prt5 - Participation Person
+# + prt6 - Participation Person Provider Type
+# + prt7 - Participant Organization Unit Type
+# + prt8 - Participation Organization
+# + prt9 - Participant Location
+# + prt10 - Participation Device
+# + prt11 - Participation Begin Date/Time (arrival time)
+# + prt12 - Participation End Date/Time (departure time)
+# + prt13 - Participation Qualitative Duration
+# + prt14 - Participation Address
+# + prt15 - Participant Telecommunication Address
 @hl7v2:SegmentDefinition {
     name: "PRT",
     required: false,

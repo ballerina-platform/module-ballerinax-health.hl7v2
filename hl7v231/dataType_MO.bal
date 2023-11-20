@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + mo1 - Data type field
-# + mo2 - Data type field
+# + mo1 - quantity
+# + mo2 - denomination
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

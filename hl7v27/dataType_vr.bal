@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + vr1 - Data type field
-# + vr2 - Data type field
+# + vr1 - First Data Code Value
+# + vr2 - Last Data Code Value
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

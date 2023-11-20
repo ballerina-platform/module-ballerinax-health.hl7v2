@@ -16,12 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-# Composite ID with check digit.
+# Data type description
 #
-# + ck1 - ID Number  
-# + ck2 - Check Digit  
-# + ck3 - Code Identifying The Check Digit Scheme Employed  
-# + ck4 - Assigning Authority
+# + ck1 - ID number (NM)
+# + ck2 - check digit
+# + ck3 - code identifying the check digit scheme employed
+# + ck4 - assigning authority
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -29,7 +29,7 @@ import ballerinax/health.hl7v2;
 }
 public type CK record {
     *hl7v2:CompositeType;
-    NM ck1 = -1;
+    NM ck1 = "";
     ST ck2 = "";
     ID ck3 = "";
     HD ck4 = {};

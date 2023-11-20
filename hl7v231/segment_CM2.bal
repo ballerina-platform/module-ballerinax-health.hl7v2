@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,16 +13,15 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + cm21 - Segment Record Field
-# + cm22 - Segment Record Field
-# + cm23 - Segment Record Field
-# + cm24 - Segment Record Field
+# + cm21 - Set ID - CM2
+# + cm22 - Scheduled Time Point
+# + cm23 - Description of Time Point
+# + cm24 - Events Scheduled This Time Point
 @hl7v2:SegmentDefinition {
     name: "CM2",
     required: false,

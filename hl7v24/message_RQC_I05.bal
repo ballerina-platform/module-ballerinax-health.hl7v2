@@ -13,39 +13,50 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const RQC_I05_MESSAGE_TYPE = "RQC_I05";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + qrd - Message Record Field
-# + qrf - Message Record Field
-# + pid - Message Record Field
-# + nk1 - Message Record Field
-# + gt1 - Message Record Field
-# + nte - Message Record Field
+# + msh - MSH Segment
+# + qrd - QRD Segment
+# + qrf - QRF Segment
+# + pid - PID Segment
+# + nk1 - NK1 Segment
+# + gt1 - GT1 Segment
+# + nte - NTE Segment
+# + provider - RQC_I05_PROVIDER Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "QRD": {name: "QRD", maxReps: 1, required: false, segmentType: QRD},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
         "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "NK1": {name: "NK1", maxReps: -1, required: false, segmentType: NK1},
         "GT1": {name: "GT1", maxReps: -1, required: false, segmentType: GT1},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
+    }
+    ,groups: {
+        "RQC_I05_PROVIDER": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "PRD": {name: "PRD", maxReps: 1, required: true, segmentType: typeof PRD},
+                "CTD": {name: "CTD", maxReps: -1, required: false, segmentType: typeof CTD}
+            }
+        }
     }
 }
 public type RQC_I05 record {
     *hl7v2:Message;
     string name = RQC_I05_MESSAGE_TYPE;
-    MSH msh?;
-    QRD qrd?;
+    MSH msh;
+    QRD qrd;
     QRF qrf?;
-    PID pid?;
+    PID pid;
     NK1[] nk1 = [];
     GT1[] gt1 = [];
     NTE[] nte = [];
+    RQC_I05_PROVIDER[] provider = [{prd:{}}];
 };

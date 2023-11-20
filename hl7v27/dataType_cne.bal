@@ -18,28 +18,28 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cne1 - Data type field
-# + cne2 - Data type field
-# + cne3 - Data type field
-# + cne4 - Data type field
-# + cne5 - Data type field
-# + cne6 - Data type field
-# + cne7 - Data type field
-# + cne8 - Data type field
-# + cne9 - Data type field
-# + cne10 - Data type field
-# + cne11 - Data type field
-# + cne12 - Data type field
-# + cne13 - Data type field
-# + cne14 - Data type field
-# + cne15 - Data type field
-# + cne16 - Data type field
-# + cne17 - Data type field
-# + cne18 - Data type field
-# + cne19 - Data type field
-# + cne20 - Data type field
-# + cne21 - Data type field
-# + cne22 - Data type field
+# + cne1 - Identifier
+# + cne2 - Text
+# + cne3 - Name of Coding System
+# + cne4 - Alternate Identifier
+# + cne5 - Alternate Text
+# + cne6 - Name of Alternate Coding System
+# + cne7 - Coding System Version ID
+# + cne8 - Alternate Coding System Version ID
+# + cne9 - Original Text
+# + cne10 - Second Alternate Identifier
+# + cne11 - Second Alternate Text
+# + cne12 - Name of Second Alternate Coding System
+# + cne13 - Second Alternate Coding System Version ID
+# + cne14 - Coding System OID
+# + cne15 - Value Set OID
+# + cne16 - Value Set Version ID
+# + cne17 - Alternate Coding System OID
+# + cne18 - Alternate Value Set OID
+# + cne19 - Alternate Value Set Version ID
+# + cne20 - Second Alternate Coding System OID
+# + cne21 - Second Alternate Value Set OID
+# + cne22 - Second Alternate Value Set Version ID
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

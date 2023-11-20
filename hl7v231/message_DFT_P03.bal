@@ -13,31 +13,31 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const DFT_P03_MESSAGE_TYPE = "DFT_P03";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + evn - Message Record Field
-# + pid - Message Record Field
-# + pd1 - Message Record Field
-# + pv1 - Message Record Field
-# + pv2 - Message Record Field
-# + db1 - Message Record Field
-# + obx - Message Record Field
-# + dg1 - Message Record Field
-# + drg - Message Record Field
-# + gt1 - Message Record Field
-# + acc - Message Record Field
+# + msh - MSH Segment
+# + evn - EVN Segment
+# + pid - PID Segment
+# + pd1 - PD1 Segment
+# + pv1 - PV1 Segment
+# + pv2 - PV2 Segment
+# + db1 - DB1 Segment
+# + obx - OBX Segment
+# + dg1 - DG1 Segment
+# + drg - DRG Segment
+# + gt1 - GT1 Segment
+# + acc - ACC Segment
+# + financial - DFT_P03_FINANCIAL Segment Group
+# + insurance - DFT_P03_INSURANCE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
         "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: PV1},
         "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: PV2},
@@ -48,13 +48,32 @@ public const DFT_P03_MESSAGE_TYPE = "DFT_P03";
         "GT1": {name: "GT1", maxReps: -1, required: false, segmentType: GT1},
         "ACC": {name: "ACC", maxReps: 1, required: false, segmentType: ACC}
     }
+    ,groups: {
+        "DFT_P03_FINANCIAL": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "FT1": {name: "FT1", maxReps: 1, required: true, segmentType: typeof FT1},
+                "DFT_P03_FINANCIAL_PROCEDURE": {name: "DFT_P03_FINANCIAL_PROCEDURE", maxReps: -1, required: false, segmentType: typeof DFT_P03_FINANCIAL_PROCEDURE}
+            }
+        },
+        "DFT_P03_INSURANCE": {
+            maxReps: -1,
+            required: false,
+            segments: {
+                "IN1": {name: "IN1", maxReps: 1, required: true, segmentType: typeof IN1},
+                "IN2": {name: "IN2", maxReps: 1, required: false, segmentType: typeof IN2},
+                "IN3": {name: "IN3", maxReps: -1, required: false, segmentType: typeof IN3}
+            }
+        }
+    }
 }
 public type DFT_P03 record {
     *hl7v2:Message;
     string name = DFT_P03_MESSAGE_TYPE;
-    MSH msh?;
-    EVN evn?;
-    PID pid?;
+    MSH msh;
+    EVN evn;
+    PID pid;
     PD1 pd1?;
     PV1 pv1?;
     PV2 pv2?;
@@ -64,4 +83,6 @@ public type DFT_P03 record {
     DRG drg?;
     GT1[] gt1 = [];
     ACC acc?;
+    DFT_P03_FINANCIAL[] financial = [{ft1:{}}];
+    DFT_P03_INSURANCE[] insurance = [{in1:{}}];
 };

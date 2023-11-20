@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + eld1 - Data type field
-# + eld2 - Data type field
-# + eld3 - Data type field
-# + eld4 - Data type field
+# + eld1 - segment ID
+# + eld2 - sequence
+# + eld3 - field position
+# + eld4 - code identifying error
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

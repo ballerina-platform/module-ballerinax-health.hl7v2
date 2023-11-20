@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,22 +13,21 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + om21 - Segment Record Field
-# + om22 - Segment Record Field
-# + om23 - Segment Record Field
-# + om24 - Segment Record Field
-# + om25 - Segment Record Field
-# + om26 - Segment Record Field
-# + om27 - Segment Record Field
-# + om28 - Segment Record Field
-# + om29 - Segment Record Field
-# + om210 - Segment Record Field
+# + om21 - Laufende Nummer des OMx-Segment des gleichen Typs in einer Nachricht
+# + om22 - Maßeinheiten
+# + om23 - Format (Länge und Dezimalstellen)
+# + om24 - Entsprechende SI-Maßeinheiten
+# + om25 - Umrechnungsfaktor nach SI-Einheiten
+# + om26 - Referenzbereiche für numerische Ergebnisse
+# + om27 - Kritischer Bereich bei numerischen Ergebnissen
+# + om28 - Meßbereich
+# + om29 - Kriterien für Delta Check
+# + om210 - Kleinster bedeutsamer Unterschied
 @hl7v2:SegmentDefinition {
     name: "OM2",
     required: false,

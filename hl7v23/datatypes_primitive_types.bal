@@ -21,7 +21,7 @@ import ballerinax/health.hl7v2;
     maxReps: (),
     required: false
 }
-public type SI int;
+public type SI string;
 
 @hl7v2:TypeDefinition {
     length: (),
@@ -93,7 +93,7 @@ public type FT string;
     maxReps: (),
     required: false
 }
-public type NM float;
+public type NM string;
 
 # Date string
 @hl7v2:TypeDefinition {

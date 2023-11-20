@@ -13,30 +13,29 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const ACK_MESSAGE_TYPE = "ACK";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + msa - MSA Segment
+# + err - ERR Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR}
     }
 }
 public type ACK record {
     *hl7v2:Message;
     string name = ACK_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    MSA msa?;
+    MSA msa;
     ERR[] err = [];
 };

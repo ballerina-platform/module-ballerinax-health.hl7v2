@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,49 +13,48 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + scd1 - Segment Record Field
-# + scd2 - Segment Record Field
-# + scd3 - Segment Record Field
-# + scd4 - Segment Record Field
-# + scd5 - Segment Record Field
-# + scd6 - Segment Record Field
-# + scd7 - Segment Record Field
-# + scd8 - Segment Record Field
-# + scd9 - Segment Record Field
-# + scd10 - Segment Record Field
-# + scd11 - Segment Record Field
-# + scd12 - Segment Record Field
-# + scd13 - Segment Record Field
-# + scd14 - Segment Record Field
-# + scd15 - Segment Record Field
-# + scd16 - Segment Record Field
-# + scd17 - Segment Record Field
-# + scd18 - Segment Record Field
-# + scd19 - Segment Record Field
-# + scd20 - Segment Record Field
-# + scd21 - Segment Record Field
-# + scd22 - Segment Record Field
-# + scd23 - Segment Record Field
-# + scd24 - Segment Record Field
-# + scd25 - Segment Record Field
-# + scd26 - Segment Record Field
-# + scd27 - Segment Record Field
-# + scd28 - Segment Record Field
-# + scd29 - Segment Record Field
-# + scd30 - Segment Record Field
-# + scd31 - Segment Record Field
-# + scd32 - Segment Record Field
-# + scd33 - Segment Record Field
-# + scd34 - Segment Record Field
-# + scd35 - Segment Record Field
-# + scd36 - Segment Record Field
-# + scd37 - Segment Record Field
+# + scd1 - Cycle Start Time
+# + scd2 - Cycle Count
+# + scd3 - Temp Max
+# + scd4 - Temp Min
+# + scd5 - Load Number
+# + scd6 - Condition Time
+# + scd7 - Sterilize Time
+# + scd8 - Exhaust Time
+# + scd9 - Total Cycle Time
+# + scd10 - Device Status
+# + scd11 - Cycle Start Date/Time
+# + scd12 - Dry Time
+# + scd13 - Leak Rate
+# + scd14 - Control Temperature
+# + scd15 - Sterilizer Temperature
+# + scd16 - Cycle Complete Time
+# + scd17 - Under Temperature
+# + scd18 - Over Temperature
+# + scd19 - Abort Cycle
+# + scd20 - Alarm
+# + scd21 - Long in Charge Phase
+# + scd22 - Long in Exhaust Phase
+# + scd23 - Long in Fast Exhaust Phase
+# + scd24 - Reset
+# + scd25 - Operator - Unload
+# + scd26 - Door Open
+# + scd27 - Reading Failure
+# + scd28 - Cycle Type
+# + scd29 - Thermal Rinse Time
+# + scd30 - Wash Time
+# + scd31 - Injection Rate
+# + scd32 - Procedure Code
+# + scd33 - Patient Identifier List
+# + scd34 - Attending Doctor
+# + scd35 - Dilution Factor
+# + scd36 - Fill Time
+# + scd37 - Inlet Temperature
 @hl7v2:SegmentDefinition {
     name: "SCD",
     required: false,

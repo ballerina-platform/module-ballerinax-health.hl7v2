@@ -13,34 +13,44 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const BRT_O32_MESSAGE_TYPE = "BRT_O32";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + sft - Message Record Field
-# + nte - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + sft - SFT Segment
+# + nte - NTE Segment
+# + response - BRT_O32_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
+    }
+    ,groups: {
+        "BRT_O32_RESPONSE": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "PID": {name: "PID", maxReps: 1, required: false, segmentType: typeof PID},
+                "BRT_O32_ORDER": {name: "BRT_O32_ORDER", maxReps: -1, required: false, segmentType: typeof BRT_O32_ORDER}
+            }
+        }
     }
 }
 public type BRT_O32 record {
     *hl7v2:Message;
     string name = BRT_O32_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
+    MSH msh;
+    MSA msa;
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    BRT_O32_RESPONSE[] response = [{}];
 };

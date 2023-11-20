@@ -13,34 +13,44 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RRE_O12_MESSAGE_TYPE = "RRE_O12";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + sft - Message Record Field
-# + nte - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + sft - SFT Segment
+# + nte - NTE Segment
+# + response - RRE_O12_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
+    }
+    ,groups: {
+        "RRE_O12_RESPONSE": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "RRE_O12_PATIENT": {name: "RRE_O12_PATIENT", maxReps: 1, required: false, segmentType: typeof RRE_O12_PATIENT},
+                "RRE_O12_ORDER": {name: "RRE_O12_ORDER", maxReps: -1, required: true, segmentType: typeof RRE_O12_ORDER}
+            }
+        }
     }
 }
 public type RRE_O12 record {
     *hl7v2:Message;
     string name = RRE_O12_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
+    MSH msh;
+    MSA msa;
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    RRE_O12_RESPONSE[] response = [{}];
 };

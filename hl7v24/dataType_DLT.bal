@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + dlt1 - Data type field
-# + dlt2 - Data type field
-# + dlt3 - Data type field
-# + dlt4 - Data type field
+# + dlt1 - Range
+# + dlt2 - numeric threshold
+# + dlt3 - change computation
+# + dlt4 - length of time-days
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

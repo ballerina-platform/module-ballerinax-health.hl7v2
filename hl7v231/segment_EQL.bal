@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,16 +13,15 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + eql1 - Segment Record Field
-# + eql2 - Segment Record Field
-# + eql3 - Segment Record Field
-# + eql4 - Segment Record Field
+# + eql1 - Query Tag
+# + eql2 - Query/ Response Format Code
+# + eql3 - EQL  Query Name
+# + eql4 - EQL  Query Statement
 @hl7v2:SegmentDefinition {
     name: "EQL",
     required: false,

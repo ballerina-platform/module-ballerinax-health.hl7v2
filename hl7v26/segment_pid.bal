@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,51 +13,50 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pid1 - Segment Record Field
-# + pid2 - Segment Record Field
-# + pid3 - Segment Record Field
-# + pid4 - Segment Record Field
-# + pid5 - Segment Record Field
-# + pid6 - Segment Record Field
-# + pid7 - Segment Record Field
-# + pid8 - Segment Record Field
-# + pid9 - Segment Record Field
-# + pid10 - Segment Record Field
-# + pid11 - Segment Record Field
-# + pid12 - Segment Record Field
-# + pid13 - Segment Record Field
-# + pid14 - Segment Record Field
-# + pid15 - Segment Record Field
-# + pid16 - Segment Record Field
-# + pid17 - Segment Record Field
-# + pid18 - Segment Record Field
-# + pid19 - Segment Record Field
-# + pid20 - Segment Record Field
-# + pid21 - Segment Record Field
-# + pid22 - Segment Record Field
-# + pid23 - Segment Record Field
-# + pid24 - Segment Record Field
-# + pid25 - Segment Record Field
-# + pid26 - Segment Record Field
-# + pid27 - Segment Record Field
-# + pid28 - Segment Record Field
-# + pid29 - Segment Record Field
-# + pid30 - Segment Record Field
-# + pid31 - Segment Record Field
-# + pid32 - Segment Record Field
-# + pid33 - Segment Record Field
-# + pid34 - Segment Record Field
-# + pid35 - Segment Record Field
-# + pid36 - Segment Record Field
-# + pid37 - Segment Record Field
-# + pid38 - Segment Record Field
-# + pid39 - Segment Record Field
+# + pid1 - PID-Segmentnummer
+# + pid2 - Patienten-ID
+# + pid3 - Patienten-ID-Liste
+# + pid4 - Alternative Patienten-ID (z.B. für Notaufnahmen)
+# + pid5 - Patientenname
+# + pid6 - veraltet; korrespondierendes Namensfeld verwenden
+# + pid7 - Geburtszeitpunkt
+# + pid8 - Geschlecht
+# + pid9 - Aliasname(n) des Patienten
+# + pid10 - Rasse
+# + pid11 - Anschrift des Patienten
+# + pid12 - Gemeindekennziffer
+# + pid13 - Telefonnummer des Patienten (privat)
+# + pid14 - Telefonnummer des Patienten (dienstlich)
+# + pid15 - Muttersprache
+# + pid16 - Familienstand
+# + pid17 - Religion
+# + pid18 - Abrechnungsnummer / Debitorenkontonummer
+# + pid19 - Sozialversicherungsnummer des Patienten
+# + pid20 - Führerscheinnummer Patient
+# + pid21 - Patientennummer der Mutter des Patienten
+# + pid22 - Ethnische Zugehörigkeit
+# + pid23 - Geburtsort des Patienten
+# + pid24 - Merkmal Mehrlingsgeburt
+# + pid25 - Reihenfolge bei Mehrlingsgeburt
+# + pid26 - Länderkennzeichen / Staatsangehörigkeit
+# + pid27 - Beruf / Tätigkeit des Patienten
+# + pid28 - Nationalität
+# + pid29 - Zeitpunkt des Todes
+# + pid30 - Merkmal Todesfall
+# + pid31 - Kennzeichen Identität unbekannt
+# + pid32 - Zuverlässigkeit der Identität
+# + pid33 - Zeitpunkt der letzten Aktualisierung
+# + pid34 - durchführende Einrichtung der letzten Aktualisierung
+# + pid35 - Spezies
+# + pid36 - Rasse/Zucht
+# + pid37 - Züchtungsstamm
+# + pid38 - Grund der Züchtung
+# + pid39 - Stammeszugehörigkeit
 @hl7v2:SegmentDefinition {
     name: "PID",
     required: false,

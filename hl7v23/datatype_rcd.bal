@@ -16,11 +16,11 @@
 
 import ballerinax/health.hl7v2;
 
-# Row Column Definition.
+# Data type description
 #
-# + rcd1 - HL7 Item Number  
-# + rcd2 - HL7 Date Type  
-# + rcd3 - Maximum Column Width
+# + rcd1 - HL7 item number
+# + rcd2 - HL7 date type
+# + rcd3 - maximum column width
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -30,5 +30,5 @@ public type RCD record {
     *hl7v2:CompositeType;
     ST rcd1 = "";
     ST rcd2 = "";
-    NM rcd3 = -1;
+    NM rcd3 = "";
 };

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,32 +13,31 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + iam1 - Segment Record Field
-# + iam2 - Segment Record Field
-# + iam3 - Segment Record Field
-# + iam4 - Segment Record Field
-# + iam5 - Segment Record Field
-# + iam6 - Segment Record Field
-# + iam7 - Segment Record Field
-# + iam8 - Segment Record Field
-# + iam9 - Segment Record Field
-# + iam10 - Segment Record Field
-# + iam11 - Segment Record Field
-# + iam12 - Segment Record Field
-# + iam13 - Segment Record Field
-# + iam14 - Segment Record Field
-# + iam15 - Segment Record Field
-# + iam16 - Segment Record Field
-# + iam17 - Segment Record Field
-# + iam18 - Segment Record Field
-# + iam19 - Segment Record Field
-# + iam20 - Segment Record Field
+# + iam1 - IAM-Segmentnummer
+# + iam2 - Art der Allergie
+# + iam3 - Allergiecode / -beschreibung
+# + iam4 - Schweregrad der Allergie
+# + iam5 - Allergiesymptome
+# + iam6 - Aktionscode Allergieinformation
+# + iam7 - ID der Allergie
+# + iam8 - Grund für Aktion
+# + iam9 - Empfindlichkeit gegenüber verursachenden Agenz
+# + iam10 - Allergengruppe
+# + iam11 - Datum des ersten Auftretens
+# + iam12 - Erläuterung zum ersten Auftreten
+# + iam13 - Zeitpunkt der Erstmeldung
+# + iam14 - gemeldet durch
+# + iam15 - Beziehung des Meldenden zum Patienten
+# + iam16 - Allergiewarnvorrichtung
+# + iam17 - Überprüfungsstatus Allergie
+# + iam18 - Klassifikation durch
+# + iam19 - klassifizierende Organisation
+# + iam20 - Klassifizierungszeitpunkt
 @hl7v2:SegmentDefinition {
     name: "IAM",
     required: false,

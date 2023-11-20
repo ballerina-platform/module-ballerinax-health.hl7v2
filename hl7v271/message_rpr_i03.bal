@@ -13,36 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RPR_I03_MESSAGE_TYPE = "RPR_I03";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + msa - Message Record Field
-# + pid - Message Record Field
-# + nte - Message Record Field
-# + provider - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + msa - MSA Segment
+# + pid - PID Segment
+# + nte - NTE Segment
+# + provider - RPR_I03_PROVIDER Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "PID": {name: "PID", maxReps: -1, required: false, segmentType: PID},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
     }
     ,groups: {
-        "PROVIDER": {
+        "RPR_I03_PROVIDER": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "PRD": {name: "PRD", maxReps: 1, required: false, segmentType: typeof PRD},
+                "PRD": {name: "PRD", maxReps: 1, required: true, segmentType: typeof PRD},
                 "CTD": {name: "CTD", maxReps: -1, required: false, segmentType: typeof CTD}
             }
         }
@@ -51,11 +49,11 @@ public const RPR_I03_MESSAGE_TYPE = "RPR_I03";
 public type RPR_I03 record {
     *hl7v2:Message;
     string name = RPR_I03_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    MSA msa?;
+    MSA msa;
     PID[] pid = [];
     NTE[] nte = [];
-    PROVIDER[] provider = [{}];
+    RPR_I03_PROVIDER[] provider = [{prd:{}}];
 };

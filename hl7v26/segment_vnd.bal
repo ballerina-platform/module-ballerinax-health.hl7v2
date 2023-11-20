@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,17 +13,16 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + vnd1 - Segment Record Field
-# + vnd2 - Segment Record Field
-# + vnd3 - Segment Record Field
-# + vnd4 - Segment Record Field
-# + vnd5 - Segment Record Field
+# + vnd1 - VND-Segmentnummer
+# + vnd2 - ID des Lieferanten
+# + vnd3 - Name des Lieferanten
+# + vnd4 - Artikelnummer im Lieferkatalog
+# + vnd5 - Kennzeichen bevorzugter Lieferant
 @hl7v2:SegmentDefinition {
     name: "VND",
     required: false,

@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + icd1 - Data type field
-# + icd2 - Data type field
-# + icd3 - Data type field
+# + icd1 - Certification Patient Type
+# + icd2 - Certification Required
+# + icd3 - Date/Time Certification Required
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

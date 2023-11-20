@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,46 +13,45 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rxd1 - Segment Record Field
-# + rxd2 - Segment Record Field
-# + rxd3 - Segment Record Field
-# + rxd4 - Segment Record Field
-# + rxd5 - Segment Record Field
-# + rxd6 - Segment Record Field
-# + rxd7 - Segment Record Field
-# + rxd8 - Segment Record Field
-# + rxd9 - Segment Record Field
-# + rxd10 - Segment Record Field
-# + rxd11 - Segment Record Field
-# + rxd12 - Segment Record Field
-# + rxd13 - Segment Record Field
-# + rxd14 - Segment Record Field
-# + rxd15 - Segment Record Field
-# + rxd16 - Segment Record Field
-# + rxd17 - Segment Record Field
-# + rxd18 - Segment Record Field
-# + rxd19 - Segment Record Field
-# + rxd20 - Segment Record Field
-# + rxd21 - Segment Record Field
-# + rxd22 - Segment Record Field
-# + rxd23 - Segment Record Field
-# + rxd24 - Segment Record Field
-# + rxd25 - Segment Record Field
-# + rxd26 - Segment Record Field
-# + rxd27 - Segment Record Field
-# + rxd28 - Segment Record Field
-# + rxd29 - Segment Record Field
-# + rxd30 - Segment Record Field
-# + rxd31 - Segment Record Field
-# + rxd32 - Segment Record Field
-# + rxd33 - Segment Record Field
-# + rxd34 - Segment Record Field
+# + rxd1 - Laufende Nummer der Abgabe pro Verordnung
+# + rxd2 - Abgegebenes Medikament / Wirkstoff
+# + rxd3 - Zeitpunkt der Abgabe
+# + rxd4 - Tatsächliche Abgabemenge
+# + rxd5 - Tatsächliche Abgabeeinheit
+# + rxd6 - Tatsächliche Verabreichungsform
+# + rxd7 - Rezeptnummer
+# + rxd8 - Anzahl verbleibender Abgaben
+# + rxd9 - Anmerkungen zur Abgabe
+# + rxd10 - Abgebende Person / Mitarbeiter
+# + rxd11 - Art der Substitution
+# + rxd12 - Tägliche Gesamtdosis
+# + rxd13 - Lieferadresse
+# + rxd14 - Besondere Anweisungen beachten
+# + rxd15 - Spezielle Abgabe- / Verabreichungsanweisungen der Apotheke
+# + rxd16 - Tatsächliche Wirkstoffmenge
+# + rxd17 - Einheit zu Feld 16
+# + rxd18 - Chargennummer der Substanz
+# + rxd19 - Verfalldatum der Substanz
+# + rxd20 - Hersteller der Substanz
+# + rxd21 - Indikation
+# + rxd22 - Menge pro Verpackung
+# + rxd23 - Einheit zu Feld 28
+# + rxd24 - Abgabemethode
+# + rxd25 - zusätzlicher Code
+# + rxd26 - ursprüngliche Stelle
+# + rxd27 - verpackende/zusammenstellende Stelle
+# + rxd28 - tatsächliches Lösungsvolumen
+# + rxd29 - Einheit des Lösungsvolumens
+# + rxd30 - Empfangende Apotheke
+# + rxd31 - Adresse der empfangenden Apotheke
+# + rxd32 - Zusatzinformation Auftragslogistik
+# + rxd33 - Art der Liefermenge
+# + rxd34 - 2311XTNHL7Pharmacy Phone Number
 @hl7v2:SegmentDefinition {
     name: "RXD",
     required: false,

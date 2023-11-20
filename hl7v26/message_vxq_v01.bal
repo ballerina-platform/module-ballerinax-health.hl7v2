@@ -13,34 +13,32 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const VXQ_V01_MESSAGE_TYPE = "VXQ_V01";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + qrd - Message Record Field
-# + qrf - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + qrd - QRD Segment
+# + qrf - QRF Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "QRD": {name: "QRD", maxReps: 1, required: false, segmentType: QRD},
+        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
         "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF}
     }
 }
 public type VXQ_V01 record {
     *hl7v2:Message;
     string name = VXQ_V01_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    QRD qrd?;
+    QRD qrd;
     QRF qrf?;
 };

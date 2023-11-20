@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,20 +13,18 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ctd1 - Segment Record Field
-# + ctd2 - Segment Record Field
-# + ctd3 - Segment Record Field
-# + ctd4 - Segment Record Field
-# + ctd5 - Segment Record Field
-# + ctd6 - Segment Record Field
-# + ctd7 - Segment Record Field
+# + ctd1 - Contact Role
+# + ctd2 - Contact Name
+# + ctd3 - Contact Address
+# + ctd4 - Contact Location
+# + ctd5 - Contact Communication Information
+# + ctd6 - Preferred Method of Contact
+# + ctd7 - Contact Identifiers
 @hl7v2:SegmentDefinition {
     name: "CTD",
     required: false,

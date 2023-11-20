@@ -18,12 +18,12 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + pn1 - Data type field
-# + pn2 - Data type field
-# + pn3 - Data type field
-# + pn4 - Data type field
-# + pn5 - Data type field
-# + pn6 - Data type field
+# + pn1 - family+last name
+# + pn2 - given name
+# + pn3 - middle initial or name
+# + pn4 - suffix (e.g., JR or III)
+# + pn5 - prefix (e.g., DR)
+# + pn6 - degree (e.g., MD)
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -13,31 +13,41 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RRG_O02_MESSAGE_TYPE = "RRG_O02";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + nte - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + nte - NTE Segment
+# + response - RRG_O02_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
+    }
+    ,groups: {
+        "RRG_O02_RESPONSE": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "RRG_O02_PATIENT": {name: "RRG_O02_PATIENT", maxReps: 1, required: false, segmentType: typeof RRG_O02_PATIENT},
+                "RRG_O02_ORDER": {name: "RRG_O02_ORDER", maxReps: -1, required: true, segmentType: typeof RRG_O02_ORDER}
+            }
+        }
     }
 }
 public type RRG_O02 record {
     *hl7v2:Message;
     string name = RRG_O02_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
+    MSH msh;
+    MSA msa;
     ERR err?;
     NTE[] nte = [];
+    RRG_O02_RESPONSE[] response = [{}];
 };

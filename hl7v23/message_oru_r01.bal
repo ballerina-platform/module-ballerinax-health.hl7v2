@@ -13,42 +13,27 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const ORU_R01_MESSAGE_TYPE = "ORU_R01";
 
-# HL7 Message Default Description
+#  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + response - Message Record Field
+# + msh - MSH Segment
+# + dsc - DSC Segment
+# + response - ORU_R01_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "PID": {name: "PID" ,maxReps: 1, required: false, segmentType: PID},
-        "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
-        "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE},
-        "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: PV1},
-        "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: PV2},
-        "ORC": {name: "ORC", maxReps: -1, required: false, segmentType: ORC},
-        "OBR": {name: "OBR", maxReps: -1, required: false, segmentType: OBR},
-        "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: OBX},
-        "CTI": {name: "CTI", maxReps: -1, required: false, segmentType: CTI},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    },
-    groups: {
-        "RESPONSE": {
+    }
+    ,groups: {
+        "ORU_R01_RESPONSE": {
             maxReps: -1,
-            required: false,
-            segments: {}
-        },
-        "PATIENT": {
-            maxReps: 1,
-            required: false,
+            required: true,
             segments: {
-                "PID": {name: "PID", maxReps: -1, required: false, segmentType: typeof PID},
-                "PV1": {name: "PV1", maxReps: -1, required: false, segmentType: typeof PV1}
+                "ORU_R01_PATIENT": {name: "ORU_R01_PATIENT", maxReps: 1, required: false, segmentType: typeof ORU_R01_PATIENT},
+                "ORU_R01_ORDER_OBSERVATION": {name: "ORU_R01_ORDER_OBSERVATION", maxReps: -1, required: true, segmentType: typeof ORU_R01_ORDER_OBSERVATION}
             }
         }
     }
@@ -56,6 +41,7 @@ public const ORU_R01_MESSAGE_TYPE = "ORU_R01";
 public type ORU_R01 record {
     *hl7v2:Message;
     string name = ORU_R01_MESSAGE_TYPE;
-    MSH msh?;
-    RESPONSE[] response = [{patient: {pid: {}}}];
+    MSH msh;
+    DSC dsc?;
+    ORU_R01_RESPONSE[] response = [{}];
 };

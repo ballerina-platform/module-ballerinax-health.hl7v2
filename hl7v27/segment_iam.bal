@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,42 +13,41 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + iam1 - Segment Record Field
-# + iam2 - Segment Record Field
-# + iam3 - Segment Record Field
-# + iam4 - Segment Record Field
-# + iam5 - Segment Record Field
-# + iam6 - Segment Record Field
-# + iam7 - Segment Record Field
-# + iam8 - Segment Record Field
-# + iam9 - Segment Record Field
-# + iam10 - Segment Record Field
-# + iam11 - Segment Record Field
-# + iam12 - Segment Record Field
-# + iam13 - Segment Record Field
-# + iam14 - Segment Record Field
-# + iam15 - Segment Record Field
-# + iam16 - Segment Record Field
-# + iam17 - Segment Record Field
-# + iam18 - Segment Record Field
-# + iam19 - Segment Record Field
-# + iam20 - Segment Record Field
-# + iam21 - Segment Record Field
-# + iam22 - Segment Record Field
-# + iam23 - Segment Record Field
-# + iam24 - Segment Record Field
-# + iam25 - Segment Record Field
-# + iam26 - Segment Record Field
-# + iam27 - Segment Record Field
-# + iam28 - Segment Record Field
-# + iam29 - Segment Record Field
-# + iam30 - Segment Record Field
+# + iam1 - Set ID - IAM
+# + iam2 - Allergen Type Code
+# + iam3 - Allergen Code/Mnemonic/Description
+# + iam4 - Allergy Severity Code
+# + iam5 - Allergy Reaction Code
+# + iam6 - Allergy Action Code
+# + iam7 - Allergy Unique Identifier
+# + iam8 - Action Reason
+# + iam9 - Sensitivity to Causative Agent Code
+# + iam10 - Allergen Group Code/Mnemonic/Description
+# + iam11 - Onset Date
+# + iam12 - Onset Date Text
+# + iam13 - Reported Date/Time
+# + iam14 - Reported By
+# + iam15 - Relationship to Patient Code
+# + iam16 - Alert Device Code
+# + iam17 - Allergy Clinical Status Code
+# + iam18 - Statused by Person
+# + iam19 - Statused by Organization
+# + iam20 - Statused at Date/Time
+# + iam21 - Inactivated by Person
+# + iam22 - Inactivated Date/Time
+# + iam23 - Initially Recorded by Person
+# + iam24 - Initially Recorded Date/Time
+# + iam25 - Modified by Person
+# + iam26 - Modified Date/Time
+# + iam27 - Clinician Identified Code
+# + iam28 - Initially Recorded by Organization
+# + iam29 - Modified by Organization
+# + iam30 - Inactivated by Organization
 @hl7v2:SegmentDefinition {
     name: "IAM",
     required: false,

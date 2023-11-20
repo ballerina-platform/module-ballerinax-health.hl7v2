@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,18 +13,17 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rxc1 - Segment Record Field
-# + rxc2 - Segment Record Field
-# + rxc3 - Segment Record Field
-# + rxc4 - Segment Record Field
-# + rxc5 - Segment Record Field
-# + rxc6 - Segment Record Field
+# + rxc1 - RX Component Type
+# + rxc2 - Component Code
+# + rxc3 - Component Amount
+# + rxc4 - Component Units
+# + rxc5 - Component Strength
+# + rxc6 - Component Strength Units
 @hl7v2:SegmentDefinition {
     name: "RXC",
     required: false,

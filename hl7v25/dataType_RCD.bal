@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + rcd1 - Data type field
-# + rcd2 - Data type field
-# + rcd3 - Data type field
+# + rcd1 - Segment Field Name
+# + rcd2 - HL7 Data Type
+# + rcd3 - Maximum Column Width
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

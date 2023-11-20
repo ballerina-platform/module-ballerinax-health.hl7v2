@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,25 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + fac1 - Segment Record Field
-# + fac2 - Segment Record Field
-# + fac3 - Segment Record Field
-# + fac4 - Segment Record Field
-# + fac5 - Segment Record Field
-# + fac6 - Segment Record Field
-# + fac7 - Segment Record Field
-# + fac8 - Segment Record Field
-# + fac9 - Segment Record Field
-# + fac10 - Segment Record Field
-# + fac11 - Segment Record Field
-# + fac12 - Segment Record Field
+# + fac1 - Facility ID
+# + fac2 - Facility Type
+# + fac3 - Facility Address
+# + fac4 - Facility Telecommunication
+# + fac5 - Contact Person
+# + fac6 - Contact Title
+# + fac7 - Contact Address
+# + fac8 - Contact Telecommunication
+# + fac9 - Signature Authority
+# + fac10 - Signature Authority Title
+# + fac11 - Signature Authority Address
+# + fac12 - Signature Authority Telecommunication
 @hl7v2:SegmentDefinition {
     name: "FAC",
     required: false,

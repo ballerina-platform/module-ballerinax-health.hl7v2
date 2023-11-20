@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + sad1 - Data type field
-# + sad2 - Data type field
-# + sad3 - Data type field
+# + sad1 - Street or Mailing Address
+# + sad2 - Street Name
+# + sad3 - Dwelling Number
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,65 +13,59 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment Name  
-# + obr1 - Segment Record Field  
-# + obr2 - Segment Record Field  
-# + obr3 - Segment Record Field  
-# + obr4 - Segment Record Field  
-# + obr5 - Field Description  
-# + obr6 - Field Description  
-# + obr7 - Segment Record Field  
-# + obr8 - Segment Record Field  
-# + obr9 - Segment Record Field  
-# + obr10 - Segment Record Field  
-# + obr11 - Segment Record Field  
-# + obr12 - Segment Record Field  
-# + obr13 - Segment Record Field
-# + obr14 - Segment Record Field
-# + obr15 - Segment Record Field  
-# + obr16 - Segment Record Field  
-# + obr17 - Segment Record Field  
-# + obr18 - Segment Record Field  
-# + obr19 - Segment Record Field  
-# + obr20 - Segment Record Field  
-# + obr21 - Segment Record Field  
-# + obr22 - Segment Record Field  
-# + obr23 - Segment Record Field  
-# + obr24 - Segment Record Field  
-# + obr25 - Segment Record Field  
-# + obr26 - Segment Record Field
-# + obr27 - Segment Record Field  
-# + obr28 - Segment Record Field  
-# + obr29 - Segment Record Field  
-# + obr30 - Segment Record Field  
-# + obr31 - Segment Record Field  
-# + obr32 - Segment Record Field  
-# + obr33 - Segment Record Field  
-# + obr34 - Segment Record Field  
-# + obr35 - Segment Record Field  
-# + obr36 - Segment Record Field  
-# + obr37 - Segment Record Field  
-# + obr38 - Segment Record Field  
-# + obr39 - Segment Record Field  
-# + obr40 - Segment Record Field  
-# + obr41 - Segment Record Field  
-# + obr42 - Segment Record Field  
-# + obr43 - Segment Record Field  
-# + obr44 - Segment Record Field  
-# + obr45 - Segment Record Field  
-# + obr46 - Segment Record Field  
-# + obr47 - Segment Record Field  
-# + obr48 - Segment Record Field  
-# + obr49 - Segment Record Field  
-# + obr50 - Segment Record Field  
-# + obr51 - Segment Record Field  
-# + obr52 - Segment Record Field  
-# + obr53 - Segment Record Field
+# + name - Segment Name
+# + obr1 - OBR-Segmentnummer
+# + obr2 - Auftragsnummer des Auftraggebers / der auftraggebenden Stelle
+# + obr3 - Bearbeitungsnummer der Leistungsstelle
+# + obr4 - Leistungsidentifikation
+# + obr7 - Zeitpunkt der Probenentnahme / Beobachtung / Untersuchung
+# + obr8 - Zeitpunkt, an dem die Untersuchungsperiode endete
+# + obr9 - Probenmenge
+# + obr10 - Name und Kennzeichen des Entnehmenden
+# + obr11 - Weitere Angaben zur Untersuchung
+# + obr12 - Warnhinweise bei ansteckenden Materialien
+# + obr13 - wichtige klinische Information
+# + obr16 - Verantwortlicher Auftraggeber
+# + obr17 - Telefonnummer für Rückrufe
+# + obr18 - Freitext 1 für Auftraggeber
+# + obr19 - Freitext 2 für Auftraggeber
+# + obr20 - Freitext 1 für Leistungsstelle
+# + obr21 - Freitext 2 für Leistungsstelle
+# + obr22 - Zeitpunkt eines Berichts bzw. einer Änderung des Auftragsstatus
+# + obr23 - Leistungsbetrag / Leistungsziffer
+# + obr24 - Detailspezifikation der erbringenden Stelle
+# + obr25 - Ergebnisstatus dieses (Teil-) Auftrags (OBR-2)
+# + obr26 - Ergebnis des Hauptauftrags
+# + obr28 - Ergebnisberichte an
+# + obr29 - Verweis auf Hauptauftrag
+# + obr30 - Transportart (Patient)
+# + obr31 - Grund für Untersuchung (z.B. Wissenschaft, Studie, rechtfertigende Indikation)
+# + obr32 - Für den Befund verantwortlicher Arzt
+# + obr33 - Weiterer befundender Arzt
+# + obr34 - MTA
+# + obr35 - Erfassungs- / Schreibkraft
+# + obr36 - Geplanter Untersuchungszeitpunkt
+# + obr37 - Anzahl der Probenbehälter
+# + obr38 - Transportlogistik der gesammelten Proben
+# + obr39 - Kommentar des Probenehmenden
+# + obr40 - Verantwortlichkeit für den Transport
+# + obr41 - Transport arrangiert
+# + obr42 - Begleitung erforderlich
+# + obr43 - Kommentar zum geplanten Patiententransport
+# + obr44 - Maßnahmen- / Operationsschlüssel
+# + obr45 - Modifikator zum Prozedurcode
+# + obr46 - Zusatzinformation Leistungen/Logistik des Auftraggebers
+# + obr47 - Zusatzinformation Leistungen/Logistik des Leistungstelle
+# + obr48 - Begründung für mehrfache Durchführung einer Maßnahme
+# + obr49 - Umgang mit Untersuchungsergebnis
+# + obr50 - Leistungsidentifikation des Hauptauftrags
+# + obr51 - 2307EIHL7Observation Group ID
+# + obr52 - 2308EIHL7Parent Observation Group ID
+# + obr53 - 3303CXHL7Alternate Placer Order Number
 @hl7v2:SegmentDefinition {
     name: "OBR",
     required: false,
@@ -101,18 +94,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: CWE
-        },
-        "obr5": {
-            required: false,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
-        "obr6": {
-            required: false,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "obr7": {
             required: false,
@@ -152,18 +133,6 @@ import ballerinax/health.hl7v2;
         },
         "obr13": {
             required: false,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
-        "obr14": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
-        "obr15": {
-            required: true,
             length: 1,
             maxReps: 1,
             dataType: ST
@@ -233,12 +202,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: PRL
-        },
-        "obr27": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "obr28": {
             required: false,
@@ -405,8 +368,6 @@ public type OBR record {
     EI obr2 = {};
     EI obr3 = {};
     CWE obr4 = {};
-    ST obr5 = "";
-    ST obr6 = "";
     DTM obr7 = "";
     DTM obr8 = "";
     CQ obr9 = {};
@@ -414,8 +375,6 @@ public type OBR record {
     ID obr11 = "";
     CWE obr12 = {};
     ST obr13 = "";
-    ST obr14 = "";
-    ST obr15 = "";
     XCN[] obr16 = [{}];
     XTN obr17 = {};
     ST obr18 = "";
@@ -427,7 +386,6 @@ public type OBR record {
     ID obr24 = "";
     ID obr25 = "";
     PRL obr26 = {};
-    ST obr27 = "";
     XCN[] obr28 = [{}];
     EIP obr29 = {};
     ID obr30 = "";

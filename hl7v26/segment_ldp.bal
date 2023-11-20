@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ldp1 - Segment Record Field
-# + ldp2 - Segment Record Field
-# + ldp3 - Segment Record Field
-# + ldp4 - Segment Record Field
-# + ldp5 - Segment Record Field
-# + ldp6 - Segment Record Field
-# + ldp7 - Segment Record Field
-# + ldp8 - Segment Record Field
-# + ldp9 - Segment Record Field
-# + ldp10 - Segment Record Field
-# + ldp11 - Segment Record Field
-# + ldp12 - Segment Record Field
+# + ldp1 - Primärschlüssel
+# + ldp2 - Abteilungszugehörigkeit
+# + ldp3 - erbringbare Leistungen
+# + ldp4 - Spezialabteilung
+# + ldp5 - gültige Patientenstati
+# + ldp6 - Aktiv / inaktiv
+# + ldp7 - Nutzungsbeginn LDP
+# + ldp8 - Stillegungszeitpunkt
+# + ldp9 - Stillegungsgrund
+# + ldp10 - Besuchszeiten
+# + ldp11 - Kontakttelefonnummer
+# + ldp12 - Kostenstelle des Ortes
 @hl7v2:SegmentDefinition {
     name: "LDP",
     required: false,

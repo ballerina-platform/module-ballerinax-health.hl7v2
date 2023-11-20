@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,41 +13,40 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + spm1 - Segment Record Field
-# + spm2 - Segment Record Field
-# + spm3 - Segment Record Field
-# + spm4 - Segment Record Field
-# + spm5 - Segment Record Field
-# + spm6 - Segment Record Field
-# + spm7 - Segment Record Field
-# + spm8 - Segment Record Field
-# + spm9 - Segment Record Field
-# + spm10 - Segment Record Field
-# + spm11 - Segment Record Field
-# + spm12 - Segment Record Field
-# + spm13 - Segment Record Field
-# + spm14 - Segment Record Field
-# + spm15 - Segment Record Field
-# + spm16 - Segment Record Field
-# + spm17 - Segment Record Field
-# + spm18 - Segment Record Field
-# + spm19 - Segment Record Field
-# + spm20 - Segment Record Field
-# + spm21 - Segment Record Field
-# + spm22 - Segment Record Field
-# + spm23 - Segment Record Field
-# + spm24 - Segment Record Field
-# + spm25 - Segment Record Field
-# + spm26 - Segment Record Field
-# + spm27 - Segment Record Field
-# + spm28 - Segment Record Field
-# + spm29 - Segment Record Field
+# + spm1 - SPM-Segmentnummer
+# + spm2 - ID der Probe
+# + spm3 - ID der Primärprobe
+# + spm4 - Probenmaterial
+# + spm5 - zusätzliche Kategorisierung des Probenmaterials
+# + spm6 - Probenzusätze
+# + spm7 - Art der Probennahme
+# + spm8 - Ort der Probennahme (Körperteil)
+# + spm9 - zusätzliche Kategorisierung zum Ort d. Probennahme
+# + spm10 - Zugangsweg bei Probennahme
+# + spm11 - Probenkategorie
+# + spm12 - Probenvolumen/-menge
+# + spm13 - Anzahl Proben in dieser Gruppe
+# + spm14 - Probenbeschreibung
+# + spm15 - Hinweise zum Umgang mit der Probe
+# + spm16 - Art der Gefährdung durch die Probe
+# + spm17 - Zeitpunkt der Probennahme
+# + spm18 - Zeitpunkt des Eingangs im Labor
+# + spm19 - Verfallszeitpunkt der Probe
+# + spm20 - Merkmal Probe verfügbar
+# + spm21 - Grund für Zurückweisung der Probe
+# + spm22 - Probenqualität
+# + spm23 - Eignung der Probe
+# + spm24 - Probenzustand
+# + spm25 - aktuelle Probenmenge
+# + spm26 - Anzahl Probengefäße
+# + spm27 - Typ des Probengefäßes
+# + spm28 - Zustand des Probengefäßes
+# + spm29 - Beziehung zur Primärprobe
 @hl7v2:SegmentDefinition {
     name: "SPM",
     required: false,

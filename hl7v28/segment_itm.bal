@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,41 +13,40 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + itm1 - Segment Record Field
-# + itm2 - Segment Record Field
-# + itm3 - Segment Record Field
-# + itm4 - Segment Record Field
-# + itm5 - Segment Record Field
-# + itm6 - Segment Record Field
-# + itm7 - Segment Record Field
-# + itm8 - Segment Record Field
-# + itm9 - Segment Record Field
-# + itm10 - Segment Record Field
-# + itm11 - Segment Record Field
-# + itm12 - Segment Record Field
-# + itm13 - Segment Record Field
-# + itm14 - Segment Record Field
-# + itm15 - Segment Record Field
-# + itm16 - Segment Record Field
-# + itm17 - Segment Record Field
-# + itm18 - Segment Record Field
-# + itm19 - Segment Record Field
-# + itm20 - Segment Record Field
-# + itm21 - Segment Record Field
-# + itm22 - Segment Record Field
-# + itm23 - Segment Record Field
-# + itm24 - Segment Record Field
-# + itm25 - Segment Record Field
-# + itm26 - Segment Record Field
-# + itm27 - Segment Record Field
-# + itm28 - Segment Record Field
-# + itm29 - Segment Record Field
+# + itm1 - ID des Artikels
+# + itm2 - Artikelbeschreibung
+# + itm3 - Verfügbarkeit des Artikels
+# + itm4 - Typ des Artikels
+# + itm5 - Kategorie des Artikels
+# + itm6 - Kennzeichen Verfallsdatum vorhanden
+# + itm7 - ID des Herstellers
+# + itm8 - Herstellername
+# + itm9 - Katalogbezeichnung des Herstellers
+# + itm10 - Hersteller-ID auf dem Label
+# + itm11 - Kennzeichen Artikel darf Patient berechnet werden
+# + itm12 - Leistungsziffer / Buchungstext / Entgeltart EBM (GSG)
+# + itm13 - Einzelpreis / Punktwert
+# + itm14 - Kennzeichen Artikel im Lagerbestand
+# + itm15 - Gefahrenhinweise für Material
+# + itm16 - Zulassungsbehörde
+# + itm17 - Kennzeichen Artikel enthält Latex
+# + itm18 - Vorschrift die die Dokumentationpflicht begründet 
+# + itm19 - Verrechnungsnummer des Artikels
+# + itm20 - Mengenbudget Artikel
+# + itm21 - Preisbudget Artikel
+# + itm22 - Kennzeichen steuerpflichtiger Artikel 
+# + itm23 - Frachtkosten berechenbar
+# + itm24 - Kennzeichen Artikel ist ein Set
+# + itm25 - ID des Artikelsets
+# + itm26 - Kennzeichen abteilungsspezifische Verwendungsstatistik
+# + itm27 - Maßnahmen- / Operationsschlüssel
+# + itm28 - Modifikator zum Prozedurcode
+# + itm29 - Hinweise zur Vorbehandlung der Probe
 @hl7v2:SegmentDefinition {
     name: "ITM",
     required: false,

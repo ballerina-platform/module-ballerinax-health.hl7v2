@@ -16,12 +16,11 @@
 
 import ballerinax/health.hl7v2;
 
-# The HD is designed to be a more powerful application identifier.  
-# It is also designed to be used either as a local version of a site-defined application identifier or a publicly-assigned UID.
+# Data type description
 #
-# + hd1 - Namespace ID 
-# + hd2 - Universal ID  
-# + hd3 - Universal ID Type
+# + hd1 - namespace ID
+# + hd2 - universal ID
+# + hd3 - universal ID type
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -33,4 +32,3 @@ public type HD record {
     ST hd2 = "";
     ID hd3 = "";
 };
-

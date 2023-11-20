@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,20 +13,16 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + msa1 - Segment Record Field
-# + msa2 - Segment Record Field
-# + msa3 - Segment Record Field
-# + msa4 - Segment Record Field
-# + msa5 - Segment Record Field
-# + msa6 - Segment Record Field
-# + msa7 - Segment Record Field
-# + msa8 - Segment Record Field
+# + msa1 - Acknowledgment Code
+# + msa2 - Message Control ID
+# + msa4 - Expected Sequence Number
+# + msa7 - Message Waiting Number
+# + msa8 - Message Waiting Priority
 @hl7v2:SegmentDefinition {
     name: "MSA",
     required: false,
@@ -44,30 +39,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: ST
-        },        
-        "msa3": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "msa4": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: NM
-        },        
-        "msa5": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },        
-        "msa6": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "msa7": {
             required: false,
@@ -88,10 +65,7 @@ public type MSA record {
     string name = MSA_SEGMENT_NAME;
     ID msa1 = "";
     ST msa2 = "";
-    ST msa3 = "";
     NM msa4 = "";
-    ST msa5 = "";
-    ST msa6 = "";
     NM msa7 = "";
     ID msa8 = "";
 };

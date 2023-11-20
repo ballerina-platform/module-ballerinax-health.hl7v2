@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,45 +13,44 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + drg1 - Segment Record Field
-# + drg2 - Segment Record Field
-# + drg3 - Segment Record Field
-# + drg4 - Segment Record Field
-# + drg5 - Segment Record Field
-# + drg6 - Segment Record Field
-# + drg7 - Segment Record Field
-# + drg8 - Segment Record Field
-# + drg9 - Segment Record Field
-# + drg10 - Segment Record Field
-# + drg11 - Segment Record Field
-# + drg12 - Segment Record Field
-# + drg13 - Segment Record Field
-# + drg14 - Segment Record Field
-# + drg15 - Segment Record Field
-# + drg16 - Segment Record Field
-# + drg17 - Segment Record Field
-# + drg18 - Segment Record Field
-# + drg19 - Segment Record Field
-# + drg20 - Segment Record Field
-# + drg21 - Segment Record Field
-# + drg22 - Segment Record Field
-# + drg23 - Segment Record Field
-# + drg24 - Segment Record Field
-# + drg25 - Segment Record Field
-# + drg26 - Segment Record Field
-# + drg27 - Segment Record Field
-# + drg28 - Segment Record Field
-# + drg29 - Segment Record Field
-# + drg30 - Segment Record Field
-# + drg31 - Segment Record Field
-# + drg32 - Segment Record Field
-# + drg33 - Segment Record Field
+# + drg1 - Diagnosegruppe
+# + drg2 - Zeitpunkt der Festlegung
+# + drg3 - Merkmal Fallpauschale/Sonderentgelt Überprüfung (nur DRG)
+# + drg4 - Gruppierung überprüft (nur DRG)
+# + drg5 - Ausreißertyp (nur DRG)
+# + drg6 - Anerkannte zusätzliche Tage (nur DRG)
+# + drg7 - Anerkannte zusätzliche Kosten (nur DRG)
+# + drg8 - Kostenträger der Fallpauschale/Sonderentgelt
+# + drg9 - Anteil der zusätzlichen Aufwendungen
+# + drg10 - Merkmal der Vertraulichkeit der Diagnose
+# + drg11 - DRG-Befreiung bei Überweisung
+# + drg12 - Name der kodierenden Person
+# + drg13 - Status des Gruppierung
+# + drg14 - Fallschweregrad
+# + drg15 - Effektive Gewichtung
+# + drg16 - Geldbetrag
+# + drg17 - Status Verweildauer
+# + drg18 - Name des Programmes zur DRG Ermittlung
+# + drg19 - Version des Programmes zur DRG Ermittlung
+# + drg20 - Status der Finanzkalkuation
+# + drg21 - Relative Zu- und Abschläge
+# + drg22 - Grundpreis
+# + drg23 - Gesamtpreis
+# + drg24 - Absolute Zu- und Abschläge
+# + drg25 - Anzahl der Tage für Zu- und Abschläge
+# + drg26 - Geschlecht gültig/relevant für Gruppierung
+# + drg27 - Alter gültig/relevant für Gruppierung
+# + drg28 - Verweildauer gültig/relevant für Gruppierung
+# + drg29 - Kennzeichen Vorliegen eines 24h-Falles
+# + drg30 - Kennzeichen DRG separat abrechenbar
+# + drg31 - Geburtsgewicht relevant für Gruppierung
+# + drg32 - Beatmungsdauer gültig/relevant für Gruppierung
+# + drg33 - Aufnahmeinformationen gültig/relevant für Gruppierung
 @hl7v2:SegmentDefinition {
     name: "DRG",
     required: false,

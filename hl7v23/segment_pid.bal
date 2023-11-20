@@ -13,233 +13,232 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-# The PID segment is used by all applications as the primary means of communicating patient identification information.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name  
-# + pid1 - Set ID - Patient ID  
-# + pid2 - Patient ID (External ID)  
-# + pid3 - Patient ID (Internal ID) 
-# + pid4 - Alternate Patient ID  
-# + pid5 - Patient Name  
-# + pid6 - Mother's Maiden Name  
-# + pid7 - Date of Birth  
-# + pid8 - Sex  
-# + pid9 - Patient Alias  
-# + pid10 - Race  
-# + pid11 - Patient Address  
-# + pid12 - County Code  
-# + pid13 - Phone Number - Home  
-# + pid14 - Phone Number - Business  
-# + pid15 - Primary Language  
-# + pid16 - Marital Status  
-# + pid17 - Religion  
-# + pid18 - Patient Account Number  
-# + pid19 - SSN Number - Patient  
-# + pid20 - Driver's License Number  
-# + pid21 - Mother's Identifier  
-# + pid22 - Ethnic Group  
-# + pid23 - Birth Place  
-# + pid24 - Multiple Birth Indicator  
-# + pid25 - Birth Order  
-# + pid26 - Citizenship  
-# + pid27 - Veterans Military Status  
-# + pid28 - Nationality Code  
-# + pid29 - Patient Death Date and Time  
+# + name - Segment Name
+# + pid1 - Set ID - Patient ID
+# + pid2 - Patient ID (External ID)
+# + pid3 - Patient ID (Internal ID)
+# + pid4 - Alternate Patient ID
+# + pid5 - Patient Name
+# + pid6 - Mother's Maiden Name
+# + pid7 - Date of Birth
+# + pid8 - Sex
+# + pid9 - Patient Alias
+# + pid10 - Race
+# + pid11 - Patient Address
+# + pid12 - County Code
+# + pid13 - Phone Number - Home
+# + pid14 - Phone Number - Business
+# + pid15 - Primary Language
+# + pid16 - Marital Status
+# + pid17 - Religion
+# + pid18 - Patient Account Number
+# + pid19 - SSN Number - Patient
+# + pid20 - Driver's License Number
+# + pid21 - Mother's Identifier
+# + pid22 - Ethnic Group
+# + pid23 - Birth Place
+# + pid24 - Multiple Birth Indicator
+# + pid25 - Birth Order
+# + pid26 - Citizenship
+# + pid27 - Veterans Military Status
+# + pid28 - Nationality Code
+# + pid29 - Patient Death Date and Time
 # + pid30 - Patient Death Indicator
 @hl7v2:SegmentDefinition {
     name: "PID",
     required: false,
-    maxReps: 1,
+    maxReps: 0,
     fields: {
         "pid1": {
             required: false,
-            length: 4,
+            length: 1,
             maxReps: 1,
-            dataType:  SI
+            dataType: SI
         },
         "pid2": {
             required: false,
-            length: 20,
+            length: 1,
             maxReps: 1,
-            dataType:  CX
+            dataType: CX
         },
         "pid3": {
             required: true,
-            length: 20,
+            length: 1,
             maxReps: -1,
-            dataType:  [CX]
+            dataType: CX
         },
         "pid4": {
             required: false,
-            length: 20,
+            length: 1,
             maxReps: -1,
-            dataType:  CX
+            dataType: CX
         },
         "pid5": {
             required: true,
-            length: 48,
+            length: 1,
             maxReps: -1,
-            dataType:  XPN
+            dataType: XPN
         },
         "pid6": {
             required: false,
-            length: 48,
+            length: 1,
             maxReps: 1,
-            dataType:  CX
+            dataType: XPN
         },
         "pid7": {
             required: false,
-            length: 26,
+            length: 1,
             maxReps: 1,
-            dataType:  TS
+            dataType: TS
         },
         "pid8": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType:  IS
+            dataType: IS
         },
         "pid9": {
             required: false,
-            length: 48,
+            length: 1,
             maxReps: -1,
-            dataType:  XPN
+            dataType: XPN
         },
         "pid10": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType:  IS
+            dataType: IS
         },
         "pid11": {
             required: false,
-            length: 106,
+            length: 1,
             maxReps: -1,
-            dataType:  XAD
+            dataType: XAD
         },
         "pid12": {
             required: false,
-            length: 4,
+            length: 1,
             maxReps: 1,
-            dataType:  IS
+            dataType: IS
         },
         "pid13": {
             required: false,
-            length: 40,
+            length: 1,
             maxReps: -1,
-            dataType:  XTN
+            dataType: XTN
         },
         "pid14": {
             required: false,
-            length: 40,
+            length: 1,
             maxReps: -1,
-            dataType:  XTN
+            dataType: XTN
         },
         "pid15": {
             required: false,
-            length: 60,
-            maxReps: -1,
-            dataType:  CE
+            length: 1,
+            maxReps: 1,
+            dataType: CE
         },
         "pid16": {
             required: false,
             length: 1,
-            maxReps: 1,
-            dataType:  IS
+            maxReps: -1,
+            dataType: IS
         },
         "pid17": {
             required: false,
-            length: 3,
+            length: 1,
             maxReps: 1,
-            dataType:  IS
+            dataType: IS
         },
         "pid18": {
             required: false,
-            length: 20,
+            length: 1,
             maxReps: 1,
-            dataType:  CX
+            dataType: CX
         },
         "pid19": {
             required: false,
-            length: 16,
+            length: 1,
             maxReps: 1,
-            dataType:  ST
+            dataType: ST
         },
         "pid20": {
             required: false,
-            length: 25,
+            length: 1,
             maxReps: 1,
-            dataType:  DLN
+            dataType: DLN
         },
         "pid21": {
             required: false,
-            length: 20,
-            maxReps: -1,
-            dataType:  CX
+            length: 1,
+            maxReps: 1,
+            dataType: CX
         },
         "pid22": {
             required: false,
-            length: 3,
+            length: 1,
             maxReps: 1,
-            dataType:  IS
+            dataType: IS
         },
         "pid23": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
-            dataType:  ST
+            dataType: ST
         },
         "pid24": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
-            dataType:  ID
+            dataType: ID
         },
         "pid25": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
-            dataType:  NM
+            dataType: NM
         },
         "pid26": {
             required: false,
-            length: 4,
-            maxReps: -1,
-            dataType:  IS
+            length: 1,
+            maxReps: 1,
+            dataType: IS
         },
         "pid27": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
-            dataType:  CE
+            dataType: CE
         },
         "pid28": {
             required: false,
-            length: 80,
+            length: 1,
             maxReps: 1,
             dataType: CE
         },
         "pid29": {
             required: false,
-            length: 26,
+            length: 1,
             maxReps: 1,
-            dataType:  TS
+            dataType: TS
         },
         "pid30": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType:  ID
+            dataType: ID
         }
     }
 }
 public type PID record {
     *hl7v2:Segment;
     string name = PID_SEGMENT_NAME;
-    SI pid1 = -1;
+    SI pid1 = "";
     CX pid2 = {};
     CX[] pid3 = [{}];
     CX[] pid4 = [{}];
@@ -254,17 +253,17 @@ public type PID record {
     XTN[] pid13 = [{}];
     XTN[] pid14 = [{}];
     CE pid15 = {};
-    IS pid16 = "";
+    IS[] pid16 = [""];
     IS pid17 = "";
     CX pid18 = {};
     ST pid19 = "";
     DLN pid20 = {};
-    CX[] pid21 = [{}];
+    CX pid21 = {};
     IS pid22 = "";
     ST pid23 = "";
     ID pid24 = "";
-    NM pid25 = -1;
-    IS[] pid26 = [""];
+    NM pid25 = "";
+    IS pid26 = "";
     CE pid27 = {};
     CE pid28 = {};
     TS pid29 = {};

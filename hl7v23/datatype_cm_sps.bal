@@ -16,15 +16,14 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_sps1 - Data type field
-# + cm_sps2 - Data type field
-# + cm_sps3 - Data type field
-# + cm_sps4 - Data type field
-# + cm_sps5 - Data type field
-# + cm_sps6 - Data type field
+# + cm_sps1 - specimen source name or code
+# + cm_sps2 - additives
+# + cm_sps3 - freetext
+# + cm_sps4 - body site
+# + cm_sps5 - site modifier
+# + cm_sps6 - collection modifier method code
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

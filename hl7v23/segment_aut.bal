@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,23 +13,21 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + aut1 - Segment Record Field
-# + aut2 - Segment Record Field
-# + aut3 - Segment Record Field
-# + aut4 - Segment Record Field
-# + aut5 - Segment Record Field
-# + aut6 - Segment Record Field
-# + aut7 - Segment Record Field
-# + aut8 - Segment Record Field
-# + aut9 - Segment Record Field
-# + aut10 - Segment Record Field
+# + aut1 - Authorizing Payor, Plan Code
+# + aut2 - Authorizing Payor, Company ID
+# + aut3 - Authorizing Payor, Company Name
+# + aut4 - Authorization Effective Date
+# + aut5 - Authorization Expiration Date
+# + aut6 - Authorization Identifier
+# + aut7 - Reimbursement Limit
+# + aut8 - Requested Number of Treatments
+# + aut9 - Authorized Number of Treatments
+# + aut10 - Process Date
 @hl7v2:SegmentDefinition {
     name: "AUT",
     required: false,
@@ -108,8 +105,8 @@ public type AUT record {
     TS aut5 = {};
     EI aut6 = {};
     CP aut7 = {};
-    NM aut8 = -1;
-    NM aut9 = -1;
+    NM aut8 = "";
+    NM aut9 = "";
     TS aut10 = {};
 };
 

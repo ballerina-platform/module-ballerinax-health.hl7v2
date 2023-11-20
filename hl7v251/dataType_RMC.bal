@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + rmc1 - Data type field
-# + rmc2 - Data type field
-# + rmc3 - Data type field
-# + rmc4 - Data type field
+# + rmc1 - Room Type
+# + rmc2 - Amount Type
+# + rmc3 - Coverage Amount
+# + rmc4 - Money or Percentage
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

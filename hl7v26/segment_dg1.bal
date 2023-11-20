@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,30 +13,27 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + dg11 - Segment Record Field
-# + dg12 - Segment Record Field
-# + dg13 - Segment Record Field
-# + dg14 - Segment Record Field
-# + dg15 - Segment Record Field
-# + dg16 - Segment Record Field
-# + dg115 - Segment Record Field
-# + dg116 - Segment Record Field
-# + dg117 - Segment Record Field
-# + dg118 - Segment Record Field
-# + dg119 - Segment Record Field
-# + dg120 - Segment Record Field
-# + dg121 - Segment Record Field
-# + dg122 - Segment Record Field
-# + dg123 - Segment Record Field
-# + dg124 - Segment Record Field
-# + dg125 - Segment Record Field
-# + dg126 - Segment Record Field
+# + dg11 - DG1-Segmentnummer
+# + dg13 - Diagnoseschlüssel
+# + dg15 - Zeitpunkt der Diagnosestellung
+# + dg16 - Diagnosetyp
+# + dg115 - Diagnosepriorität (1 = Hauptdiagnose, 2..n = weitere Diagnosen)
+# + dg116 - Verantwortlicher Arzt
+# + dg117 - Art der Diagnose
+# + dg118 - Merkmal der Vertraulichkeit der Diagnose
+# + dg119 - Zeitpunkt des Attestes
+# + dg120 - ID der Diagnose
+# + dg121 - Diagnose Aktionscode
+# + dg122 - Verweis auf ätiologische (Kreuz) Diagnose
+# + dg123 - DRG - Code des CCL Wertes
+# + dg124 - Indikator Verwendung in DRG Grouping
+# + dg125 - DRG Gültigkeit der Diagnose
+# + dg126 - Indikator Diagnose bereits bei Aufnahme bekannt
 @hl7v2:SegmentDefinition {
     name: "DG1",
     required: false,
@@ -49,23 +45,11 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: SI
         },
-        "dg12": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
         "dg13": {
             required: true,
             length: 1,
             maxReps: 1,
             dataType: CWE
-        },
-        "dg14": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "dg15": {
             required: false,
@@ -157,9 +141,7 @@ public type DG1 record {
     *hl7v2:Segment;
     string name = DG1_SEGMENT_NAME;
     SI dg11 = "";
-    ST dg12 = "";
     CWE dg13 = {};
-    ST dg14 = "";
     DTM dg15 = "";
     IS dg16 = "";
     ID dg115 = "";

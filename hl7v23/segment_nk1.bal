@@ -13,136 +13,135 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-# Next of kin.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name  
-# + nk11 - Set ID - Next of Kin  
-# + nk12 - NK Name  
-# + nk13 - Relationship  
-# + nk14 - Address  
-# + nk15 - Phone Number  
-# + nk16 - Business Phone Number  
-# + nk17 - Contact Role  
-# + nk18 - Start Date  
-# + nk19 - End Date  
-# + nk110 - Next of Kin/Associated Parties Job Title  
-# + nk111 - Next of Kin Job/Associated Parties Code/Class  
-# + nk112 - Next of Kin/Associated Parties Employee Number  
-# + nk113 - Organization Name  
-# + nk114 - Marital Status  
-# + nk115 - Sex  
-# + nk116 - Date of Birth  
-# + nk117 - Living Dependency  
-# + nk118 - Ambulatory Status  
-# + nk119 - Citizenship  
-# + nk120 - Primary Language  
-# + nk121 - Living Arrangement  
-# + nk122 - Publicity Indicator  
-# + nk123 - Protection Indicator  
-# + nk124 - Student Indicator  
-# + nk125 - Religion  
-# + nk126 - Mother s Maiden Name  
-# + nk127 - Nationality Code  
-# + nk128 - Ethnic Group  
-# + nk129 - Contact Reason  
-# + nk130 - Contact Person's Name  
-# + nk131 - Contact Person s Telephone Number  
-# + nk132 - Contact Person s Address
-# + nk133 - Next of kin/associated party identifiers  
-# + nk134 - Job Status  
-# + nk135 - Race  
-# + nk136 - Handicap  
+# + name - Segment Name
+# + nk11 - Set ID - Next of Kin
+# + nk12 - Name
+# + nk13 - Relationship
+# + nk14 - Address
+# + nk15 - Phone Number
+# + nk16 - Business Phone Number
+# + nk17 - Contact Role
+# + nk18 - Start Date
+# + nk19 - End Date
+# + nk110 - Next of Kin/Associated Parties Job Title
+# + nk111 - Next of Kin Job/Associated Parties Code/Class
+# + nk112 - Next of Kin/Associated Parties Employee Number
+# + nk113 - Organization Name
+# + nk114 - Marital Status
+# + nk115 - Sex
+# + nk116 - Date of Birth
+# + nk117 - Living Dependency
+# + nk118 - Ambulatory Status
+# + nk119 - Citizenship
+# + nk120 - Primary Language
+# + nk121 - Living Arrangement
+# + nk122 - Publicity Indicator
+# + nk123 - Protection Indicator
+# + nk124 - Student Indicator
+# + nk125 - Religion
+# + nk126 - Mother’s Maiden Name
+# + nk127 - Nationality Code
+# + nk128 - Ethnic Group
+# + nk129 - Contact Reason
+# + nk130 - Contact Person's Name
+# + nk131 - Contact Person’s Telephone Number
+# + nk132 - Contact Person’s Address
+# + nk133 - Associated Party’s Identifiers
+# + nk134 - Job Status
+# + nk135 - Race
+# + nk136 - Handicap
 # + nk137 - Contact Person Social Security Number
 @hl7v2:SegmentDefinition {
     name: "NK1",
     required: false,
-    maxReps: 1,
+    maxReps: 0,
     fields: {
         "nk11": {
             required: true,
-            length: 4,
+            length: 1,
             maxReps: 1,
             dataType: SI
         },
         "nk12": {
             required: false,
-            length: 48,
+            length: 1,
             maxReps: -1,
             dataType: XPN
         },
         "nk13": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
             dataType: CE
         },
         "nk14": {
             required: false,
-            length: 106,
+            length: 1,
             maxReps: -1,
             dataType: XAD
         },
         "nk15": {
             required: false,
-            length: 40,
+            length: 1,
             maxReps: -1,
             dataType: XTN
         },
         "nk16": {
             required: false,
-            length: 40,
+            length: 1,
             maxReps: -1,
             dataType: XTN
         },
         "nk17": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
             dataType: CE
         },
         "nk18": {
             required: false,
-            length: 8,
+            length: 1,
             maxReps: 1,
             dataType: DT
         },
         "nk19": {
             required: false,
-            length: 8,
+            length: 1,
             maxReps: 1,
             dataType: DT
         },
         "nk110": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
             dataType: ST
         },
         "nk111": {
             required: false,
-            length: 20,
+            length: 1,
             maxReps: 1,
             dataType: JCC
         },
         "nk112": {
             required: false,
-            length: 20,
+            length: 1,
             maxReps: 1,
             dataType: CX
         },
         "nk113": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: -1,
             dataType: XON
         },
         "nk114": {
             required: false,
-            length: 2,
-            maxReps: 1,
+            length: 1,
+            maxReps: -1,
             dataType: IS
         },
         "nk115": {
@@ -153,37 +152,37 @@ import ballerinax/health.hl7v2;
         },
         "nk116": {
             required: false,
-            length: 26,
+            length: 1,
             maxReps: 1,
             dataType: TS
         },
         "nk117": {
             required: false,
-            length: 2,
-            maxReps: -1,
+            length: 1,
+            maxReps: 1,
             dataType: IS
         },
         "nk118": {
             required: false,
-            length: 2,
-            maxReps: -1,
+            length: 1,
+            maxReps: 1,
             dataType: IS
         },
         "nk119": {
             required: false,
-            length: 4,
-            maxReps: -1,
+            length: 1,
+            maxReps: 1,
             dataType: IS
         },
         "nk120": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
             dataType: CE
         },
         "nk121": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
@@ -201,67 +200,67 @@ import ballerinax/health.hl7v2;
         },
         "nk124": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "nk125": {
             required: false,
-            length: 3,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "nk126": {
             required: false,
-            length: 48,
+            length: 1,
             maxReps: 1,
             dataType: XPN
         },
         "nk127": {
             required: false,
-            length: 80,
+            length: 1,
             maxReps: 1,
             dataType: CE
         },
         "nk128": {
             required: false,
-            length: 3,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "nk129": {
             required: false,
-            length: 80,
-            maxReps: -1,
+            length: 1,
+            maxReps: 1,
             dataType: CE
         },
         "nk130": {
             required: false,
-            length: 48,
+            length: 1,
             maxReps: -1,
             dataType: XPN
         },
         "nk131": {
             required: false,
-            length: 40,
+            length: 1,
             maxReps: -1,
             dataType: XTN
         },
         "nk132": {
             required: false,
-            length: 106,
+            length: 1,
             maxReps: -1,
             dataType: XAD
         },
         "nk133": {
             required: false,
-            length: 32,
+            length: 1,
             maxReps: -1,
             dataType: CX
         },
         "nk134": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
@@ -273,13 +272,13 @@ import ballerinax/health.hl7v2;
         },
         "nk136": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "nk137": {
             required: false,
-            length: 16,
+            length: 1,
             maxReps: 1,
             dataType: ST
         }
@@ -288,7 +287,7 @@ import ballerinax/health.hl7v2;
 public type NK1 record {
     *hl7v2:Segment;
     string name = NK1_SEGMENT_NAME;
-    SI nk11 = -1;
+    SI nk11 = "";
     XPN[] nk12 = [{}];
     CE nk13 = {};
     XAD[] nk14 = [{}];
@@ -301,12 +300,12 @@ public type NK1 record {
     JCC nk111 = {};
     CX nk112 = {};
     XON[] nk113 = [{}];
-    IS nk114 = "";
+    IS[] nk114 = [""];
     IS nk115 = "";
     TS nk116 = {};
-    IS[] nk117 = [""];
-    IS[] nk118 = [""];
-    IS[] nk119 = [""];
+    IS nk117 = "";
+    IS nk118 = "";
+    IS nk119 = "";
     CE nk120 = {};
     IS nk121 = "";
     CE nk122 = {};
@@ -314,9 +313,9 @@ public type NK1 record {
     IS nk124 = "";
     IS nk125 = "";
     XPN nk126 = {};
-    CN nk127 = {};
+    CE nk127 = {};
     IS nk128 = "";
-    CE[] nk129 = [{}];
+    CE nk129 = {};
     XPN[] nk130 = [{}];
     XTN[] nk131 = [{}];
     XAD[] nk132 = [{}];

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,64 +13,63 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pv11 - Segment Record Field
-# + pv12 - Segment Record Field
-# + pv13 - Segment Record Field
-# + pv14 - Segment Record Field
-# + pv15 - Segment Record Field
-# + pv16 - Segment Record Field
-# + pv17 - Segment Record Field
-# + pv18 - Segment Record Field
-# + pv19 - Segment Record Field
-# + pv110 - Segment Record Field
-# + pv111 - Segment Record Field
-# + pv112 - Segment Record Field
-# + pv113 - Segment Record Field
-# + pv114 - Segment Record Field
-# + pv115 - Segment Record Field
-# + pv116 - Segment Record Field
-# + pv117 - Segment Record Field
-# + pv118 - Segment Record Field
-# + pv119 - Segment Record Field
-# + pv120 - Segment Record Field
-# + pv121 - Segment Record Field
-# + pv122 - Segment Record Field
-# + pv123 - Segment Record Field
-# + pv124 - Segment Record Field
-# + pv125 - Segment Record Field
-# + pv126 - Segment Record Field
-# + pv127 - Segment Record Field
-# + pv128 - Segment Record Field
-# + pv129 - Segment Record Field
-# + pv130 - Segment Record Field
-# + pv131 - Segment Record Field
-# + pv132 - Segment Record Field
-# + pv133 - Segment Record Field
-# + pv134 - Segment Record Field
-# + pv135 - Segment Record Field
-# + pv136 - Segment Record Field
-# + pv137 - Segment Record Field
-# + pv138 - Segment Record Field
-# + pv139 - Segment Record Field
-# + pv140 - Segment Record Field
-# + pv141 - Segment Record Field
-# + pv142 - Segment Record Field
-# + pv143 - Segment Record Field
-# + pv144 - Segment Record Field
-# + pv145 - Segment Record Field
-# + pv146 - Segment Record Field
-# + pv147 - Segment Record Field
-# + pv148 - Segment Record Field
-# + pv149 - Segment Record Field
-# + pv150 - Segment Record Field
-# + pv151 - Segment Record Field
-# + pv152 - Segment Record Field
+# + pv11 - Set ID - PV1
+# + pv12 - Patient Class
+# + pv13 - Assigned Patient Location
+# + pv14 - Admission Type
+# + pv15 - Preadmit Number
+# + pv16 - Prior Patient Location
+# + pv17 - Attending Doctor
+# + pv18 - Referring Doctor
+# + pv19 - Consulting Doctor
+# + pv110 - Hospital Service
+# + pv111 - Temporary Location
+# + pv112 - Preadmit Test Indicator
+# + pv113 - Re-admission Indicator
+# + pv114 - Admit Source
+# + pv115 - Ambulatory Status
+# + pv116 - VIP Indicator
+# + pv117 - Admitting Doctor
+# + pv118 - Patient Type
+# + pv119 - Visit Number
+# + pv120 - Financial Class
+# + pv121 - Charge Price Indicator
+# + pv122 - Courtesy Code
+# + pv123 - Credit Rating
+# + pv124 - Contract Code
+# + pv125 - Contract Effective Date
+# + pv126 - Contract Amount
+# + pv127 - Contract Period
+# + pv128 - Interest Code
+# + pv129 - Transfer to Bad Debt Code
+# + pv130 - Transfer to Bad Debt Date
+# + pv131 - Bad Debt Agency Code
+# + pv132 - Bad Debt Transfer Amount
+# + pv133 - Bad Debt Recovery Amount
+# + pv134 - Delete Account Indicator
+# + pv135 - Delete Account Date
+# + pv136 - Discharge Disposition
+# + pv137 - Discharged to Location
+# + pv138 - Diet Type
+# + pv139 - Servicing Facility
+# + pv140 - Bed Status
+# + pv141 - Account Status
+# + pv142 - Pending Location
+# + pv143 - Prior Temporary Location
+# + pv144 - Admit Date/Time
+# + pv145 - Discharge Date/Time
+# + pv146 - Current Patient Balance
+# + pv147 - Total Charges
+# + pv148 - Total Adjustments
+# + pv149 - Total Payments
+# + pv150 - Alternate Visit ID
+# + pv151 - Visit Indicator
+# + pv152 - Other Healthcare Provider
 @hl7v2:SegmentDefinition {
     name: "PV1",
     required: false,

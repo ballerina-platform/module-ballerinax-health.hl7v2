@@ -13,45 +13,140 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-
-# Contains information relative to various types of procedures that can be performed on a patient.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name  
+# + name - Segment Name
 # + pr11 - Set ID - Procedure
-# + pr12 - Procedure Coding Method 
-# + pr13 - Procedure Code 
-# + pr14 - Procedure Description  
-# + pr15 - Procedure Date/Time  
-# + pr16 - Procedure Type  
-# + pr17 - Procedure Minutes  
-# + pr18 - Anesthesiologist  
-# + pr19 - Anesthesia Code  
-# + pr110 - Anesthesia Minutes  
-# + pr111 - Surgeon  
-# + pr112 - Procedure Practitioner  
-# + pr113 - Consent Code  
-# + pr114 - Procedure Priority  
+# + pr12 - Procedure Coding Method
+# + pr13 - Procedure Code
+# + pr14 - Procedure Description
+# + pr15 - Procedure Date/Time
+# + pr16 - Procedure Type
+# + pr17 - Procedure Minutes
+# + pr18 - Anesthesiologist
+# + pr19 - Anesthesia Code
+# + pr110 - Anesthesia Minutes
+# + pr111 - Surgeon
+# + pr112 - Procedure Practitioner
+# + pr113 - Consent Code
+# + pr114 - Procedure Priority
 # + pr115 - Associated Diagnosis Code
+@hl7v2:SegmentDefinition {
+    name: "PR1",
+    required: false,
+    maxReps: 0,
+    fields: {
+        "pr11": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: SI
+        },
+        "pr12": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pr13": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CE
+        },
+        "pr14": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "pr15": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: TS
+        },
+        "pr16": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ID
+        },
+        "pr17": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pr18": {
+            required: false,
+            length: 1,
+            maxReps: -1,
+            dataType: XCN
+        },
+        "pr19": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: IS
+        },
+        "pr110": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pr111": {
+            required: false,
+            length: 1,
+            maxReps: -1,
+            dataType: XCN
+        },
+        "pr112": {
+            required: false,
+            length: 1,
+            maxReps: -1,
+            dataType: XCN
+        },
+        "pr113": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CE
+        },
+        "pr114": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pr115": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CE
+        }
+    }
+}
 public type PR1 record {
     *hl7v2:Segment;
     string name = PR1_SEGMENT_NAME;
-    SI pr11 = -1;
+    SI pr11 = "";
     IS pr12 = "";
     CE pr13 = {};
     ST pr14 = "";
     TS pr15 = {};
-    IS pr16 = "";
-    NM pr17 = -1;
-    XCN pr18 = {};
+    ID pr16 = "";
+    NM pr17 = "";
+    XCN[] pr18 = [{}];
     IS pr19 = "";
-    NM pr110 = -1;
-    XCN pr111 = {};
-    XCN pr112 = {};
+    NM pr110 = "";
+    XCN[] pr111 = [{}];
+    XCN[] pr112 = [{}];
     CE pr113 = {};
-    NM pr114 = -1;
+    NM pr114 = "";
     CE pr115 = {};
 };
 

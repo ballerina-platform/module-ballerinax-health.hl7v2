@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,25 +13,24 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + org1 - Segment Record Field
-# + org2 - Segment Record Field
-# + org3 - Segment Record Field
-# + org4 - Segment Record Field
-# + org5 - Segment Record Field
-# + org6 - Segment Record Field
-# + org7 - Segment Record Field
-# + org8 - Segment Record Field
-# + org9 - Segment Record Field
-# + org10 - Segment Record Field
-# + org11 - Segment Record Field
-# + org12 - Segment Record Field
-# + org13 - Segment Record Field
+# + org1 - ORG-Segmentnummer
+# + org2 - Organisationseinheit
+# + org3 - Typ der Organisationseinheit - ORG
+# + org4 - Merkmal primäre Organisationseinheit
+# + org5 - ID des Arztes in der Organisationseinheit
+# + org6 - Typ des Gesundheitsdienstleisters
+# + org7 - Klassifizierung des Gesundheitsdienstleisters
+# + org8 - Spezialgebiet des Gesundheitsdienstleisters
+# + org9 - Tätigkeitszeitraum
+# + org10 - Art des Beschäftigungsverhältnisses
+# + org11 - Merkmal offizielle Bestätigung notwendig
+# + org12 - Merkmal Ermächtigung zu ambulanter Behandlung
+# + org13 - Kostenstelle
 @hl7v2:SegmentDefinition {
     name: "ORG",
     required: false,

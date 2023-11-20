@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + eip1 - Data type field
-# + eip2 - Data type field
+# + eip1 - parent´s placer order number
+# + eip2 - parent´s filler order number
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

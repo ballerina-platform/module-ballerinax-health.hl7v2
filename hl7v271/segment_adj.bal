@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,27 +13,26 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + adj1 - Segment Record Field
-# + adj2 - Segment Record Field
-# + adj3 - Segment Record Field
-# + adj4 - Segment Record Field
-# + adj5 - Segment Record Field
-# + adj6 - Segment Record Field
-# + adj7 - Segment Record Field
-# + adj8 - Segment Record Field
-# + adj9 - Segment Record Field
-# + adj10 - Segment Record Field
-# + adj11 - Segment Record Field
-# + adj12 - Segment Record Field
-# + adj13 - Segment Record Field
-# + adj14 - Segment Record Field
-# + adj15 - Segment Record Field
+# + adj1 - 2003EIHL7Provider Adjustment Number
+# + adj2 - 2004EIHL7Payer Adjustment Number
+# + adj3 - 2005SIHL7Adjustment Sequence Number
+# + adj4 - 2006CWEHL70564HL7Adjustment Category
+# + adj5 - 2007CPHL7Adjustment Amount
+# + adj6 - 2008CQHL70560HL7Adjustment Quantity
+# + adj7 - 2009CWEHL70565HL7Adjustment Reason PA
+# + adj8 - 2010STHL7Adjustment Description
+# + adj9 - 2011NMHL7Original Value
+# + adj10 - 2012NMHL7Substitute Value
+# + adj11 - 2013CWEHL70569HL7Adjustment Action
+# + adj12 - 2014EIHL7Provider Adjustment Number Cross Reference
+# + adj13 - 2015EIHL7Provider Product/Service Line Item Number Cross Reference
+# + adj14 - 2016DTMHL7Adjustment Date
+# + adj15 - 2017XONHL7Responsible Organization
 @hl7v2:SegmentDefinition {
     name: "ADJ",
     required: false,

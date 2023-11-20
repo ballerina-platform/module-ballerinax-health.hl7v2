@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,53 +13,52 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ft11 - Segment Record Field
-# + ft12 - Segment Record Field
-# + ft13 - Segment Record Field
-# + ft14 - Segment Record Field
-# + ft15 - Segment Record Field
-# + ft16 - Segment Record Field
-# + ft17 - Segment Record Field
-# + ft110 - Segment Record Field
-# + ft111 - Segment Record Field
-# + ft112 - Segment Record Field
-# + ft113 - Segment Record Field
-# + ft114 - Segment Record Field
-# + ft115 - Segment Record Field
-# + ft116 - Segment Record Field
-# + ft117 - Segment Record Field
-# + ft118 - Segment Record Field
-# + ft119 - Segment Record Field
-# + ft120 - Segment Record Field
-# + ft121 - Segment Record Field
-# + ft122 - Segment Record Field
-# + ft123 - Segment Record Field
-# + ft124 - Segment Record Field
-# + ft125 - Segment Record Field
-# + ft126 - Segment Record Field
-# + ft127 - Segment Record Field
-# + ft128 - Segment Record Field
-# + ft129 - Segment Record Field
-# + ft130 - Segment Record Field
-# + ft131 - Segment Record Field
-# + ft132 - Segment Record Field
-# + ft133 - Segment Record Field
-# + ft134 - Segment Record Field
-# + ft135 - Segment Record Field
-# + ft136 - Segment Record Field
-# + ft137 - Segment Record Field
-# + ft138 - Segment Record Field
-# + ft139 - Segment Record Field
-# + ft140 - Segment Record Field
-# + ft141 - Segment Record Field
-# + ft142 - Segment Record Field
-# + ft143 - Segment Record Field
+# + ft11 - Set ID - FT1
+# + ft12 - Transaction ID
+# + ft13 - Transaction Batch ID
+# + ft14 - Transaction Date
+# + ft15 - Transaction Posting Date
+# + ft16 - Transaction Type
+# + ft17 - Transaction Code
+# + ft110 - Transaction Quantity
+# + ft111 - Transaction Amount - Extended
+# + ft112 - Transaction amount - unit
+# + ft113 - Department Code
+# + ft114 - Health Plan ID
+# + ft115 - Insurance Amount
+# + ft116 - Assigned Patient Location
+# + ft117 - Fee Schedule
+# + ft118 - Patient Type
+# + ft119 - Diagnosis Code - FT1
+# + ft120 - Performed By Code
+# + ft121 - Ordered By Code
+# + ft122 - Unit Cost
+# + ft123 - Filler Order Number
+# + ft124 - Entered By Code
+# + ft125 - Procedure Code
+# + ft126 - Procedure Code Modifier
+# + ft127 - Advanced Beneficiary Notice Code
+# + ft128 - Medically Necessary Duplicate Procedure Reason
+# + ft129 - NDC Code
+# + ft130 - Payment Reference ID
+# + ft131 - Transaction Reference Key
+# + ft132 - Performing Facility
+# + ft133 - Ordering Facility
+# + ft134 - Item Number
+# + ft135 - Model Number
+# + ft136 - Special Processing Code
+# + ft137 - Clinic Code
+# + ft138 - Referral Number
+# + ft139 - Authorization Number
+# + ft140 - Service Provider Taxonomy Code
+# + ft141 - Revenue Code
+# + ft142 - Prescription Number
+# + ft143 - NDC Qty and UOM
 @hl7v2:SegmentDefinition {
     name: "FT1",
     required: false,

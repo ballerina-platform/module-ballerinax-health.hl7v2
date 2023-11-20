@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,19 +13,18 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pkg1 - Segment Record Field
-# + pkg2 - Segment Record Field
-# + pkg3 - Segment Record Field
-# + pkg4 - Segment Record Field
-# + pkg5 - Segment Record Field
-# + pkg6 - Segment Record Field
-# + pkg7 - Segment Record Field
+# + pkg1 - PKG-Segmentnummer
+# + pkg2 - Packungseinheiten
+# + pkg3 - Standard-Packungseinheite für Auftrag verwenden
+# + pkg4 - Packungsgröße
+# + pkg5 - Preis
+# + pkg6 - zukünftiger Preis
+# + pkg7 - Gültigkeitsbeginn für zukünftigen Preis
 @hl7v2:SegmentDefinition {
     name: "PKG",
     required: false,

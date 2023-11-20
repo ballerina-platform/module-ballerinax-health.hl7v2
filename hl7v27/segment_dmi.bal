@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,17 +13,16 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + dmi1 - Segment Record Field
-# + dmi2 - Segment Record Field
-# + dmi3 - Segment Record Field
-# + dmi4 - Segment Record Field
-# + dmi5 - Segment Record Field
+# + dmi1 - Diagnostic Related Group
+# + dmi2 - Major Diagnostic Category
+# + dmi3 - Lower and Upper Trim Points
+# + dmi4 - Average Length of Stay
+# + dmi5 - Relative Weight
 @hl7v2:SegmentDefinition {
     name: "DMI",
     required: false,

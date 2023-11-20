@@ -16,11 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_ri1 - Data type field
-# + cm_ri2 - Data type field
+# + cm_ri1 - repeat pattern
+# + cm_ri2 - explicit time interval
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

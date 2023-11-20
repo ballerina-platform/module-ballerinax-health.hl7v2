@@ -13,36 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const SSU_U03_MESSAGE_TYPE = "SSU_U03";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + equ - Message Record Field
-# + rol - Message Record Field
-# + specimen_container - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + equ - EQU Segment
+# + rol - ROL Segment
+# + specimen_container - SSU_U03_SPECIMEN_CONTAINER Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "EQU": {name: "EQU", maxReps: 1, required: false, segmentType: EQU},
+        "EQU": {name: "EQU", maxReps: 1, required: true, segmentType: EQU},
         "ROL": {name: "ROL", maxReps: 1, required: false, segmentType: ROL}
     }
     ,groups: {
-        "SPECIMEN_CONTAINER": {
+        "SSU_U03_SPECIMEN_CONTAINER": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "SAC": {name: "SAC", maxReps: 1, required: false, segmentType: typeof SAC},
+                "SAC": {name: "SAC", maxReps: 1, required: true, segmentType: typeof SAC},
                 "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: typeof OBX},
-                "SPECIMEN": {name: "SPECIMEN", maxReps: -1, required: false, segmentType: typeof SPECIMEN}
+                "SSU_U03_SPECIMEN": {name: "SSU_U03_SPECIMEN", maxReps: -1, required: false, segmentType: typeof SSU_U03_SPECIMEN}
             }
         }
     }
@@ -50,10 +48,10 @@ public const SSU_U03_MESSAGE_TYPE = "SSU_U03";
 public type SSU_U03 record {
     *hl7v2:Message;
     string name = SSU_U03_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    EQU equ?;
+    EQU equ;
     ROL rol?;
-    SPECIMEN_CONTAINER[] specimen_container = [{}];
+    SSU_U03_SPECIMEN_CONTAINER[] specimen_container = [{sac:{}}];
 };

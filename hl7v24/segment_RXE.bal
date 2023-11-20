@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,43 +13,42 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rxe1 - Segment Record Field
-# + rxe2 - Segment Record Field
-# + rxe3 - Segment Record Field
-# + rxe4 - Segment Record Field
-# + rxe5 - Segment Record Field
-# + rxe6 - Segment Record Field
-# + rxe7 - Segment Record Field
-# + rxe8 - Segment Record Field
-# + rxe9 - Segment Record Field
-# + rxe10 - Segment Record Field
-# + rxe11 - Segment Record Field
-# + rxe12 - Segment Record Field
-# + rxe13 - Segment Record Field
-# + rxe14 - Segment Record Field
-# + rxe15 - Segment Record Field
-# + rxe16 - Segment Record Field
-# + rxe17 - Segment Record Field
-# + rxe18 - Segment Record Field
-# + rxe19 - Segment Record Field
-# + rxe20 - Segment Record Field
-# + rxe21 - Segment Record Field
-# + rxe22 - Segment Record Field
-# + rxe23 - Segment Record Field
-# + rxe24 - Segment Record Field
-# + rxe25 - Segment Record Field
-# + rxe26 - Segment Record Field
-# + rxe27 - Segment Record Field
-# + rxe28 - Segment Record Field
-# + rxe29 - Segment Record Field
-# + rxe30 - Segment Record Field
-# + rxe31 - Segment Record Field
+# + rxe1 - Quantity/Timing
+# + rxe2 - Give Code
+# + rxe3 - Give Amount - Minimum
+# + rxe4 - Give Amount - Maximum
+# + rxe5 - Give Units
+# + rxe6 - Give Dosage Form
+# + rxe7 - Provider's Administration Instructions
+# + rxe8 - Deliver-To Location
+# + rxe9 - Substitution Status
+# + rxe10 - Dispense Amount
+# + rxe11 - Dispense Units
+# + rxe12 - Number of Refills
+# + rxe13 - Ordering Provider's DEA Number
+# + rxe14 - Pharmacist/Treatment Supplier's Verifier ID
+# + rxe15 - Prescription Number
+# + rxe16 - Number of Refills Remaining
+# + rxe17 - Number of Refills/Doses Dispensed
+# + rxe18 - D/T of Most Recent Refill or Dose Dispensed
+# + rxe19 - Total Daily Dose
+# + rxe20 - Needs Human Review
+# + rxe21 - Pharmacy/Treatment Supplier's Special Dispensing Instructions
+# + rxe22 - Give Per (Time Unit)
+# + rxe23 - Give Rate Amount
+# + rxe24 - Give Rate Units
+# + rxe25 - Give Strength
+# + rxe26 - Give Strength Units
+# + rxe27 - Give Indication
+# + rxe28 - Dispense Package Size
+# + rxe29 - Dispense Package Size Unit
+# + rxe30 - Dispense Package Method
+# + rxe31 - Supplementary Code
 @hl7v2:SegmentDefinition {
     name: "RXE",
     required: false,

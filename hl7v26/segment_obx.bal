@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,37 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + obx1 - Segment Record Field
-# + obx2 - Segment Record Field
-# + obx3 - Segment Record Field
-# + obx4 - Segment Record Field
-# + obx5 - Segment Record Field
-# + obx6 - Segment Record Field
-# + obx7 - Segment Record Field
-# + obx8 - Segment Record Field
-# + obx9 - Segment Record Field
-# + obx10 - Segment Record Field
-# + obx11 - Segment Record Field
-# + obx12 - Segment Record Field
-# + obx13 - Segment Record Field
-# + obx14 - Segment Record Field
-# + obx15 - Segment Record Field
-# + obx16 - Segment Record Field
-# + obx17 - Segment Record Field
-# + obx18 - Segment Record Field
-# + obx19 - Segment Record Field
-# + obx20 - Segment Record Field
-# + obx21 - Segment Record Field
-# + obx22 - Segment Record Field
-# + obx23 - Segment Record Field
-# + obx24 - Segment Record Field
-# + obx25 - Segment Record Field
+# + obx1 - OBX-Segmentnummer
+# + obx2 - Ergebnisformat (Datentyp von Feld OBX-5)
+# + obx3 - Bezeichnung der Untersuchung
+# + obx4 - Differenzierung von Ergebnissen einer Untersuchung
+# + obx5 - (Teil-) Ergebnis / Meßwert
+# + obx6 - Maßeinheit
+# + obx7 - Referenzbereich / Normalbereich
+# + obx8 - Bewertung des Ergebnisses / Meßwerts
+# + obx9 - Wahrscheinlichkeit / Zuverlässigkeit des Ergebnisses bzw. Meßwerts
+# + obx10 - Art des Referenzbereiches
+# + obx11 - Ergebnisstatus
+# + obx12 - Datum der letzten Referenzbereichsfestlegung im System
+# + obx13 - benutzerdefinierte Zugriffsberechtigung (für dieses Ergebnis)
+# + obx14 - Zeitpunkt der Untersuchung / Probenentnahme
+# + obx15 - Kennzeichen der Untersuchungsstelle
+# + obx16 - Verantwortlicher Untersucher
+# + obx17 - Untersuchungsmethode
+# + obx18 - ID des Gerätes
+# + obx19 - Zeitpunkt der Analyse
+# + obx20 - Beobachtungsort/Messpunkt
+# + obx21 - ID der Beobachtung
+# + obx22 - Mood-Code
+# + obx23 - Ausführende Organisation - Name
+# + obx24 - Ausführende Organisation - Adresse
+# + obx25 - Ausführende Organisation - med. Leitung
 @hl7v2:SegmentDefinition {
     name: "OBX",
     required: false,

@@ -18,11 +18,11 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + pip1 - Data type field
-# + pip2 - Data type field
-# + pip3 - Data type field
-# + pip4 - Data type field
-# + pip5 - Data type field
+# + pip1 - Privilege
+# + pip2 - Privilege Class
+# + pip3 - Expiration Date
+# + pip4 - Activation Date
+# + pip5 - Facility
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

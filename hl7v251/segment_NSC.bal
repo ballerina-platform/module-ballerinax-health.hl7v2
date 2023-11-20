@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,21 +13,20 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + nsc1 - Segment Record Field
-# + nsc2 - Segment Record Field
-# + nsc3 - Segment Record Field
-# + nsc4 - Segment Record Field
-# + nsc5 - Segment Record Field
-# + nsc6 - Segment Record Field
-# + nsc7 - Segment Record Field
-# + nsc8 - Segment Record Field
-# + nsc9 - Segment Record Field
+# + nsc1 - Application Change Type
+# + nsc2 - Current CPU
+# + nsc3 - Current Fileserver
+# + nsc4 - Current Application
+# + nsc5 - Current Facility
+# + nsc6 - New CPU
+# + nsc7 - New Fileserver
+# + nsc8 - New Application
+# + nsc9 - New Facility
 @hl7v2:SegmentDefinition {
     name: "NSC",
     required: false,

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + tcc1 - Segment Record Field
-# + tcc2 - Segment Record Field
-# + tcc3 - Segment Record Field
-# + tcc4 - Segment Record Field
-# + tcc5 - Segment Record Field
-# + tcc6 - Segment Record Field
-# + tcc7 - Segment Record Field
-# + tcc8 - Segment Record Field
-# + tcc9 - Segment Record Field
-# + tcc10 - Segment Record Field
-# + tcc11 - Segment Record Field
-# + tcc12 - Segment Record Field
-# + tcc13 - Segment Record Field
-# + tcc14 - Segment Record Field
+# + tcc1 - Universal Service Identifier
+# + tcc2 - Test Application Identifier
+# + tcc3 - Specimen Source
+# + tcc4 - Auto-Dilution Factor Default
+# + tcc5 - Rerun Dilution Factor Default
+# + tcc6 - Pre-Dilution Factor Default
+# + tcc7 - Endogenous Content of Pre-Dilution Diluent
+# + tcc8 - Inventory Limits Warning Level
+# + tcc9 - Automatic Rerun Allowed
+# + tcc10 - Automatic Repeat Allowed
+# + tcc11 - Automatic Reflex Allowed
+# + tcc12 - Equipment Dynamic Range
+# + tcc13 - Units
+# + tcc14 - Processing Type
 @hl7v2:SegmentDefinition {
     name: "TCC",
     required: false,

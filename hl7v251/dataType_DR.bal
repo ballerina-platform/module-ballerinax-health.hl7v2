@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + dr1 - Data type field
-# + dr2 - Data type field
+# + dr1 - Range Start Date/Time
+# + dr2 - Range End Date/Time
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

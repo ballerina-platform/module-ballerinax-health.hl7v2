@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + wvs1 - Data type field
-# + wvs2 - Data type field
+# + wvs1 - source name 1
+# + wvs2 - source name 2
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

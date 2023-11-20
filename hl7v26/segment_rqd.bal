@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,22 +13,21 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rqd1 - Segment Record Field
-# + rqd2 - Segment Record Field
-# + rqd3 - Segment Record Field
-# + rqd4 - Segment Record Field
-# + rqd5 - Segment Record Field
-# + rqd6 - Segment Record Field
-# + rqd7 - Segment Record Field
-# + rqd8 - Segment Record Field
-# + rqd9 - Segment Record Field
-# + rqd10 - Segment Record Field
+# + rqd1 - Positionsnummer
+# + rqd2 - Artikelnummer beim Auftragnehmer
+# + rqd3 - Artikelnummer beim Auftraggeber
+# + rqd4 - Krankenhausweite Artikelnummer
+# + rqd5 - Bestellmenge
+# + rqd6 - Verpackungseinheit
+# + rqd7 - zu belastende Kostenstelle
+# + rqd8 - Verrechnungsnummer des Artikels
+# + rqd9 - Lieferadresse (Adreßschlüssel)
+# + rqd10 - Gewünschter Liefertermin
 @hl7v2:SegmentDefinition {
     name: "RQD",
     required: false,

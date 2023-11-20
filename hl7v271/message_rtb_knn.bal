@@ -13,46 +13,44 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RTB_Knn_MESSAGE_TYPE = "RTB_Knn";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + qak - Message Record Field
-# + qpd - Message Record Field
-# + anyhl7segment - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + qak - QAK Segment
+# + qpd - QPD Segment
+# + anyhl7segment - anyHL7Segment Segment
+# + dsc - DSC Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
-        "QAK": {name: "QAK", maxReps: 1, required: false, segmentType: QAK},
-        "QPD": {name: "QPD", maxReps: 1, required: false, segmentType: QPD},
-        "anydata": {name: "anydata", maxReps: 1, required: false, segmentType: anydata},
+        "QAK": {name: "QAK", maxReps: 1, required: true, segmentType: QAK},
+        "QPD": {name: "QPD", maxReps: 1, required: true, segmentType: QPD},
+        "anydata": {name: "anydata", maxReps: 1, required: true, segmentType: anydata},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
 }
 public type RTB_Knn record {
     *hl7v2:Message;
     string name = RTB_Knn_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    MSA msa?;
+    MSA msa;
     ERR err?;
-    QAK qak?;
-    QPD qpd?;
-    anydata anyhl7segment?;
+    QAK qak;
+    QPD qpd;
+    anydata anyhl7segment;
     DSC dsc?;
 };

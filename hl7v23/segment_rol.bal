@@ -13,20 +13,74 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-# The role segment contains the data necessary to add, update, correct, and delete from the record persons involved
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name  
-# + rol1 - Role Instance ID 
-# + rol2 - Action Code  
-# + rol3 - Role  
-# + rol4 - Role Person  
-# + rol5 - Role Begin Date/Time  
-# + rol6 - Role End Date/Time  
-# + rol7 - Role Duration  
-# + rol8 - Role Action
+# + name - Segment Name
+# + rol1 - Role Instance ID
+# + rol2 - Action Code
+# + rol3 - Role
+# + rol4 - Role Person
+# + rol5 - Role Begin Date/Time
+# + rol6 - Role End Date/Time
+# + rol7 - Role Duration
+# + rol8 - Role Action (Assumption) Reason
+@hl7v2:SegmentDefinition {
+    name: "ROL",
+    required: false,
+    maxReps: 0,
+    fields: {
+        "rol1": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: EI
+        },
+        "rol2": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: ID
+        },
+        "rol3": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CE
+        },
+        "rol4": {
+            required: true,
+            length: 1,
+            maxReps: 1,
+            dataType: XCN
+        },
+        "rol5": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: TS
+        },
+        "rol6": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: TS
+        },
+        "rol7": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CE
+        },
+        "rol8": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CE
+        }
+    }
+}
 public type ROL record {
     *hl7v2:Segment;
     string name = ROL_SEGMENT_NAME;

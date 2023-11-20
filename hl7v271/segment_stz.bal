@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,16 +13,15 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + stz1 - Segment Record Field
-# + stz2 - Segment Record Field
-# + stz3 - Segment Record Field
-# + stz4 - Segment Record Field
+# + stz1 - Art der Sterilisation
+# + stz2 - Code für Sterilisationszyklus
+# + stz3 - Wartungszyklus
+# + stz4 - Wartungsart
 @hl7v2:SegmentDefinition {
     name: "STZ",
     required: false,

@@ -16,12 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-# Error.
+# Data type description
 #
-# + cm_eld1 - Segment ID  
-# + cm_eld2 - Sequence  
-# + cm_eld3 - Field Position  
-# + cm_eld4 - Code Identifying Error
+# + cm_eld1 - segment ID
+# + cm_eld2 - sequence
+# + cm_eld3 - field position
+# + cm_eld4 - code identifying error
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -30,7 +30,7 @@ import ballerinax/health.hl7v2;
 public type CM_ELD record {
     *hl7v2:CompositeType;
     ST cm_eld1 = "";
-    NM cm_eld2 = -1;
-    NM cm_eld3 = -1;
+    NM cm_eld2 = "";
+    NM cm_eld3 = "";
     CE cm_eld4 = {};
 };

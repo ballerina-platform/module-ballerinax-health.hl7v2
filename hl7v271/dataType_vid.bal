@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + vid1 - Data type field
-# + vid2 - Data type field
-# + vid3 - Data type field
+# + vid1 - Version ID
+# + vid2 - Internationalization Code
+# + vid3 - International Version ID
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

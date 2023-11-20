@@ -13,38 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RPL_I02_MESSAGE_TYPE = "RPL_I02";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + msa - Message Record Field
-# + nte - Message Record Field
-# + dsp - Message Record Field
-# + dsc - Message Record Field
-# + provider - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + msa - MSA Segment
+# + nte - NTE Segment
+# + dsp - DSP Segment
+# + dsc - DSC Segment
+# + provider - RPL_I02_PROVIDER Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE},
         "DSP": {name: "DSP", maxReps: -1, required: false, segmentType: DSP},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
     ,groups: {
-        "PROVIDER": {
+        "RPL_I02_PROVIDER": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "PRD": {name: "PRD", maxReps: 1, required: false, segmentType: typeof PRD},
+                "PRD": {name: "PRD", maxReps: 1, required: true, segmentType: typeof PRD},
                 "CTD": {name: "CTD", maxReps: -1, required: false, segmentType: typeof CTD}
             }
         }
@@ -53,12 +51,12 @@ public const RPL_I02_MESSAGE_TYPE = "RPL_I02";
 public type RPL_I02 record {
     *hl7v2:Message;
     string name = RPL_I02_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    MSA msa?;
+    MSA msa;
     NTE[] nte = [];
     DSP[] dsp = [];
     DSC dsc?;
-    PROVIDER[] provider = [{}];
+    RPL_I02_PROVIDER[] provider = [{prd:{}}];
 };

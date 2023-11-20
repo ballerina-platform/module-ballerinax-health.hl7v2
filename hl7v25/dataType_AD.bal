@@ -18,14 +18,14 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ad1 - Data type field
-# + ad2 - Data type field
-# + ad3 - Data type field
-# + ad4 - Data type field
-# + ad5 - Data type field
-# + ad6 - Data type field
-# + ad7 - Data type field
-# + ad8 - Data type field
+# + ad1 - Street Address
+# + ad2 - Other Designation
+# + ad3 - City
+# + ad4 - State or Province
+# + ad5 - Zip or Postal Code
+# + ad6 - Country
+# + ad7 - Address Type
+# + ad8 - Other Geographic Designation
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

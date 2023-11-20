@@ -18,13 +18,13 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + csu1 - Data type field
-# + csu2 - Data type field
-# + csu3 - Data type field
-# + csu4 - Data type field
-# + csu5 - Data type field
-# + csu6 - Data type field
-# + csu7 - Data type field
+# + csu1 - Channel Sensitivity
+# + csu2 - Unit of Measure Identifier
+# + csu3 - Unit of Measure Description
+# + csu4 - Unit of Measure Coding System
+# + csu5 - Alternate Unit of Measure Identifier
+# + csu6 - Alternate Unit of Measure Description
+# + csu7 - Alternate Unit of Measure Coding System
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

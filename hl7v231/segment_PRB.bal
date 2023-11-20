@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,37 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + prb1 - Segment Record Field
-# + prb2 - Segment Record Field
-# + prb3 - Segment Record Field
-# + prb4 - Segment Record Field
-# + prb5 - Segment Record Field
-# + prb6 - Segment Record Field
-# + prb7 - Segment Record Field
-# + prb8 - Segment Record Field
-# + prb9 - Segment Record Field
-# + prb10 - Segment Record Field
-# + prb11 - Segment Record Field
-# + prb12 - Segment Record Field
-# + prb13 - Segment Record Field
-# + prb14 - Segment Record Field
-# + prb15 - Segment Record Field
-# + prb16 - Segment Record Field
-# + prb17 - Segment Record Field
-# + prb18 - Segment Record Field
-# + prb19 - Segment Record Field
-# + prb20 - Segment Record Field
-# + prb21 - Segment Record Field
-# + prb22 - Segment Record Field
-# + prb23 - Segment Record Field
-# + prb24 - Segment Record Field
-# + prb25 - Segment Record Field
+# + prb1 - Action Code
+# + prb2 - Action Date/Time
+# + prb3 - Problem ID
+# + prb4 - Problem Instance ID
+# + prb5 - Episode of Care ID
+# + prb6 - Problem List Priority
+# + prb7 - Problem Established Date/Time
+# + prb8 - Anticipated Problem Resolution Date/Time
+# + prb9 - Actual Problem Resolution Date/Time
+# + prb10 - Problem Classification
+# + prb11 - Problem Management Discipline
+# + prb12 - Problem Persistence
+# + prb13 - Problem Confirmation Status
+# + prb14 - Problem Life Cycle Status
+# + prb15 - Problem Life Cycle Status Date/Time
+# + prb16 - Problem Date of Onset
+# + prb17 - Problem Onset Text
+# + prb18 - Problem Ranking
+# + prb19 - Certainty of Problem
+# + prb20 - Probability of Problem (0-1)
+# + prb21 - Individual Awareness of Problem
+# + prb22 - Problem Prognosis
+# + prb23 - Individual Awareness of Prognosis
+# + prb24 - Family/Significant Other Awareness of Problem/Prognosis
+# + prb25 - Security/Sensitivity
 @hl7v2:SegmentDefinition {
     name: "PRB",
     required: false,

@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cq1 - Data type field
-# + cq2 - Data type field
+# + cq1 - Quantity
+# + cq2 - Units
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

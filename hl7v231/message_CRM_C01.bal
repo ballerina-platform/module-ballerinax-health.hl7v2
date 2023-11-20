@@ -13,22 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const CRM_C01_MESSAGE_TYPE = "CRM_C01";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
+# + msh - MSH Segment
+# + patient - CRM_C01_PATIENT Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH}
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH}
+    }
+    ,groups: {
+        "CRM_C01_PATIENT": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
+                "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: typeof PV1},
+                "CSR": {name: "CSR", maxReps: 1, required: true, segmentType: typeof CSR},
+                "CSP": {name: "CSP", maxReps: -1, required: false, segmentType: typeof CSP}
+            }
+        }
     }
 }
 public type CRM_C01 record {
     *hl7v2:Message;
     string name = CRM_C01_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
+    CRM_C01_PATIENT[] patient = [{pid:{}, csr:{}}];
 };

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,21 +13,20 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pda1 - Segment Record Field
-# + pda2 - Segment Record Field
-# + pda3 - Segment Record Field
-# + pda4 - Segment Record Field
-# + pda5 - Segment Record Field
-# + pda6 - Segment Record Field
-# + pda7 - Segment Record Field
-# + pda8 - Segment Record Field
-# + pda9 - Segment Record Field
+# + pda1 - Death Cause Code
+# + pda2 - Death Location
+# + pda3 - Death Certified Indicator
+# + pda4 - Death Certificate Signed Date/Time
+# + pda5 - Death Certified By
+# + pda6 - Autopsy Indicator
+# + pda7 - Autopsy Start and End Date/Time
+# + pda8 - Autopsy Performed By
+# + pda9 - Coroner Indicator
 @hl7v2:SegmentDefinition {
     name: "PDA",
     required: false,

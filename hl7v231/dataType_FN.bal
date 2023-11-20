@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + fn1 - Data type field
-# + fn2 - Data type field
+# + fn1 - family name
+# + fn2 - last name prefix
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

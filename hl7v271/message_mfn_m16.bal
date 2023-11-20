@@ -13,33 +13,45 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const MFN_M16_MESSAGE_TYPE = "MFN_M16";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + mfi - Message Record Field
-# + material_item_record - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + mfi - MFI Segment
+# + material_item_record - MFN_M16_MATERIAL_ITEM_RECORD Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MFI": {name: "MFI", maxReps: 1, required: false, segmentType: MFI}
+        "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
+    }
+    ,groups: {
+        "MFN_M16_MATERIAL_ITEM_RECORD": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "MFE": {name: "MFE", maxReps: 1, required: true, segmentType: typeof MFE},
+                "ITM": {name: "ITM", maxReps: 1, required: true, segmentType: typeof ITM},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
+                "MFN_M16_STERILIZATION": {name: "MFN_M16_STERILIZATION", maxReps: -1, required: false, segmentType: typeof MFN_M16_STERILIZATION},
+                "MFN_M16_PURCHASING_VENDOR": {name: "MFN_M16_PURCHASING_VENDOR", maxReps: -1, required: false, segmentType: typeof MFN_M16_PURCHASING_VENDOR},
+                "MFN_M16_MATERIAL_LOCATION": {name: "MFN_M16_MATERIAL_LOCATION", maxReps: -1, required: false, segmentType: typeof MFN_M16_MATERIAL_LOCATION}
+            }
+        }
     }
 }
 public type MFN_M16 record {
     *hl7v2:Message;
     string name = MFN_M16_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    MFI mfi?;
-    MATERIAL_ITEM_RECORD[] material_item_record = [{}];
+    MFI mfi;
+    MFN_M16_MATERIAL_ITEM_RECORD[] material_item_record = [{mfe:{}, itm:{}}];
 };

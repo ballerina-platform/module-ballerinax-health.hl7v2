@@ -13,36 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const EAR_U08_MESSAGE_TYPE = "EAR_U08";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + equ - Message Record Field
-# + rol - Message Record Field
-# + command_response - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + equ - EQU Segment
+# + rol - ROL Segment
+# + command_response - EAR_U08_COMMAND_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "EQU": {name: "EQU", maxReps: 1, required: false, segmentType: EQU},
+        "EQU": {name: "EQU", maxReps: 1, required: true, segmentType: EQU},
         "ROL": {name: "ROL", maxReps: 1, required: false, segmentType: ROL}
     }
     ,groups: {
-        "COMMAND_RESPONSE": {
+        "EAR_U08_COMMAND_RESPONSE": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "ECD": {name: "ECD", maxReps: 1, required: false, segmentType: typeof ECD},
-                "SPECIMEN_CONTAINER": {name: "SPECIMEN_CONTAINER", maxReps: 1, required: false, segmentType: typeof SPECIMEN_CONTAINER},
-                "ECR": {name: "ECR", maxReps: 1, required: false, segmentType: typeof ECR}
+                "ECD": {name: "ECD", maxReps: 1, required: true, segmentType: typeof ECD},
+                "EAR_U08_SPECIMEN_CONTAINER": {name: "EAR_U08_SPECIMEN_CONTAINER", maxReps: 1, required: false, segmentType: typeof EAR_U08_SPECIMEN_CONTAINER},
+                "ECR": {name: "ECR", maxReps: 1, required: true, segmentType: typeof ECR}
             }
         }
     }
@@ -50,10 +48,10 @@ public const EAR_U08_MESSAGE_TYPE = "EAR_U08";
 public type EAR_U08 record {
     *hl7v2:Message;
     string name = EAR_U08_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    EQU equ?;
+    EQU equ;
     ROL rol?;
-    COMMAND_RESPONSE[] command_response = [{}];
+    EAR_U08_COMMAND_RESPONSE[] command_response = [{ecd:{}, ecr:{}}];
 };

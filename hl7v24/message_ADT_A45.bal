@@ -13,30 +13,41 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const ADT_A45_MESSAGE_TYPE = "ADT_A45";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + evn - Message Record Field
-# + pid - Message Record Field
-# + pd1 - Message Record Field
+# + msh - MSH Segment
+# + evn - EVN Segment
+# + pid - PID Segment
+# + pd1 - PD1 Segment
+# + merge_info - ADT_A45_MERGE_INFO Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1}
+    }
+    ,groups: {
+        "ADT_A45_MERGE_INFO": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "MRG": {name: "MRG", maxReps: 1, required: true, segmentType: typeof MRG},
+                "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1}
+            }
+        }
     }
 }
 public type ADT_A45 record {
     *hl7v2:Message;
     string name = ADT_A45_MESSAGE_TYPE;
-    MSH msh?;
-    EVN evn?;
-    PID pid?;
+    MSH msh;
+    EVN evn;
+    PID pid;
     PD1 pd1?;
+    ADT_A45_MERGE_INFO[] merge_info = [{mrg:{}, pv1:{}}];
 };

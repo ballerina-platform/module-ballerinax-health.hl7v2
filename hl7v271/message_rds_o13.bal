@@ -13,35 +13,63 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RDS_O13_MESSAGE_TYPE = "RDS_O13";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + nte - Message Record Field
-# + patient - Message Record Field
-
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + nte - NTE Segment
+# + patient - RDS_O13_PATIENT Segment Group
+# + order - RDS_O13_ORDER Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
+    }
+    ,groups: {
+        "RDS_O13_PATIENT": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
+                "RDS_O13_ADDITIONAL_DEMOGRAPHICS": {name: "RDS_O13_ADDITIONAL_DEMOGRAPHICS", maxReps: 1, required: false, segmentType: typeof RDS_O13_ADDITIONAL_DEMOGRAPHICS},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
+                "AL1": {name: "AL1", maxReps: -1, required: false, segmentType: typeof AL1},
+                "RDS_O13_PATIENT_VISIT": {name: "RDS_O13_PATIENT_VISIT", maxReps: 1, required: false, segmentType: typeof RDS_O13_PATIENT_VISIT}
+            }
+        },
+        "RDS_O13_ORDER": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "ORC": {name: "ORC", maxReps: 1, required: true, segmentType: typeof ORC},
+                "RDS_O13_TIMING": {name: "RDS_O13_TIMING", maxReps: -1, required: false, segmentType: typeof RDS_O13_TIMING},
+                "RDS_O13_ORDER_DETAIL": {name: "RDS_O13_ORDER_DETAIL", maxReps: 1, required: false, segmentType: typeof RDS_O13_ORDER_DETAIL},
+                "PRT": {name: "PRT", maxReps: -1, required: false, segmentType: typeof PRT},
+                "RDS_O13_ENCODING": {name: "RDS_O13_ENCODING", maxReps: 1, required: false, segmentType: typeof RDS_O13_ENCODING},
+                "RXD": {name: "RXD", maxReps: 1, required: true, segmentType: typeof RXD},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
+                "RXR": {name: "RXR", maxReps: -1, required: true, segmentType: typeof RXR},
+                "RXC": {name: "RXC", maxReps: -1, required: false, segmentType: typeof RXC},
+                "RDS_O13_OBSERVATION": {name: "RDS_O13_OBSERVATION", maxReps: -1, required: false, segmentType: typeof RDS_O13_OBSERVATION},
+                "FT1": {name: "FT1", maxReps: -1, required: false, segmentType: typeof FT1}
+            }
+        }
     }
 }
 public type RDS_O13 record {
     *hl7v2:Message;
     string name = RDS_O13_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
-    PATIENT[] patient = [{}];
-    // ORDER[] order = [{}];
+    RDS_O13_PATIENT[] patient = [{pid:{}}];
+    RDS_O13_ORDER[] 'order = [{orc:{}, rxd:{}}];
 };

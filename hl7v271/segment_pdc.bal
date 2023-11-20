@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,27 +13,26 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pdc1 - Segment Record Field
-# + pdc2 - Segment Record Field
-# + pdc3 - Segment Record Field
-# + pdc4 - Segment Record Field
-# + pdc5 - Segment Record Field
-# + pdc6 - Segment Record Field
-# + pdc7 - Segment Record Field
-# + pdc8 - Segment Record Field
-# + pdc9 - Segment Record Field
-# + pdc10 - Segment Record Field
-# + pdc11 - Segment Record Field
-# + pdc12 - Segment Record Field
-# + pdc13 - Segment Record Field
-# + pdc14 - Segment Record Field
-# + pdc15 - Segment Record Field
+# + pdc1 - Hersteller/Lieferant
+# + pdc2 - Land
+# + pdc3 - Handelsname
+# + pdc4 - Produktlinie/Gerätefamilie
+# + pdc5 - Generischer Name
+# + pdc6 - Modellbezeichnung
+# + pdc7 - Produktbezeichnung lt. Katalog
+# + pdc8 - Andere Bezeichnung
+# + pdc9 - Offizieller Produkt-Code
+# + pdc10 - 1256IDHL70330HL7Marketing Basis
+# + pdc11 - 1257STHL7Marketing Approval ID
+# + pdc12 - Ausgewiesene Liefergarantie
+# + pdc13 - Voraussichtliche Liefergarantie
+# + pdc14 - Zeitpunkt Erstverkauf
+# + pdc15 - Zeitpunkt Letztverkauf
 @hl7v2:SegmentDefinition {
     name: "PDC",
     required: false,

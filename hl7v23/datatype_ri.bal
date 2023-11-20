@@ -16,10 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Repeat Interval. This field contains the interval between repeating appointments. 
+# Data type description
 #
-# + ri1 - Repeat Pattern  
-# + ri2 - Explicit Time Interval
+# + ri1 - repeat pattern
+# + ri2 - explicit time interval
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

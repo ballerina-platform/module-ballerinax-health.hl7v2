@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,35 +13,33 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rxg1 - Segment Record Field
-# + rxg2 - Segment Record Field
-# + rxg3 - Segment Record Field
-# + rxg4 - Segment Record Field
-# + rxg5 - Segment Record Field
-# + rxg6 - Segment Record Field
-# + rxg7 - Segment Record Field
-# + rxg8 - Segment Record Field
-# + rxg9 - Segment Record Field
-# + rxg10 - Segment Record Field
-# + rxg11 - Segment Record Field
-# + rxg12 - Segment Record Field
-# + rxg13 - Segment Record Field
-# + rxg14 - Segment Record Field
-# + rxg15 - Segment Record Field
-# + rxg16 - Segment Record Field
-# + rxg17 - Segment Record Field
-# + rxg18 - Segment Record Field
-# + rxg19 - Segment Record Field
-# + rxg20 - Segment Record Field
-# + rxg21 - Segment Record Field
-# + rxg22 - Segment Record Field
+# + rxg1 - Give Sub-ID Counter
+# + rxg2 - Dispense Sub-ID Counter
+# + rxg3 - Quantity/Timing
+# + rxg4 - Give Code
+# + rxg5 - Give Amount - Minimum
+# + rxg6 - Give Amount - Maximum
+# + rxg7 - Give Units
+# + rxg8 - Give Dosage Form
+# + rxg9 - Administration Notes
+# + rxg10 - Substitution Status
+# + rxg11 - Dispense-To Location
+# + rxg12 - Needs Human Review
+# + rxg13 - Pharmacy Special Administration Instructions
+# + rxg14 - Give Per (Time Unit)
+# + rxg15 - Give Rate Amount
+# + rxg16 - Give Rate Units
+# + rxg17 - Give Strength
+# + rxg18 - Give Strength Units
+# + rxg19 - Substance Lot Number
+# + rxg20 - Substance Expiration Date
+# + rxg21 - Substance Manufacturer Name
+# + rxg22 - Indication
 @hl7v2:SegmentDefinition {
     name: "RXG",
     required: false,
@@ -186,11 +183,11 @@ public type RXG record {
     *hl7v2:Segment;
     string name = RXG_SEGMENT_NAME;
     ID rxg1 = "";
-    NM rxg2 = -1;
+    NM rxg2 = "";
     TQ rxg3 = {};
     CE rxg4 = {};
-    NM rxg5 = -1;
-    NM rxg6 = -1;
+    NM rxg5 = "";
+    NM rxg6 = "";
     CE rxg7 = {};
     CE rxg8 = {};
     CE[] rxg9 = [{}];
@@ -201,7 +198,7 @@ public type RXG record {
     ST rxg14 = "";
     ST rxg15 = "";
     CE rxg16 = {};
-    NM rxg17 = -1;
+    NM rxg17 = "";
     CE rxg18 = {};
     ST[] rxg19 = [""];
     TS[] rxg20 = [{}];

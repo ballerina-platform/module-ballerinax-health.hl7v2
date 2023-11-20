@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + vh1 - Data type field
-# + vh2 - Data type field
-# + vh3 - Data type field
-# + vh4 - Data type field
+# + vh1 - Start Day Range
+# + vh2 - End Day Range
+# + vh3 - Start Hour Range
+# + vh4 - End Hour Range
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

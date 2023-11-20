@@ -13,24 +13,35 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const SUR_P09_MESSAGE_TYPE = "SUR_P09";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + facility - Message Record Field
+# + msh - MSH Segment
+# + facility - SUR_P09_FACILITY Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH}
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH}
+    }
+    ,groups: {
+        "SUR_P09_FACILITY": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "FAC": {name: "FAC", maxReps: 1, required: true, segmentType: typeof FAC},
+                "SUR_P09_PRODUCT": {name: "SUR_P09_PRODUCT", maxReps: -1, required: true, segmentType: typeof SUR_P09_PRODUCT},
+                "PSH": {name: "PSH", maxReps: 1, required: true, segmentType: typeof PSH},
+                "SUR_P09_FACILITY_DETAIL": {name: "SUR_P09_FACILITY_DETAIL", maxReps: -1, required: true, segmentType: typeof SUR_P09_FACILITY_DETAIL},
+                "ED": {name: "ED", maxReps: 1, required: true, segmentType: typeof ED}
+            }
+        }
     }
 }
 public type SUR_P09 record {
     *hl7v2:Message;
     string name = SUR_P09_MESSAGE_TYPE;
-    MSH msh?;
-    FACILITY[] facility = [{}];
+    MSH msh;
+    SUR_P09_FACILITY[] facility = [{fac:{}, psh:{}, ed:{}}];
 };

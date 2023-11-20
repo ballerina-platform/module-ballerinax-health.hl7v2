@@ -13,31 +13,29 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const ADT_A20_MESSAGE_TYPE = "ADT_A20";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + evn - Message Record Field
-# + npu - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + evn - EVN Segment
+# + npu - NPU Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN},
-        "NPU": {name: "NPU", maxReps: 1, required: false, segmentType: NPU}
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
+        "NPU": {name: "NPU", maxReps: 1, required: true, segmentType: NPU}
     }
 }
 public type ADT_A20 record {
     *hl7v2:Message;
     string name = ADT_A20_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    EVN evn?;
-    NPU npu?;
+    EVN evn;
+    NPU npu;
 };

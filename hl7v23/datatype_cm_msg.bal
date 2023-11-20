@@ -16,11 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-
-# Message Type.
+# Data type description
 #
-# + cm_msg1 - Message Type  
-# + cm_msg2 - Trigger Event
+# + cm_msg1 - message type
+# + cm_msg2 - trigger event
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -13,133 +13,132 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-# Observation segment.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name  
-# + obx1 - Set ID - OBX  
-# + obx2 - Value Type  
-# + obx3 - Observation Identifier  
-# + obx4 - Observation Sub-ID  
-# + obx5 - Observation Value  
-# + obx6 - Units  
-# + obx7 - References Range  
-# + obx8 - Abnormal Flags  
-# + obx9 - Probability  
-# + obx10 - Nature of Abnormal Test  
-# + obx11 - Observ Result Status  
-# + obx12 - Date Last Obs Normal Values  
-# + obx13 - User Defined Access Checks  
-# + obx14 - Date/Time of the Observation  
-# + obx15 - Producer's ID 
-# + obx16 - Responsible Observer  
+# + name - Segment Name
+# + obx1 - Set ID - OBX
+# + obx2 - Value Type
+# + obx3 - Observation Identifier
+# + obx4 - Observation Sub-ID
+# + obx5 - Observation Value
+# + obx6 - Units
+# + obx7 - References Range
+# + obx8 - Abnormal Flags
+# + obx9 - Probability
+# + obx10 - Nature of Abnormal Test
+# + obx11 - Observ Result Status
+# + obx12 - Date Last Obs Normal Values
+# + obx13 - User Defined Access Checks
+# + obx14 - Date/Time of the Observation
+# + obx15 - Producer's ID
+# + obx16 - Responsible Observer
 # + obx17 - Observation Method
 @hl7v2:SegmentDefinition {
     name: "OBX",
     required: false,
-    maxReps: 1,
+    maxReps: 0,
     fields: {
         "obx1": {
             required: false,
-            length: 10,
+            length: 1,
             maxReps: 1,
             dataType: SI
         },
         "obx2": {
-            required: false,
-            length: 2,
+            required: true,
+            length: 1,
             maxReps: 1,
             dataType: ID
         },
         "obx3": {
             required: true,
-            length: 590,
+            length: 1,
             maxReps: 1,
             dataType: CE
         },
         "obx4": {
             required: false,
-            length: 20,
+            length: 1,
             maxReps: 1,
             dataType: ST
         },
         "obx5": {
             required: false,
-            length: 65536,
+            length: 1,
             maxReps: -1,
-            dataType: VARIES
+            dataType: varies
         },
         "obx6": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
             dataType: CE
         },
         "obx7": {
             required: false,
-            length: 10,
+            length: 1,
             maxReps: 1,
             dataType: ST
         },
         "obx8": {
             required: false,
-            length: 5,
+            length: 1,
             maxReps: -1,
             dataType: ID
         },
         "obx9": {
             required: false,
-            length: 5,
+            length: 1,
             maxReps: 1,
             dataType: NM
         },
         "obx10": {
             required: false,
-            length: 2,
-            maxReps: -1,
+            length: 1,
+            maxReps: 1,
             dataType: ID
         },
         "obx11": {
-            required: false,
+            required: true,
             length: 1,
             maxReps: 1,
             dataType: ID
         },
         "obx12": {
             required: false,
-            length: 26,
+            length: 1,
             maxReps: 1,
             dataType: TS
         },
         "obx13": {
             required: false,
-            length: 20,
+            length: 1,
             maxReps: 1,
             dataType: ST
         },
         "obx14": {
             required: false,
-            length: 26,
+            length: 1,
             maxReps: 1,
             dataType: TS
         },
         "obx15": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
             dataType: CE
         },
         "obx16": {
             required: false,
-            length: 80,
+            length: 1,
             maxReps: 1,
             dataType: XCN
         },
         "obx17": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: -1,
             dataType: CE
         }
@@ -148,16 +147,16 @@ import ballerinax/health.hl7v2;
 public type OBX record {
     *hl7v2:Segment;
     string name = OBX_SEGMENT_NAME;
-    SI obx1 = -1;
+    SI obx1 = "";
     ID obx2 = "";
     CE obx3 = {};
     ST obx4 = "";
-    VARIES[] obx5 = [""];
+    varies[] obx5 = [{}];
     CE obx6 = {};
     ST obx7 = "";
     ID[] obx8 = [""];
-    NM obx9 = -1;
-    ID[] obx10 = [""];
+    NM obx9 = "";
+    ID obx10 = "";
     ID obx11 = "";
     TS obx12 = {};
     ST obx13 = "";

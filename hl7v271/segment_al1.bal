@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,18 +13,16 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + al11 - Segment Record Field
-# + al12 - Segment Record Field
-# + al13 - Segment Record Field
-# + al14 - Segment Record Field
-# + al15 - Segment Record Field
-# + al16 - Segment Record Field
+# + al11 - AL1-Segmentnummer
+# + al12 - Art der Allergie
+# + al13 - Allergiecode / -beschreibung
+# + al14 - Schweregrad der Allergie
+# + al15 - Allergiesymptome
 @hl7v2:SegmentDefinition {
     name: "AL1",
     required: false,
@@ -60,12 +57,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: -1,
             dataType: ST
-        },
-        "al16": {
-            required: false,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         }
     }
 }
@@ -77,7 +68,6 @@ public type AL1 record {
     CWE al13 = {};
     CWE al14 = {};
     ST[] al15 = [""];
-    ST al16 = "";
 };
 
 public const AL1_SEGMENT_NAME = "AL1";

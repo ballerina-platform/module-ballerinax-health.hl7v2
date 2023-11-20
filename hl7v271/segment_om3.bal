@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,19 +13,18 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + om31 - Segment Record Field
-# + om32 - Segment Record Field
-# + om33 - Segment Record Field
-# + om34 - Segment Record Field
-# + om35 - Segment Record Field
-# + om36 - Segment Record Field
-# + om37 - Segment Record Field
+# + om31 - Laufende Nummer des OMx-Segment des gleichen Typs in einer Nachricht
+# + om32 - Bevorzugtes Schlüsselsystem
+# + om33 - Gültige Schlüsselwerte
+# + om34 - Schlüsselwerte für normale Werte
+# + om35 - Schlüsselwerte für pathologische Werte
+# + om36 - Schlüsselwerte für kritisch-pathologische Werte
+# + om37 - Ergebnisformat (Datentyp von Feld OBX-5)
 @hl7v2:SegmentDefinition {
     name: "OM3",
     required: false,

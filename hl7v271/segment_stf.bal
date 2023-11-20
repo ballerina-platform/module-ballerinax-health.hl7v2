@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,53 +13,52 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + stf1 - Segment Record Field
-# + stf2 - Segment Record Field
-# + stf3 - Segment Record Field
-# + stf4 - Segment Record Field
-# + stf5 - Segment Record Field
-# + stf6 - Segment Record Field
-# + stf7 - Segment Record Field
-# + stf8 - Segment Record Field
-# + stf9 - Segment Record Field
-# + stf10 - Segment Record Field
-# + stf11 - Segment Record Field
-# + stf12 - Segment Record Field
-# + stf13 - Segment Record Field
-# + stf14 - Segment Record Field
-# + stf15 - Segment Record Field
-# + stf16 - Segment Record Field
-# + stf17 - Segment Record Field
-# + stf18 - Segment Record Field
-# + stf19 - Segment Record Field
-# + stf20 - Segment Record Field
-# + stf21 - Segment Record Field
-# + stf22 - Segment Record Field
-# + stf23 - Segment Record Field
-# + stf24 - Segment Record Field
-# + stf25 - Segment Record Field
-# + stf26 - Segment Record Field
-# + stf27 - Segment Record Field
-# + stf28 - Segment Record Field
-# + stf29 - Segment Record Field
-# + stf30 - Segment Record Field
-# + stf31 - Segment Record Field
-# + stf32 - Segment Record Field
-# + stf33 - Segment Record Field
-# + stf34 - Segment Record Field
-# + stf35 - Segment Record Field
-# + stf36 - Segment Record Field
-# + stf37 - Segment Record Field
-# + stf38 - Segment Record Field
-# + stf39 - Segment Record Field
-# + stf40 - Segment Record Field
-# + stf41 - Segment Record Field
+# + stf1 - Primärschlüssel
+# + stf2 - Personalnummer-Liste
+# + stf3 - Name des Mitarbeiters
+# + stf4 - Beruf / Tätigkeit
+# + stf5 - Geschlecht
+# + stf6 - Geburtszeitpunkt
+# + stf7 - Aktiv / inaktiv
+# + stf8 - Abteilung  / Klinik
+# + stf9 - Art der vorgesehenen Behandlung
+# + stf10 - Telefonnummer
+# + stf11 - Dienst- / Privatadresse/Geburtsadresse
+# + stf12 - Datum der Arbeitsaufnahme
+# + stf13 - Datum des Arbeitsendes
+# + stf14 - Vertreter(in)
+# + stf15 - E-mail Address
+# + stf16 - Am besten erreichbar über
+# + stf17 - Familienstand
+# + stf18 - Dienststellung
+# + stf19 - Berufsgruppe
+# + stf20 - Art des Beschäftigungsverhältnisses
+# + stf21 - Merkmal Privatwagen mitversichert
+# + stf22 - Führerscheinnummer - Mitarbeiter
+# + stf23 - Merkmal Versicherungsschein liegt vor
+# + stf24 - Gültigkeitsende Führerschein
+# + stf25 - letzter TÜV-Zeitpunkt
+# + stf26 - nächster TÜV-Zeitpunkt
+# + stf27 - Rasse
+# + stf28 - Ethnische Zugehörigkeit
+# + stf29 - Merkmal Bestätigung bei Wiederaufnahme notwendig
+# + stf30 - Länderkennzeichen / Staatsangehörigkeit
+# + stf31 - Todeszeitpunkt
+# + stf32 - Kennzeichen gestorben
+# + stf33 - Art der Beziehung zur Organisation
+# + stf34 - Zeitraum der Beziehung zur Organisation
+# + stf35 - erwarteter Zeitpunkt der Reaktivierung
+# + stf36 - Kostenstelle
+# + stf37 - Kennzeichen Pseudoeintrag
+# + stf38 - Grund für Inaktivierung
+# + stf39 - Resourcenkategorisierung
+# + stf40 - Religion
+# + stf41 - Signatur der ausgebenden Einrichtung
 @hl7v2:SegmentDefinition {
     name: "STF",
     required: false,

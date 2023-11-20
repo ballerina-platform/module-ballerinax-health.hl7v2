@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,38 +13,37 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ivt1 - Segment Record Field
-# + ivt2 - Segment Record Field
-# + ivt3 - Segment Record Field
-# + ivt4 - Segment Record Field
-# + ivt5 - Segment Record Field
-# + ivt6 - Segment Record Field
-# + ivt7 - Segment Record Field
-# + ivt8 - Segment Record Field
-# + ivt9 - Segment Record Field
-# + ivt10 - Segment Record Field
-# + ivt11 - Segment Record Field
-# + ivt12 - Segment Record Field
-# + ivt13 - Segment Record Field
-# + ivt14 - Segment Record Field
-# + ivt15 - Segment Record Field
-# + ivt16 - Segment Record Field
-# + ivt17 - Segment Record Field
-# + ivt18 - Segment Record Field
-# + ivt19 - Segment Record Field
-# + ivt20 - Segment Record Field
-# + ivt21 - Segment Record Field
-# + ivt22 - Segment Record Field
-# + ivt23 - Segment Record Field
-# + ivt24 - Segment Record Field
-# + ivt25 - Segment Record Field
-# + ivt26 - Segment Record Field
+# + ivt1 - Set Id - IVT
+# + ivt2 - Inventory Location Identifier
+# + ivt3 - Inventory Location Name
+# + ivt4 - Source Location Identifier
+# + ivt5 - Source Location Name
+# + ivt6 - Item Status
+# + ivt7 - Bin Location Identifier
+# + ivt8 - Order Packaging
+# + ivt9 - Issue Packaging
+# + ivt10 - Default Inventory Asset Account
+# + ivt11 - Patient Chargeable Indicator
+# + ivt12 - Transaction Code
+# + ivt13 - Transaction amount - unit
+# + ivt14 - Item Importance Code
+# + ivt15 - Stocked Item Indicator
+# + ivt16 - Consignment Item Indicator
+# + ivt17 - Reusable Item Indicator
+# + ivt18 - Reusable Cost
+# + ivt19 - Substitute Item Identifier
+# + ivt20 - Latex-Free Substitute Item Identifier
+# + ivt21 - Recommended Reorder Theory
+# + ivt22 - Recommended Safety Stock Days
+# + ivt23 - Recommended Maximum Days Inventory
+# + ivt24 - Recommended Order Point
+# + ivt25 - Recommended Order Amount
+# + ivt26 - Operating Room Par Level Indicator
 @hl7v2:SegmentDefinition {
     name: "IVT",
     required: false,

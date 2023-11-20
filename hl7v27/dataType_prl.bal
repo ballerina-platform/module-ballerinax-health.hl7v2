@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + prl1 - Data type field
-# + prl2 - Data type field
-# + prl3 - Data type field
+# + prl1 - Parent Observation Identifier
+# + prl2 - Parent Observation Sub-identifier
+# + prl3 - Parent Observation Value Descriptor
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

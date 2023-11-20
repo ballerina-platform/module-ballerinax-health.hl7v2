@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,34 +13,32 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment Name  
-# + pd11 - Segment Record Field  
-# + pd12 - Segment Record Field  
-# + pd13 - Segment Record Field  
-# + pd14 - Field Description  
-# + pd15 - Segment Record Field  
-# + pd16 - Segment Record Field  
-# + pd17 - Segment Record Field  
-# + pd18 - Segment Record Field  
-# + pd19 - Segment Record Field  
-# + pd110 - Segment Record Field  
-# + pd111 - Segment Record Field  
-# + pd112 - Segment Record Field  
-# + pd113 - Segment Record Field  
-# + pd114 - Segment Record Field  
-# + pd115 - Segment Record Field  
-# + pd116 - Segment Record Field  
-# + pd117 - Segment Record Field  
-# + pd118 - Segment Record Field  
-# + pd119 - Segment Record Field  
-# + pd120 - Segment Record Field  
-# + pd121 - Segment Record Field  
-# + pd122 - Segment Record Field
+# + name - Segment Name
+# + pd11 - Living Dependency
+# + pd12 - Living Arrangement
+# + pd13 - Patient Primary Facility
+# + pd15 - Student Indicator
+# + pd16 - Handicap
+# + pd17 - Living Will Code
+# + pd18 - Organ Donor Code
+# + pd19 - Separate Bill
+# + pd110 - Duplicate Patient
+# + pd111 - Publicity Code
+# + pd112 - Protection Indicator
+# + pd113 - Protection Indicator Effective Date
+# + pd114 - Place of Worship
+# + pd115 - Advance Directive Code
+# + pd116 - Immunization Registry Status
+# + pd117 - Immunization Registry Status Effective Date
+# + pd118 - Publicity Code Effective Date
+# + pd119 - Military Branch
+# + pd120 - Military Rank/Grade
+# + pd121 - Military Status
+# + pd122 - Advance Directive Last Verified Date
 @hl7v2:SegmentDefinition {
     name: "PD1",
     required: false,
@@ -64,12 +61,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: -1,
             dataType: XON
-        },
-        "pd14": {
-            required: false,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "pd15": {
             required: false,
@@ -187,7 +178,6 @@ public type PD1 record {
     CWE[] pd11 = [{}];
     CWE pd12 = {};
     XON[] pd13 = [{}];
-    ST pd14 = "";
     CWE pd15 = {};
     CWE pd16 = {};
     CWE pd17 = {};

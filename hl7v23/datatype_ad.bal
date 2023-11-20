@@ -16,16 +16,16 @@
 
 import ballerinax/health.hl7v2;
 
-# Address details.
+# Data type description
 #
-# + ad1 - Street Address  
-# + ad2 - Other Designation  
-# + ad3 - City  
-# + ad4 - State Or Province  
-# + ad5 - Zip Or Postal Code  
-# + ad6 - Country  
-# + ad7 - Address Type  
-# + ad8 - Other Geographic Designation
+# + ad1 - street address
+# + ad2 - other designation
+# + ad3 - city
+# + ad4 - state or province
+# + ad5 - zip or postal code
+# + ad6 - country
+# + ad7 - address type
+# + ad8 - other geographic designation
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -42,4 +42,3 @@ public type AD record {
     ID ad7 = "";
     ST ad8 = "";
 };
-

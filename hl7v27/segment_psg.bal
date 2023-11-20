@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,18 +13,17 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + psg1 - Segment Record Field
-# + psg2 - Segment Record Field
-# + psg3 - Segment Record Field
-# + psg4 - Segment Record Field
-# + psg5 - Segment Record Field
-# + psg6 - Segment Record Field
+# + psg1 - Provider Product/Service Group Number
+# + psg2 - Payer Product/Service Group Number
+# + psg3 - Product/Service Group Sequence Number
+# + psg4 - Adjudicate as Group
+# + psg5 - Product/Service Group Billed Amount
+# + psg6 - Product/Service Group Description
 @hl7v2:SegmentDefinition {
     name: "PSG",
     required: false,

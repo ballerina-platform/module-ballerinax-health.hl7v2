@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,60 +13,59 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + psl1 - Segment Record Field
-# + psl2 - Segment Record Field
-# + psl3 - Segment Record Field
-# + psl4 - Segment Record Field
-# + psl5 - Segment Record Field
-# + psl6 - Segment Record Field
-# + psl7 - Segment Record Field
-# + psl8 - Segment Record Field
-# + psl9 - Segment Record Field
-# + psl10 - Segment Record Field
-# + psl11 - Segment Record Field
-# + psl12 - Segment Record Field
-# + psl13 - Segment Record Field
-# + psl14 - Segment Record Field
-# + psl15 - Segment Record Field
-# + psl16 - Segment Record Field
-# + psl17 - Segment Record Field
-# + psl18 - Segment Record Field
-# + psl19 - Segment Record Field
-# + psl20 - Segment Record Field
-# + psl21 - Segment Record Field
-# + psl22 - Segment Record Field
-# + psl23 - Segment Record Field
-# + psl24 - Segment Record Field
-# + psl25 - Segment Record Field
-# + psl26 - Segment Record Field
-# + psl27 - Segment Record Field
-# + psl28 - Segment Record Field
-# + psl29 - Segment Record Field
-# + psl30 - Segment Record Field
-# + psl31 - Segment Record Field
-# + psl32 - Segment Record Field
-# + psl33 - Segment Record Field
-# + psl34 - Segment Record Field
-# + psl35 - Segment Record Field
-# + psl36 - Segment Record Field
-# + psl37 - Segment Record Field
-# + psl38 - Segment Record Field
-# + psl39 - Segment Record Field
-# + psl40 - Segment Record Field
-# + psl41 - Segment Record Field
-# + psl42 - Segment Record Field
-# + psl43 - Segment Record Field
-# + psl44 - Segment Record Field
-# + psl45 - Segment Record Field
-# + psl46 - Segment Record Field
-# + psl47 - Segment Record Field
-# + psl48 - Segment Record Field
+# + psl1 - Provider Product/Service Line Item Number
+# + psl2 - Payer Product/Service Line Item Number
+# + psl3 - Product/Service Line Item Sequence Number
+# + psl4 - Provider Tracking ID
+# + psl5 - Payer Tracking ID
+# + psl6 - Product/Service Line Item Status
+# + psl7 - Product/Service Code
+# + psl8 - Product/Service Code Modifier
+# + psl9 - Product/Service Code Description
+# + psl10 - Product/Service Effective Date
+# + psl11 - Product/Service Expiration Date
+# + psl12 - Product/Service Quantity
+# + psl13 - Product/Service Unit Cost
+# + psl14 - Number of Items per Unit
+# + psl15 - Product/Service Gross Amount
+# + psl16 - Product/Service Billed Amount
+# + psl17 - Product/Service Clarification Code Type
+# + psl18 - Product/Service Clarification Code Value
+# + psl19 - Health Document Reference Identifier
+# + psl20 - Processing Consideration Code
+# + psl21 - Restricted Disclosure Indicator
+# + psl22 - Related Product/Service Code Indicator
+# + psl23 - Product/Service Amount for Physician
+# + psl24 - Product/Service Cost Factor
+# + psl25 - Cost Center
+# + psl26 - Billing Period
+# + psl27 - Days without Billing
+# + psl28 - Session-No
+# + psl29 - Executing Physician ID
+# + psl30 - Responsible Physician ID
+# + psl31 - Role Executing Physician
+# + psl32 - Medical Role Executing Physician
+# + psl33 - Side of body
+# + psl34 - Number of TP's PP
+# + psl35 - TP-Value PP
+# + psl36 - Internal Scaling Factor PP
+# + psl37 - External Scaling Factor PP
+# + psl38 - Amount PP
+# + psl39 - Number of TP's Technical Part
+# + psl40 - TP-Value Technical Part
+# + psl41 - Internal Scaling Factor Technical Part
+# + psl42 - External Scaling Factor Technical Part
+# + psl43 - Amount Technical Part
+# + psl44 - Total Amount Professional Part + Technical Part
+# + psl45 - VAT-Rate
+# + psl46 - Main-Service
+# + psl47 - Validation
+# + psl48 - Comment
 @hl7v2:SegmentDefinition {
     name: "PSL",
     required: false,

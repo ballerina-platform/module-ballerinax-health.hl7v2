@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,63 +13,62 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + in11 - Segment Record Field
-# + in12 - Segment Record Field
-# + in13 - Segment Record Field
-# + in14 - Segment Record Field
-# + in15 - Segment Record Field
-# + in16 - Segment Record Field
-# + in17 - Segment Record Field
-# + in18 - Segment Record Field
-# + in19 - Segment Record Field
-# + in110 - Segment Record Field
-# + in111 - Segment Record Field
-# + in112 - Segment Record Field
-# + in113 - Segment Record Field
-# + in114 - Segment Record Field
-# + in115 - Segment Record Field
-# + in116 - Segment Record Field
-# + in117 - Segment Record Field
-# + in118 - Segment Record Field
-# + in119 - Segment Record Field
-# + in120 - Segment Record Field
-# + in121 - Segment Record Field
-# + in122 - Segment Record Field
-# + in123 - Segment Record Field
-# + in124 - Segment Record Field
-# + in125 - Segment Record Field
-# + in126 - Segment Record Field
-# + in127 - Segment Record Field
-# + in128 - Segment Record Field
-# + in129 - Segment Record Field
-# + in130 - Segment Record Field
-# + in131 - Segment Record Field
-# + in132 - Segment Record Field
-# + in133 - Segment Record Field
-# + in134 - Segment Record Field
-# + in135 - Segment Record Field
-# + in136 - Segment Record Field
-# + in137 - Segment Record Field
-# + in139 - Segment Record Field
-# + in142 - Segment Record Field
-# + in143 - Segment Record Field
-# + in144 - Segment Record Field
-# + in145 - Segment Record Field
-# + in146 - Segment Record Field
-# + in147 - Segment Record Field
-# + in148 - Segment Record Field
-# + in149 - Segment Record Field
-# + in150 - Segment Record Field
-# + in151 - Segment Record Field
-# + in152 - Segment Record Field
-# + in153 - Segment Record Field
-# + in154 - Segment Record Field
+# + in11 - IN1-Segmentnummer
+# + in12 - Tarifbezeichnung des Kostenträgers
+# + in13 - Institutionskennzeichen / Nummer des Kostenträgers
+# + in14 - Bezeichnung des Kostenträgers
+# + in15 - Anschrift des Kostenträgers
+# + in16 - Ansprechpartner beim Kostenträger
+# + in17 - Telefonnummer des Kostenträgers
+# + in18 - Gruppennummer des Kostenträgers
+# + in19 - Gruppenbezeichnung des Kostenträgers
+# + in110 - nicht verwendet
+# + in111 - nicht verwendet
+# + in112 - Gültigkeitsbeginn des Tarifs aus IN1-2
+# + in113 - Gültigkeitsende des Tarifs aus IN1-2
+# + in114 - Aktenzeichen der Kostenübernahme
+# + in115 - Versichertenstatus (GSG)
+# + in116 - Name des Versicherungsnehmers
+# + in117 - Beziehung des Versicherungsnehmers zum Patienten
+# + in118 - Geburtsdatum des Versicherugnsnehmers
+# + in119 - Anschrift des Versicherungsnehmers
+# + in120 - Merkmal Rechnung an Kostenträger
+# + in121 - Abstimmung mit anderen Versicherungsverhältnissen
+# + in122 - Priorität dieses Versicherungsverhältnisses
+# + in123 - Merkmal Aufnahmeanzeige an Kostenträger verschickt
+# + in124 - Datum, wann Aufnahmeanzeige verschickt
+# + in125 - Merkmal Kostenübernahme (GSG)
+# + in126 - Datum der Kostenübernahmeerklärung
+# + in127 - Freigabe von Patienteninformation
+# + in128 - Aktenzeichen Zustimmung des Kostenträgers zur Aufnahme
+# + in129 - Zeitpunkt des letzten Einlesens der Krankenversichertenkarte
+# + in130 - eingelesen durch
+# + in131 - nicht verwendet
+# + in132 - Status der Rechnungsstellung
+# + in133 - nicht verwendet
+# + in134 - nicht verwendet
+# + in135 - nicht verwendet
+# + in136 - Versicherungspolicennummer / Vertragsnummer
+# + in137 - Übernahmeanteil des Zahlungspflichtigen
+# + in139 - Aufenthaltstage, die vom Kostenträger getragen werden
+# + in142 - Arbeitsverhältnis des Versicherungsnehmers
+# + in143 - Geschlecht des Versicherungsnehmers
+# + in144 - Anschrift des Arbeitgebers
+# + in145 - nicht verwendet
+# + in146 - Bisherige Tarifbezeichnung des Kostenträgers (bei Änderungen)
+# + in147 - Deckungsart
+# + in148 - permanente Behinderung
+# + in149 - Versichertennummer
+# + in150 - Unterschriftenart
+# + in151 - Datum der Unterschrift
+# + in152 - Geburtsort des Versicherungsnehmers
+# + in153 - VIP-Kennzeichen Versicherungsnehmers
+# + in154 - 3292CXHL7External Health Plan Identifiers
 @hl7v2:SegmentDefinition {
     name: "IN1",
     required: false,

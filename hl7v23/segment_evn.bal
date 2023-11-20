@@ -13,56 +13,55 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-# Event type.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name  
-# + evn1 - Event Type Code 
-# + evn2 - Recorded Date/Time  
-# + evn3 - Date/Time Planned Event  
-# + evn4 - Event Reason Code  
-# + evn5 - Operator ID  
-# + evn6 - Event Occurred
+# + name - Segment Name
+# + evn1 - Event Type Code
+# + evn2 - Recorded Date/Time
+# + evn3 - Date/Time Planned Event
+# + evn4 - Event Reason Code
+# + evn5 - Operator ID
+# + evn6 - Event occured
 @hl7v2:SegmentDefinition {
     name: "EVN",
     required: false,
-    maxReps: 1,
+    maxReps: 0,
     fields: {
         "evn1": {
-            required: false,
-            length: 3,
+            required: true,
+            length: 1,
             maxReps: 1,
             dataType: ID
         },
         "evn2": {
-            required: true,
-            length: 26,
+            required: false,
+            length: 1,
             maxReps: 1,
             dataType: TS
         },
         "evn3": {
             required: false,
-            length: 26,
+            length: 1,
             maxReps: 1,
             dataType: TS
         },
         "evn4": {
             required: false,
-            length: 3,
+            length: 1,
             maxReps: 1,
-            dataType: IS
+            dataType: ID
         },
         "evn5": {
             required: false,
-            length: 60,
+            length: 1,
             maxReps: 1,
-            dataType: XCN
+            dataType: CN
         },
         "evn6": {
             required: false,
-            length: 26,
+            length: 1,
             maxReps: 1,
             dataType: TS
         }
@@ -74,8 +73,8 @@ public type EVN record {
     ID evn1 = "";
     TS evn2 = {};
     TS evn3 = {};
-    IS evn4 = "";
-    XCN evn5 = {};
+    ID evn4 = "";
+    CN evn5 = {};
     TS evn6 = {};
 };
 

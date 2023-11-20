@@ -16,10 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Value qualifier.
+# Data type description
 #
-# + cm_vr1 - First Data Code Value  
-# + cm_vr2 - Last Data Code Calue
+# + cm_vr1 - first data code value
+# + cm_vr2 - Last data code calue
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

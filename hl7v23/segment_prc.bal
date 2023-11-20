@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,31 +13,29 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + prc1 - Segment Record Field
-# + prc2 - Segment Record Field
-# + prc3 - Segment Record Field
-# + prc4 - Segment Record Field
-# + prc5 - Segment Record Field
-# + prc6 - Segment Record Field
-# + prc7 - Segment Record Field
-# + prc8 - Segment Record Field
-# + prc9 - Segment Record Field
-# + prc10 - Segment Record Field
-# + prc11 - Segment Record Field
-# + prc12 - Segment Record Field
-# + prc13 - Segment Record Field
-# + prc14 - Segment Record Field
-# + prc15 - Segment Record Field
-# + prc16 - Segment Record Field
-# + prc17 - Segment Record Field
-# + prc18 - Segment Record Field
+# + prc1 - Primary Key Value
+# + prc2 - Facility ID
+# + prc3 - Department
+# + prc4 - Valid Patient Classes
+# + prc5 - Price
+# + prc6 - Formula
+# + prc7 - Minimum Quantity
+# + prc8 - Maximum Quantity
+# + prc9 - Minimum Price
+# + prc10 - Maximum Price
+# + prc11 - Effective Start Date
+# + prc12 - Effective End Date
+# + prc13 - Price Override Flag
+# + prc14 - Billing Category
+# + prc15 - Chargeable Flag
+# + prc16 - Active/Inactive Flag
+# + prc17 - Cost
+# + prc18 - Charge On Indicator
 @hl7v2:SegmentDefinition {
     name: "PRC",
     required: false,
@@ -163,8 +160,8 @@ public type PRC record {
     ID[] prc4 = [""];
     CP[] prc5 = [{}];
     ST[] prc6 = [""];
-    NM prc7 = -1;
-    NM prc8 = -1;
+    NM prc7 = "";
+    NM prc8 = "";
     MO prc9 = {};
     MO prc10 = {};
     TS prc11 = {};

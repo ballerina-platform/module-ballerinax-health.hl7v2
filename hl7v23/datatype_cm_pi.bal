@@ -16,12 +16,11 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_pi1 - Data type field
-# + cm_pi2 - Data type field
-# + cm_pi3 - Data type field
+# + cm_pi1 - ID number (ST)
+# + cm_pi2 - type of ID number (IS)
+# + cm_pi3 - other qualifying info
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

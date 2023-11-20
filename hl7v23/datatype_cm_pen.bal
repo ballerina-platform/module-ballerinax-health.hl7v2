@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cm_pen1 - Data type field
-# + cm_pen2 - Data type field
+# + cm_pen1 - penalty type
+# + cm_pen2 - penalty amount
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -28,5 +28,5 @@ import ballerinax/health.hl7v2;
 public type CM_PEN record {
     *hl7v2:CompositeType;
     IS cm_pen1 = "";
-    NM cm_pen2 = -1;
+    NM cm_pen2 = "";
 };

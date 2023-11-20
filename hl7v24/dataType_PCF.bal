@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + pcf1 - Data type field
-# + pcf2 - Data type field
-# + pcf3 - Data type field
+# + pcf1 - pre-certification patient type
+# + pcf2 - pre-certification required
+# + pcf3 - pre-certification window
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

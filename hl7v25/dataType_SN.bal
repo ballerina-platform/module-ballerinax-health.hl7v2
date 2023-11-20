@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + sn1 - Data type field
-# + sn2 - Data type field
-# + sn3 - Data type field
-# + sn4 - Data type field
+# + sn1 - Comparator
+# + sn2 - Num1
+# + sn3 - Separator/Suffix
+# + sn4 - Num2
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

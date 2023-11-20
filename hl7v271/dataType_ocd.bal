@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ocd1 - Data type field
-# + ocd2 - Data type field
+# + ocd1 - Occurrence Code
+# + ocd2 - Occurrence Date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

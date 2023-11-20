@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,49 +13,48 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + nk11 - Segment Record Field
-# + nk12 - Segment Record Field
-# + nk13 - Segment Record Field
-# + nk14 - Segment Record Field
-# + nk15 - Segment Record Field
-# + nk16 - Segment Record Field
-# + nk17 - Segment Record Field
-# + nk18 - Segment Record Field
-# + nk19 - Segment Record Field
-# + nk110 - Segment Record Field
-# + nk111 - Segment Record Field
-# + nk112 - Segment Record Field
-# + nk113 - Segment Record Field
-# + nk114 - Segment Record Field
-# + nk115 - Segment Record Field
-# + nk116 - Segment Record Field
-# + nk117 - Segment Record Field
-# + nk118 - Segment Record Field
-# + nk119 - Segment Record Field
-# + nk120 - Segment Record Field
-# + nk121 - Segment Record Field
-# + nk122 - Segment Record Field
-# + nk123 - Segment Record Field
-# + nk124 - Segment Record Field
-# + nk125 - Segment Record Field
-# + nk126 - Segment Record Field
-# + nk127 - Segment Record Field
-# + nk128 - Segment Record Field
-# + nk129 - Segment Record Field
-# + nk130 - Segment Record Field
-# + nk131 - Segment Record Field
-# + nk132 - Segment Record Field
-# + nk133 - Segment Record Field
-# + nk134 - Segment Record Field
-# + nk135 - Segment Record Field
-# + nk136 - Segment Record Field
-# + nk137 - Segment Record Field
+# + nk11 - Set ID - NK1
+# + nk12 - Name
+# + nk13 - Relationship
+# + nk14 - Address
+# + nk15 - Phone Number
+# + nk16 - Business Phone Number
+# + nk17 - Contact Role
+# + nk18 - Start Date
+# + nk19 - End Date
+# + nk110 - Next of Kin / Associated Parties Job Title
+# + nk111 - Next of Kin / Associated Parties Job Code/Class
+# + nk112 - Next of Kin / Associated Parties Employee Number
+# + nk113 - Organization Name - NK1
+# + nk114 - Marital Status
+# + nk115 - Sex
+# + nk116 - Date/Time Of Birth
+# + nk117 - Living Dependency
+# + nk118 - Ambulatory Status
+# + nk119 - Citizenship
+# + nk120 - Primary Language
+# + nk121 - Living Arrangement
+# + nk122 - Publicity Code
+# + nk123 - Protection Indicator
+# + nk124 - Student Indicator
+# + nk125 - Religion
+# + nk126 - Mother’s Maiden Name
+# + nk127 - Nationality
+# + nk128 - Ethnic Group
+# + nk129 - Contact Reason
+# + nk130 - Contact Person’s Name
+# + nk131 - Contact Person’s Telephone Number
+# + nk132 - Contact Person’s Address
+# + nk133 - Next of Kin/Associated Party’s Identifiers
+# + nk134 - Job Status
+# + nk135 - Race
+# + nk136 - Handicap
+# + nk137 - Contact Person Social Security Number
 @hl7v2:SegmentDefinition {
     name: "NK1",
     required: false,

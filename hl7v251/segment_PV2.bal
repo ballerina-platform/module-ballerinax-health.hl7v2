@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,61 +13,60 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pv21 - Segment Record Field
-# + pv22 - Segment Record Field
-# + pv23 - Segment Record Field
-# + pv24 - Segment Record Field
-# + pv25 - Segment Record Field
-# + pv26 - Segment Record Field
-# + pv27 - Segment Record Field
-# + pv28 - Segment Record Field
-# + pv29 - Segment Record Field
-# + pv210 - Segment Record Field
-# + pv211 - Segment Record Field
-# + pv212 - Segment Record Field
-# + pv213 - Segment Record Field
-# + pv214 - Segment Record Field
-# + pv215 - Segment Record Field
-# + pv216 - Segment Record Field
-# + pv217 - Segment Record Field
-# + pv218 - Segment Record Field
-# + pv219 - Segment Record Field
-# + pv220 - Segment Record Field
-# + pv221 - Segment Record Field
-# + pv222 - Segment Record Field
-# + pv223 - Segment Record Field
-# + pv224 - Segment Record Field
-# + pv225 - Segment Record Field
-# + pv226 - Segment Record Field
-# + pv227 - Segment Record Field
-# + pv228 - Segment Record Field
-# + pv229 - Segment Record Field
-# + pv230 - Segment Record Field
-# + pv231 - Segment Record Field
-# + pv232 - Segment Record Field
-# + pv233 - Segment Record Field
-# + pv234 - Segment Record Field
-# + pv235 - Segment Record Field
-# + pv236 - Segment Record Field
-# + pv237 - Segment Record Field
-# + pv238 - Segment Record Field
-# + pv239 - Segment Record Field
-# + pv240 - Segment Record Field
-# + pv241 - Segment Record Field
-# + pv242 - Segment Record Field
-# + pv243 - Segment Record Field
-# + pv244 - Segment Record Field
-# + pv245 - Segment Record Field
-# + pv246 - Segment Record Field
-# + pv247 - Segment Record Field
-# + pv248 - Segment Record Field
-# + pv249 - Segment Record Field
+# + pv21 - Prior Pending Location
+# + pv22 - Accommodation Code
+# + pv23 - Admit Reason
+# + pv24 - Transfer Reason
+# + pv25 - Patient Valuables
+# + pv26 - Patient Valuables Location
+# + pv27 - Visit User Code
+# + pv28 - Expected Admit Date/Time
+# + pv29 - Expected Discharge Date/Time
+# + pv210 - Estimated Length of Inpatient Stay
+# + pv211 - Actual Length of Inpatient Stay
+# + pv212 - Visit Description
+# + pv213 - Referral Source Code
+# + pv214 - Previous Service Date
+# + pv215 - Employment Illness Related Indicator
+# + pv216 - Purge Status Code
+# + pv217 - Purge Status Date
+# + pv218 - Special Program Code
+# + pv219 - Retention Indicator
+# + pv220 - Expected Number of Insurance Plans
+# + pv221 - Visit Publicity Code
+# + pv222 - Visit Protection Indicator
+# + pv223 - Clinic Organization Name
+# + pv224 - Patient Status Code
+# + pv225 - Visit Priority Code
+# + pv226 - Previous Treatment Date
+# + pv227 - Expected Discharge Disposition
+# + pv228 - Signature on File Date
+# + pv229 - First Similar Illness Date
+# + pv230 - Patient Charge Adjustment Code
+# + pv231 - Recurring Service Code
+# + pv232 - Billing Media Code
+# + pv233 - Expected Surgery Date and Time
+# + pv234 - Military Partnership Code
+# + pv235 - Military Non-Availability Code
+# + pv236 - Newborn Baby Indicator
+# + pv237 - Baby Detained Indicator
+# + pv238 - Mode of Arrival Code
+# + pv239 - Recreational Drug Use Code
+# + pv240 - Admission Level of Care Code
+# + pv241 - Precaution Code
+# + pv242 - Patient Condition Code
+# + pv243 - Living Will Code
+# + pv244 - Organ Donor Code
+# + pv245 - Advance Directive Code
+# + pv246 - Patient Status Effective Date
+# + pv247 - Expected LOA Return Date/Time
+# + pv248 - Expected Pre-admission Testing Date/Time
+# + pv249 - Notify Clergy Code
 @hl7v2:SegmentDefinition {
     name: "PV2",
     required: false,

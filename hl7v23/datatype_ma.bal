@@ -16,14 +16,14 @@
 
 import ballerinax/health.hl7v2;
 
-# Multiplexed Array.
+# Data type description
 #
-# + ma1 - Sample 1 From Channel 1  
-# + ma2 - Sample 1 From Channel 2  
-# + ma3 - Sample 1 From Channel 3  
-# + ma4 - Sample 2 From Channel 1  
-# + ma5 - Sample 2 From Channel 2  
-# + ma6 - Sample 2 From Channel 3
+# + ma1 - sample 1 from channel 1
+# + ma2 - sample 1 from channel 2
+# + ma3 - sample 1 from channel 3
+# + ma4 - sample 2 from channel 1
+# + ma5 - sample 2 from channel 2
+# + ma6 - sample 2 from channel 3
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -31,10 +31,10 @@ import ballerinax/health.hl7v2;
 }
 public type MA record {
     *hl7v2:CompositeType;
-    NM ma1 = -1;
-    NM ma2 = -1;
-    NM ma3 = -1;
-    NM ma4 = -1;
-    NM ma5 = -1;
-    NM ma6 = -1;
+    NM ma1 = "";
+    NM ma2 = "";
+    NM ma3 = "";
+    NM ma4 = "";
+    NM ma5 = "";
+    NM ma6 = "";
 };

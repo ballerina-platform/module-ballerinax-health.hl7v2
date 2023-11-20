@@ -18,17 +18,17 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + osd1 - Data type field
-# + osd2 - Data type field
-# + osd3 - Data type field
-# + osd4 - Data type field
-# + osd5 - Data type field
-# + osd6 - Data type field
-# + osd7 - Data type field
-# + osd8 - Data type field
-# + osd9 - Data type field
-# + osd10 - Data type field
-# + osd11 - Data type field
+# + osd1 - Sequence/Results Flag
+# + osd2 - Placer Order Number: Entity Identifier
+# + osd3 - Placer Order Number: Namespace ID
+# + osd4 - Filler Order Number: Entity Identifier
+# + osd5 - Filler Order Number: Namespace ID
+# + osd6 - Sequence Condition Value
+# + osd7 - Maximum Number of Repeats
+# + osd8 - Placer Order Number: Universal ID
+# + osd9 - Placer Order Number: Universal ID Type
+# + osd10 - Filler Order Number: Universal ID
+# + osd11 - Filler Order Number: Universal ID Type
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

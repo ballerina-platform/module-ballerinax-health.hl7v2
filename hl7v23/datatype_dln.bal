@@ -16,11 +16,11 @@
 
 import ballerinax/health.hl7v2;
 
-# Driver's License Number.
+# Data type description
 #
-# + dln1 - Driver s License Number  
-# + dln2 - Issuing State, Province, Country  
-# + dln3 - Expiration Date
+# + dln1 - Driver´s License Number
+# + dln2 - Issuing State, province, country
+# + dln3 - expiration date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

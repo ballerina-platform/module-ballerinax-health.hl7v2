@@ -13,44 +13,43 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-# Message acknowledgement segment.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name  
-# + msa1 - Acknowledgement code  
-# + msa2 - Message Control ID  
-# + msa3 - Text Message  
-# + msa4 - Expected Sequence Number  
-# + msa5 - Delayed Acknowledgement Type  
+# + name - Segment Name
+# + msa1 - Acknowledgement code
+# + msa2 - Message Control ID
+# + msa3 - Text Message
+# + msa4 - Expected Sequence Number
+# + msa5 - Delayed Acknowledgement Type
 # + msa6 - Error Condition
 @hl7v2:SegmentDefinition {
     name: "MSA",
     required: false,
-    maxReps: 1,
+    maxReps: 0,
     fields: {
         "msa1": {
             required: true,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: ID
         },
         "msa2": {
             required: true,
-            length: 20,
+            length: 1,
             maxReps: 1,
             dataType: ST
         },
         "msa3": {
             required: false,
-            length: 80,
+            length: 1,
             maxReps: 1,
             dataType: ST
         },
         "msa4": {
             required: false,
-            length: 15,
+            length: 1,
             maxReps: 1,
             dataType: NM
         },
@@ -62,7 +61,7 @@ import ballerinax/health.hl7v2;
         },
         "msa6": {
             required: false,
-            length: 100,
+            length: 1,
             maxReps: 1,
             dataType: CE
         }
@@ -74,7 +73,7 @@ public type MSA record {
     ID msa1 = "";
     ST msa2 = "";
     ST msa3 = "";
-    NM msa4 = -1;
+    NM msa4 = "";
     ID msa5 = "";
     CE msa6 = {};
 };

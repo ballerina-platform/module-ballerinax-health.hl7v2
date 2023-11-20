@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,40 +13,39 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + prb1 - Segment Record Field
-# + prb2 - Segment Record Field
-# + prb3 - Segment Record Field
-# + prb4 - Segment Record Field
-# + prb5 - Segment Record Field
-# + prb6 - Segment Record Field
-# + prb7 - Segment Record Field
-# + prb8 - Segment Record Field
-# + prb9 - Segment Record Field
-# + prb10 - Segment Record Field
-# + prb11 - Segment Record Field
-# + prb12 - Segment Record Field
-# + prb13 - Segment Record Field
-# + prb14 - Segment Record Field
-# + prb15 - Segment Record Field
-# + prb16 - Segment Record Field
-# + prb17 - Segment Record Field
-# + prb18 - Segment Record Field
-# + prb19 - Segment Record Field
-# + prb20 - Segment Record Field
-# + prb21 - Segment Record Field
-# + prb22 - Segment Record Field
-# + prb23 - Segment Record Field
-# + prb24 - Segment Record Field
-# + prb25 - Segment Record Field
-# + prb26 - Segment Record Field
-# + prb27 - Segment Record Field
-# + prb28 - Segment Record Field
+# + prb1 - Aktionscode
+# + prb2 - Aktionszeitpunkt
+# + prb3 - Problem-ID
+# + prb4 - ID des individuellen Problems
+# + prb5 - ID der Behandlungsepisode
+# + prb6 - Priorität innerhalb der Problemliste
+# + prb7 - Zeitpunkt der Identifikation des Problems
+# + prb8 - geschätzter Zeitpunkt der Problemlösung
+# + prb9 - wirklicher Zeitpunkt der Problemlösung
+# + prb10 - Problemklassifizierung
+# + prb11 - verantwortliche Fachabteilung für das Problemmanagement
+# + prb12 - Dauerhaftigkeit des Problems
+# + prb13 - Status der Problembestätigung
+# + prb14 - Problemstatus
+# + prb15 - Zeitpunkt des Problemstatus
+# + prb16 - Zeitpunkt des Auftretens des Problems
+# + prb17 - Zeitpunkt des Auftretens des Problems (verbale Beschreibung)
+# + prb18 - Rangfolge des Problems
+# + prb19 - Problemgewißheit
+# + prb20 - Wahrscheinlichkeit des Problems
+# + prb21 - individuelles Problembewußtsein
+# + prb22 - Problemprognose
+# + prb23 - individuelle Einstellung zur Prognose
+# + prb24 - Einstellung der Familie/wesentlicher Dritter zum Problem/Prognose
+# + prb25 - Sensitivität des Problems
+# + prb26 - 2234CWEHL70836HL7Problem Severity
+# + prb27 - 2235CWEHL70838HL7Problem Perspective
+# + prb28 - Mood-Code
 @hl7v2:SegmentDefinition {
     name: "PRB",
     required: false,

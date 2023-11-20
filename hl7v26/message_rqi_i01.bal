@@ -13,46 +13,44 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const RQI_I01_MESSAGE_TYPE = "RQI_I01";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + pid - Message Record Field
-# + nk1 - Message Record Field
-# + nte - Message Record Field
-# + provider - Message Record Field
-# + guarantor_insurance - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + pid - PID Segment
+# + nk1 - NK1 Segment
+# + nte - NTE Segment
+# + provider - RQI_I01_PROVIDER Segment Group
+# + guarantor_insurance - RQI_I01_GUARANTOR_INSURANCE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "NK1": {name: "NK1", maxReps: -1, required: false, segmentType: NK1},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
     }
     ,groups: {
-        "PROVIDER": {
+        "RQI_I01_PROVIDER": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "PRD": {name: "PRD", maxReps: 1, required: false, segmentType: typeof PRD},
+                "PRD": {name: "PRD", maxReps: 1, required: true, segmentType: typeof PRD},
                 "CTD": {name: "CTD", maxReps: -1, required: false, segmentType: typeof CTD}
             }
         },
-        "GUARANTOR_INSURANCE": {
+        "RQI_I01_GUARANTOR_INSURANCE": {
             maxReps: 1,
             required: false,
             segments: {
                 "GT1": {name: "GT1", maxReps: -1, required: false, segmentType: typeof GT1},
-                "INSURANCE": {name: "INSURANCE", maxReps: -1, required: false, segmentType: typeof INSURANCE}
+                "RQI_I01_INSURANCE": {name: "RQI_I01_INSURANCE", maxReps: -1, required: true, segmentType: typeof RQI_I01_INSURANCE}
             }
         }
     }
@@ -60,12 +58,12 @@ public const RQI_I01_MESSAGE_TYPE = "RQI_I01";
 public type RQI_I01 record {
     *hl7v2:Message;
     string name = RQI_I01_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    PID pid?;
+    PID pid;
     NK1[] nk1 = [];
     NTE[] nte = [];
-    PROVIDER[] provider = [{}];
-    GUARANTOR_INSURANCE[] guarantor_insurance = [{}];
+    RQI_I01_PROVIDER[] provider = [{prd:{}}];
+    RQI_I01_GUARANTOR_INSURANCE[] guarantor_insurance = [{}];
 };

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,37 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + peo1 - Segment Record Field
-# + peo2 - Segment Record Field
-# + peo3 - Segment Record Field
-# + peo4 - Segment Record Field
-# + peo5 - Segment Record Field
-# + peo6 - Segment Record Field
-# + peo7 - Segment Record Field
-# + peo8 - Segment Record Field
-# + peo9 - Segment Record Field
-# + peo10 - Segment Record Field
-# + peo11 - Segment Record Field
-# + peo12 - Segment Record Field
-# + peo13 - Segment Record Field
-# + peo14 - Segment Record Field
-# + peo15 - Segment Record Field
-# + peo16 - Segment Record Field
-# + peo17 - Segment Record Field
-# + peo18 - Segment Record Field
-# + peo19 - Segment Record Field
-# + peo20 - Segment Record Field
-# + peo21 - Segment Record Field
-# + peo22 - Segment Record Field
-# + peo23 - Segment Record Field
-# + peo24 - Segment Record Field
-# + peo25 - Segment Record Field
+# + peo1 - Event Identifiers Used
+# + peo2 - Event Symptom/Diagnosis Code
+# + peo3 - Event Onset Date/Time
+# + peo4 - Event Exacerbation Date/Time
+# + peo5 - Event Improved Date/Time
+# + peo6 - Event Ended Data/Time
+# + peo7 - Event Location Occurred Address
+# + peo8 - Event Qualification
+# + peo9 - Event Serious
+# + peo10 - Event Expected
+# + peo11 - Event Outcome
+# + peo12 - Patient Outcome
+# + peo13 - Event Description From Others
+# + peo14 - Event From Original Reporter
+# + peo15 - Event Description From Patient
+# + peo16 - Event Description From Practitioner
+# + peo17 - Event Description From Autopsy
+# + peo18 - Cause Of Death
+# + peo19 - Primary Observer Name
+# + peo20 - Primary Observer Address
+# + peo21 - Primary Observer Telephone
+# + peo22 - Primary Observer's Qualification
+# + peo23 - Confirmation Provided By
+# + peo24 - Primary Observer Aware Date/Time
+# + peo25 - Primary Observer's identity May Be Divulged
 @hl7v2:SegmentDefinition {
     name: "PEO",
     required: false,

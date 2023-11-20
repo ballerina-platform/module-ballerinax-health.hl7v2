@@ -13,18 +13,60 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-# The ACC segment contains patient information relative to an accident in which the patient has been involved.  
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment Name  
-# + acc1 - Accident Date/Time  
-# + acc2 - Accident Code  
-# + acc3 - Accident Location  
-# + acc4 - Auto Accident State  
-# + acc5 - Accident Job Related Indicator  
+# + name - Segment Name
+# + acc1 - Accident Date/Time
+# + acc2 - Accident Code
+# + acc3 - Accident Location
+# + acc4 - Auto Accident State
+# + acc5 - Accident Job Related Indicator
 # + acc6 - Accident Death Indicator
+@hl7v2:SegmentDefinition {
+    name: "ACC",
+    required: false,
+    maxReps: 0,
+    fields: {
+        "acc1": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: TS
+        },
+        "acc2": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CE
+        },
+        "acc3": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "acc4": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: CE
+        },
+        "acc5": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ID
+        },
+        "acc6": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ID
+        }
+    }
+}
 public type ACC record {
     *hl7v2:Segment;
     string name = ACC_SEGMENT_NAME;

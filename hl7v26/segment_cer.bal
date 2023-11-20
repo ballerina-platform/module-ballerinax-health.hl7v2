@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,43 +13,42 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + cer1 - Segment Record Field
-# + cer2 - Segment Record Field
-# + cer3 - Segment Record Field
-# + cer4 - Segment Record Field
-# + cer5 - Segment Record Field
-# + cer6 - Segment Record Field
-# + cer7 - Segment Record Field
-# + cer8 - Segment Record Field
-# + cer9 - Segment Record Field
-# + cer10 - Segment Record Field
-# + cer11 - Segment Record Field
-# + cer12 - Segment Record Field
-# + cer13 - Segment Record Field
-# + cer14 - Segment Record Field
-# + cer15 - Segment Record Field
-# + cer16 - Segment Record Field
-# + cer17 - Segment Record Field
-# + cer18 - Segment Record Field
-# + cer19 - Segment Record Field
-# + cer20 - Segment Record Field
-# + cer21 - Segment Record Field
-# + cer22 - Segment Record Field
-# + cer23 - Segment Record Field
-# + cer24 - Segment Record Field
-# + cer25 - Segment Record Field
-# + cer26 - Segment Record Field
-# + cer27 - Segment Record Field
-# + cer28 - Segment Record Field
-# + cer29 - Segment Record Field
-# + cer30 - Segment Record Field
-# + cer31 - Segment Record Field
+# + cer1 - CER-Segmentnummer
+# + cer2 - Seriennummer
+# + cer3 - Version
+# + cer4 - Erteilende Einrichtung
+# + cer5 - Ausgebende Einrichtung
+# + cer6 - Signatur der ausgebenden Einrichtung
+# + cer7 - Land der Zertifikatserteilung
+# + cer8 - Bundesland der Zertifikatserteilung
+# + cer9 - Bezirk der Zertifikatserteilung
+# + cer10 - Art des Zertifikats
+# + cer11 - Inhaltlicher Gültigkeitsbereich des Zertifikats
+# + cer12 - ID des Zertifikatsinhabers
+# + cer13 - Name des Zertifikatinhabers
+# + cer14 - Zusatzattribute f. Zertifikatinhaber
+# + cer15 - PublicKey Info Zertifikatsinhaber
+# + cer16 - ID für Authority Key
+# + cer17 - Merkmal Certificate Authority
+# + cer18 - CRL Verteilungspunkt
+# + cer19 - Land der Zertifikatsgültigkeit
+# + cer20 - Bundesland der Zertifikatsgültigkeit
+# + cer21 - Bezirk der Zertifikatsgültigkeit
+# + cer22 - Geographischer Gültigkeitsbereich des Zertifikats
+# + cer23 - Datum der Zertifikatserteilung
+# + cer24 - Ausstellungsdatum
+# + cer25 - Zeitpunkt der Aktivierung
+# + cer26 - Zeitpunkt der Deaktivierung
+# + cer27 - gültig bis
+# + cer28 - Zeitpunkt der Erneuerung
+# + cer29 - Zeitpunkt des Widerrufs
+# + cer30 - Grund für den Widerruf
+# + cer31 - Zertifikatsstatus
 @hl7v2:SegmentDefinition {
     name: "CER",
     required: false,

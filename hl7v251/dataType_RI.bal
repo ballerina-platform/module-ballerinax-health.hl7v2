@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ri1 - Data type field
-# + ri2 - Data type field
+# + ri1 - Repeat Pattern
+# + ri2 - Explicit Time Interval
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

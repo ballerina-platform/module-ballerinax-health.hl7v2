@@ -13,28 +13,26 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const QRY_MESSAGE_TYPE = "QRY";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + qrd - Message Record Field
-# + qrf - Message Record Field
+# + msh - MSH Segment
+# + qrd - QRD Segment
+# + qrf - QRF Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "QRD": {name: "QRD", maxReps: 1, required: false, segmentType: QRD},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
         "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF}
     }
 }
 public type QRY record {
     *hl7v2:Message;
     string name = QRY_MESSAGE_TYPE;
-    MSH msh?;
-    QRD qrd?;
+    MSH msh;
+    QRD qrd;
     QRF qrf?;
 };

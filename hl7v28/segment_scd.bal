@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,49 +13,48 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + scd1 - Segment Record Field
-# + scd2 - Segment Record Field
-# + scd3 - Segment Record Field
-# + scd4 - Segment Record Field
-# + scd5 - Segment Record Field
-# + scd6 - Segment Record Field
-# + scd7 - Segment Record Field
-# + scd8 - Segment Record Field
-# + scd9 - Segment Record Field
-# + scd10 - Segment Record Field
-# + scd11 - Segment Record Field
-# + scd12 - Segment Record Field
-# + scd13 - Segment Record Field
-# + scd14 - Segment Record Field
-# + scd15 - Segment Record Field
-# + scd16 - Segment Record Field
-# + scd17 - Segment Record Field
-# + scd18 - Segment Record Field
-# + scd19 - Segment Record Field
-# + scd20 - Segment Record Field
-# + scd21 - Segment Record Field
-# + scd22 - Segment Record Field
-# + scd23 - Segment Record Field
-# + scd24 - Segment Record Field
-# + scd25 - Segment Record Field
-# + scd26 - Segment Record Field
-# + scd27 - Segment Record Field
-# + scd28 - Segment Record Field
-# + scd29 - Segment Record Field
-# + scd30 - Segment Record Field
-# + scd31 - Segment Record Field
-# + scd32 - Segment Record Field
-# + scd33 - Segment Record Field
-# + scd34 - Segment Record Field
-# + scd35 - Segment Record Field
-# + scd36 - Segment Record Field
-# + scd37 - Segment Record Field
+# + scd1 - Startzeit des Zyklus
+# + scd2 - Anzahl von Zyklen
+# + scd3 - Höchsttemperatur
+# + scd4 - Tiefsttemperatur
+# + scd5 - 2108NMHL7Load Number
+# + scd6 - 2109CQHL7Condition Time
+# + scd7 - 2110CQHL7Sterilize Time
+# + scd8 - 2111CQHL7Exhaust Time
+# + scd9 - 2112CQHL7Total Cycle Time
+# + scd10 - 2113CWEHL70682HL7Device Status
+# + scd11 - 2114DTMHL7Cycle Start Date/Time
+# + scd12 - 2115CQHL7Dry Time
+# + scd13 - 2116CQHL7Leak Rate
+# + scd14 - 2117CQHL7Control Temperature
+# + scd15 - 2118CQHL7Sterilizer Temperature
+# + scd16 - 2119TMHL7Cycle Complete Time
+# + scd17 - 2120CQHL7Under Temperature
+# + scd18 - 2121CQHL7Over Temperature
+# + scd19 - 2122CNEHL70532HL7Abort Cycle
+# + scd20 - 2123CNEHL70532HL7Alarm
+# + scd21 - 2124CNEHL70532HL7Long in Charge Phase
+# + scd22 - 2125CNEHL70532HL7Long in Exhaust Phase
+# + scd23 - 2126CNEHL70532HL7Long in Fast Exhaust Phase
+# + scd24 - 2127CNEHL70532HL7Reset
+# + scd25 - 2128XCNHL7Operator - Unload
+# + scd26 - 2129CNEHL70532HL7Door Open
+# + scd27 - 2130CNEHL70532HL7Reading Failure
+# + scd28 - 2131CWEHL70702HL7Cycle Type
+# + scd29 - 2132CQHL7Thermal Rinse Time
+# + scd30 - 2133CQHL7Wash Time
+# + scd31 - 2134CQHL7Injection Rate
+# + scd32 - Maßnahmen- / Operationsschlüssel
+# + scd33 - Patienten-ID-Liste
+# + scd34 - Behandelnder Arzt
+# + scd35 - Verdünnungsfaktor
+# + scd36 - 2139CQHL7Fill Time
+# + scd37 - 2140CQHL7Inlet Temperature
 @hl7v2:SegmentDefinition {
     name: "SCD",
     required: false,

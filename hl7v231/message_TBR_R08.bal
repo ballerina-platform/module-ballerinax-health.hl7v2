@@ -13,40 +13,38 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const TBR_R08_MESSAGE_TYPE = "TBR_R08";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + qak - Message Record Field
-# + rdf - Message Record Field
-# + rdt - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + qak - QAK Segment
+# + rdf - RDF Segment
+# + rdt - RDT Segment
+# + dsc - DSC Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
-        "QAK": {name: "QAK", maxReps: 1, required: false, segmentType: QAK},
-        "RDF": {name: "RDF", maxReps: 1, required: false, segmentType: RDF},
-        "RDT": {name: "RDT", maxReps: -1, required: false, segmentType: RDT},
+        "QAK": {name: "QAK", maxReps: 1, required: true, segmentType: QAK},
+        "RDF": {name: "RDF", maxReps: 1, required: true, segmentType: RDF},
+        "RDT": {name: "RDT", maxReps: -1, required: true, segmentType: RDT},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
 }
 public type TBR_R08 record {
     *hl7v2:Message;
     string name = TBR_R08_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
+    MSH msh;
+    MSA msa;
     ERR err?;
-    QAK qak?;
-    RDF rdf?;
+    QAK qak;
+    RDF rdf;
     RDT[] rdt = [];
     DSC dsc?;
 };

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,27 +13,26 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + iim1 - Segment Record Field
-# + iim2 - Segment Record Field
-# + iim3 - Segment Record Field
-# + iim4 - Segment Record Field
-# + iim5 - Segment Record Field
-# + iim6 - Segment Record Field
-# + iim7 - Segment Record Field
-# + iim8 - Segment Record Field
-# + iim9 - Segment Record Field
-# + iim10 - Segment Record Field
-# + iim11 - Segment Record Field
-# + iim12 - Segment Record Field
-# + iim13 - Segment Record Field
-# + iim14 - Segment Record Field
-# + iim15 - Segment Record Field
+# + iim1 - Primärschlüssel IIM
+# + iim2 - Leistungskennzeichen für den Artikel
+# + iim3 - Inventar-Nummer des Artikels im Lager
+# + iim4 - Verfallsdatum Lagerartikel
+# + iim5 - Hersteller des Lagerartikels
+# + iim6 - Lagerort des Artikels
+# + iim7 - Datum Wareneingang in Lager
+# + iim8 - Einlagerungsmenge
+# + iim9 - Mengeneinheit des gelieferten Artikels
+# + iim10 - Preis des Artikels je Einheit
+# + iim11 - Inventurdatum
+# + iim12 - Artikelbestand bei Inventur
+# + iim13 - Mengeneinheit Artikelbestand
+# + iim14 - Maßnahmen- / Operationsschlüssel
+# + iim15 - Modifikator zum Prozedurcode
 @hl7v2:SegmentDefinition {
     name: "IIM",
     required: false,

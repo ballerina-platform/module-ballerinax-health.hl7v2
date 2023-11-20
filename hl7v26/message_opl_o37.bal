@@ -13,38 +13,59 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const OPL_O37_MESSAGE_TYPE = "OPL_O37";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + nte - Message Record Field
-# + rol - Message Record Field
-# + guarantor - Message Record Field
-
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + nte - NTE Segment
+# + rol - ROL Segment
+# + guarantor - OPL_O37_GUARANTOR Segment Group
+# + order - OPL_O37_ORDER Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE},
-        "ROL": {name: "ROL", maxReps: -1, required: false, segmentType: ROL}
+        "ROL": {name: "ROL", maxReps: -1, required: true, segmentType: ROL}
+    }
+    ,groups: {
+        "OPL_O37_GUARANTOR": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "GT1": {name: "GT1", maxReps: 1, required: true, segmentType: typeof GT1},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE}
+            }
+        },
+        "OPL_O37_ORDER": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "NK1": {name: "NK1", maxReps: -1, required: true, segmentType: typeof NK1},
+                "OPL_O37_PATIENT": {name: "OPL_O37_PATIENT", maxReps: 1, required: false, segmentType: typeof OPL_O37_PATIENT},
+                "OPL_O37_SPECIMEN": {name: "OPL_O37_SPECIMEN", maxReps: -1, required: true, segmentType: typeof OPL_O37_SPECIMEN},
+                "OPL_O37_PRIOR_RESULT": {name: "OPL_O37_PRIOR_RESULT", maxReps: 1, required: false, segmentType: typeof OPL_O37_PRIOR_RESULT},
+                "FT1": {name: "FT1", maxReps: -1, required: false, segmentType: typeof FT1},
+                "CTI": {name: "CTI", maxReps: -1, required: false, segmentType: typeof CTI},
+                "BLG": {name: "BLG", maxReps: 1, required: false, segmentType: typeof BLG}
+            }
+        }
     }
 }
 public type OPL_O37 record {
     *hl7v2:Message;
     string name = OPL_O37_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
     ROL[] rol = [];
-    GUARANTOR[] guarantor = [{}];
-    // ORDER[] order = [{}];
+    OPL_O37_GUARANTOR[] guarantor = [{gt1:{}}];
+    OPL_O37_ORDER[] 'order = [{}];
 };

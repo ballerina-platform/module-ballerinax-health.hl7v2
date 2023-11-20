@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + dld1 - Data type field
-# + dld2 - Data type field
+# + dld1 - Discharge to Location
+# + dld2 - Effective Date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

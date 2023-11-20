@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,35 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + arq1 - Segment Record Field
-# + arq2 - Segment Record Field
-# + arq3 - Segment Record Field
-# + arq4 - Segment Record Field
-# + arq5 - Segment Record Field
-# + arq6 - Segment Record Field
-# + arq7 - Segment Record Field
-# + arq8 - Segment Record Field
-# + arq9 - Segment Record Field
-# + arq10 - Segment Record Field
-# + arq11 - Segment Record Field
-# + arq12 - Segment Record Field
-# + arq13 - Segment Record Field
-# + arq14 - Segment Record Field
-# + arq15 - Segment Record Field
-# + arq16 - Segment Record Field
-# + arq17 - Segment Record Field
-# + arq18 - Segment Record Field
-# + arq19 - Segment Record Field
-# + arq20 - Segment Record Field
-# + arq21 - Segment Record Field
-# + arq22 - Segment Record Field
-# + arq23 - Segment Record Field
+# + arq1 - Placer Appointment ID
+# + arq2 - Filler Appointment ID
+# + arq3 - Occurrence Number
+# + arq4 - Placer Group Number
+# + arq5 - Schedule ID
+# + arq6 - Request Event Reason
+# + arq7 - Appointment Reason
+# + arq8 - Appointment Type
+# + arq9 - Appointment Duration
+# + arq10 - Appointment Duration Units
+# + arq11 - Requested Start Date/Time Range
+# + arq12 - Priority-ARQ
+# + arq13 - Repeating Interval
+# + arq14 - Repeating Interval Duration
+# + arq15 - Placer Contact Person
+# + arq16 - Placer Contact Phone Number
+# + arq17 - Placer Contact Address
+# + arq18 - Placer Contact Location
+# + arq19 - Entered by Person
+# + arq20 - Entered by Phone Number
+# + arq21 - Entered by Location
+# + arq22 - Parent Placer Appointment ID
+# + arq23 - Parent Filler Appointment ID
 @hl7v2:SegmentDefinition {
     name: "ARQ",
     required: false,

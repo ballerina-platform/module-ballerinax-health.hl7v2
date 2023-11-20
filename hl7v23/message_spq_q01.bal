@@ -13,22 +13,20 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const SPQ_Q01_MESSAGE_TYPE = "SPQ_Q01";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + spr - Message Record Field
-# + rdf - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + spr - SPR Segment
+# + rdf - RDF Segment
+# + dsc - DSC Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "SPR": {name: "SPR", maxReps: 1, required: false, segmentType: SPR},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "SPR": {name: "SPR", maxReps: 1, required: true, segmentType: SPR},
         "RDF": {name: "RDF", maxReps: 1, required: false, segmentType: RDF},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
@@ -36,8 +34,8 @@ public const SPQ_Q01_MESSAGE_TYPE = "SPQ_Q01";
 public type SPQ_Q01 record {
     *hl7v2:Message;
     string name = SPQ_Q01_MESSAGE_TYPE;
-    MSH msh?;
-    SPR spr?;
+    MSH msh;
+    SPR spr;
     RDF rdf?;
     DSC dsc?;
 };

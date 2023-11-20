@@ -18,13 +18,13 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + rfr1 - Data type field
-# + rfr2 - Data type field
-# + rfr3 - Data type field
-# + rfr4 - Data type field
-# + rfr5 - Data type field
-# + rfr6 - Data type field
-# + rfr7 - Data type field
+# + rfr1 - Numeric Range
+# + rfr2 - Administrative Sex
+# + rfr3 - Age Range
+# + rfr4 - Gestational Age Range
+# + rfr5 - Species
+# + rfr6 - Race/subspecies
+# + rfr7 - Conditions
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

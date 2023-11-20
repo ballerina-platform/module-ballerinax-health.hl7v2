@@ -13,17 +13,15 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
+public const QRY_A19_MESSAGE_TYPE = "QRY_A19";
 
-public const QRY_A19_MESSAGE_TYPE = "QRY_A19"; 
-
-# Patient query.
+#  HL7 Message Default Description
 #
-# + name - Message name  
-# + msh - Message header segment  
-# + qrd - Query definition segment  
-# + qrf - Query filter segment
+# + name - Message name
+# + msh - MSH Segment
+# + qrd - QRD Segment
+# + qrf - QRF Segment
 @hl7v2:MessageDefinition {
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
