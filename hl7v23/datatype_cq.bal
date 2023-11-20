@@ -16,10 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Composite Quantity With Units.
+# Data type description
 #
-# + cq1 - Quantity  
-# + cq2 - Units
+# + cq1 - quantity
+# + cq2 - units
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -27,6 +27,6 @@ import ballerinax/health.hl7v2;
 }
 public type CQ record {
     *hl7v2:CompositeType;
-    NM cq1 = -1;
-    ST cq2 = "";
+    NM cq1 = "";
+    CE cq2 = {};
 };

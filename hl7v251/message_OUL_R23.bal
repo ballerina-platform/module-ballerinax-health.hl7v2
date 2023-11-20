@@ -13,31 +13,63 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const OUL_R23_MESSAGE_TYPE = "OUL_R23";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + nte - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + nte - NTE Segment
+# + dsc - DSC Segment
+# + pidpd1nte_suppgrp - OUL_R23_PIDPD1NTE_SUPPGRP Segment Group
+# + pv1pv2_suppgrp - OUL_R23_PV1PV2_SUPPGRP Segment Group
+# + spmobxsacinvobrorcntetq1tq2obxtcdsidntecti_suppgrp - OUL_R23_SPMOBXSACINVOBRORCNTETQ1TQ2OBXTCDSIDNTECTI_SUPPGRP Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "NTE": {name: "NTE", maxReps: 1, required: false, segmentType: NTE},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
+    }
+    ,groups: {
+        "OUL_R23_PIDPD1NTE_SUPPGRP": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
+                "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: typeof PD1},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE}
+            }
+        },
+        "OUL_R23_PV1PV2_SUPPGRP": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
+                "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2}
+            }
+        },
+        "OUL_R23_SPMOBXSACINVOBRORCNTETQ1TQ2OBXTCDSIDNTECTI_SUPPGRP": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "SPM": {name: "SPM", maxReps: 1, required: true, segmentType: typeof SPM},
+                "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: typeof OBX},
+                "OUL_R23_CONTAINER": {name: "OUL_R23_CONTAINER", maxReps: -1, required: true, segmentType: typeof OUL_R23_CONTAINER}
+            }
+        }
     }
 }
 public type OUL_R23 record {
     *hl7v2:Message;
     string name = OUL_R23_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     NTE nte?;
     DSC dsc?;
+    OUL_R23_PIDPD1NTE_SUPPGRP[] pidpd1nte_suppgrp = [{pid:{}}];
+    OUL_R23_PV1PV2_SUPPGRP[] pv1pv2_suppgrp = [{pv1:{}}];
+    OUL_R23_SPMOBXSACINVOBRORCNTETQ1TQ2OBXTCDSIDNTECTI_SUPPGRP[] spmobxsacinvobrorcntetq1tq2obxtcdsidntecti_suppgrp = [{spm:{}}];
 };

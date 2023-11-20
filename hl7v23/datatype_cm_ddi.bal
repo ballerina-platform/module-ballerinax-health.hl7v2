@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cm_ddi1 - Data type field
-# + cm_ddi2 - Data type field
-# + cm_ddi3 - Data type field
+# + cm_ddi1 - delay days
+# + cm_ddi2 - amount
+# + cm_ddi3 - number of days
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -28,7 +28,7 @@ import ballerinax/health.hl7v2;
 }
 public type CM_DDI record {
     *hl7v2:CompositeType;
-    NM cm_ddi1 = -1;
-    NM cm_ddi2 = -1;
-    NM cm_ddi3 = -1;
+    NM cm_ddi1 = "";
+    NM cm_ddi2 = "";
+    NM cm_ddi3 = "";
 };

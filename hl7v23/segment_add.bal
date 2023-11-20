@@ -13,13 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-# he ADD segment is used to define the continuation of the prior segment in a continuation message.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment Name 
+# + name - Segment Name
 # + add1 - Addendum Continuation Pointer
+@hl7v2:SegmentDefinition {
+    name: "ADD",
+    required: false,
+    maxReps: 0,
+    fields: {
+        "add1": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        }
+    }
+}
 public type ADD record {
     *hl7v2:Segment;
     string name = ADD_SEGMENT_NAME;

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,20 +13,19 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rol1 - Segment Record Field
-# + rol2 - Segment Record Field
-# + rol3 - Segment Record Field
-# + rol4 - Segment Record Field
-# + rol5 - Segment Record Field
-# + rol6 - Segment Record Field
-# + rol7 - Segment Record Field
-# + rol8 - Segment Record Field
+# + rol1 - Role Instance ID
+# + rol2 - Action Code
+# + rol3 - Role-ROL
+# + rol4 - Role Person
+# + rol5 - Role Begin Date/Time
+# + rol6 - Role End Date/Time
+# + rol7 - Role Duration
+# + rol8 - Role Action Reason
 @hl7v2:SegmentDefinition {
     name: "ROL",
     required: false,

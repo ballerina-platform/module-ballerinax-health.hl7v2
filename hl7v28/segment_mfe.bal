@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,19 +13,18 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + mfe1 - Segment Record Field
-# + mfe2 - Segment Record Field
-# + mfe3 - Segment Record Field
-# + mfe4 - Segment Record Field
-# + mfe5 - Segment Record Field
-# + mfe6 - Segment Record Field
-# + mfe7 - Segment Record Field
+# + mfe1 - Art der  Änderung des SDV
+# + mfe2 - Control-Code der Änderung
+# + mfe3 - Zeitpunkt der Wirksamkeit der Änderung
+# + mfe4 - Primärschlüssel
+# + mfe5 - Datentyp des Primärschlüssels
+# + mfe6 - Zeitpunkt der Änderung
+# + mfe7 - Eingegeben durch
 @hl7v2:SegmentDefinition {
     name: "MFE",
     required: false,

@@ -16,11 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_wvi1 - Data type field
-# + cm_wvi2 - Data type field
+# + cm_wvi1 - Channel Number
+# + cm_wvi2 - Channel Name
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -28,6 +27,6 @@ import ballerinax/health.hl7v2;
 }
 public type CM_WVI record {
     *hl7v2:CompositeType;
-    NM cm_wvi1 = -1;
+    NM cm_wvi1 = "";
     ST cm_wvi2 = "";
 };

@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + pln1 - Data type field
-# + pln2 - Data type field
-# + pln3 - Data type field
-# + pln4 - Data type field
+# + pln1 - ID number (ST)
+# + pln2 - type of ID number (IS)
+# + pln3 - state/other qualifying info
+# + pln4 - expiration date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

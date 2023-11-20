@@ -16,14 +16,14 @@
 
 import ballerinax/health.hl7v2;
 
-# Extended Composite ID With Check Digit.
+# Data type description
 #
-# + cx1 - ID  
-# + cx2 - Check Digit  
-# + cx3 - Code Identifying The Check Digit Scheme Employed  
-# + cx4 - Assigning Authority  
-# + cx5 - Identifier Type Code  
-# + cx6 - Assigning Facility
+# + cx1 - ID
+# + cx2 - check digit
+# + cx3 - code identifying the check digit scheme employed
+# + cx4 - assigning authority
+# + cx5 - identifier type code
+# + cx6 - assigning facility
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

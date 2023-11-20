@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,41 +13,40 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + itm1 - Segment Record Field
-# + itm2 - Segment Record Field
-# + itm3 - Segment Record Field
-# + itm4 - Segment Record Field
-# + itm5 - Segment Record Field
-# + itm6 - Segment Record Field
-# + itm7 - Segment Record Field
-# + itm8 - Segment Record Field
-# + itm9 - Segment Record Field
-# + itm10 - Segment Record Field
-# + itm11 - Segment Record Field
-# + itm12 - Segment Record Field
-# + itm13 - Segment Record Field
-# + itm14 - Segment Record Field
-# + itm15 - Segment Record Field
-# + itm16 - Segment Record Field
-# + itm17 - Segment Record Field
-# + itm18 - Segment Record Field
-# + itm19 - Segment Record Field
-# + itm20 - Segment Record Field
-# + itm21 - Segment Record Field
-# + itm22 - Segment Record Field
-# + itm23 - Segment Record Field
-# + itm24 - Segment Record Field
-# + itm25 - Segment Record Field
-# + itm26 - Segment Record Field
-# + itm27 - Segment Record Field
-# + itm28 - Segment Record Field
-# + itm29 - Segment Record Field
+# + itm1 - Item Identifier
+# + itm2 - Item Description
+# + itm3 - Item Status
+# + itm4 - Item Type
+# + itm5 - Item Category
+# + itm6 - Subject to Expiration Indicator
+# + itm7 - Manufacturer Identifier
+# + itm8 - Manufacturer Name
+# + itm9 - Manufacturer Catalog Number
+# + itm10 - Manufacturer Labeler Identification Code
+# + itm11 - Patient Chargeable Indicator
+# + itm12 - Transaction Code
+# + itm13 - Transaction amount - unit
+# + itm14 - Stocked Item Indicator
+# + itm15 - Supply Risk Codes
+# + itm16 - Approving Regulatory Agency
+# + itm17 - Latex Indicator
+# + itm18 - Ruling Act
+# + itm19 - Item Natural Account Code
+# + itm20 - Approved To Buy Quantity
+# + itm21 - Approved To Buy Price
+# + itm22 - Taxable Item Indicator
+# + itm23 - Freight Charge Indicator
+# + itm24 - Item Set Indicator
+# + itm25 - Item Set Identifier
+# + itm26 - Track Department Usage Indicator
+# + itm27 - Procedure Code
+# + itm28 - Procedure Code Modifier
+# + itm29 - Special Handling Code
 @hl7v2:SegmentDefinition {
     name: "ITM",
     required: false,

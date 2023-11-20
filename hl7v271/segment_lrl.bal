@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,18 +13,17 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + lrl1 - Segment Record Field
-# + lrl2 - Segment Record Field
-# + lrl3 - Segment Record Field
-# + lrl4 - Segment Record Field
-# + lrl5 - Segment Record Field
-# + lrl6 - Segment Record Field
+# + lrl1 - Primärschlüssel
+# + lrl2 - Auszuführende Aktion
+# + lrl3 - eindeutiger Segmentschlüssel
+# + lrl4 - Ortsbezug (ID)
+# + lrl5 - organisatorischer Ortsbezug (Wert)
+# + lrl6 - Patientenortsbezug (Wert)
 @hl7v2:SegmentDefinition {
     name: "LRL",
     required: false,

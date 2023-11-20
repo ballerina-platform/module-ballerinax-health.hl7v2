@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + dtn1 - Data type field
-# + dtn2 - Data type field
+# + dtn1 - Day Type
+# + dtn2 - Number of Days
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

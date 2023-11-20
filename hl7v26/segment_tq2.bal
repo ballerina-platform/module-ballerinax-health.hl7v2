@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,22 +13,21 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + tq21 - Segment Record Field
-# + tq22 - Segment Record Field
-# + tq23 - Segment Record Field
-# + tq24 - Segment Record Field
-# + tq25 - Segment Record Field
-# + tq26 - Segment Record Field
-# + tq27 - Segment Record Field
-# + tq28 - Segment Record Field
-# + tq29 - Segment Record Field
-# + tq210 - Segment Record Field
+# + tq21 - TQ2-Segmentnummer
+# + tq22 - zeitliche Abhängigkeit
+# + tq23 - zugeordnete Auftragsnummer des Auftraggebers
+# + tq24 - zugeordnete Auftragsnummer des Auftragnehmers
+# + tq25 - zugeordnete Auftragsgruppennummer
+# + tq26 - Festlegung zeitlicher Abhängigkeit
+# + tq27 - Merkmal Erster/Letzter einer zyklischen Gruppe
+# + tq28 - Festlegung des zeitlichen Abstandes
+# + tq29 - maximale Wiederholungszahl einer zyklischen Gruppe
+# + tq210 - Beziehung zu anderen Aufträgen
 @hl7v2:SegmentDefinition {
     name: "TQ2",
     required: false,

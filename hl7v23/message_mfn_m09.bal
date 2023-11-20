@@ -13,25 +13,35 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const MFN_M09_MESSAGE_TYPE = "MFN_M09";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + mfi - Message Record Field
+# + msh - MSH Segment
+# + mfi - MFI Segment
+# + mf_test_categorical - MFN_M09_MF_TEST_CATEGORICAL Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MFI": {name: "MFI", maxReps: 1, required: false, segmentType: MFI}
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
+    }
+    ,groups: {
+        "MFN_M09_MF_TEST_CATEGORICAL": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "MFE": {name: "MFE", maxReps: 1, required: true, segmentType: typeof MFE},
+                "MFN_M09_MF_TEST_CAT_DETAIL": {name: "MFN_M09_MF_TEST_CAT_DETAIL", maxReps: 1, required: false, segmentType: typeof MFN_M09_MF_TEST_CAT_DETAIL}
+            }
+        }
     }
 }
 public type MFN_M09 record {
     *hl7v2:Message;
     string name = MFN_M09_MESSAGE_TYPE;
-    MSH msh?;
-    MFI mfi?;
+    MSH msh;
+    MFI mfi;
+    MFN_M09_MF_TEST_CATEGORICAL[] mf_test_categorical = [{mfe:{}}];
 };

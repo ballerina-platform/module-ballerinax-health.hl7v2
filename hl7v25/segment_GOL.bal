@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,33 +13,32 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + gol1 - Segment Record Field
-# + gol2 - Segment Record Field
-# + gol3 - Segment Record Field
-# + gol4 - Segment Record Field
-# + gol5 - Segment Record Field
-# + gol6 - Segment Record Field
-# + gol7 - Segment Record Field
-# + gol8 - Segment Record Field
-# + gol9 - Segment Record Field
-# + gol10 - Segment Record Field
-# + gol11 - Segment Record Field
-# + gol12 - Segment Record Field
-# + gol13 - Segment Record Field
-# + gol14 - Segment Record Field
-# + gol15 - Segment Record Field
-# + gol16 - Segment Record Field
-# + gol17 - Segment Record Field
-# + gol18 - Segment Record Field
-# + gol19 - Segment Record Field
-# + gol20 - Segment Record Field
-# + gol21 - Segment Record Field
+# + gol1 - Action Code
+# + gol2 - Action Date/Time
+# + gol3 - Goal ID
+# + gol4 - Goal Instance ID
+# + gol5 - Episode of Care ID
+# + gol6 - Goal List Priority
+# + gol7 - Goal Established Date/Time
+# + gol8 - Expected Goal Achieve Date/Time
+# + gol9 - Goal Classification
+# + gol10 - Goal Management Discipline
+# + gol11 - Current Goal Review Status
+# + gol12 - Current Goal Review Date/Time
+# + gol13 - Next Goal Review Date/Time
+# + gol14 - Previous Goal Review Date/Time
+# + gol15 - Goal Review Interval
+# + gol16 - Goal Evaluation
+# + gol17 - Goal Evaluation Comment
+# + gol18 - Goal Life Cycle Status
+# + gol19 - Goal Life Cycle Status Date/Time
+# + gol20 - Goal Target Type
+# + gol21 - Goal Target Name
 @hl7v2:SegmentDefinition {
     name: "GOL",
     required: false,

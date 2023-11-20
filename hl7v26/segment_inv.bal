@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,32 +13,31 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + inv1 - Segment Record Field
-# + inv2 - Segment Record Field
-# + inv3 - Segment Record Field
-# + inv4 - Segment Record Field
-# + inv5 - Segment Record Field
-# + inv6 - Segment Record Field
-# + inv7 - Segment Record Field
-# + inv8 - Segment Record Field
-# + inv9 - Segment Record Field
-# + inv10 - Segment Record Field
-# + inv11 - Segment Record Field
-# + inv12 - Segment Record Field
-# + inv13 - Segment Record Field
-# + inv14 - Segment Record Field
-# + inv15 - Segment Record Field
-# + inv16 - Segment Record Field
-# + inv17 - Segment Record Field
-# + inv18 - Segment Record Field
-# + inv19 - Segment Record Field
-# + inv20 - Segment Record Field
+# + inv1 - ID der Substanz
+# + inv2 - Status der Substanz
+# + inv3 - Art der Substanz
+# + inv4 - Herstellerspezifische ID des Substanzbehälters
+# + inv5 - ID des Trägers des Substanzbehälters
+# + inv6 - Position auf dem Träger
+# + inv7 - Urspüngliche Substanzmenge
+# + inv8 - Momentane Substanzmenge
+# + inv9 - Verfügbare Substanzmenge
+# + inv10 - Verbrauchsmenge
+# + inv11 - Einheit der Mengenangaben
+# + inv12 - Zeitpunkt des Verfalls
+# + inv13 - Zeitpunkt der ersten Benutzung
+# + inv14 - Dauer der Stabilität der Substanz
+# + inv15 - ID der Tests/Körperflüssigkeiten
+# + inv16 - Chargennummer des Herstellers
+# + inv17 - Herstellernummer und -name
+# + inv18 - Lieferantennummer und -name
+# + inv19 - Verwendbarkeitsdauer
+# + inv20 - Zielwert
 @hl7v2:SegmentDefinition {
     name: "INV",
     required: false,

@@ -16,11 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_din1 - Data type field
-# + cm_din2 - Data type field
+# + cm_din1 - date
+# + cm_din2 - institution name
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,15 +13,14 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + om51 - Segment Record Field
-# + om52 - Segment Record Field
-# + om53 - Segment Record Field
+# + om51 - Sequence Number - Test/ Observation Master File
+# + om52 - Test/Observations Included within an Ordered Test Battery
+# + om53 - Observation ID Suffixes
 @hl7v2:SegmentDefinition {
     name: "OM5",
     required: false,

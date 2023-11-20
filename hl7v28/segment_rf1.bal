@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rf11 - Segment Record Field
-# + rf12 - Segment Record Field
-# + rf13 - Segment Record Field
-# + rf14 - Segment Record Field
-# + rf15 - Segment Record Field
-# + rf16 - Segment Record Field
-# + rf17 - Segment Record Field
-# + rf18 - Segment Record Field
-# + rf19 - Segment Record Field
-# + rf110 - Segment Record Field
-# + rf111 - Segment Record Field
-# + rf112 - Segment Record Field
+# + rf11 - Überweisungsstatus
+# + rf12 - ÜberweisungsPriorität
+# + rf13 - Überweisungstype
+# + rf14 - Überweisungsdisposition
+# + rf15 - Überweisungskategorie
+# + rf16 - Überweisungs-ID der überweisenden Applikation
+# + rf17 - gültig ab
+# + rf18 - gültig bis
+# + rf19 - Ausstellungsdatum
+# + rf110 - Überweisungsgrund
+# + rf111 - Überweisungs-ID einer externen Applikation
+# + rf112 - Vollständigkeit der Überweisungsdokumentation
 @hl7v2:SegmentDefinition {
     name: "RF1",
     required: false,

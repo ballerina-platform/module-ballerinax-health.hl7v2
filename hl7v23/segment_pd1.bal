@@ -13,86 +13,85 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-# Patient Demographic.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name  
-# + pd11 - Living Dependency  
-# + pd12 - Living Arrangement  
-# + pd13 - Patient Primary Facility  
-# + pd14 - Patient Primary Care Provider Name & ID No.  
-# + pd15 - Student Indicator  
-# + pd16 - Handicap  
-# + pd17 - Living Will  
-# + pd18 - Organ Donor  
-# + pd19 - Separate Bill  
-# + pd110 - Duplicate Patient  
-# + pd111 - Publicity Indicator  
+# + name - Segment Name
+# + pd11 - Living Dependency
+# + pd12 - Living Arrangement
+# + pd13 - Patient Primary Facility
+# + pd14 - Patient Primary Care Provider Name & ID No.
+# + pd15 - Student Indicator
+# + pd16 - Handicap
+# + pd17 - Living Will
+# + pd18 - Organ Donor
+# + pd19 - Separate Bill
+# + pd110 - Duplicate Patient
+# + pd111 - Publicity Indicator
 # + pd112 - Protection Indicator
 @hl7v2:SegmentDefinition {
     name: "PD1",
     required: false,
-    maxReps: 1,
+    maxReps: 0,
     fields: {
         "pd11": {
             required: false,
-            length: 2,
-            maxReps: -1,
+            length: 1,
+            maxReps: 1,
             dataType: IS
         },
         "pd12": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "pd13": {
             required: false,
-            length: 90,
+            length: 1,
             maxReps: -1,
             dataType: XON
         },
         "pd14": {
             required: false,
-            length: 90,
+            length: 1,
             maxReps: -1,
             dataType: XCN
         },
         "pd15": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "pd16": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "pd17": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "pd18": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: IS
         },
         "pd19": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: 1,
             dataType: ID
         },
         "pd110": {
             required: false,
-            length: 2,
+            length: 1,
             maxReps: -1,
             dataType: CX
         },
@@ -113,7 +112,7 @@ import ballerinax/health.hl7v2;
 public type PD1 record {
     *hl7v2:Segment;
     string name = PD1_SEGMENT_NAME;
-    IS[] pd11 = [""];
+    IS pd11 = "";
     IS pd12 = "";
     XON[] pd13 = [{}];
     XCN[] pd14 = [{}];

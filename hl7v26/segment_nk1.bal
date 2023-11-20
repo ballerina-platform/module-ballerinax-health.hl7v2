@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,51 +13,50 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + nk11 - Segment Record Field
-# + nk12 - Segment Record Field
-# + nk13 - Segment Record Field
-# + nk14 - Segment Record Field
-# + nk15 - Segment Record Field
-# + nk16 - Segment Record Field
-# + nk17 - Segment Record Field
-# + nk18 - Segment Record Field
-# + nk19 - Segment Record Field
-# + nk110 - Segment Record Field
-# + nk111 - Segment Record Field
-# + nk112 - Segment Record Field
-# + nk113 - Segment Record Field
-# + nk114 - Segment Record Field
-# + nk115 - Segment Record Field
-# + nk116 - Segment Record Field
-# + nk117 - Segment Record Field
-# + nk118 - Segment Record Field
-# + nk119 - Segment Record Field
-# + nk120 - Segment Record Field
-# + nk121 - Segment Record Field
-# + nk122 - Segment Record Field
-# + nk123 - Segment Record Field
-# + nk124 - Segment Record Field
-# + nk125 - Segment Record Field
-# + nk126 - Segment Record Field
-# + nk127 - Segment Record Field
-# + nk128 - Segment Record Field
-# + nk129 - Segment Record Field
-# + nk130 - Segment Record Field
-# + nk131 - Segment Record Field
-# + nk132 - Segment Record Field
-# + nk133 - Segment Record Field
-# + nk134 - Segment Record Field
-# + nk135 - Segment Record Field
-# + nk136 - Segment Record Field
-# + nk137 - Segment Record Field
-# + nk138 - Segment Record Field
-# + nk139 - Segment Record Field
+# + nk11 - NK1-Segmentnummer
+# + nk12 - Name der Kontaktperson
+# + nk13 - Beziehung der Kontaktperson zum Patienten
+# + nk14 - Anschrift der Kontaktperson
+# + nk15 - Telefonnummer der Kontaktperson
+# + nk16 - Telefonnummer der Kontaktperson (dienstlich)
+# + nk17 - Art der Beziehung zum Ansprechpartner  (Rolle)
+# + nk18 - Beginn dieser Zuordnung (siehe NK1-7)
+# + nk19 - Ende dieser Zuordnung (siehe NK1-7)
+# + nk110 - Titel / Anrede der Kontaktperson
+# + nk111 - Berufsbezeichnung der Kontaktperson
+# + nk112 - Arbeitnehmernummer der Kontaktperson
+# + nk113 - Organisationsbezeichnung
+# + nk114 - Familienstand
+# + nk115 - Geschlecht
+# + nk116 - Geburtszeitpunkt
+# + nk117 - Besondere Lebensabhängigkeiten
+# + nk118 - Mobilitätsstatus
+# + nk119 - Länderkennzeichen / Staatsangehörigkeit
+# + nk120 - Muttersprache
+# + nk121 - Besondere Lebensumstände
+# + nk122 - Auskunftsbeschränkung
+# + nk123 - Merkmal Vertrauensschutz
+# + nk124 - Studentenstatus
+# + nk125 - Religion
+# + nk126 - veraltet; korrespondierendes Namensfeld verwenden
+# + nk127 - Nationalität
+# + nk128 - Ethnische Zugehörigkeit
+# + nk129 - Grund für eine Kontaktaufnahme
+# + nk130 - Ansprechpartner falls NK1 Organisation
+# + nk131 - Telefonnummer des Ansprechpartners
+# + nk132 - Adresse der Kontaktperson
+# + nk133 - Identifikatoren der Bezugsperson
+# + nk134 - Beruflicher Status
+# + nk135 - Rasse
+# + nk136 - permanente Behinderung
+# + nk137 - Sozialversicherungsnummer der Kontaktperson
+# + nk138 - Geburtsort der Kontaktperson
+# + nk139 - VIP
 @hl7v2:SegmentDefinition {
     name: "NK1",
     required: false,

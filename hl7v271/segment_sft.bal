@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,18 +13,17 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + sft1 - Segment Record Field
-# + sft2 - Segment Record Field
-# + sft3 - Segment Record Field
-# + sft4 - Segment Record Field
-# + sft5 - Segment Record Field
-# + sft6 - Segment Record Field
+# + sft1 - Softwarehersteller
+# + sft2 - Softwareversion-/-releasenummer
+# + sft3 - Software Produktname
+# + sft4 - Software Binary ID
+# + sft5 - Zusatzinformation zum eingesetzten Produkt
+# + sft6 - Software Installationsdatum
 @hl7v2:SegmentDefinition {
     name: "SFT",
     required: false,

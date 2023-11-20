@@ -18,14 +18,14 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cx1 - Data type field
-# + cx2 - Data type field
-# + cx3 - Data type field
-# + cx4 - Data type field
-# + cx5 - Data type field
-# + cx6 - Data type field
-# + cx7 - Data type field
-# + cx8 - Data type field
+# + cx1 - ID
+# + cx2 - check digit (ST)
+# + cx3 - code identifying the check digit scheme employed
+# + cx4 - assigning authority
+# + cx5 - identifier type code (ID)
+# + cx6 - assigning facility
+# + cx7 - effective date (DT)
+# + cx8 - expiration date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -13,27 +13,38 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const BAR_P06_MESSAGE_TYPE = "BAR_P06";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + evn - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + evn - EVN Segment
+# + patient - BAR_P06_PATIENT Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN}
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN}
+    }
+    ,groups: {
+        "BAR_P06_PATIENT": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
+                "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: typeof PV1}
+            }
+        }
     }
 }
 public type BAR_P06 record {
     *hl7v2:Message;
     string name = BAR_P06_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    EVN evn?;
+    EVN evn;
+    BAR_P06_PATIENT[] patient = [{pid:{}}];
 };

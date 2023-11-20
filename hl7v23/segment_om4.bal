@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,27 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + om41 - Segment Record Field
-# + om42 - Segment Record Field
-# + om43 - Segment Record Field
-# + om44 - Segment Record Field
-# + om45 - Segment Record Field
-# + om46 - Segment Record Field
-# + om47 - Segment Record Field
-# + om48 - Segment Record Field
-# + om49 - Segment Record Field
-# + om410 - Segment Record Field
-# + om411 - Segment Record Field
-# + om412 - Segment Record Field
-# + om413 - Segment Record Field
-# + om414 - Segment Record Field
+# + om41 - Sequence Number - Test/ Observation Master File
+# + om42 - Derived Specimen
+# + om43 - Container Description
+# + om44 - Container Volume
+# + om45 - Container Units
+# + om46 - Specimen
+# + om47 - Additive
+# + om48 - Preparation
+# + om49 - Special Handling Requirements
+# + om410 - Normal Collection Volume
+# + om411 - Minimum Collection Volume
+# + om412 - Specimen Requirements
+# + om413 - Specimen Priorities
+# + om414 - Specimen Retention Time
 @hl7v2:SegmentDefinition {
     name: "OM4",
     required: false,
@@ -129,10 +126,10 @@ import ballerinax/health.hl7v2;
 public type OM4 record {
     *hl7v2:Segment;
     string name = OM4_SEGMENT_NAME;
-    NM om41 = -1;
+    NM om41 = "";
     ID om42 = "";
     TX om43 = "";
-    NM om44 = -1;
+    NM om44 = "";
     CE om45 = {};
     CE om46 = {};
     CE om47 = {};

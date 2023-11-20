@@ -16,11 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_eip1 - Data type field
-# + cm_eip2 - Data type field
+# + cm_eip1 - parent´s placer order number
+# + cm_eip2 - parent´s filler order number
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

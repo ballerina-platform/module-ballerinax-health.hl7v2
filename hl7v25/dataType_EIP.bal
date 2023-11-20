@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + eip1 - Data type field
-# + eip2 - Data type field
+# + eip1 - Placer Assigned Identifier
+# + eip2 - Filler Assigned Identifier
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

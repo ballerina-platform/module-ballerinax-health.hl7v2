@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + gp21 - Segment Record Field
-# + gp22 - Segment Record Field
-# + gp23 - Segment Record Field
-# + gp24 - Segment Record Field
-# + gp25 - Segment Record Field
-# + gp26 - Segment Record Field
-# + gp27 - Segment Record Field
-# + gp28 - Segment Record Field
-# + gp29 - Segment Record Field
-# + gp210 - Segment Record Field
-# + gp211 - Segment Record Field
-# + gp212 - Segment Record Field
-# + gp213 - Segment Record Field
-# + gp214 - Segment Record Field
+# + gp21 - Revenue Code
+# + gp22 - Number of Service Units
+# + gp23 - Charge
+# + gp24 - Reimbursement Action Code
+# + gp25 - Denial or Rejection Code
+# + gp26 - OCE Edit Code
+# + gp27 - Ambulatory Payment Classification Code
+# + gp28 - Modifier Edit Code
+# + gp29 - Payment Adjustment Code
+# + gp210 - Packaging Status Code
+# + gp211 - Expected CMS Payment Amount
+# + gp212 - Reimbursement Type Code
+# + gp213 - Co-Pay Amount
+# + gp214 - Pay Rate per Service Unit
 @hl7v2:SegmentDefinition {
     name: "GP2",
     required: false,

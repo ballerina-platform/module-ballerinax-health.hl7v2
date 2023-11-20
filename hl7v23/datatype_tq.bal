@@ -16,17 +16,18 @@
 
 import ballerinax/health.hl7v2;
 
-# Quantity/timing.
+# Data type description
 #
-# + tq1 - Quantity  
-# + tq2 - Interval  
-# + tq3 - Duration  
-# + tq4 - Start Date/time  
-# + tq5 - End Date/time  
-# + tq6 - Priority  
-# + tq7 - Condition  
-# + tq8 - Text  
-# + tq9 - Conjunction
+# + tq1 - quantity
+# + tq2 - interval
+# + tq3 - duration
+# + tq4 - start date/time
+# + tq5 - end date/time
+# + tq6 - priority
+# + tq7 - condition
+# + tq8 - text (TX)
+# + tq9 - conjunction
+# + tq10 - order sequencing
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -35,7 +36,7 @@ import ballerinax/health.hl7v2;
 public type TQ record {
     *hl7v2:CompositeType;
     CQ tq1 = {};
-    RI tq2 = {};
+    CM_RI tq2 = {};
     ST tq3 = "";
     TS tq4 = {};
     TS tq5 = {};
@@ -43,4 +44,5 @@ public type TQ record {
     ST tq7 = "";
     TX tq8 = "";
     ST tq9 = "";
+    CM_OSD tq10 = "";
 };

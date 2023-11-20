@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + osp1 - Data type field
-# + osp2 - Data type field
-# + osp3 - Data type field
+# + osp1 - Occurrence Span Code
+# + osp2 - Occurrence Span Start Date
+# + osp3 - Occurrence Span Stop Date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -13,36 +13,35 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const QBP_Q13_MESSAGE_TYPE = "QBP_Q13";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + qpd - Message Record Field
-# + rdf - Message Record Field
-# + rcp - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + qpd - QPD Segment
+# + rdf - RDF Segment
+# + rcp - RCP Segment
+# + dsc - DSC Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "QPD": {name: "QPD", maxReps: 1, required: false, segmentType: QPD},
+        "QPD": {name: "QPD", maxReps: 1, required: true, segmentType: QPD},
         "RDF": {name: "RDF", maxReps: 1, required: false, segmentType: RDF},
-        "RCP": {name: "RCP", maxReps: 1, required: false, segmentType: RCP},
+        "RCP": {name: "RCP", maxReps: 1, required: true, segmentType: RCP},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
 }
 public type QBP_Q13 record {
     *hl7v2:Message;
     string name = QBP_Q13_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    QPD qpd?;
+    QPD qpd;
     RDF rdf?;
-    RCP rcp?;
+    RCP rcp;
     DSC dsc?;
 };

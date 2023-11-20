@@ -16,14 +16,14 @@
 
 import ballerinax/health.hl7v2;
 
-# Composite Price.
+# Data type description
 #
-# + cp1 - Price  
-# + cp2 - Price Type  
-# + cp3 - From Value 
-# + cp4 - To Value  
-# + cp5 - Range Units  
-# + cp6 - Range Type
+# + cp1 - price
+# + cp2 - price type
+# + cp3 - from value
+# + cp4 - to value
+# + cp5 - range units
+# + cp6 - range type
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -33,8 +33,8 @@ public type CP record {
     *hl7v2:CompositeType;
     MO cp1 = {};
     ID cp2 = "";
-    NM cp3 = -1;
-    NM cp4 = -1;
+    NM cp3 = "";
+    NM cp4 = "";
     CE cp5 = {};
     ID cp6 = "";
 };

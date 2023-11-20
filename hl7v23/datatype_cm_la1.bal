@@ -16,25 +16,24 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_la11 - Data type field
-# + cm_la12 - Data type field
-# + cm_la13 - Data type field
-# + cm_la14 - Data type field
-# + cm_la15 - Data type field
-# + cm_la16 - Data type field
-# + cm_la17 - Data type field
-# + cm_la18 - Data type field
-# + cm_la19 - Data type field
-# + cm_la110 - Data type field
-# + cm_la111 - Data type field
-# + cm_la112 - Data type field
-# + cm_la113 - Data type field
-# + cm_la114 - Data type field
-# + cm_la115 - Data type field
-# + cm_la116 - Data type field
+# + cm_la11 - point of care (ST)
+# + cm_la12 - room
+# + cm_la13 - bed
+# + cm_la14 - facility (HD)
+# + cm_la15 - location status
+# + cm_la16 - person location type
+# + cm_la17 - building
+# + cm_la18 - floor
+# + cm_la19 - street address
+# + cm_la110 - other designation
+# + cm_la111 - city
+# + cm_la112 - state or province
+# + cm_la113 - zip or postal code
+# + cm_la114 - country
+# + cm_la115 - address type
+# + cm_la116 - other geographic designation
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

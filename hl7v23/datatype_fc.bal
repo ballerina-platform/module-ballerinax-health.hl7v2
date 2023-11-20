@@ -16,9 +16,9 @@
 
 import ballerinax/health.hl7v2;
 
-# Financial Class.
+# Data type description
 #
-# + fc1 - Financial Class  
+# + fc1 - Financial Class
 # + fc2 - Effective Date
 @hl7v2:TypeDefinition {
     length: (),
@@ -30,4 +30,3 @@ public type FC record {
     IS fc1 = "";
     TS fc2 = {};
 };
-

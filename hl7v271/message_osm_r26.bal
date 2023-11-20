@@ -13,30 +13,40 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const OSM_R26_MESSAGE_TYPE = "OSM_R26";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + shipment - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + shipment - OSM_R26_SHIPMENT Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC}
+    }
+    ,groups: {
+        "OSM_R26_SHIPMENT": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "SHP": {name: "SHP", maxReps: 1, required: true, segmentType: typeof SHP},
+                "PRT": {name: "PRT", maxReps: -1, required: true, segmentType: typeof PRT},
+                "OSM_R26_SHIPPING_OBSERVATION": {name: "OSM_R26_SHIPPING_OBSERVATION", maxReps: -1, required: false, segmentType: typeof OSM_R26_SHIPPING_OBSERVATION},
+                "OSM_R26_PACKAGE": {name: "OSM_R26_PACKAGE", maxReps: -1, required: true, segmentType: typeof OSM_R26_PACKAGE}
+            }
+        }
     }
 }
 public type OSM_R26 record {
     *hl7v2:Message;
     string name = OSM_R26_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    SHIPMENT[] shipment = [{}];
+    OSM_R26_SHIPMENT[] shipment = [{shp:{}}];
 };

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,39 +13,38 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + sch1 - Segment Record Field
-# + sch2 - Segment Record Field
-# + sch3 - Segment Record Field
-# + sch4 - Segment Record Field
-# + sch5 - Segment Record Field
-# + sch6 - Segment Record Field
-# + sch7 - Segment Record Field
-# + sch8 - Segment Record Field
-# + sch9 - Segment Record Field
-# + sch10 - Segment Record Field
-# + sch11 - Segment Record Field
-# + sch12 - Segment Record Field
-# + sch13 - Segment Record Field
-# + sch14 - Segment Record Field
-# + sch15 - Segment Record Field
-# + sch16 - Segment Record Field
-# + sch17 - Segment Record Field
-# + sch18 - Segment Record Field
-# + sch19 - Segment Record Field
-# + sch20 - Segment Record Field
-# + sch21 - Segment Record Field
-# + sch22 - Segment Record Field
-# + sch23 - Segment Record Field
-# + sch24 - Segment Record Field
-# + sch25 - Segment Record Field
-# + sch26 - Segment Record Field
-# + sch27 - Segment Record Field
+# + sch1 - Placer Appointment ID
+# + sch2 - Filler Appointment ID
+# + sch3 - Occurrence Number
+# + sch4 - Placer Group Number
+# + sch5 - Schedule ID
+# + sch6 - Event Reason
+# + sch7 - Appointment Reason
+# + sch8 - Appointment Type
+# + sch9 - Appointment Duration
+# + sch10 - Appointment Duration Units
+# + sch11 - Appointment Timing Quantity
+# + sch12 - Placer Contact Person
+# + sch13 - Placer Contact Phone Number
+# + sch14 - Placer Contact Address
+# + sch15 - Placer Contact Location
+# + sch16 - Filler Contact Person
+# + sch17 - Filler Contact Phone Number
+# + sch18 - Filler Contact Address
+# + sch19 - Filler Contact Location
+# + sch20 - Entered By Person
+# + sch21 - Entered By Phone Number
+# + sch22 - Entered by Location
+# + sch23 - Parent Placer Appointment ID
+# + sch24 - Parent Filler Appointment ID
+# + sch25 - Filler Status Code
+# + sch26 - Placer Order Number
+# + sch27 - Filler Order Number
 @hl7v2:SegmentDefinition {
     name: "SCH",
     required: false,

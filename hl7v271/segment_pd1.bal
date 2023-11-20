@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,34 +13,32 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pd11 - Segment Record Field
-# + pd12 - Segment Record Field
-# + pd13 - Segment Record Field
-# + pd14 - Segment Record Field 
-# + pd15 - Segment Record Field
-# + pd16 - Segment Record Field
-# + pd17 - Segment Record Field
-# + pd18 - Segment Record Field
-# + pd19 - Segment Record Field
-# + pd110 - Segment Record Field
-# + pd111 - Segment Record Field
-# + pd112 - Segment Record Field
-# + pd113 - Segment Record Field
-# + pd114 - Segment Record Field
-# + pd115 - Segment Record Field
-# + pd116 - Segment Record Field
-# + pd117 - Segment Record Field
-# + pd118 - Segment Record Field
-# + pd119 - Segment Record Field
-# + pd120 - Segment Record Field
-# + pd121 - Segment Record Field
-# + pd122 - Segment Record Field
+# + pd11 - Besondere Lebensabhängigkeiten
+# + pd12 - Besondere Lebensumstände
+# + pd13 - 756XONHL70204HL7Patient Primary Facility
+# + pd15 - Studentenstatus
+# + pd16 - permanente Behinderung
+# + pd17 - letzter Wille
+# + pd18 - Einwilligung zur Organspende
+# + pd19 - Einzelrechnung
+# + pd110 - Hinweis auf doppelte Patientenstammdaten
+# + pd111 - Auskunftsbeschränkung
+# + pd112 - Merkmal Vertrauensschutz
+# + pd113 - Vertrauensschutz ab
+# + pd114 - Pfarrgemeinde
+# + pd115 - Verfügung des Patienten
+# + pd116 - Status im (Immunisierungs-)Register
+# + pd117 - Status im Immunisierungsregister ab
+# + pd118 - Auskunftsbeschränkung ab
+# + pd119 - 1572CWEHL70140HL7Military Branch
+# + pd120 - nicht verwendet
+# + pd121 - 1573CWEHL70142HL7Military Status
+# + pd122 - Zeitpunkt der letzten Prüfung der Patientenverfügung
 @hl7v2:SegmentDefinition {
     name: "PD1",
     required: false,
@@ -64,12 +61,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: -1,
             dataType: XON
-        },
-        "pd14": {
-            required: false,
-            length: 1,
-            maxReps: -1,
-            dataType: ST
         },
         "pd15": {
             required: false,
@@ -187,7 +178,6 @@ public type PD1 record {
     CWE[] pd11 = [{}];
     CWE pd12 = {};
     XON[] pd13 = [{}];
-    ST pd14 = "";
     CWE pd15 = {};
     CWE pd16 = {};
     CWE pd17 = {};

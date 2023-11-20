@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,37 +13,31 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pr11 - Segment Record Field
-# + pr12 - Segment Record Field
-# + pr13 - Segment Record Field
-# + pr14 - Segment Record Field
-# + pr15 - Segment Record Field
-# + pr16 - Segment Record Field
-# + pr17 - Segment Record Field
-# + pr18 - Segment Record Field
-# + pr19 - Segment Record Field
-# + pr110 - Segment Record Field
-# + pr111 - Segment Record Field
-# + pr112 - Segment Record Field
-# + pr113 - Segment Record Field
-# + pr114 - Segment Record Field
-# + pr115 - Segment Record Field
-# + pr116 - Segment Record Field
-# + pr117 - Segment Record Field
-# + pr118 - Segment Record Field
-# + pr119 - Segment Record Field
-# + pr120 - Segment Record Field
-# + pr121 - Segment Record Field
-# + pr122 - Segment Record Field
-# + pr123 - Segment Record Field
-# + pr124 - Segment Record Field
-# + pr125 - Segment Record Field
+# + pr11 - PR1-Segmentnummer
+# + pr13 - Maßnahmen- / Operationsschlüssel
+# + pr15 - Zeitpunkt der Maßnahme
+# + pr16 - Art der Maßnahme
+# + pr17 - Dauer der Maßnahme in Minuten
+# + pr19 - nicht verwendet (veraltet; PR1-3 benutzen)
+# + pr110 - nicht verwendet (veraltet; PR1-7 benutzen)
+# + pr113 - Zustimmung des Patienten
+# + pr114 - Priorität der Maßnahme
+# + pr115 - Zugehörige Diagnose
+# + pr116 - Modifikator zum Prozedurcode
+# + pr117 - Prioritätseinstufung für DRG
+# + pr118 - Art des entnommenen Gewebes
+# + pr119 - ID der Maßnahme
+# + pr120 - Maßnahme Aktionscode
+# + pr121 - Maßnahme bei DRG berücksichtigt
+# + pr122 - OP-relevante Maßnahme für DRG-Berechnung
+# + pr123 - 2371PLHL7Treating Organizational Unit
+# + pr124 - 2372IDHL70136HL7Respiratory Within Surgery
+# + pr125 - 2373EIHL7Parent Procedure ID
 @hl7v2:SegmentDefinition {
     name: "PR1",
     required: false,
@@ -56,23 +49,11 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: SI
         },
-        "pr12": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
         "pr13": {
             required: true,
             length: 1,
             maxReps: 1,
             dataType: CNE
-        },
-        "pr14": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "pr15": {
             required: true,
@@ -92,12 +73,6 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: NM
         },
-        "pr18": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
         "pr19": {
             required: false,
             length: 1,
@@ -109,18 +84,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: NM
-        },
-        "pr111": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
-        "pr112": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "pr113": {
             required: false,
@@ -206,17 +169,12 @@ public type PR1 record {
     *hl7v2:Segment;
     string name = PR1_SEGMENT_NAME;
     SI pr11 = "";
-    ST pr12 = "";
     CNE pr13 = {};
-    ST pr14 = "";
     DTM pr15 = "";
     CWE pr16 = {};
     NM pr17 = "";
-    ST pr18 = "";
     CWE pr19 = {};
     NM pr110 = "";
-    ST pr111 = "";
-    ST pr112 = "";
     CWE pr113 = {};
     NM pr114 = "";
     CWE pr115 = {};

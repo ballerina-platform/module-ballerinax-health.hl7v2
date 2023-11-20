@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + abs1 - Segment Record Field
-# + abs2 - Segment Record Field
-# + abs3 - Segment Record Field
-# + abs4 - Segment Record Field
-# + abs5 - Segment Record Field
-# + abs6 - Segment Record Field
-# + abs7 - Segment Record Field
-# + abs8 - Segment Record Field
-# + abs9 - Segment Record Field
-# + abs10 - Segment Record Field
-# + abs11 - Segment Record Field
-# + abs12 - Segment Record Field
-# + abs13 - Segment Record Field
-# + abs14 - Segment Record Field
+# + abs1 - Discharge Care Provider
+# + abs2 - Transfer Medical Service Code
+# + abs3 - Severity of Illness Code
+# + abs4 - Date/Time of Attestation
+# + abs5 - Attested By
+# + abs6 - Triage Code
+# + abs7 - Abstract Completion Date/Time
+# + abs8 - Abstracted By
+# + abs9 - Case Category Code
+# + abs10 - Caesarian Section Indicator
+# + abs11 - Gestation Category Code
+# + abs12 - Gestation Period - Weeks
+# + abs13 - Newborn Code
+# + abs14 - Stillborn Indicator
 @hl7v2:SegmentDefinition {
     name: "ABS",
     required: false,

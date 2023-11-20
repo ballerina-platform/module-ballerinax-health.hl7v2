@@ -13,31 +13,31 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const RCL_I06_MESSAGE_TYPE = "RCL_I06";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + qrd - Message Record Field
-# + qrf - Message Record Field
-# + pid - Message Record Field
-# + dg1 - Message Record Field
-# + drg - Message Record Field
-# + al1 - Message Record Field
-# + nte - Message Record Field
-# + dsp - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + qrd - QRD Segment
+# + qrf - QRF Segment
+# + pid - PID Segment
+# + dg1 - DG1 Segment
+# + drg - DRG Segment
+# + al1 - AL1 Segment
+# + nte - NTE Segment
+# + dsp - DSP Segment
+# + dsc - DSC Segment
+# + provider - RCL_I06_PROVIDER Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
-        "QRD": {name: "QRD", maxReps: 1, required: false, segmentType: QRD},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
+        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
         "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "DG1": {name: "DG1", maxReps: -1, required: false, segmentType: DG1},
         "DRG": {name: "DRG", maxReps: -1, required: false, segmentType: DRG},
         "AL1": {name: "AL1", maxReps: -1, required: false, segmentType: AL1},
@@ -45,19 +45,30 @@ public const RCL_I06_MESSAGE_TYPE = "RCL_I06";
         "DSP": {name: "DSP", maxReps: -1, required: false, segmentType: DSP},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
+    ,groups: {
+        "RCL_I06_PROVIDER": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "PRD": {name: "PRD", maxReps: 1, required: true, segmentType: typeof PRD},
+                "CTD": {name: "CTD", maxReps: -1, required: false, segmentType: typeof CTD}
+            }
+        }
+    }
 }
 public type RCL_I06 record {
     *hl7v2:Message;
     string name = RCL_I06_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
-    QRD qrd?;
+    MSH msh;
+    MSA msa;
+    QRD qrd;
     QRF qrf?;
-    PID pid?;
+    PID pid;
     DG1[] dg1 = [];
     DRG[] drg = [];
     AL1[] al1 = [];
     NTE[] nte = [];
     DSP[] dsp = [];
     DSC dsc?;
+    RCL_I06_PROVIDER[] provider = [{prd:{}}];
 };

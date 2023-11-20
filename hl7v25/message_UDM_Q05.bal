@@ -13,35 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const UDM_Q05_MESSAGE_TYPE = "UDM_Q05";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + urd - Message Record Field
-# + urs - Message Record Field
-# + dsp - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + urd - URD Segment
+# + urs - URS Segment
+# + dsp - DSP Segment
+# + dsc - DSC Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "URD": {name: "URD", maxReps: 1, required: false, segmentType: URD},
+        "URD": {name: "URD", maxReps: 1, required: true, segmentType: URD},
         "URS": {name: "URS", maxReps: 1, required: false, segmentType: URS},
-        "DSP": {name: "DSP", maxReps: -1, required: false, segmentType: DSP},
+        "DSP": {name: "DSP", maxReps: -1, required: true, segmentType: DSP},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
 }
 public type UDM_Q05 record {
     *hl7v2:Message;
     string name = UDM_Q05_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    URD urd?;
+    URD urd;
     URS urs?;
     DSP[] dsp = [];
     DSC dsc?;

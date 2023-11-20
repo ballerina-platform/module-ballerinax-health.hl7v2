@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,68 +13,66 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + gt11 - Segment Record Field
-# + gt12 - Segment Record Field
-# + gt13 - Segment Record Field
-# + gt14 - Segment Record Field
-# + gt15 - Segment Record Field
-# + gt16 - Segment Record Field
-# + gt17 - Segment Record Field
-# + gt18 - Segment Record Field
-# + gt19 - Segment Record Field
-# + gt110 - Segment Record Field
-# + gt111 - Segment Record Field
-# + gt112 - Segment Record Field
-# + gt113 - Segment Record Field
-# + gt114 - Segment Record Field
-# + gt115 - Segment Record Field
-# + gt116 - Segment Record Field
-# + gt117 - Segment Record Field
-# + gt118 - Segment Record Field
-# + gt119 - Segment Record Field
-# + gt120 - Segment Record Field
-# + gt121 - Segment Record Field
-# + gt122 - Segment Record Field
-# + gt123 - Segment Record Field
-# + gt124 - Segment Record Field
-# + gt125 - Segment Record Field
-# + gt126 - Segment Record Field
-# + gt127 - Segment Record Field
-# + gt128 - Segment Record Field
-# + gt129 - Segment Record Field
-# + gt130 - Segment Record Field
-# + gt131 - Segment Record Field
-# + gt132 - Segment Record Field
-# + gt133 - Segment Record Field
-# + gt134 - Segment Record Field
-# + gt135 - Segment Record Field
-# + gt136 - Segment Record Field
-# + gt137 - Segment Record Field
-# + gt138 - Segment Record Field
-# + gt139 - Segment Record Field
-# + gt140 - Segment Record Field
-# + gt141 - Segment Record Field
-# + gt142 - Segment Record Field
-# + gt143 - Segment Record Field
-# + gt144 - Segment Record Field
-# + gt145 - Segment Record Field
-# + gt146 - Segment Record Field
-# + gt147 - Segment Record Field
-# + gt148 - Segment Record Field
-# + gt149 - Segment Record Field
-# + gt150 - Segment Record Field
-# + gt151 - Segment Record Field
-# + gt152 - Segment Record Field
-# + gt153 - Segment Record Field
-# + gt154 - Segment Record Field
-# + gt155 - Segment Record Field
+# + gt11 - Set ID - Guarantor
+# + gt12 - Guarantor Number
+# + gt13 - Guarantor Name
+# + gt14 - Guarantor Spouse Name
+# + gt15 - Guarantor Address
+# + gt16 - Guarantor Ph Num- Home
+# + gt17 - Guarantor Ph Num-Business
+# + gt18 - Guarantor Date/Time of Birth
+# + gt19 - Guarantor Sex
+# + gt110 - Guarantor Type
+# + gt111 - Guarantor Relationship
+# + gt112 - Guarantor SSN
+# + gt113 - Guarantor Date - Begin
+# + gt114 - Guarantor Date - End
+# + gt115 - Guarantor Priority
+# + gt116 - Guarantor Employer Name
+# + gt117 - Guarantor Employer Address
+# + gt118 - Guarantor Employ Phone Number
+# + gt119 - Guarantor Employee ID Number
+# + gt120 - Guarantor Employment Status
+# + gt121 - Guarantor Organization
+# + gt122 - Guarantor Billing Hold Flag
+# + gt123 - Guarantor Credit Rating Code
+# + gt124 - Guarantor Death Date And Time
+# + gt125 - Guarantor Death Flag
+# + gt126 - Guarantor Charge Adjustment Code
+# + gt127 - Guarantor Household Annual Income
+# + gt128 - Guarantor Household Size
+# + gt129 - Guarantor Employer ID Number
+# + gt130 - Guarantor Marital Status Code
+# + gt131 - Guarantor Hire Effective Date
+# + gt132 - Employment Stop Date
+# + gt133 - Living Dependency
+# + gt134 - Ambulatory Status
+# + gt135 - Citizenship
+# + gt136 - Primary Language
+# + gt137 - Living Arrangement
+# + gt138 - Publicity Indicator
+# + gt139 - Protection Indicator
+# + gt140 - Student Indicator
+# + gt141 - Religion
+# + gt142 - Mother’s Maiden Name
+# + gt143 - Nationality Code
+# + gt144 - Ethnic Group
+# + gt145 - Contact Person's Name
+# + gt146 - Contact Person’s Telephone Number
+# + gt147 - Contact Reason
+# + gt148 - Contact Relationship Code
+# + gt149 - Job Title
+# + gt150 - Job Code/Class
+# + gt151 - Guarantor Employer's Organization Name
+# + gt152 - Handicap
+# + gt153 - Job Status
+# + gt154 - Guarantor Financial Class
+# + gt155 - Guarantor Race
 @hl7v2:SegmentDefinition {
     name: "GT1",
     required: false,
@@ -416,7 +413,7 @@ import ballerinax/health.hl7v2;
 public type GT1 record {
     *hl7v2:Segment;
     string name = GT1_SEGMENT_NAME;
-    SI gt11 = -1;
+    SI gt11 = "";
     CX[] gt12 = [{}];
     XPN[] gt13 = [{}];
     XPN[] gt14 = [{}];
@@ -430,7 +427,7 @@ public type GT1 record {
     ST gt112 = "";
     DT gt113 = "";
     DT gt114 = "";
-    NM gt115 = -1;
+    NM gt115 = "";
     XPN[] gt116 = [{}];
     XAD[] gt117 = [{}];
     XTN[] gt118 = [{}];
@@ -443,7 +440,7 @@ public type GT1 record {
     ID gt125 = "";
     CE gt126 = {};
     CP gt127 = {};
-    NM gt128 = -1;
+    NM gt128 = "";
     CX[] gt129 = [{}];
     IS gt130 = "";
     DT gt131 = "";

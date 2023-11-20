@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cm_pta1 - Data type field
-# + cm_pta2 - Data type field
-# + cm_pta3 - Data type field
+# + cm_pta1 - policy type
+# + cm_pta2 - amount class
+# + cm_pta3 - amount
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -30,5 +30,5 @@ public type CM_PTA record {
     *hl7v2:CompositeType;
     IS cm_pta1 = "";
     IS cm_pta2 = "";
-    NM cm_pta3 = -1;
+    NM cm_pta3 = "";
 };

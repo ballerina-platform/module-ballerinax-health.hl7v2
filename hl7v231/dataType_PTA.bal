@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + pta1 - Data type field
-# + pta2 - Data type field
-# + pta3 - Data type field
+# + pta1 - policy type
+# + pta2 - amount class
+# + pta3 - amount
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

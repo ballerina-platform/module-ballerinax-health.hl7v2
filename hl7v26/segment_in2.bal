@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,84 +13,83 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + in21 - Segment Record Field
-# + in22 - Segment Record Field
-# + in23 - Segment Record Field
-# + in24 - Segment Record Field
-# + in25 - Segment Record Field
-# + in26 - Segment Record Field
-# + in27 - Segment Record Field
-# + in28 - Segment Record Field
-# + in29 - Segment Record Field
-# + in210 - Segment Record Field
-# + in211 - Segment Record Field
-# + in212 - Segment Record Field
-# + in213 - Segment Record Field
-# + in214 - Segment Record Field
-# + in215 - Segment Record Field
-# + in216 - Segment Record Field
-# + in217 - Segment Record Field
-# + in218 - Segment Record Field
-# + in219 - Segment Record Field
-# + in220 - Segment Record Field
-# + in221 - Segment Record Field
-# + in222 - Segment Record Field
-# + in223 - Segment Record Field
-# + in224 - Segment Record Field
-# + in225 - Segment Record Field
-# + in226 - Segment Record Field
-# + in227 - Segment Record Field
-# + in228 - Segment Record Field
-# + in229 - Segment Record Field
-# + in230 - Segment Record Field
-# + in231 - Segment Record Field
-# + in232 - Segment Record Field
-# + in233 - Segment Record Field
-# + in234 - Segment Record Field
-# + in235 - Segment Record Field
-# + in236 - Segment Record Field
-# + in237 - Segment Record Field
-# + in238 - Segment Record Field
-# + in239 - Segment Record Field
-# + in240 - Segment Record Field
-# + in241 - Segment Record Field
-# + in242 - Segment Record Field
-# + in243 - Segment Record Field
-# + in244 - Segment Record Field
-# + in245 - Segment Record Field
-# + in246 - Segment Record Field
-# + in247 - Segment Record Field
-# + in248 - Segment Record Field
-# + in249 - Segment Record Field
-# + in250 - Segment Record Field
-# + in251 - Segment Record Field
-# + in252 - Segment Record Field
-# + in253 - Segment Record Field
-# + in254 - Segment Record Field
-# + in255 - Segment Record Field
-# + in256 - Segment Record Field
-# + in257 - Segment Record Field
-# + in258 - Segment Record Field
-# + in259 - Segment Record Field
-# + in260 - Segment Record Field
-# + in261 - Segment Record Field
-# + in262 - Segment Record Field
-# + in263 - Segment Record Field
-# + in264 - Segment Record Field
-# + in265 - Segment Record Field
-# + in266 - Segment Record Field
-# + in267 - Segment Record Field
-# + in268 - Segment Record Field
-# + in269 - Segment Record Field
-# + in270 - Segment Record Field
-# + in271 - Segment Record Field
-# + in272 - Segment Record Field
+# + in21 - Personalnummer des Versicherungsnehmers
+# + in22 - Sozialversicherungsnummer des Versicherungsnehmers
+# + in23 - Arbeitgeber des Versicherten
+# + in24 - nicht verwendet
+# + in25 - Rechnungsempfänger
+# + in26 - nicht mehr verwendet (s. IN1-49)
+# + in27 - nicht verwendet
+# + in28 - nicht verwendet
+# + in29 - nicht verwendet
+# + in210 - nicht verwendet
+# + in211 - nicht verwendet
+# + in212 - nicht verwendet
+# + in213 - nicht verwendet
+# + in214 - nicht verwendet
+# + in215 - nicht verwendet
+# + in216 - nicht verwendet
+# + in217 - nicht verwendet
+# + in218 - nicht verwendet
+# + in219 - Kosten für Baby im Tagessatz enthalten
+# + in220 - Kosten für Baby auf gleicher Rechnung
+# + in221 - nicht verwendet
+# + in222 - Person, die spezielle Kostenübernahmezusage erteilt
+# + in223 - Titel dieser Person
+# + in224 - Grund für Leistungsausschluß
+# + in225 - nicht verwendet
+# + in226 - nicht verwendet
+# + in227 - Quelle der Kostenträgerangaben
+# + in228 - Zimmertyp / Von der Versicherung getragener Kostenanteil
+# + in229 - Art und Umfang der Versicherung
+# + in230 - Verringerung des Erstattungsbetrages nach Tagen
+# + in231 - Besondere Lebensabhängigkeiten
+# + in232 - Mobilitätsstatus
+# + in233 - Länderkennzeichen / Staatsangehörigkeit
+# + in234 - Muttersprache
+# + in235 - Besondere Lebensumstände
+# + in236 - Auskunftsbeschränkung
+# + in237 - Merkmal Vertrauensschutz
+# + in238 - Studentenstatus
+# + in239 - Religion
+# + in240 - veraltet; korrespondierendes Namensfeld verwenden
+# + in241 - Nationalität
+# + in242 - Ethnische Zugehörigkeit
+# + in243 - Familienstand
+# + in244 - nicht verwendet
+# + in245 - Endzeitpunkt des Arbeitsverhältnisses des Zahlungspflichtigen
+# + in246 - Dienststellung
+# + in247 - Berufsgruppe
+# + in248 - Beruflicher Status
+# + in249 - Name Kontaktperson Arbeitgeber
+# + in250 - Telefonnummer Kontaktperson Arbeitgeber
+# + in251 - Grund Kontaktaufnahme mit Arbeitgeber
+# + in252 - Name Kontaktperson Versicherter
+# + in253 - Telefonnummer Kontaktperson Versicherter
+# + in254 - Grund Kontaktaufnahme mit Versicherten
+# + in255 - Beziehung zum Patienten: gültig ab
+# + in256 - Beziehung zum Patienten: gültig bis
+# + in257 - Grund Kontaktaufnahme mit Versicherung
+# + in258 - Telefonnummer Versicherung
+# + in259 - Versicherungsumfang
+# + in260 - Informationsquelle Versicherungspolice
+# + in261 - Mitgliedsnummer
+# + in262 - Beziehung Zahlungspflichtiger zum Versicherten
+# + in263 - private Telefonnummer des Versicherten
+# + in264 - Telefonnummer des Arbeitgebers des Versicherter
+# + in265 - nicht verwendet
+# + in266 - Merkmal Zahlungsaussetzung
+# + in267 - Merkmal Zuzahlungslimit erreicht
+# + in268 - nicht verwendet
+# + in269 - Bezeichnung und ID der versicherten Organisation
+# + in270 - Bezeichnung und ID der Organisation des Arbeitgebers
+# + in271 - Rasse
+# + in272 - Beziehung des Patienten zum Versicherten
 @hl7v2:SegmentDefinition {
     name: "IN2",
     required: false,

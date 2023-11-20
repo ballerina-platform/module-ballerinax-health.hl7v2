@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + srt1 - Data type field
-# + srt2 - Data type field
+# + srt1 - sort-by field
+# + srt2 - sequencing
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + spd1 - Data type field
-# + spd2 - Data type field
-# + spd3 - Data type field
-# + spd4 - Data type field
+# + spd1 - specialty name
+# + spd2 - governing board
+# + spd3 - eligible or certified
+# + spd4 - date of certification
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

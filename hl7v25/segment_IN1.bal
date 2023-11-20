@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,65 +13,64 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + in11 - Segment Record Field
-# + in12 - Segment Record Field
-# + in13 - Segment Record Field
-# + in14 - Segment Record Field
-# + in15 - Segment Record Field
-# + in16 - Segment Record Field
-# + in17 - Segment Record Field
-# + in18 - Segment Record Field
-# + in19 - Segment Record Field
-# + in110 - Segment Record Field
-# + in111 - Segment Record Field
-# + in112 - Segment Record Field
-# + in113 - Segment Record Field
-# + in114 - Segment Record Field
-# + in115 - Segment Record Field
-# + in116 - Segment Record Field
-# + in117 - Segment Record Field
-# + in118 - Segment Record Field
-# + in119 - Segment Record Field
-# + in120 - Segment Record Field
-# + in121 - Segment Record Field
-# + in122 - Segment Record Field
-# + in123 - Segment Record Field
-# + in124 - Segment Record Field
-# + in125 - Segment Record Field
-# + in126 - Segment Record Field
-# + in127 - Segment Record Field
-# + in128 - Segment Record Field
-# + in129 - Segment Record Field
-# + in130 - Segment Record Field
-# + in131 - Segment Record Field
-# + in132 - Segment Record Field
-# + in133 - Segment Record Field
-# + in134 - Segment Record Field
-# + in135 - Segment Record Field
-# + in136 - Segment Record Field
-# + in137 - Segment Record Field
-# + in138 - Segment Record Field
-# + in139 - Segment Record Field
-# + in140 - Segment Record Field
-# + in141 - Segment Record Field
-# + in142 - Segment Record Field
-# + in143 - Segment Record Field
-# + in144 - Segment Record Field
-# + in145 - Segment Record Field
-# + in146 - Segment Record Field
-# + in147 - Segment Record Field
-# + in148 - Segment Record Field
-# + in149 - Segment Record Field
-# + in150 - Segment Record Field
-# + in151 - Segment Record Field
-# + in152 - Segment Record Field
-# + in153 - Segment Record Field
+# + in11 - Set ID - IN1
+# + in12 - Insurance Plan ID
+# + in13 - Insurance Company ID
+# + in14 - Insurance Company Name
+# + in15 - Insurance Company Address
+# + in16 - Insurance Co Contact Person
+# + in17 - Insurance Co Phone Number
+# + in18 - Group Number
+# + in19 - Group Name
+# + in110 - Insured's Group Emp ID
+# + in111 - Insured's Group Emp Name
+# + in112 - Plan Effective Date
+# + in113 - Plan Expiration Date
+# + in114 - Authorization Information
+# + in115 - Plan Type
+# + in116 - Name Of Insured
+# + in117 - Insured's Relationship To Patient
+# + in118 - Insured's Date Of Birth
+# + in119 - Insured's Address
+# + in120 - Assignment Of Benefits
+# + in121 - Coordination Of Benefits
+# + in122 - Coord Of Ben. Priority
+# + in123 - Notice Of Admission Flag
+# + in124 - Notice Of Admission Date
+# + in125 - Report Of Eligibility Flag
+# + in126 - Report Of Eligibility Date
+# + in127 - Release Information Code
+# + in128 - Pre-Admit Cert (PAC)
+# + in129 - Verification Date/Time
+# + in130 - Verification By
+# + in131 - Type Of Agreement Code
+# + in132 - Billing Status
+# + in133 - Lifetime Reserve Days
+# + in134 - Delay Before L.R. Day
+# + in135 - Company Plan Code
+# + in136 - Policy Number
+# + in137 - Policy Deductible
+# + in138 - Policy Limit - Amount
+# + in139 - Policy Limit - Days
+# + in140 - Room Rate - Semi-Private
+# + in141 - Room Rate - Private
+# + in142 - Insured's Employment Status
+# + in143 - Insured's Administrative Sex
+# + in144 - Insured's Employer's Address
+# + in145 - Verification Status
+# + in146 - Prior Insurance Plan ID
+# + in147 - Coverage Type
+# + in148 - Handicap
+# + in149 - Insured's ID Number
+# + in150 - Signature Code
+# + in151 - Signature Code Date
+# + in152 - Insured_s Birth Place
+# + in153 - VIP Indicator
 @hl7v2:SegmentDefinition {
     name: "IN1",
     required: false,

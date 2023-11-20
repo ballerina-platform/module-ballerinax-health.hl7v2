@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,20 +13,19 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pac1 - Segment Record Field
-# + pac2 - Segment Record Field
-# + pac3 - Segment Record Field
-# + pac4 - Segment Record Field
-# + pac5 - Segment Record Field
-# + pac6 - Segment Record Field
-# + pac7 - Segment Record Field
-# + pac8 - Segment Record Field
+# + pac1 - 2350SIHL7Set Id - PAC
+# + pac2 - 2351EIHL7Package ID
+# + pac3 - 2352EIHL7Parent Package ID
+# + pac4 - 2353NAHL7Position in Parent Package
+# + pac5 - 2354CWEHL70908HL7Package Type
+# + pac6 - 2355CWEHL70544HL7Package Condition
+# + pac7 - 2356CWEHL70376HL7Package Handling Code
+# + pac8 - 2357CWEHL70489HL7Package Risk Code
 @hl7v2:SegmentDefinition {
     name: "PAC",
     required: false,

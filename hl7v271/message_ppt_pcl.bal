@@ -13,40 +13,38 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const PPT_PCL_MESSAGE_TYPE = "PPT_PCL";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + qak - Message Record Field
-# + qrd - Message Record Field
-# + patient - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + qak - QAK Segment
+# + qrd - QRD Segment
+# + patient - PPT_PCL_PATIENT Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
         "QAK": {name: "QAK", maxReps: 1, required: false, segmentType: QAK},
-        "QRD": {name: "QRD", maxReps: 1, required: false, segmentType: QRD}
+        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD}
     }
     ,groups: {
-        "PATIENT": {
+        "PPT_PCL_PATIENT": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "PID": {name: "PID", maxReps: 1, required: false, segmentType: typeof PID},
-                "PATIENT_VISIT": {name: "PATIENT_VISIT", maxReps: 1, required: false, segmentType: typeof PATIENT_VISIT},
-                "PATHWAY": {name: "PATHWAY", maxReps: -1, required: false, segmentType: typeof PATHWAY}
+                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
+                "PPT_PCL_PATIENT_VISIT": {name: "PPT_PCL_PATIENT_VISIT", maxReps: 1, required: false, segmentType: typeof PPT_PCL_PATIENT_VISIT},
+                "PPT_PCL_PATHWAY": {name: "PPT_PCL_PATHWAY", maxReps: -1, required: true, segmentType: typeof PPT_PCL_PATHWAY}
             }
         }
     }
@@ -54,12 +52,12 @@ public const PPT_PCL_MESSAGE_TYPE = "PPT_PCL";
 public type PPT_PCL record {
     *hl7v2:Message;
     string name = PPT_PCL_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    MSA msa?;
+    MSA msa;
     ERR[] err = [];
     QAK qak?;
-    QRD qrd?;
-    PATIENT[] patient = [{}];
+    QRD qrd;
+    PPT_PCL_PATIENT[] patient = [{pid:{}}];
 };

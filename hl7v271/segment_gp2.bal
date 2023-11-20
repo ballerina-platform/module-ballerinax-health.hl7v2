@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + gp21 - Segment Record Field
-# + gp22 - Segment Record Field
-# + gp23 - Segment Record Field
-# + gp24 - Segment Record Field
-# + gp25 - Segment Record Field
-# + gp26 - Segment Record Field
-# + gp27 - Segment Record Field
-# + gp28 - Segment Record Field
-# + gp29 - Segment Record Field
-# + gp210 - Segment Record Field
-# + gp211 - Segment Record Field
-# + gp212 - Segment Record Field
-# + gp213 - Segment Record Field
-# + gp214 - Segment Record Field
+# + gp21 - 1600CWEHL70456HL7Revenue Code
+# + gp22 - 1604NMHL7Number of Service Units
+# + gp23 - 1605CPHL7Charge
+# + gp24 - 1606CWEHL70459HL7Reimbursement Action Code
+# + gp25 - 1607CWEHL70460HL7Denial or Rejection Code
+# + gp26 - 1608CWEHL70458HL7OCE Edit Code
+# + gp27 - 1609CWEHL70466HL7Ambulatory Payment Classification Code
+# + gp28 - 1610CWEHL70467HL7Modifier Edit Code
+# + gp29 - 1611CWEHL70468HL7Payment Adjustment Code
+# + gp210 - 1617CWEHL70469HL7Packaging Status Code
+# + gp211 - 1618CPHL7Expected CMS Payment Amount
+# + gp212 - 1619CWEHL70470HL7Reimbursement Type Code
+# + gp213 - 1620CPHL7Co-Pay Amount
+# + gp214 - 1621NMHL7Pay Rate per Service Unit
 @hl7v2:SegmentDefinition {
     name: "GP2",
     required: false,

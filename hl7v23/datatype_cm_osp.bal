@@ -16,12 +16,11 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_osp1 - Data type field
-# + cm_osp2 - Data type field
-# + cm_osp3 - Data type field
+# + cm_osp1 - occurrence span code
+# + cm_osp2 - occurrence span start date
+# + cm_osp3 - occurrence span stop date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,55 +13,54 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + sac1 - Segment Record Field
-# + sac2 - Segment Record Field
-# + sac3 - Segment Record Field
-# + sac4 - Segment Record Field
-# + sac5 - Segment Record Field
-# + sac7 - Segment Record Field
-# + sac8 - Segment Record Field
-# + sac9 - Segment Record Field
-# + sac10 - Segment Record Field
-# + sac11 - Segment Record Field
-# + sac12 - Segment Record Field
-# + sac13 - Segment Record Field
-# + sac14 - Segment Record Field
-# + sac15 - Segment Record Field
-# + sac16 - Segment Record Field
-# + sac17 - Segment Record Field
-# + sac18 - Segment Record Field
-# + sac19 - Segment Record Field
-# + sac20 - Segment Record Field
-# + sac21 - Segment Record Field
-# + sac22 - Segment Record Field
-# + sac23 - Segment Record Field
-# + sac24 - Segment Record Field
-# + sac25 - Segment Record Field
-# + sac26 - Segment Record Field
-# + sac27 - Segment Record Field
-# + sac28 - Segment Record Field
-# + sac29 - Segment Record Field
-# + sac30 - Segment Record Field
-# + sac31 - Segment Record Field
-# + sac32 - Segment Record Field
-# + sac33 - Segment Record Field
-# + sac34 - Segment Record Field
-# + sac35 - Segment Record Field
-# + sac36 - Segment Record Field
-# + sac37 - Segment Record Field
-# + sac38 - Segment Record Field
-# + sac39 - Segment Record Field
-# + sac40 - Segment Record Field
-# + sac41 - Segment Record Field
-# + sac42 - Segment Record Field
-# + sac43 - Segment Record Field
-# + sac44 - Segment Record Field
+# + sac1 - Auftrags-ID des externen Labors
+# + sac2 - Auftrags-ID des Labors
+# + sac3 - ID des Probengefässes
+# + sac4 - ID des Primarprobengefässes
+# + sac5 - Gerätespezifische ID des Probengefässes
+# + sac7 - Zeitpunkt der Registrierung
+# + sac8 - Status des Probengefässes
+# + sac9 - Art des Trägers
+# + sac10 - ID des Trägers
+# + sac11 - Probenposition im Träger
+# + sac12 - Art des Trays
+# + sac13 - ID des Trays
+# + sac14 - Position des Trägers im Tray
+# + sac15 - Aufenthaltsort der Probe
+# + sac16 - Höhe des Probengefässes
+# + sac17 - Durchmesser des Probengefässes
+# + sac18 - Abstand des Probenseparators
+# + sac19 - Abstand zum Boden des Probengefässes
+# + sac20 - Einheiten der Probengefässabmessungen
+# + sac21 - Probengefäßvolumen
+# + sac22 - verfügbares Probenvolumen
+# + sac23 - Ursprüngliches Probenvolumen
+# + sac24 - Einheit der Volumenangabe
+# + sac25 - Art des Separators
+# + sac26 - Verschlusstyp
+# + sac27 - Zusätze
+# + sac28 - Probenbestandteil
+# + sac29 - Verdünnungsfaktor
+# + sac30 - Probenvorbehandlung
+# + sac31 - Probentemperatur
+# + sac32 - Hämolyseindex
+# + sac33 - Einheit des Hämolyseindexes
+# + sac34 - Lipämischer Index
+# + sac35 - Einheit des lipämischen Indexes
+# + sac36 - Ikterischer Index
+# + sac37 - Einheit des ikterischen Indexes
+# + sac38 - Fibrin Index
+# + sac39 - Einheit des Fibrin Indexes
+# + sac40 - Systembedingte Probenverunreinigung
+# + sac41 - Medikamentenbedingte Einflüsse auf die Probe
+# + sac42 - Blutersatz
+# + sac43 - Hinweise zur Vorbehandlung der Probe
+# + sac44 - Sonstige Umgebungsbedingungen
 @hl7v2:SegmentDefinition {
     name: "SAC",
     required: false,

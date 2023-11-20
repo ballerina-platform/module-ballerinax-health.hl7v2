@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,16 +13,14 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + bts1 - Segment Record Field
-# + bts2 - Segment Record Field
-# + bts3 - Segment Record Field
+# + bts1 - Batch Message Count
+# + bts2 - Batch Comment
+# + bts3 - Batch Totals
 @hl7v2:SegmentDefinition {
     name: "BTS",
     required: false,
@@ -54,7 +51,7 @@ public type BTS record {
     string name = BTS_SEGMENT_NAME;
     ST bts1 = "";
     ST bts2 = "";
-    NM[] bts3 = [-1];
+    NM[] bts3 = [""];
 };
 
 public const BTS_SEGMENT_NAME = "BTS";

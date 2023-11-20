@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,62 +13,61 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pv21 - Segment Record Field
-# + pv22 - Segment Record Field
-# + pv23 - Segment Record Field
-# + pv24 - Segment Record Field
-# + pv25 - Segment Record Field
-# + pv26 - Segment Record Field
-# + pv27 - Segment Record Field
-# + pv28 - Segment Record Field
-# + pv29 - Segment Record Field
-# + pv210 - Segment Record Field
-# + pv211 - Segment Record Field
-# + pv212 - Segment Record Field
-# + pv213 - Segment Record Field
-# + pv214 - Segment Record Field
-# + pv215 - Segment Record Field
-# + pv216 - Segment Record Field
-# + pv217 - Segment Record Field
-# + pv218 - Segment Record Field
-# + pv219 - Segment Record Field
-# + pv220 - Segment Record Field
-# + pv221 - Segment Record Field
-# + pv222 - Segment Record Field
-# + pv223 - Segment Record Field
-# + pv224 - Segment Record Field
-# + pv225 - Segment Record Field
-# + pv226 - Segment Record Field
-# + pv227 - Segment Record Field
-# + pv228 - Segment Record Field
-# + pv229 - Segment Record Field
-# + pv230 - Segment Record Field
-# + pv231 - Segment Record Field
-# + pv232 - Segment Record Field
-# + pv233 - Segment Record Field
-# + pv234 - Segment Record Field
-# + pv235 - Segment Record Field
-# + pv236 - Segment Record Field
-# + pv237 - Segment Record Field
-# + pv238 - Segment Record Field
-# + pv239 - Segment Record Field
-# + pv240 - Segment Record Field
-# + pv241 - Segment Record Field
-# + pv242 - Segment Record Field
-# + pv243 - Segment Record Field
-# + pv244 - Segment Record Field
-# + pv245 - Segment Record Field
-# + pv246 - Segment Record Field
-# + pv247 - Segment Record Field
-# + pv248 - Segment Record Field
-# + pv249 - Segment Record Field
-# + pv250 - Segment Record Field
+# + pv21 - Vorheriger vorgesehener Aufenthaltsort
+# + pv22 - Unterbringungsart
+# + pv23 - Aufnahmegrund (Schlüssel 1 GSG)
+# + pv24 - Verlegungsgrund
+# + pv25 - Wertgegenstände des Patienten
+# + pv26 - Aufbewahrungsort der Wertgegenstände
+# + pv27 - Zusätzliche Fallkategorisierung
+# + pv28 - Voraussichtlicher Aufnahmezeitpunkt
+# + pv29 - Voraussichtlicher Entlassungszeitpunkt
+# + pv210 - Voraussichtliche Dauer des stationären Aufenthaltes
+# + pv211 - Tatsächliche Dauer des stationären Aufenthaltes
+# + pv212 - Fallbeschreibung
+# + pv213 - Überweisende Einrichtung
+# + pv214 - Datum der letzten Behandlung aus demselben Grund
+# + pv215 - Merkmal berufsbedingte Krankheit
+# + pv216 - Buchungsabschlußcode (??)
+# + pv217 - Buchungsabschlußdatum
+# + pv218 - Codes für spezielle Gesundheitsprogramme
+# + pv219 - nicht verwendet
+# + pv220 - nicht verwendet
+# + pv221 - Auskunftsbeschränkung
+# + pv222 - Merkmal besonderer Vertrauensschutz
+# + pv223 - Mitbehandelnde Leistungstelle
+# + pv224 - Fallstatus
+# + pv225 - nicht verwendet (s. PV1-4 Admission Type)
+# + pv226 - Datum der letzten Behandlung
+# + pv227 - Erwartete Entlassungsart
+# + pv228 - nicht verwendet (s. ZAR-4 und ZAR-5)
+# + pv229 - Datum erster ähnlicher Erkrankung
+# + pv230 - Sonderkonditionen für Patienten
+# + pv231 - Fortlaufende Behandlung
+# + pv232 - Merkmal Rechnung nicht über (elektronisch) Datenaustausch
+# + pv233 - Vorgesehener Zeitpunkt eines (operativen) Eingriffs
+# + pv234 - nicht verwendet
+# + pv235 - nicht verwendet
+# + pv236 - Merkmal Neugeborenes
+# + pv237 - Merkmal Weiterbehandlung des Neugeborenen
+# + pv238 - Transportart bei Ankunft
+# + pv239 - Drogengebrauch
+# + pv240 - Charakterisierung des Krankheitszustandes
+# + pv241 - Hinweise für Vorsichtsmaßnahmen
+# + pv242 - Zustand des Patienten
+# + pv243 - letzter Wille
+# + pv244 - Einwilligung zur Organspende
+# + pv245 - Verfügung des Patienten
+# + pv246 - Gültigkeitsdatum für Fallstatus
+# + pv247 - erwarteter Rückkehrzeitpunkt bei Abwesenheit
+# + pv248 - erwarteter Zeitpunkt der Voruntersuchungen
+# + pv249 - Benachrichtigung Geistlicher
+# + pv250 - Zeitpunkt der letzten Prüfung der Patientenverfügung
 @hl7v2:SegmentDefinition {
     name: "PV2",
     required: false,

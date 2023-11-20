@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,29 +13,27 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + csr1 - Segment Record Field
-# + csr2 - Segment Record Field
-# + csr3 - Segment Record Field
-# + csr4 - Segment Record Field
-# + csr5 - Segment Record Field
-# + csr6 - Segment Record Field
-# + csr7 - Segment Record Field
-# + csr8 - Segment Record Field
-# + csr9 - Segment Record Field
-# + csr10 - Segment Record Field
-# + csr11 - Segment Record Field
-# + csr12 - Segment Record Field
-# + csr13 - Segment Record Field
-# + csr14 - Segment Record Field
-# + csr15 - Segment Record Field
-# + csr16 - Segment Record Field
+# + csr1 - Sponsor Study ID
+# + csr2 - Alternate Study ID
+# + csr3 - Institution Registering the Patient
+# + csr4 - Sponsor Patient ID
+# + csr5 - Alternate Patient ID
+# + csr6 - Date/Time of Patient Study Registration
+# + csr7 - Person Performing Study Registration
+# + csr8 - Study Authorizing Provider
+# + csr9 - Date/time Patient Study Consent Signed
+# + csr10 - Patient Study Eligibility Status
+# + csr11 - Study Randomization Date/time
+# + csr12 - Study Randomized Arm
+# + csr13 - Stratum for Study Randomization
+# + csr14 - Patient Evaluability Status
+# + csr15 - Date/time Ended Study
+# + csr16 - Reason Ended Study
 @hl7v2:SegmentDefinition {
     name: "CSR",
     required: false,

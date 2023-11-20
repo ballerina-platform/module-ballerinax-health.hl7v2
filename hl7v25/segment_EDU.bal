@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,21 +13,20 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + edu1 - Segment Record Field
-# + edu2 - Segment Record Field
-# + edu3 - Segment Record Field
-# + edu4 - Segment Record Field
-# + edu5 - Segment Record Field
-# + edu6 - Segment Record Field
-# + edu7 - Segment Record Field
-# + edu8 - Segment Record Field
-# + edu9 - Segment Record Field
+# + edu1 - Set ID _ EDU
+# + edu2 - Academic Degree
+# + edu3 - Academic Degree Program Date Range
+# + edu4 - Academic Degree Program Participation Date Range
+# + edu5 - Academic Degree Granted Date
+# + edu6 - School
+# + edu7 - School Type Code
+# + edu8 - School Address
+# + edu9 - Major Field of Study
 @hl7v2:SegmentDefinition {
     name: "EDU",
     required: false,

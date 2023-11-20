@@ -18,11 +18,11 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + fn1 - Data type field
-# + fn2 - Data type field
-# + fn3 - Data type field
-# + fn4 - Data type field
-# + fn5 - Data type field
+# + fn1 - surname
+# + fn2 - own surname prefix
+# + fn3 - own surname
+# + fn4 - surname prefix from partner/spouse
+# + fn5 - surname from partner/spouse
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

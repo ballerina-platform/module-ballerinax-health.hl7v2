@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,19 +13,18 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + sdd1 - Segment Record Field
-# + sdd2 - Segment Record Field
-# + sdd3 - Segment Record Field
-# + sdd4 - Segment Record Field
-# + sdd5 - Segment Record Field
-# + sdd6 - Segment Record Field
-# + sdd7 - Segment Record Field
+# + sdd1 - 2098EIHL7Lot Number
+# + sdd2 - Geräteidentifikation
+# + sdd3 - Gerätebezeichnung
+# + sdd4 - 2100ISHL70667HL7Device Data State
+# + sdd5 - 2101ISHL70669HL7Load Status
+# + sdd6 - 2102NMHL7Control Code
+# + sdd7 - 2103STHL7Operator Name
 @hl7v2:SegmentDefinition {
     name: "SDD",
     required: false,

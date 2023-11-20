@@ -13,37 +13,59 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const MDM_T02_MESSAGE_TYPE = "MDM_T02";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + evn - Message Record Field
-# + pid - Message Record Field
-# + pv1 - Message Record Field
-# + txa - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + evn - EVN Segment
+# + pid - PID Segment
+# + pv1 - PV1 Segment
+# + txa - TXA Segment
+# + common_order - MDM_T02_COMMON_ORDER Segment Group
+# + obxnte_suppgrp - MDM_T02_OBXNTE_SUPPGRP Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
-        "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: PV1},
-        "TXA": {name: "TXA", maxReps: 1, required: false, segmentType: TXA}
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
+        "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: PV1},
+        "TXA": {name: "TXA", maxReps: 1, required: true, segmentType: TXA}
+    }
+    ,groups: {
+        "MDM_T02_COMMON_ORDER": {
+            maxReps: -1,
+            required: false,
+            segments: {
+                "ORC": {name: "ORC", maxReps: 1, required: true, segmentType: typeof ORC},
+                "MDM_T02_TIMING": {name: "MDM_T02_TIMING", maxReps: -1, required: false, segmentType: typeof MDM_T02_TIMING},
+                "OBR": {name: "OBR", maxReps: 1, required: true, segmentType: typeof OBR},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE}
+            }
+        },
+        "MDM_T02_OBXNTE_SUPPGRP": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "OBX": {name: "OBX", maxReps: 1, required: true, segmentType: typeof OBX},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE}
+            }
+        }
     }
 }
 public type MDM_T02 record {
     *hl7v2:Message;
     string name = MDM_T02_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    EVN evn?;
-    PID pid?;
-    PV1 pv1?;
-    TXA txa?;
+    EVN evn;
+    PID pid;
+    PV1 pv1;
+    TXA txa;
+    MDM_T02_COMMON_ORDER[] common_order = [{orc:{}, obr:{}}];
+    MDM_T02_OBXNTE_SUPPGRP[] obxnte_suppgrp = [{obx:{}}];
 };

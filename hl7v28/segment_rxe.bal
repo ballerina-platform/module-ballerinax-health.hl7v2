@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,68 +13,59 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rxe1 - Segment Record Field
-# + rxe2 - Segment Record Field
-# + rxe3 - Segment Record Field
-# + rxe4 - Segment Record Field
-# + rxe5 - Segment Record Field
-# + rxe6 - Segment Record Field
-# + rxe7 - Segment Record Field
-# + rxe8 - Segment Record Field
-# + rxe9 - Segment Record Field
-# + rxe10 - Segment Record Field
-# + rxe11 - Segment Record Field
-# + rxe12 - Segment Record Field
-# + rxe13 - Segment Record Field
-# + rxe14 - Segment Record Field
-# + rxe15 - Segment Record Field
-# + rxe16 - Segment Record Field
-# + rxe17 - Segment Record Field
-# + rxe18 - Segment Record Field
-# + rxe19 - Segment Record Field
-# + rxe20 - Segment Record Field
-# + rxe21 - Segment Record Field
-# + rxe22 - Segment Record Field
-# + rxe23 - Segment Record Field
-# + rxe24 - Segment Record Field
-# + rxe25 - Segment Record Field
-# + rxe26 - Segment Record Field
-# + rxe27 - Segment Record Field
-# + rxe28 - Segment Record Field
-# + rxe29 - Segment Record Field
-# + rxe30 - Segment Record Field
-# + rxe31 - Segment Record Field
-# + rxe32 - Segment Record Field
-# + rxe33 - Segment Record Field
-# + rxe34 - Segment Record Field
-# + rxe35 - Segment Record Field
-# + rxe36 - Segment Record Field
-# + rxe37 - Segment Record Field
-# + rxe38 - Segment Record Field
-# + rxe39 - Segment Record Field
-# + rxe40 - Segment Record Field
-# + rxe41 - Segment Record Field
-# + rxe42 - Segment Record Field
-# + rxe43 - Segment Record Field
-# + rxe44 - Segment Record Field
-# + rxe45 - Segment Record Field
+# + rxe2 - Verordnetes Medikament / Wirkstoff (Apotheke)
+# + rxe3 - Verordnete (Mindest-) Dosis (Apotheke)
+# + rxe4 - Verordnete Höchstdosis (Apotheke)
+# + rxe5 - Maßeinheit (Apotheke)
+# + rxe6 - Verordnete Verabreichungsform (Apotheke)
+# + rxe7 - Verabreichungsanweisungen
+# + rxe9 - Art der Substitution
+# + rxe10 - Abgabemenge
+# + rxe11 - Abgabeeinheit
+# + rxe12 - Anzahl wiederholter Abgaben wie verordnet
+# + rxe13 - Arztnummer des Verordnenden bei der DEA
+# + rxe14 - Kennzeichen und Name des prüfenden Apothekers
+# + rxe15 - Rezeptnummer
+# + rxe16 - Anzahl verbleibender Abgaben
+# + rxe17 - Anzahl erfolgter Abgaben
+# + rxe18 - Zeitpunkt der letzten Abgabe
+# + rxe19 - Tägliche Gesamtdosis
+# + rxe20 - Besondere Anweisungen beachten
+# + rxe21 - Spezielle Abgabe- / Verabreichungsanweisungen der Apotheke
+# + rxe22 - Zeiteinheit für Verabreichung
+# + rxe23 - Verabreichungsmenge pro Gabe
+# + rxe24 - Maßeinheit für Verabreichungsmenge
+# + rxe25 - Wirkstoffmenge der Verabreichung
+# + rxe26 - Einheit zu Feld 25
+# + rxe27 - Indikation zur Verabreichung
+# + rxe28 - Menge pro Verpackung
+# + rxe29 - Einheit zu Feld 28
+# + rxe30 - Abgabemethode
+# + rxe31 - zusätzlicher Code
+# + rxe32 - Zeitpunkt des urspünglichen Auftrags
+# + rxe33 - Lösungsvolumen des verabreichten Wirkstoffs
+# + rxe34 - Maßeinheit des Lösungsvolumens
+# + rxe35 - Klassifikation staatlich reglementierter Wirkstoffe (BTM)
+# + rxe36 - Status in der Hausliste
+# + rxe37 - Alternative Substanz
+# + rxe38 - Apotheke der letzten Lieferung
+# + rxe39 - Menge der Erstlieferung
+# + rxe40 - Liefernde Apotheke
+# + rxe41 - Adresse der liefernden Apotheke
+# + rxe42 - Aufenthaltsort des Patienten zur Medikamentenlieferung
+# + rxe43 - Adresse zur Medikamentenlieferung
+# + rxe44 - Zusatzinformation Auftragslogistik
+# + rxe45 - 2310XTNHL7Pharmacy Phone Number
 @hl7v2:SegmentDefinition {
     name: "RXE",
     required: false,
     maxReps: 0,
     fields: {
-        "rxe1": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
         "rxe2": {
             required: true,
             length: 1,
@@ -111,12 +101,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: -1,
             dataType: CWE
-        },
-        "rxe8": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "rxe9": {
             required: false,
@@ -345,14 +329,12 @@ import ballerinax/health.hl7v2;
 public type RXE record {
     *hl7v2:Segment;
     string name = RXE_SEGMENT_NAME;
-    ST rxe1 = "";
     CWE rxe2 = {};
     NM rxe3 = "";
     NM rxe4 = "";
     CWE rxe5 = {};
     CWE rxe6 = {};
     CWE[] rxe7 = [{}];
-    ST rxe8 = "";
     ID rxe9 = "";
     NM rxe10 = "";
     CWE rxe11 = {};

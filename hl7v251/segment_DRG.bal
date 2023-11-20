@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,23 +13,22 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + drg1 - Segment Record Field
-# + drg2 - Segment Record Field
-# + drg3 - Segment Record Field
-# + drg4 - Segment Record Field
-# + drg5 - Segment Record Field
-# + drg6 - Segment Record Field
-# + drg7 - Segment Record Field
-# + drg8 - Segment Record Field
-# + drg9 - Segment Record Field
-# + drg10 - Segment Record Field
-# + drg11 - Segment Record Field
+# + drg1 - Diagnostic Related Group
+# + drg2 - DRG Assigned Date/Time
+# + drg3 - DRG Approval Indicator
+# + drg4 - DRG Grouper Review Code
+# + drg5 - Outlier Type
+# + drg6 - Outlier Days
+# + drg7 - Outlier Cost
+# + drg8 - DRG Payor
+# + drg9 - Outlier Reimbursement
+# + drg10 - Confidential Indicator
+# + drg11 - DRG Transfer Type
 @hl7v2:SegmentDefinition {
     name: "DRG",
     required: false,

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,27 +13,26 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + nst1 - Segment Record Field
-# + nst2 - Segment Record Field
-# + nst3 - Segment Record Field
-# + nst4 - Segment Record Field
-# + nst5 - Segment Record Field
-# + nst6 - Segment Record Field
-# + nst7 - Segment Record Field
-# + nst8 - Segment Record Field
-# + nst9 - Segment Record Field
-# + nst10 - Segment Record Field
-# + nst11 - Segment Record Field
-# + nst12 - Segment Record Field
-# + nst13 - Segment Record Field
-# + nst14 - Segment Record Field
-# + nst15 - Segment Record Field
+# + nst1 - Merkmal Statistiken vorhanden
+# + nst2 - ID der Verbindung
+# + nst3 - Verbindungstyp
+# + nst4 - Beginn der Datensammlung
+# + nst5 - Ende der Datensammlung
+# + nst6 - Anzahl der empfangenen Zeichen
+# + nst7 - Anzahl der gesendeten Zeichen
+# + nst8 - Anzahl empfangener Nachrichten
+# + nst9 - Anzahl gesendeter Nachrichten
+# + nst10 - Anzahl der empfangenen Nachrichten mit Prüfsummenfehlern
+# + nst11 - Anzahl empfangener Nachrichten mit Längenfehlern
+# + nst12 - Anzahl empfangener Nachrichten mit sonstigen Fehlern
+# + nst13 - Anzahl der Timeouts bei Connect
+# + nst14 - Anzahl der Timeouts bei Empfang
+# + nst15 - Anzahl der Fehler auf Application Control-Level
 @hl7v2:SegmentDefinition {
     name: "NST",
     required: false,

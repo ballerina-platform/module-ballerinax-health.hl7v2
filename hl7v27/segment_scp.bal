@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,20 +13,19 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + scp1 - Segment Record Field
-# + scp2 - Segment Record Field
-# + scp3 - Segment Record Field
-# + scp4 - Segment Record Field
-# + scp5 - Segment Record Field
-# + scp6 - Segment Record Field
-# + scp7 - Segment Record Field
-# + scp8 - Segment Record Field
+# + scp1 - Number Of Decontamination/Sterilization Devices
+# + scp2 - Labor Calculation Type
+# + scp3 - Date Format
+# + scp4 - Device Number
+# + scp5 - Device Name
+# + scp6 - Device Model Name
+# + scp7 - Device Type
+# + scp8 - Lot Control
 @hl7v2:SegmentDefinition {
     name: "SCP",
     required: false,

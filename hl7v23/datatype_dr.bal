@@ -16,10 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Date Time Range.
+# Data type description
 #
-# + dr1 - Range Start Date/time  
-# + dr2 - Range End Date/time
+# + dr1 - range start date/time
+# + dr2 - range end date/time
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

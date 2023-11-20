@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,37 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + in31 - Segment Record Field
-# + in32 - Segment Record Field
-# + in33 - Segment Record Field
-# + in34 - Segment Record Field
-# + in35 - Segment Record Field
-# + in36 - Segment Record Field
-# + in37 - Segment Record Field
-# + in38 - Segment Record Field
-# + in39 - Segment Record Field
-# + in310 - Segment Record Field
-# + in311 - Segment Record Field
-# + in312 - Segment Record Field
-# + in313 - Segment Record Field
-# + in314 - Segment Record Field
-# + in315 - Segment Record Field
-# + in316 - Segment Record Field
-# + in317 - Segment Record Field
-# + in318 - Segment Record Field
-# + in319 - Segment Record Field
-# + in320 - Segment Record Field
-# + in321 - Segment Record Field
-# + in322 - Segment Record Field
-# + in323 - Segment Record Field
-# + in324 - Segment Record Field
-# + in325 - Segment Record Field
+# + in31 - IN3-Segmentnummer
+# + in32 - nicht verwendet
+# + in33 - nicht verwendet
+# + in34 - nicht verwendet
+# + in35 - nicht verwendet
+# + in36 - nicht verwendet
+# + in37 - nicht verwendet
+# + in38 - nicht verwendet
+# + in39 - nicht verwendet
+# + in310 - nicht verwendet
+# + in311 - nicht verwendet
+# + in312 - nicht verwendet
+# + in313 - nicht verwendet
+# + in314 - nicht verwendet
+# + in315 - nicht verwendet
+# + in316 - nicht verwendet
+# + in317 - nicht verwendet
+# + in318 - nicht verwendet
+# + in319 - nicht verwendet
+# + in320 - nicht verwendet
+# + in321 - nicht verwendet
+# + in322 - nicht verwendet
+# + in323 - nicht verwendet
+# + in324 - nicht verwendet
+# + in325 - nicht verwendet
 @hl7v2:SegmentDefinition {
     name: "IN3",
     required: false,

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,32 +13,30 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + inv1 - Segment Record Field
-# + inv2 - Segment Record Field
-# + inv3 - Segment Record Field
-# + inv4 - Segment Record Field
-# + inv5 - Segment Record Field
-# + inv6 - Segment Record Field
-# + inv7 - Segment Record Field
-# + inv8 - Segment Record Field
-# + inv9 - Segment Record Field
-# + inv10 - Segment Record Field
-# + inv11 - Segment Record Field
-# + inv12 - Segment Record Field
-# + inv13 - Segment Record Field
-# + inv14 - Segment Record Field
-# + inv15 - Segment Record Field
-# + inv16 - Segment Record Field
-# + inv17 - Segment Record Field
-# + inv18 - Segment Record Field
-# + inv19 - Segment Record Field
-# + inv20 - Segment Record Field
+# + inv1 - Substance Identifier
+# + inv2 - Substance Status
+# + inv3 - Substance Type
+# + inv4 - Inventory Container Identifier
+# + inv5 - Container Carrier Identifier
+# + inv6 - Position on Carrier
+# + inv7 - Initial Quantity
+# + inv8 - Current Quantity
+# + inv9 - Available Quantity
+# + inv10 - Consumption Quantity
+# + inv11 - Quantity Units
+# + inv12 - Expiration Date/Time
+# + inv13 - First Used Date/Time
+# + inv15 - Test/Fluid Identifier(s)
+# + inv16 - Manufacturer Lot Number
+# + inv17 - Manufacturer Identifier
+# + inv18 - Supplier Identifier
+# + inv19 - On Board Stability Time
+# + inv20 - Target Value
 @hl7v2:SegmentDefinition {
     name: "INV",
     required: false,
@@ -122,12 +119,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: DTM
-        },        
-        "inv14": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "inv15": {
             required: false,
@@ -183,7 +174,6 @@ public type INV record {
     CWE inv11 = {};
     DTM inv12 = "";
     DTM inv13 = "";
-    ST inv14 = "";
     CWE[] inv15 = [{}];
     ST inv16 = "";
     CWE inv17 = {};

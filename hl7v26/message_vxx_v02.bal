@@ -13,36 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const VXX_V02_MESSAGE_TYPE = "VXX_V02";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + qrd - Message Record Field
-# + qrf - Message Record Field
-# + patient - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + qrd - QRD Segment
+# + qrf - QRF Segment
+# + patient - VXX_V02_PATIENT Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "QRD": {name: "QRD", maxReps: 1, required: false, segmentType: QRD},
+        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
         "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF}
     }
     ,groups: {
-        "PATIENT": {
+        "VXX_V02_PATIENT": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "PID": {name: "PID", maxReps: 1, required: false, segmentType: typeof PID},
+                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
                 "NK1": {name: "NK1", maxReps: -1, required: false, segmentType: typeof NK1}
             }
         }
@@ -51,11 +49,11 @@ public const VXX_V02_MESSAGE_TYPE = "VXX_V02";
 public type VXX_V02 record {
     *hl7v2:Message;
     string name = VXX_V02_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
+    MSH msh;
+    MSA msa;
     SFT[] sft = [];
     UAC uac?;
-    QRD qrd?;
+    QRD qrd;
     QRF qrf?;
-    PATIENT[] patient = [{}];
+    VXX_V02_PATIENT[] patient = [{pid:{}}];
 };

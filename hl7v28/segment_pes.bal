@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,25 +13,24 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pes1 - Segment Record Field
-# + pes2 - Segment Record Field
-# + pes3 - Segment Record Field
-# + pes4 - Segment Record Field
-# + pes5 - Segment Record Field
-# + pes6 - Segment Record Field
-# + pes7 - Segment Record Field
-# + pes8 - Segment Record Field
-# + pes9 - Segment Record Field
-# + pes10 - Segment Record Field
-# + pes11 - Segment Record Field
-# + pes12 - Segment Record Field
-# + pes13 - Segment Record Field
+# + pes1 - Bezeichnung der berichtenden Organisation
+# + pes2 - Berichtende Person
+# + pes3 - Adresse des Berichtenden
+# + pes4 - Telefonnummer des Berichtenden
+# + pes5 - ID des Berichts
+# + pes6 - Laufende Nummer
+# + pes7 - Bericht
+# + pes8 - Kommentar
+# + pes9 - Zeitpunkt der Feststellung
+# + pes10 - Zeitpunkt des Berichts
+# + pes11 - Art des Berichts
+# + pes12 - Quelle des Berichts
+# + pes13 - Berichtsempfängertyp
 @hl7v2:SegmentDefinition {
     name: "PES",
     required: false,

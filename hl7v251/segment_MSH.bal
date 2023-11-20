@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,33 +13,32 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + msh1 - Segment Record Field
-# + msh2 - Segment Record Field
-# + msh3 - Segment Record Field
-# + msh4 - Segment Record Field
-# + msh5 - Segment Record Field
-# + msh6 - Segment Record Field
-# + msh7 - Segment Record Field
-# + msh8 - Segment Record Field
-# + msh9 - Segment Record Field
-# + msh10 - Segment Record Field
-# + msh11 - Segment Record Field
-# + msh12 - Segment Record Field
-# + msh13 - Segment Record Field
-# + msh14 - Segment Record Field
-# + msh15 - Segment Record Field
-# + msh16 - Segment Record Field
-# + msh17 - Segment Record Field
-# + msh18 - Segment Record Field
-# + msh19 - Segment Record Field
-# + msh20 - Segment Record Field
-# + msh21 - Segment Record Field
+# + msh1 - Field Separator
+# + msh2 - Encoding Characters
+# + msh3 - Sending Application
+# + msh4 - Sending Facility
+# + msh5 - Receiving Application
+# + msh6 - Receiving Facility
+# + msh7 - Date/Time Of Message
+# + msh8 - Security
+# + msh9 - Message Type
+# + msh10 - Message Control ID
+# + msh11 - Processing ID
+# + msh12 - Version ID
+# + msh13 - Sequence Number
+# + msh14 - Continuation Pointer
+# + msh15 - Accept Acknowledgment Type
+# + msh16 - Application Acknowledgment Type
+# + msh17 - Country Code
+# + msh18 - Character Set
+# + msh19 - Principal Language Of Message
+# + msh20 - Alternate Character Set Handling Scheme
+# + msh21 - Message Profile Identifier
 @hl7v2:SegmentDefinition {
     name: "MSH",
     required: false,
@@ -177,8 +175,8 @@ import ballerinax/health.hl7v2;
 public type MSH record {
     *hl7v2:Segment;
     string name = MSH_SEGMENT_NAME;
-    ST msh1 = "|";
-    ST msh2 = "^~\\&";
+    ST msh1 = "";
+    ST msh2 = "";
     HD msh3 = {};
     HD msh4 = {};
     HD msh5 = {};

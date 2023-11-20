@@ -18,29 +18,29 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + xcn1 - Data type field
-# + xcn2 - Data type field
-# + xcn3 - Data type field
-# + xcn4 - Data type field
-# + xcn5 - Data type field
-# + xcn6 - Data type field
-# + xcn8 - Data type field
-# + xcn9 - Data type field
-# + xcn10 - Data type field
-# + xcn11 - Data type field
-# + xcn12 - Data type field
-# + xcn13 - Data type field
-# + xcn14 - Data type field
-# + xcn15 - Data type field
-# + xcn16 - Data type field
-# + xcn18 - Data type field
-# + xcn19 - Data type field
-# + xcn20 - Data type field
-# + xcn21 - Data type field
-# + xcn22 - Data type field
-# + xcn23 - Data type field
-# + xcn24 - Data type field
-# + xcn25 - Data type field
+# + xcn1 - Person Identifier
+# + xcn2 - Family Name
+# + xcn3 - Given Name
+# + xcn4 - Second and Further Given Names or Initials Thereof
+# + xcn5 - Suffix (e.g., JR or III)
+# + xcn6 - Prefix (e.g., DR)
+# + xcn8 - Source Table
+# + xcn9 - Assigning Authority
+# + xcn10 - Name Type Code
+# + xcn11 - Identifier Check Digit
+# + xcn12 - Check Digit Scheme
+# + xcn13 - Identifier Type Code
+# + xcn14 - Assigning Facility
+# + xcn15 - Name Representation Code
+# + xcn16 - Name Context
+# + xcn18 - Name Assembly Order
+# + xcn19 - Effective Date
+# + xcn20 - Expiration Date
+# + xcn21 - Professional Suffix
+# + xcn22 - Assigning Jurisdiction
+# + xcn23 - Assigning Agency or Department
+# + xcn24 - Security Check
+# + xcn25 - Security Check Scheme
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

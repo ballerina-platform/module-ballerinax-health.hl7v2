@@ -13,29 +13,28 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const ADT_A12_MESSAGE_TYPE = "ADT_A12";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + evn - Message Record Field
-# + pid - Message Record Field
-# + pd1 - Message Record Field
-# + pv1 - Message Record Field
-# + pv2 - Message Record Field
-# + db1 - Message Record Field
-# + obx - Message Record Field
-# + dg1 - Message Record Field
+# + msh - MSH Segment
+# + evn - EVN Segment
+# + pid - PID Segment
+# + pd1 - PD1 Segment
+# + pv1 - PV1 Segment
+# + pv2 - PV2 Segment
+# + db1 - DB1 Segment
+# + obx - OBX Segment
+# + dg1 - DG1 Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
-        "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: PV1},
+        "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: PV1},
         "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: PV2},
         "DB1": {name: "DB1", maxReps: -1, required: false, segmentType: DB1},
         "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: OBX},
@@ -45,11 +44,11 @@ public const ADT_A12_MESSAGE_TYPE = "ADT_A12";
 public type ADT_A12 record {
     *hl7v2:Message;
     string name = ADT_A12_MESSAGE_TYPE;
-    MSH msh?;
-    EVN evn?;
-    PID pid?;
+    MSH msh;
+    EVN evn;
+    PID pid;
     PD1 pd1?;
-    PV1 pv1?;
+    PV1 pv1;
     PV2 pv2?;
     DB1[] db1 = [];
     OBX[] obx = [];

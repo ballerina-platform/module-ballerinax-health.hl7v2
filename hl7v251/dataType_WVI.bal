@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + wvi1 - Data type field
-# + wvi2 - Data type field
+# + wvi1 - Channel Number
+# + wvi2 - Channel Name
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

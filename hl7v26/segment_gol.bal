@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,34 +13,33 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + gol1 - Segment Record Field
-# + gol2 - Segment Record Field
-# + gol3 - Segment Record Field
-# + gol4 - Segment Record Field
-# + gol5 - Segment Record Field
-# + gol6 - Segment Record Field
-# + gol7 - Segment Record Field
-# + gol8 - Segment Record Field
-# + gol9 - Segment Record Field
-# + gol10 - Segment Record Field
-# + gol11 - Segment Record Field
-# + gol12 - Segment Record Field
-# + gol13 - Segment Record Field
-# + gol14 - Segment Record Field
-# + gol15 - Segment Record Field
-# + gol16 - Segment Record Field
-# + gol17 - Segment Record Field
-# + gol18 - Segment Record Field
-# + gol19 - Segment Record Field
-# + gol20 - Segment Record Field
-# + gol21 - Segment Record Field
-# + gol22 - Segment Record Field
+# + gol1 - Aktionscode
+# + gol2 - Aktionszeitpunkt
+# + gol3 - Ziel-ID
+# + gol4 - ID des individuellen Ziels
+# + gol5 - ID der Behandlungsepisode
+# + gol6 - Priorität innerhalb der Zielliste
+# + gol7 - Zeitpunkt der Zieldefinition
+# + gol8 - erwarteter Zeitpunkt zur Erreichung des Ziels
+# + gol9 - Zielklassifizierung
+# + gol10 - für das Zielmanagement verantwortliche Fachabteilung
+# + gol11 - Status der aktuellen Zielüberprüfung
+# + gol12 - Zeitpunkt der aktuellen Überprüfung
+# + gol13 - Zeitpunkt der nächsten Überprüfung
+# + gol14 - Zeitpunkt der vorherigen Überprüfung
+# + gol15 - Zielüberprüfungsintervall
+# + gol16 - Zielbewertung
+# + gol17 - Kommentar zur Zielbewertung
+# + gol18 - Zielstatus
+# + gol19 - Zeitpunkt des Zielstatus
+# + gol20 - Typ der Zielgruppe des Ziels
+# + gol21 - Name der Zielgruppe des Ziels
+# + gol22 - Mood-Code
 @hl7v2:SegmentDefinition {
     name: "GOL",
     required: false,

@@ -13,31 +13,29 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const MFK_M01_MESSAGE_TYPE = "MFK_M01";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + mfi - Message Record Field
-# + mfa - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + mfi - MFI Segment
+# + mfa - MFA Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
-        "MFI": {name: "MFI", maxReps: 1, required: false, segmentType: MFI},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
+        "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI},
         "MFA": {name: "MFA", maxReps: -1, required: false, segmentType: MFA}
     }
 }
 public type MFK_M01 record {
     *hl7v2:Message;
     string name = MFK_M01_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
-    MFI mfi?;
+    MSH msh;
+    MSA msa;
+    MFI mfi;
     MFA[] mfa = [];
 };

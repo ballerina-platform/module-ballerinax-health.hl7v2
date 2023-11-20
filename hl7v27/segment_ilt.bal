@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,22 +13,21 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ilt1 - Segment Record Field
-# + ilt2 - Segment Record Field
-# + ilt3 - Segment Record Field
-# + ilt4 - Segment Record Field
-# + ilt5 - Segment Record Field
-# + ilt6 - Segment Record Field
-# + ilt7 - Segment Record Field
-# + ilt8 - Segment Record Field
-# + ilt9 - Segment Record Field
-# + ilt10 - Segment Record Field
+# + ilt1 - Set Id - ILT
+# + ilt2 - Inventory Lot Number
+# + ilt3 - Inventory Expiration Date
+# + ilt4 - Inventory Received Date
+# + ilt5 - Inventory Received Quantity
+# + ilt6 - Inventory Received Quantity Unit
+# + ilt7 - Inventory Received Item Cost
+# + ilt8 - Inventory On Hand Date
+# + ilt9 - Inventory On Hand Quantity
+# + ilt10 - Inventory On Hand Quantity Unit
 @hl7v2:SegmentDefinition {
     name: "ILT",
     required: false,

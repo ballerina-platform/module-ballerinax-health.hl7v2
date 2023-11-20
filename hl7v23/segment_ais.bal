@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,23 +13,21 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ais1 - Segment Record Field
-# + ais2 - Segment Record Field
-# + ais3 - Segment Record Field
-# + ais4 - Segment Record Field
-# + ais5 - Segment Record Field
-# + ais6 - Segment Record Field
-# + ais7 - Segment Record Field
-# + ais8 - Segment Record Field
-# + ais9 - Segment Record Field
-# + ais10 - Segment Record Field
+# + ais1 - Set ID - AIS
+# + ais2 - Segment Action Code
+# + ais3 - Universal Service Identifier
+# + ais4 - Start Date/Time
+# + ais5 - Start Date/Time Offset
+# + ais6 - Start Date/Time Offset Units
+# + ais7 - Duration
+# + ais8 - Duration Units
+# + ais9 - Allow Substitution Code
+# + ais10 - Filler Status Code
 @hl7v2:SegmentDefinition {
     name: "AIS",
     required: false,
@@ -101,13 +98,13 @@ import ballerinax/health.hl7v2;
 public type AIS record {
     *hl7v2:Segment;
     string name = AIS_SEGMENT_NAME;
-    SI ais1 = -1;
+    SI ais1 = "";
     ID ais2 = "";
     CE ais3 = {};
     TS ais4 = {};
-    NM ais5 = -1;
+    NM ais5 = "";
     CE ais6 = {};
-    NM ais7 = -1;
+    NM ais7 = "";
     CE ais8 = {};
     IS ais9 = "";
     CE ais10 = {};

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,41 +13,40 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ft11 - Segment Record Field
-# + ft12 - Segment Record Field
-# + ft13 - Segment Record Field
-# + ft14 - Segment Record Field
-# + ft15 - Segment Record Field
-# + ft16 - Segment Record Field
-# + ft17 - Segment Record Field
-# + ft110 - Segment Record Field
-# + ft111 - Segment Record Field
-# + ft112 - Segment Record Field
-# + ft113 - Segment Record Field
-# + ft114 - Segment Record Field
-# + ft115 - Segment Record Field
-# + ft116 - Segment Record Field
-# + ft117 - Segment Record Field
-# + ft118 - Segment Record Field
-# + ft119 - Segment Record Field
-# + ft120 - Segment Record Field
-# + ft121 - Segment Record Field
-# + ft122 - Segment Record Field
-# + ft123 - Segment Record Field
-# + ft124 - Segment Record Field
-# + ft125 - Segment Record Field
-# + ft126 - Segment Record Field
-# + ft127 - Segment Record Field
-# + ft128 - Segment Record Field
-# + ft129 - Segment Record Field
-# + ft130 - Segment Record Field
-# + ft131 - Segment Record Field
+# + ft11 - FT1-Segmentnummer
+# + ft12 - Leistungs-ID
+# + ft13 - Stapel- / Buchungskreisnummer
+# + ft14 - Beleg- / Leistungs- / Rechnungsdatum
+# + ft15 - Buchungsdatum
+# + ft16 - Buchungsart / Rechnungsart (GSG)
+# + ft17 - Leistungsziffer / Buchungstext / Entgeltart EBM (GSG)
+# + ft110 - Anzahl der Leistungen / Punktzahl
+# + ft111 - Betrag (Summe)
+# + ft112 - Einzelpreis / Punktwert
+# + ft113 - Kostenstelle
+# + ft114 - Tarifbezeichnung des Kostenträgers
+# + ft115 - Entgeldbetrag
+# + ft116 - Zugewiesener Aufenthaltsort des Patienten
+# + ft117 - Leistungserbringungsart
+# + ft118 - Patientenart (PPR)
+# + ft119 - Diagnoseschlüssel
+# + ft120 - Erbringende Stelle oder Person
+# + ft121 - Verordnende / anfordernde Stelle oder Person
+# + ft122 - Berechnungsfaktor
+# + ft123 - Bearbeitungsnummer der Leistungsstelle
+# + ft124 - Erfasser
+# + ft125 - Maßnahmen- / Operationsschlüssel
+# + ft126 - Modifikator zum Prozedurcode
+# + ft127 - Hinweis zur Zuzahlung
+# + ft128 - Begründung für mehrfache Durchführung einer Maßnahme
+# + ft129 - nicht verwendet
+# + ft130 - Referenznummer zu FT1-7
+# + ft131 - Referenzschlüssel der Transaktion
 @hl7v2:SegmentDefinition {
     name: "FT1",
     required: false,

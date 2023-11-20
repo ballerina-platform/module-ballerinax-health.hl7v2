@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + msg1 - Data type field
-# + msg2 - Data type field
-# + msg3 - Data type field
+# + msg1 - Message Code
+# + msg2 - Trigger Event
+# + msg3 - Message Structure
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

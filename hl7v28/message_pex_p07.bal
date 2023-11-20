@@ -13,47 +13,64 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const PEX_P07_MESSAGE_TYPE = "PEX_P07";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + evn - Message Record Field
-# + pid - Message Record Field
-# + pd1 - Message Record Field
-# + prt - Message Record Field
-# + nte - Message Record Field
-# + visit - Message Record Field
-# + experience - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + evn - EVN Segment
+# + pid - PID Segment
+# + pd1 - PD1 Segment
+# + prt - PRT Segment
+# + nte - NTE Segment
+# + visit - PEX_P07_VISIT Segment Group
+# + experience - PEX_P07_EXPERIENCE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
         "PRT": {name: "PRT", maxReps: -1, required: false, segmentType: PRT},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
+    }
+    ,groups: {
+        "PEX_P07_VISIT": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
+                "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2},
+                "PRT": {name: "PRT", maxReps: -1, required: false, segmentType: typeof PRT}
+            }
+        },
+        "PEX_P07_EXPERIENCE": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "PES": {name: "PES", maxReps: 1, required: true, segmentType: typeof PES},
+                "PEX_P07_PEX_OBSERVATION": {name: "PEX_P07_PEX_OBSERVATION", maxReps: -1, required: true, segmentType: typeof PEX_P07_PEX_OBSERVATION}
+            }
+        }
     }
 }
 public type PEX_P07 record {
     *hl7v2:Message;
     string name = PEX_P07_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    EVN evn?;
-    PID pid?;
+    EVN evn;
+    PID pid;
     PD1 pd1?;
     PRT[] prt = [];
     NTE[] nte = [];
-    VISIT[] visit = [{}];
-    EXPERIENCE[] experience = [{}];
+    PEX_P07_VISIT[] visit = [{pv1:{}}];
+    PEX_P07_EXPERIENCE[] experience = [{pes:{}}];
 };

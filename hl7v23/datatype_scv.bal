@@ -16,10 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Scheduling Class Value Pair.
+# Data type description
 #
-# + scv1 - Parameter Class  
-# + scv2 - Parameter Value
+# + scv1 - parameter class
+# + scv2 - parameter value
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

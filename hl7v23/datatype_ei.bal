@@ -16,12 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-# Entity Identifier.The entity identifier defines a given entity within a specified series of identifiers.
+# Data type description
 #
-# + ei1 - Entity Identifier  
-# + ei2 - Namespace ID  
-# + ei3 - Universal ID  
-# + ei4 - Universal ID Type
+# + ei1 - entity identifier
+# + ei2 - namespace ID
+# + ei3 - universal ID
+# + ei4 - universal ID type
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

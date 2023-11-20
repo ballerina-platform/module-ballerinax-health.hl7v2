@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,41 +13,40 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rxg1 - Segment Record Field
-# + rxg2 - Segment Record Field
-# + rxg4 - Segment Record Field
-# + rxg5 - Segment Record Field
-# + rxg6 - Segment Record Field
-# + rxg7 - Segment Record Field
-# + rxg8 - Segment Record Field
-# + rxg9 - Segment Record Field
-# + rxg10 - Segment Record Field
-# + rxg11 - Segment Record Field
-# + rxg12 - Segment Record Field
-# + rxg13 - Segment Record Field
-# + rxg14 - Segment Record Field
-# + rxg15 - Segment Record Field
-# + rxg16 - Segment Record Field
-# + rxg17 - Segment Record Field
-# + rxg18 - Segment Record Field
-# + rxg19 - Segment Record Field
-# + rxg20 - Segment Record Field
-# + rxg21 - Segment Record Field
-# + rxg22 - Segment Record Field
-# + rxg23 - Segment Record Field
-# + rxg24 - Segment Record Field
-# + rxg25 - Segment Record Field
-# + rxg26 - Segment Record Field
-# + rxg27 - Segment Record Field
-# + rxg28 - Segment Record Field
-# + rxg29 - Segment Record Field
-# + rxg30 - Segment Record Field
+# + rxg1 - Art der Substitution
+# + rxg2 - Laufende Nummer der Abgabe pro Verordnung
+# + rxg4 - Verordnetes Medikament / Wirkstoff (Apotheke)
+# + rxg5 - Verordnete (Mindest-) Dosis (Apotheke)
+# + rxg6 - Verordnete Höchstdosis (Apotheke)
+# + rxg7 - Maßeinheit (Apotheke)
+# + rxg8 - Verordnete Verabreichungsform (Apotheke)
+# + rxg9 - Verabreichungshinweise
+# + rxg10 - Art der Substitution
+# + rxg11 - Lieferadresse
+# + rxg12 - Besondere Anweisungen beachten
+# + rxg13 - Spezielle Verabreichungsanweisungen der Apotheke
+# + rxg14 - Zeiteinheit für Verabreichung
+# + rxg15 - Verabreichungsmenge pro Gabe
+# + rxg16 - Maßeinheit für Verabreichungsmenge
+# + rxg17 - Wirkstoffmenge der Verabreichung
+# + rxg18 - Einheit zu Feld 25
+# + rxg19 - Chargennummer der Substanz
+# + rxg20 - Verfalldatum der Substanz
+# + rxg21 - Hersteller der Substanz
+# + rxg22 - Indikation
+# + rxg23 - Lösungsvolumen des verabreichten Wirkstoffs
+# + rxg24 - Maßeinheit des Lösungsvolumens
+# + rxg25 - Barcode-ID der Verabreichung
+# + rxg26 - Zusatzinformation Auftragslogistik
+# + rxg27 - Empfangende Apotheke
+# + rxg28 - Adresse der empfangenden Apotheke
+# + rxg29 - Aufenthaltsort des Patienten zur Medikamentenlieferung
+# + rxg30 - Adresse zur Medikamentenlieferung
 @hl7v2:SegmentDefinition {
     name: "RXG",
     required: false,

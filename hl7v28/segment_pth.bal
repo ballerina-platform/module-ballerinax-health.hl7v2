@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,19 +13,18 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pth1 - Segment Record Field
-# + pth2 - Segment Record Field
-# + pth3 - Segment Record Field
-# + pth4 - Segment Record Field
-# + pth5 - Segment Record Field
-# + pth6 - Segment Record Field
-# + pth7 - Segment Record Field
+# + pth1 - Aktionscode
+# + pth2 - ID der Maßnahme im Behandlungsplan
+# + pth3 - ID der individuellen Maßnahme
+# + pth4 - Zeitpunkt der individuellen Maßnahme
+# + pth5 - Status der Maßnahme
+# + pth6 - Änderungszeitpunkt des Status
+# + pth7 - Mood-Code
 @hl7v2:SegmentDefinition {
     name: "PTH",
     required: false,

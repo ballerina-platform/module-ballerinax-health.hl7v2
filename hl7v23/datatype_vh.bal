@@ -16,12 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-# Visiting Hours.
+# Data type description
 #
-# + vh1 - Start Day Range  
-# + vh2 - End Day Range  
-# + vh3 - Start Hour Range  
-# + vh4 - End Hour Range
+# + vh1 - start day range
+# + vh2 - end day range
+# + vh3 - start hour range
+# + vh4 - end hour range
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

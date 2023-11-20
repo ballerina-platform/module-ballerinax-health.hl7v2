@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + scv1 - Data type field
-# + scv2 - Data type field
+# + scv1 - parameter class
+# + scv2 - parameter value
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

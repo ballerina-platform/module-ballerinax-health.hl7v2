@@ -16,12 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-# Query Selection Criteria.
+# Data type description
 #
-# + qsc1 - Name Of Field  
-# + qsc2 - Relational Operator  
-# + qsc3 - Value  
-# + qsc4 - Relational Conjunction
+# + qsc1 - name of field
+# + qsc2 - relational operator
+# + qsc3 - Value
+# + qsc4 - relational conjunction
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

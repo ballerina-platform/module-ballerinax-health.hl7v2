@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,28 +13,27 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + csr1 - Segment Record Field
-# + csr2 - Segment Record Field
-# + csr3 - Segment Record Field
-# + csr4 - Segment Record Field
-# + csr5 - Segment Record Field
-# + csr6 - Segment Record Field
-# + csr7 - Segment Record Field
-# + csr8 - Segment Record Field
-# + csr9 - Segment Record Field
-# + csr10 - Segment Record Field
-# + csr11 - Segment Record Field
-# + csr12 - Segment Record Field
-# + csr13 - Segment Record Field
-# + csr14 - Segment Record Field
-# + csr15 - Segment Record Field
-# + csr16 - Segment Record Field
+# + csr1 - Studien-ID des Sponsors
+# + csr2 - alternative Studien-ID
+# + csr3 - Studienzentrale
+# + csr4 - Patienten-ID des Sponsors
+# + csr5 - Alternative Patienten-ID (z.B. für Notaufnahmen)
+# + csr6 - Meldungszeitpunkt in der Studienzentrale
+# + csr7 - Mitarbeiter, der gemeldet hat
+# + csr8 - authorisierender Arzt
+# + csr9 - Zeitpunkt der Patienteneinwilligung
+# + csr10 - Eignung des Patienten
+# + csr11 - Zeitpunkt der Randomisierung
+# + csr12 - randomisierter Studienarm
+# + csr13 - Randomisierungsschicht
+# + csr14 - Auswertbarkeitsstatus bei Studienabbruch
+# + csr15 - Zeitpunkt des Ausscheidens aus der Studie
+# + csr16 - Grund des Ausscheidens aus der Studie
 @hl7v2:SegmentDefinition {
     name: "CSR",
     required: false,

@@ -18,11 +18,11 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ed1 - Data type field
-# + ed2 - Data type field
-# + ed3 - Data type field
-# + ed4 - Data type field
-# + ed5 - Data type field
+# + ed1 - source application
+# + ed2 - type of data
+# + ed3 - data
+# + ed4 - encoding
+# + ed5 - data
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

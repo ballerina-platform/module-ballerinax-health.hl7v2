@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,44 +13,43 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + orc1 - Segment Record Field
-# + orc2 - Segment Record Field
-# + orc3 - Segment Record Field
-# + orc4 - Segment Record Field
-# + orc5 - Segment Record Field
-# + orc6 - Segment Record Field
-# + orc8 - Segment Record Field
-# + orc9 - Segment Record Field
-# + orc10 - Segment Record Field
-# + orc11 - Segment Record Field
-# + orc12 - Segment Record Field
-# + orc13 - Segment Record Field
-# + orc14 - Segment Record Field
-# + orc15 - Segment Record Field
-# + orc16 - Segment Record Field
-# + orc17 - Segment Record Field
-# + orc18 - Segment Record Field
-# + orc19 - Segment Record Field
-# + orc20 - Segment Record Field
-# + orc21 - Segment Record Field
-# + orc22 - Segment Record Field
-# + orc23 - Segment Record Field
-# + orc24 - Segment Record Field
-# + orc25 - Segment Record Field
-# + orc26 - Segment Record Field
-# + orc27 - Segment Record Field
-# + orc28 - Segment Record Field
-# + orc29 - Segment Record Field
-# + orc30 - Segment Record Field
-# + orc31 - Segment Record Field
-# + orc32 - Segment Record Field
-# + orc33 - Segment Record Field
+# + orc1 - Auftragssteuerung
+# + orc2 - Auftragsnummer des Auftraggebers / der auftraggebenden Stelle
+# + orc3 - Bearbeitungsnummer der Leistungsstelle
+# + orc4 - Auftragsgruppennummer
+# + orc5 - Auftragsstatus
+# + orc6 - Gewünschter Umfang der Ergebnismeldung
+# + orc8 - Verweis auf Hauptauftrag
+# + orc9 - Zeitpunkt der Auftragseingabe bzw. -änderung
+# + orc10 - Eingegeben durch
+# + orc11 - Geprüft / bestätigt durch
+# + orc12 - Verantwortlicher Auftraggeber
+# + orc13 - Abteilung des Eingebenden
+# + orc14 - Telefonnummer für Rückrufe
+# + orc15 - Zeitpunkt der Wirksamkeit einer Änderung des Auftrages
+# + orc16 - Begründung des Auftrags bzw. der Auftragsänderung
+# + orc17 - Eingebende Institution
+# + orc18 - Eingabegerät (Name / Maschinenadresse)
+# + orc19 - Verantwortlicher für Auftragsänderung
+# + orc20 - Hinweis zur Zuzahlung
+# + orc21 - Name der auftraggebenden Einrichtung
+# + orc22 - Adresse der auftraggebenden Einrichtung
+# + orc23 - Telefonnummer der auftraggebenden Einrichtung
+# + orc24 - Adresse des verantwortlichen Auftraggebers
+# + orc25 - Modifikator des Auftragsstatus
+# + orc26 - Grund für Nichtvorliegen der Zuzahlungserklärung
+# + orc27 - voraussichtlicher Zeitpunkt der Auftragserfüllung
+# + orc28 - Vertraulichkeitscode
+# + orc29 - Patientenstatus bezogen auf Auftrag
+# + orc30 - Art der Authorisierung des Auftragserfassers
+# + orc31 - Leistungsidentifikation des Hauptauftrags
+# + orc32 - 2301DTHL7Advanced Beneficiary Notice Date
+# + orc33 - 3300CXHL7Alternate Placer Order Number
 @hl7v2:SegmentDefinition {
     name: "ORC",
     required: false,

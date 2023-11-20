@@ -18,22 +18,22 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + la21 - Data type field
-# + la22 - Data type field
-# + la23 - Data type field
-# + la24 - Data type field
-# + la25 - Data type field
-# + la26 - Data type field
-# + la27 - Data type field
-# + la28 - Data type field
-# + la29 - Data type field
-# + la210 - Data type field
-# + la211 - Data type field
-# + la212 - Data type field
-# + la213 - Data type field
-# + la214 - Data type field
-# + la215 - Data type field
-# + la216 - Data type field
+# + la21 - Point of Care
+# + la22 - Room
+# + la23 - Bed
+# + la24 - Facility
+# + la25 - Location Status
+# + la26 - Patient Location Type
+# + la27 - Building
+# + la28 - Floor
+# + la29 - Street Address
+# + la210 - Other Designation
+# + la211 - City
+# + la212 - State or Province
+# + la213 - Zip or Postal Code
+# + la214 - Country
+# + la215 - Address Type
+# + la216 - Other Geographic Designation
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

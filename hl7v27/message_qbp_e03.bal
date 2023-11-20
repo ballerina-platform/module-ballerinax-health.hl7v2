@@ -13,28 +13,26 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const QBP_E03_MESSAGE_TYPE = "QBP_E03";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + query_information - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + query_information - QBP_E03_QUERY_INFORMATION Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: -1, required: false, segmentType: UAC}
     }
     ,groups: {
-        "QUERY_INFORMATION": {
+        "QBP_E03_QUERY_INFORMATION": {
             maxReps: 1,
-            required: false,
+            required: true,
             segments: {
             }
         }
@@ -43,8 +41,8 @@ public const QBP_E03_MESSAGE_TYPE = "QBP_E03";
 public type QBP_E03 record {
     *hl7v2:Message;
     string name = QBP_E03_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC[] uac = [];
-    QUERY_INFORMATION[] query_information = [{}];
+    QBP_E03_QUERY_INFORMATION[] query_information = [{}];
 };

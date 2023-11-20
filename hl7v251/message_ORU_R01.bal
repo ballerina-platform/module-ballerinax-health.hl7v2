@@ -13,28 +13,38 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const ORU_R01_MESSAGE_TYPE = "ORU_R01";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + dsc - DSC Segment
+# + patient_result - ORU_R01_PATIENT_RESULT Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
+    }
+    ,groups: {
+        "ORU_R01_PATIENT_RESULT": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "ORU_R01_PATIENT": {name: "ORU_R01_PATIENT", maxReps: 1, required: false, segmentType: typeof ORU_R01_PATIENT},
+                "ORU_R01_ORDER_OBSERVATION": {name: "ORU_R01_ORDER_OBSERVATION", maxReps: -1, required: true, segmentType: typeof ORU_R01_ORDER_OBSERVATION}
+            }
+        }
     }
 }
 public type ORU_R01 record {
     *hl7v2:Message;
     string name = ORU_R01_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     DSC dsc?;
+    ORU_R01_PATIENT_RESULT[] patient_result = [{}];
 };

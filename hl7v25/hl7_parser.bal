@@ -18,11 +18,11 @@ import ballerina/log;
 import ballerina/regex;
 import ballerinax/health.hl7v2;
 
-# HL7 v2.3 message parser implementation.
+# HL7v25 message parser implementation.
 isolated class HL7v25Parser {
-    *hl7v2:Parser;
+   *hl7v2:Parser;
 
-    # Parse HL7 encoded message to it's relevant model
+    # Parse HL7 encoded message to it's relevant model.
     # + message - Encoded HL7 message
     # + return - HL7 message model (specific or generic). hl7v2:HL7Error if error occurred
     public isolated function parse(string message) returns hl7v2:Message|hl7v2:HL7Error {
@@ -45,18 +45,16 @@ class HL7Parser {
     public isolated function parse(string messageStr) returns hl7v2:Message?|hl7v2:HL7Error {
 
         if messageStr.substring(0, 1).toBytes()[0] != 0x0B && messageStr.substring(messageStr.length() - 2).toBytes()[0] != 0x1C {
-            hl7v2:HL7Error err = error hl7v2:HL7Error(hl7v2:HL7_V2_PARSER_ERROR,
+            return error hl7v2:HL7Error(hl7v2:HL7_V2_PARSER_ERROR,
                 message = "Invalid HL7 message. Check for the correct starting and trailing characters.");
-            return err;
         }
         string message = messageStr.substring(1, messageStr.length() - 1);
         hl7v2:Message? messageResult = ();
         string[] segments = regex:split(message, "\r");
         if segments.length() == 0 {
-            log:printError("There should be at least 1 segment for the HL7 message:" + message);
-            hl7v2:HL7Error err = error hl7v2:HL7Error(hl7v2:HL7_V2_PARSER_ERROR,
+            log:printError(string `There should be at least 1 segment for the HL7 message: ${message}`);
+            return error hl7v2:HL7Error(hl7v2:HL7_V2_PARSER_ERROR,
                 message = "There should be at least 1 segment for the HL7 message:" + message);
-            return err;
         } else {
             string delimeter = self.encodingCharacters.getFieldSeparator();
             foreach int i in 0 ..< segments.length() {
@@ -64,7 +62,7 @@ class HL7Parser {
                 if segments[i] != "" && segments[i].length() >= 3 {
                     if i == 0 {
                         if segments[i].length() < 4 {
-                            log:printError("Invalid message content: " + message);
+                            log:printError(string `Invalid message content:  ${message}`);
                             break;
                         }
                         segmentName = segments[i].substring(0, 3);
@@ -92,10 +90,9 @@ class HL7Parser {
                                     messageFields[segmentName.toLowerAscii()] = segment;
                                 }
                             } else {
-                                log:printError("Invalid HL7 message type. Message type field(MSH-9) is missing. ");
-                                hl7v2:HL7Error err = error hl7v2:HL7Error(hl7v2:HL7_V2_PARSER_ERROR,
+                                log:printError("Invalid HL7 message type. Message type field(MSH-9) is missing.");
+                                return error hl7v2:HL7Error(hl7v2:HL7_V2_PARSER_ERROR,
                                     message = "Invalid HL7 message type. Message type field(MSH-9) is missing. ");
-                                return err;
                             }
                         } else if messageResult is hl7v2:Message {
                             hl7v2:Hl7MessageDefinitionRecord? msgDef = (typeof messageResult).@hl7v2:MessageDefinition;
@@ -103,6 +100,7 @@ class HL7Parser {
                             if msgDef is hl7v2:Hl7MessageDefinitionRecord {
                                 map<hl7v2:Hl7SegmentDefinitionRecord> segmentDefs = msgDef.segments;
                                 map<hl7v2:Hl7SegmentComponentDefinitionRecord>? groups = msgDef.groups;
+
                                 if segmentDefs.hasKey(segmentName) {
                                     hl7v2:Hl7SegmentDefinitionRecord segmentDef = segmentDefs.get(segmentName);
                                     int? maxReps = segmentDef.maxReps;
@@ -191,28 +189,28 @@ class HL7Parser {
                                                 }
                                             }
                                         }
-                                    } else {
-                                        //considering custom segments to be added to the message
-                                        anydata segmentResult = messageFields[segmentName.toLowerAscii()];
-                                        if segmentResult is () {
-                                            hl7v2:Segment[] segmentArr = [];
-                                            segmentArr.push(segment);
-                                            messageFields[segmentName.toLowerAscii()] = segmentArr;
-                                        } else if segmentResult is hl7v2:Segment[] {
-                                            hl7v2:Segment[] segmentArr = <hl7v2:Segment[]>(messageFields[segmentName.toLowerAscii()]);
-                                            segmentArr.push(segment);
-                                        } else if segmentResult is hl7v2:Segment {
-                                            hl7v2:Segment[] segmentArr = [];
-                                            segmentArr.push(<hl7v2:Segment>segmentResult);
-                                            segmentArr.push(segment);
-                                            messageFields[segmentName.toLowerAscii()] = segmentArr;
-                                        }
+                                    }
+                                } else {
+                                    //considering custom segments to be added to the message
+                                    anydata segmentResult = messageFields[segmentName.toLowerAscii()];
+                                    if segmentResult is () {
+                                        hl7v2:Segment[] segmentArr = [];
+                                        segmentArr.push(segment);
+                                        messageFields[segmentName.toLowerAscii()] = segmentArr;
+                                    } else if segmentResult is hl7v2:Segment[] {
+                                        hl7v2:Segment[] segmentArr = <hl7v2:Segment[]>(messageFields[segmentName.toLowerAscii()]);
+                                        segmentArr.push(segment);
+                                    } else if segmentResult is hl7v2:Segment {
+                                        hl7v2:Segment[] segmentArr = [];
+                                        segmentArr.push(<hl7v2:Segment>segmentResult);
+                                        segmentArr.push(segment);
+                                        messageFields[segmentName.toLowerAscii()] = segmentArr;
                                     }
                                 }
                             }
                         }
                     } else {
-                        log:printError("Invalid segment: " + segmentName);
+                        log:printError(string `Invalid segment:  ${segmentName}`);
                         hl7v2:HL7Error err = error hl7v2:HL7Error(hl7v2:HL7_V2_PARSER_ERROR,
                             message = "Invalid segment: " + segmentName);
                         return err;
@@ -223,6 +221,10 @@ class HL7Parser {
         return messageResult;
     }
 
+    # Parse the segment content and populate the segment model.
+    #
+    # + segment - Segment model
+    # + segmentContent - Segment content string
     private isolated function parseSegment(hl7v2:Segment segment, string segmentContent) {
 
         int fieldOffset = 0;
@@ -256,13 +258,17 @@ class HL7Parser {
                 } else {
                     //checking whether the segment field is msh2 or the segment name
                     if !isMSH2 && fieldNum != 0 {
-                        log:printError("Invalid type requested for component: " + fieldNum.toBalString());
+                        log:printError(string `Invalid type requested for component: ${fieldNum.toBalString()}`);
                     }
                 }
             }
         }
     }
 
+    # Parse data type content and populate the data type model.
+    #
+    # + typ - Data type model
+    # + typeContent - Data type content string
     private isolated function parseType(anydata|hl7v2:PrimitiveType typ, string typeContent) {
 
         string[] components = regex:split(typeContent, self.encodingCharacters.getComponentSeparatorWithEscapeChars());
@@ -279,6 +285,10 @@ class HL7Parser {
         }
     }
 
+    # Parse primitive type content and populate the primitive type model.
+    #
+    # + typ - Primitive type model
+    # + value - Primitive type content string
     private isolated function parsePrimitive(anydata|hl7v2:PrimitiveType typ, anydata value) {
 
         if typ is hl7v2:PrimitiveType {
@@ -313,6 +323,10 @@ class HL7Parser {
         }
     }
 
+    # Encode the HL7 message model and return the encoded message string in MLLP format.
+    #
+    # + message - HL7 message model
+    # + return - Encoded message string or `hl7v2:HL7Error` if an error occurred
     public isolated function encode(hl7v2:Message message) returns string|hl7v2:HL7Error {
 
         string encodedMessage = "";
@@ -321,27 +335,13 @@ class HL7Parser {
             string key;
             anydata segment;
             [key, segment] = segmentEntry;
-            log:printDebug("current processing segment: " + key);
+            log:printDebug(string `current processing segment: ${key}`);
             if segment is hl7v2:SegmentComponent {
-                [string, anydata][] innerSegments = segment.entries().toArray();
-                foreach var innerSegmentItem in innerSegments {
-                    string innerSegmentKey;
-                    anydata innerSegment;
-                    [innerSegmentKey, innerSegment] = innerSegmentItem;
-                    log:printDebug("current processing segment: " + innerSegmentKey + " of segment component: " + segment.name);
-                    if innerSegment is hl7v2:Segment {
-                        string encodedSegment = self.encodeSegment(innerSegment);
-                        encodedMessage = string:concat(encodedMessage, "\r", encodedSegment);
-                    } else if innerSegment is hl7v2:Segment[] {
-                        foreach hl7v2:Segment childSegment in innerSegment {
-                            string encodedSegment = self.encodeSegment(childSegment);
-                            encodedMessage = string:concat(encodedMessage, "\r", encodedSegment);
-                        }
-                    }
-                }
-
+                encodedMessage = string:concat(encodedMessage, "", self.encodeSegmentGroup(segment));
             } else if segment is hl7v2:SegmentComponent[] {
-
+                foreach hl7v2:SegmentComponent childSegmentComponent in segment {
+                    encodedMessage = string:concat(encodedMessage, "", self.encodeSegmentGroup(childSegmentComponent));
+                }
             } else if segment is hl7v2:Segment {
                 string encodedSegment = self.encodeSegment(segment);
                 encodedMessage = string:concat(encodedMessage, "\r", encodedSegment);
@@ -358,7 +358,46 @@ class HL7Parser {
         return string:trim(encodedMessage);
     }
 
-    public isolated function encodeSegment(hl7v2:Segment segment) returns string {
+    # Encode the HL7 segment group model and return the encoded segment group string.
+    #
+    # + segment - HL7 segment group model
+    # + return - Encoded segment group string
+    private isolated function encodeSegmentGroup(hl7v2:SegmentComponent segment) returns string {
+        string encodedString = "";
+        [string, anydata][] innerSegments = segment.entries().toArray();
+        foreach var innerSegmentItem in innerSegments {
+            string innerSegmentKey;
+            anydata innerSegment;
+            [innerSegmentKey, innerSegment] = innerSegmentItem;
+            log:printDebug(string `current processing segment: ${innerSegmentKey} of segment component: ${segment.name}`);
+            if innerSegment is hl7v2:SegmentComponent {
+                return string:concat(encodedString, "", self.encodeSegmentGroup(innerSegment));
+            } else if innerSegment is hl7v2:SegmentComponent[] {
+                foreach hl7v2:SegmentComponent childSegmentComponent in innerSegment {
+                    return string:concat(encodedString, "", self.encodeSegmentGroup(childSegmentComponent));
+                }
+            } else if innerSegment is hl7v2:Segment {
+                string encodeSegmentResult = self.encodeSegment(innerSegment);
+                if encodeSegmentResult != "" {
+                    encodedString = string:concat(encodedString, "\r", encodeSegmentResult);
+                }
+            } else if innerSegment is hl7v2:Segment[] {
+                foreach hl7v2:Segment childSegment in innerSegment {
+                    string encodeSegmentResult = self.encodeSegment(childSegment);
+                    if encodeSegmentResult != "" {
+                        encodedString = string:concat(encodedString, "\r", encodeSegmentResult);
+                    }
+                }
+            }
+        }
+        return encodedString;
+    }
+
+    # Encode the HL7 segment model and return the encoded segment string.
+    #
+    # + segment - HL7 segment model
+    # + return - Encoded segment string
+    private isolated function encodeSegment(hl7v2:Segment segment) returns string {
 
         string encodedString = "";
         boolean isMSHSegment = isMshSegment(segment.name);
@@ -387,16 +426,23 @@ class HL7Parser {
                 } else {
                     string encodedTypeStr = stripExtraDelimeters(self.encodeType(val, self.encodingCharacters.getComponentSeparator(), ""),
                         self.encodingCharacters.getComponentSeparator());
-                    // if encodedTypeStr != "" {
                     encodedString = string:concat(encodedString, self.encodingCharacters.getFieldSeparator(), encodedTypeStr);
-                    // }
                 }
             }
         }
         encodedString = stripExtraDelimeters(encodedString, self.encodingCharacters.getComponentSeparator());
+        if isEmptySegment(encodedString) {
+            return "";
+        }
         return encodedString;
     }
 
+    # Encode the HL7 type model and return the encoded type string.
+    #
+    # + typ - HL7 type model
+    # + separator - Seperator character of HL7 message
+    # + encodedTypeStr - Encoded type string value
+    # + return - Encoded type string
     private isolated function encodeType(anydata typ, string separator, string encodedTypeStr) returns string {
 
         string updatedEncodedTypeStr = encodedTypeStr;
@@ -407,7 +453,7 @@ class HL7Parser {
                 string compKey;
                 anydata component;
                 [compKey, component] = components[componentNum];
-                log:printDebug("current processing component: " + compKey);
+                log:printDebug(string `current processing component: ${compKey}`);
                 if isPrimitiveType(component) {
                     updatedEncodedTypeStr = self.encodePrimitive(component, separator, updatedEncodedTypeStr);
                 } else if component is hl7v2:CompositeType {
@@ -416,8 +462,8 @@ class HL7Parser {
                         string subCompKey;
                         anydata subComponent;
                         [subCompKey, subComponent] = subComponents[subComponentNum];
-                        log:printDebug("current processing subComponent: " + subCompKey);
-                        updatedEncodedTypeStr = self.encodePrimitive(subComponent, separator, updatedEncodedTypeStr);
+                        log:printDebug(string `current processing subComponent: ${subCompKey}`);
+                        updatedEncodedTypeStr = self.encodePrimitive(subComponent, self.encodingCharacters.getSubcomponentSeparator(), updatedEncodedTypeStr);
                     }
                     updatedEncodedTypeStr = stripExtraDelimeters(updatedEncodedTypeStr, self.encodingCharacters.getSubcomponentSeparator());
                     if updatedEncodedTypeStr != "" {
@@ -432,23 +478,30 @@ class HL7Parser {
         return updatedEncodedTypeStr;
     }
 
+    # Encode the primitive type and return the encoded string.
+    #
+    # + typ - Primitive type model
+    # + separator - Seperator character of HL7 datatypes
+    # + encodedTypeStr - Encoded type string value
+    # + return - Encoded type string
     private isolated function encodePrimitive(anydata typ, string separator, string encodedTypeStr) returns string {
 
         string updatedEncodedTypeStr = encodedTypeStr;
-        if isPrimitiveType(typ) && typ != "" && typ != () {
+        if isPrimitiveType(typ) && typ != () {
             if typ is int {
                 //todo: handle this check by using data type annotations
                 if typ != -1 {
-                    updatedEncodedTypeStr = string:concat(encodedTypeStr, typ.toString(), separator);
+                    updatedEncodedTypeStr = string:concat(encodedTypeStr, typ.toString());
                 }
             } else if typ is float {
                 //todo: handle this check by using data type annotations
                 if typ != -1.0 {
-                    updatedEncodedTypeStr = string:concat(encodedTypeStr, typ.toString(), separator);
+                    updatedEncodedTypeStr = string:concat(encodedTypeStr, typ.toString());
                 }
-            } else {
-                updatedEncodedTypeStr = string:concat(encodedTypeStr, <string>typ, separator);
+            } else if typ != "" {
+                updatedEncodedTypeStr = string:concat(encodedTypeStr, <string>typ);
             }
+            updatedEncodedTypeStr = string:concat(updatedEncodedTypeStr, separator);
         }
         return updatedEncodedTypeStr;
     }

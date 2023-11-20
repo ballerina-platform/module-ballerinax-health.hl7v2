@@ -18,13 +18,13 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + sps1 - Data type field
-# + sps2 - Data type field
-# + sps3 - Data type field
-# + sps4 - Data type field
-# + sps5 - Data type field
-# + sps6 - Data type field
-# + sps7 - Data type field
+# + sps1 - specimen source name or code
+# + sps2 - additives
+# + sps3 - freetext
+# + sps4 - body site
+# + sps5 - site modifier
+# + sps6 - collection modifier method code
+# + sps7 - specimen role
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

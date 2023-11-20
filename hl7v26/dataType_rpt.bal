@@ -18,17 +18,17 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + rpt1 - Data type field
-# + rpt2 - Data type field
-# + rpt3 - Data type field
-# + rpt4 - Data type field
-# + rpt5 - Data type field
-# + rpt6 - Data type field
-# + rpt7 - Data type field
-# + rpt8 - Data type field
-# + rpt9 - Data type field
-# + rpt10 - Data type field
-# + rpt11 - Data type field
+# + rpt1 - Repeat Pattern Code
+# + rpt2 - Calendar Alignment
+# + rpt3 - Phase Range Begin Value
+# + rpt4 - Phase Range End Value
+# + rpt5 - Period Quantity
+# + rpt6 - Period Units
+# + rpt7 - Institution Specified Time
+# + rpt8 - Event
+# + rpt9 - Event Offset Quantity
+# + rpt10 - Event Offset Units
+# + rpt11 - General Timing Specification
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

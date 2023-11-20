@@ -13,30 +13,57 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const SRM_S01_MESSAGE_TYPE = "SRM_S01";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + arq - Message Record Field
-# + apr - Message Record Field
-# + nte - Message Record Field
+# + msh - MSH Segment
+# + arq - ARQ Segment
+# + apr - APR Segment
+# + nte - NTE Segment
+# + patient - SRM_S01_PATIENT Segment Group
+# + resources - SRM_S01_RESOURCES Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "ARQ": {name: "ARQ", maxReps: 1, required: false, segmentType: ARQ},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "ARQ": {name: "ARQ", maxReps: 1, required: true, segmentType: ARQ},
         "APR": {name: "APR", maxReps: 1, required: false, segmentType: APR},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
+    }
+    ,groups: {
+        "SRM_S01_PATIENT": {
+            maxReps: -1,
+            required: false,
+            segments: {
+                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
+                "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: typeof PV1},
+                "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2},
+                "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: typeof OBX},
+                "DG1": {name: "DG1", maxReps: -1, required: false, segmentType: typeof DG1}
+            }
+        },
+        "SRM_S01_RESOURCES": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "RGS": {name: "RGS", maxReps: 1, required: true, segmentType: typeof RGS},
+                "SRM_S01_SERVICE": {name: "SRM_S01_SERVICE", maxReps: -1, required: false, segmentType: typeof SRM_S01_SERVICE},
+                "SRM_S01_GENERAL_RESOURCE": {name: "SRM_S01_GENERAL_RESOURCE", maxReps: -1, required: false, segmentType: typeof SRM_S01_GENERAL_RESOURCE},
+                "SRM_S01_LOCATION_RESOURCE": {name: "SRM_S01_LOCATION_RESOURCE", maxReps: -1, required: false, segmentType: typeof SRM_S01_LOCATION_RESOURCE},
+                "SRM_S01_PERSONNEL_RESOURCE": {name: "SRM_S01_PERSONNEL_RESOURCE", maxReps: -1, required: false, segmentType: typeof SRM_S01_PERSONNEL_RESOURCE}
+            }
+        }
     }
 }
 public type SRM_S01 record {
     *hl7v2:Message;
     string name = SRM_S01_MESSAGE_TYPE;
-    MSH msh?;
-    ARQ arq?;
+    MSH msh;
+    ARQ arq;
     APR apr?;
     NTE[] nte = [];
+    SRM_S01_PATIENT[] patient = [{pid:{}}];
+    SRM_S01_RESOURCES[] resources = [{rgs:{}}];
 };

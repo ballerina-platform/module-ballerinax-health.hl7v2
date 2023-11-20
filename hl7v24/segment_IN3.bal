@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,37 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + in31 - Segment Record Field
-# + in32 - Segment Record Field
-# + in33 - Segment Record Field
-# + in34 - Segment Record Field
-# + in35 - Segment Record Field
-# + in36 - Segment Record Field
-# + in37 - Segment Record Field
-# + in38 - Segment Record Field
-# + in39 - Segment Record Field
-# + in310 - Segment Record Field
-# + in311 - Segment Record Field
-# + in312 - Segment Record Field
-# + in313 - Segment Record Field
-# + in314 - Segment Record Field
-# + in315 - Segment Record Field
-# + in316 - Segment Record Field
-# + in317 - Segment Record Field
-# + in318 - Segment Record Field
-# + in319 - Segment Record Field
-# + in320 - Segment Record Field
-# + in321 - Segment Record Field
-# + in322 - Segment Record Field
-# + in323 - Segment Record Field
-# + in324 - Segment Record Field
-# + in325 - Segment Record Field
+# + in31 - Set ID - IN3
+# + in32 - Certification Number
+# + in33 - Certified By
+# + in34 - Certification Required
+# + in35 - Penalty
+# + in36 - Certification Date/Time
+# + in37 - Certification Modify Date/Time
+# + in38 - Operator
+# + in39 - Certification Begin Date
+# + in310 - Certification End Date
+# + in311 - Days
+# + in312 - Non-Concur Code/Description
+# + in313 - Non-Concur Effective Date/Time
+# + in314 - Physician Reviewer
+# + in315 - Certification Contact
+# + in316 - Certification Contact Phone Number
+# + in317 - Appeal Reason
+# + in318 - Certification Agency
+# + in319 - Certification Agency Phone Number
+# + in320 - Pre-Certification Req/Window
+# + in321 - Case Manager
+# + in322 - Second Opinion Date
+# + in323 - Second Opinion Status
+# + in324 - Second Opinion Documentation Received
+# + in325 - Second Opinion Physician
 @hl7v2:SegmentDefinition {
     name: "IN3",
     required: false,

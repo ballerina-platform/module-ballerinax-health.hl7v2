@@ -16,20 +16,19 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_ndl1 - Data type field
-# + cm_ndl2 - Data type field
-# + cm_ndl3 - Data type field
-# + cm_ndl4 - Data type field
-# + cm_ndl5 - Data type field
-# + cm_ndl6 - Data type field
-# + cm_ndl7 - Data type field
-# + cm_ndl8 - Data type field
-# + cm_ndl9 - Data type field
-# + cm_ndl10 - Data type field
-# + cm_ndl11 - Data type field
+# + cm_ndl1 - name
+# + cm_ndl2 - start date/time
+# + cm_ndl3 - end date/time
+# + cm_ndl4 - point of care (IS)
+# + cm_ndl5 - room
+# + cm_ndl6 - bed
+# + cm_ndl7 - facility (HD)
+# + cm_ndl8 - location status
+# + cm_ndl9 - person location type
+# + cm_ndl10 - building
+# + cm_ndl11 - floor
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

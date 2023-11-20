@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,18 +13,17 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + qak1 - Segment Record Field
-# + qak2 - Segment Record Field
-# + qak3 - Segment Record Field
-# + qak4 - Segment Record Field
-# + qak5 - Segment Record Field
-# + qak6 - Segment Record Field
+# + qak1 - Query Tag
+# + qak2 - Query Response Status
+# + qak3 - Message Query Name
+# + qak4 - Hit Count
+# + qak5 - This payload
+# + qak6 - Hits remaining
 @hl7v2:SegmentDefinition {
     name: "QAK",
     required: false,

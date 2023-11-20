@@ -13,40 +13,40 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const ADT_A16_MESSAGE_TYPE = "ADT_A16";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + evn - Message Record Field
-# + pid - Message Record Field
-# + pd1 - Message Record Field
-# + rol - Message Record Field
-# + nk1 - Message Record Field
-# + pv1 - Message Record Field
-# + pv2 - Message Record Field
-# + db1 - Message Record Field
-# + obx - Message Record Field
-# + al1 - Message Record Field
-# + dg1 - Message Record Field
-# + drg - Message Record Field
-# + gt1 - Message Record Field
-# + acc - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + evn - EVN Segment
+# + pid - PID Segment
+# + pd1 - PD1 Segment
+# + rol - ROL Segment
+# + nk1 - NK1 Segment
+# + pv1 - PV1 Segment
+# + pv2 - PV2 Segment
+# + db1 - DB1 Segment
+# + obx - OBX Segment
+# + al1 - AL1 Segment
+# + dg1 - DG1 Segment
+# + drg - DRG Segment
+# + gt1 - GT1 Segment
+# + acc - ACC Segment
+# + procedure - ADT_A16_PROCEDURE Segment Group
+# + insurance - ADT_A16_INSURANCE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
         "ROL": {name: "ROL", maxReps: -1, required: false, segmentType: ROL},
         "NK1": {name: "NK1", maxReps: -1, required: false, segmentType: NK1},
-        "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: PV1},
+        "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: PV1},
         "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: PV2},
         "DB1": {name: "DB1", maxReps: -1, required: false, segmentType: DB1},
         "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: OBX},
@@ -56,18 +56,38 @@ public const ADT_A16_MESSAGE_TYPE = "ADT_A16";
         "GT1": {name: "GT1", maxReps: -1, required: false, segmentType: GT1},
         "ACC": {name: "ACC", maxReps: 1, required: false, segmentType: ACC}
     }
+    ,groups: {
+        "ADT_A16_PROCEDURE": {
+            maxReps: -1,
+            required: false,
+            segments: {
+                "PR1": {name: "PR1", maxReps: 1, required: true, segmentType: typeof PR1},
+                "ROL": {name: "ROL", maxReps: -1, required: false, segmentType: typeof ROL}
+            }
+        },
+        "ADT_A16_INSURANCE": {
+            maxReps: -1,
+            required: false,
+            segments: {
+                "IN1": {name: "IN1", maxReps: 1, required: true, segmentType: typeof IN1},
+                "IN2": {name: "IN2", maxReps: 1, required: false, segmentType: typeof IN2},
+                "IN3": {name: "IN3", maxReps: -1, required: false, segmentType: typeof IN3},
+                "ROL": {name: "ROL", maxReps: -1, required: false, segmentType: typeof ROL}
+            }
+        }
+    }
 }
 public type ADT_A16 record {
     *hl7v2:Message;
     string name = ADT_A16_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    EVN evn?;
-    PID pid?;
+    EVN evn;
+    PID pid;
     PD1 pd1?;
     ROL[] rol = [];
     NK1[] nk1 = [];
-    PV1 pv1?;
+    PV1 pv1;
     PV2 pv2?;
     DB1[] db1 = [];
     OBX[] obx = [];
@@ -76,4 +96,6 @@ public type ADT_A16 record {
     DRG drg?;
     GT1[] gt1 = [];
     ACC acc?;
+    ADT_A16_PROCEDURE[] procedure = [{pr1:{}}];
+    ADT_A16_INSURANCE[] insurance = [{in1:{}}];
 };

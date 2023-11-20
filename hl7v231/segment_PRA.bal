@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,20 +13,19 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pra1 - Segment Record Field
-# + pra2 - Segment Record Field
-# + pra3 - Segment Record Field
-# + pra4 - Segment Record Field
-# + pra5 - Segment Record Field
-# + pra6 - Segment Record Field
-# + pra7 - Segment Record Field
-# + pra8 - Segment Record Field
+# + pra1 - Primary Key Value - PRA
+# + pra2 - Practitioner Group
+# + pra3 - Practitioner Category
+# + pra4 - Provider Billing
+# + pra5 - Specialty
+# + pra6 - Practitioner ID Numbers
+# + pra7 - Privileges
+# + pra8 - Date Entered Practice
 @hl7v2:SegmentDefinition {
     name: "PRA",
     required: false,

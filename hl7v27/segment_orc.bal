@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,45 +13,43 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + orc1 - Segment Record Field
-# + orc2 - Segment Record Field
-# + orc3 - Segment Record Field
-# + orc4 - Segment Record Field
-# + orc5 - Segment Record Field
-# + orc6 - Segment Record Field
-# + orc7 - Segment Record Field
-# + orc8 - Segment Record Field
-# + orc9 - Segment Record Field
-# + orc10 - Segment Record Field
-# + orc11 - Segment Record Field
-# + orc12 - Segment Record Field
-# + orc13 - Segment Record Field
-# + orc14 - Segment Record Field
-# + orc15 - Segment Record Field
-# + orc16 - Segment Record Field
-# + orc17 - Segment Record Field
-# + orc18 - Segment Record Field
-# + orc19 - Segment Record Field
-# + orc20 - Segment Record Field
-# + orc21 - Segment Record Field
-# + orc22 - Segment Record Field
-# + orc23 - Segment Record Field
-# + orc24 - Segment Record Field
-# + orc25 - Segment Record Field
-# + orc26 - Segment Record Field
-# + orc27 - Segment Record Field
-# + orc28 - Segment Record Field
-# + orc29 - Segment Record Field
-# + orc30 - Segment Record Field
-# + orc31 - Segment Record Field
-# + orc32 - Segment Record Field
-# + orc33 - Segment Record Field
+# + orc1 - Order Control
+# + orc2 - Placer Order Number
+# + orc3 - Filler Order Number
+# + orc4 - Placer Group Number
+# + orc5 - Order Status
+# + orc6 - Response Flag
+# + orc8 - Parent
+# + orc9 - Date/Time of Transaction
+# + orc10 - Entered By
+# + orc11 - Verified By
+# + orc12 - Ordering Provider
+# + orc13 - Enterer's Location
+# + orc14 - Call Back Phone Number
+# + orc15 - Order Effective Date/Time
+# + orc16 - Order Control Code Reason
+# + orc17 - Entering Organization
+# + orc18 - Entering Device
+# + orc19 - Action By
+# + orc20 - Advanced Beneficiary Notice Code
+# + orc21 - Ordering Facility Name
+# + orc22 - Ordering Facility Address
+# + orc23 - Ordering Facility Phone Number
+# + orc24 - Ordering Provider Address
+# + orc25 - Order Status Modifier
+# + orc26 - Advanced Beneficiary Notice Override Reason
+# + orc27 - Filler's Expected Availability Date/Time
+# + orc28 - Confidentiality Code
+# + orc29 - Order Type
+# + orc30 - Enterer Authorization Mode
+# + orc31 - Parent Universal Service Identifier
+# + orc32 - Advanced Beneficiary Notice Date
+# + orc33 - Alternate Placer Order Number
 @hl7v2:SegmentDefinition {
     name: "ORC",
     required: false,
@@ -93,12 +90,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: ID
-        },        
-        "orc7": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "orc8": {
             required: false,
@@ -267,7 +258,6 @@ public type ORC record {
     EI orc4 = {};
     ID orc5 = "";
     ID orc6 = "";
-    ST orc7 = "";
     EIP orc8 = {};
     DTM orc9 = "";
     XCN[] orc10 = [{}];

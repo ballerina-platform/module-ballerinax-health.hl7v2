@@ -13,36 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const EAC_U07_MESSAGE_TYPE = "EAC_U07";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + equ - Message Record Field
-# + rol - Message Record Field
-# + command - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + equ - EQU Segment
+# + rol - ROL Segment
+# + command - EAC_U07_COMMAND Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "EQU": {name: "EQU", maxReps: 1, required: false, segmentType: EQU},
+        "EQU": {name: "EQU", maxReps: 1, required: true, segmentType: EQU},
         "ROL": {name: "ROL", maxReps: 1, required: false, segmentType: ROL}
     }
     ,groups: {
-        "COMMAND": {
+        "EAC_U07_COMMAND": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "ECD": {name: "ECD", maxReps: 1, required: false, segmentType: typeof ECD},
+                "ECD": {name: "ECD", maxReps: 1, required: true, segmentType: typeof ECD},
                 "TQ1": {name: "TQ1", maxReps: 1, required: false, segmentType: typeof TQ1},
-                "SPECIMEN_CONTAINER": {name: "SPECIMEN_CONTAINER", maxReps: 1, required: false, segmentType: typeof SPECIMEN_CONTAINER},
+                "EAC_U07_SPECIMEN_CONTAINER": {name: "EAC_U07_SPECIMEN_CONTAINER", maxReps: 1, required: false, segmentType: typeof EAC_U07_SPECIMEN_CONTAINER},
                 "CNS": {name: "CNS", maxReps: 1, required: false, segmentType: typeof CNS}
             }
         }
@@ -51,10 +49,10 @@ public const EAC_U07_MESSAGE_TYPE = "EAC_U07";
 public type EAC_U07 record {
     *hl7v2:Message;
     string name = EAC_U07_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    EQU equ?;
+    EQU equ;
     ROL rol?;
-    COMMAND[] command = [{}];
+    EAC_U07_COMMAND[] command = [{ecd:{}}];
 };

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,39 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + sch1 - Segment Record Field
-# + sch2 - Segment Record Field
-# + sch3 - Segment Record Field
-# + sch4 - Segment Record Field
-# + sch5 - Segment Record Field
-# + sch6 - Segment Record Field
-# + sch7 - Segment Record Field
-# + sch8 - Segment Record Field
-# + sch9 - Segment Record Field
-# + sch10 - Segment Record Field
-# + sch11 - Segment Record Field
-# + sch12 - Segment Record Field
-# + sch13 - Segment Record Field
-# + sch14 - Segment Record Field
-# + sch15 - Segment Record Field
-# + sch16 - Segment Record Field
-# + sch17 - Segment Record Field
-# + sch18 - Segment Record Field
-# + sch19 - Segment Record Field
-# + sch20 - Segment Record Field
-# + sch21 - Segment Record Field
-# + sch22 - Segment Record Field
-# + sch23 - Segment Record Field
-# + sch24 - Segment Record Field
-# + sch25 - Segment Record Field
-# + sch26 - Segment Record Field
-# + sch27 - Segment Record Field
+# + sch1 - ID der Terminanforderung
+# + sch2 - ID der Terminvergabe
+# + sch3 - Nummer der Wiederholung
+# + sch4 - Auftragsgruppennummer
+# + sch5 - ID des Terminplans
+# + sch6 - Grund der Nachricht
+# + sch7 - Grund der Terminanforderung
+# + sch8 - Typ der Terminanforderung
+# + sch10 - Einheit der Dauer des Termins
+# + sch12 - Ansprechpartner beim Auftraggeber
+# + sch13 - Telefonnummer des Ansprechpartner beim Auftraggeber
+# + sch14 - Adresse des Ansprechpartners
+# + sch15 - Aufenthaltsort des Ansprechpartners
+# + sch16 - Ansprechpartner bei der Leistungsstelle
+# + sch17 - Telefonnummer des Ansprechpartners
+# + sch18 - Adresse des Ansprechpartners
+# + sch19 - Aufenthaltsort des Ansprechpartners
+# + sch20 - Erfasser
+# + sch21 - Telefonnummer des Erfassers
+# + sch22 - Aufenthaltsort des Erfassers
+# + sch23 - ID der übergeordneten Terminanforderung
+# + sch24 - ID der übergeordneten Terminvergabe
+# + sch25 - Statuscode Leistungsstelle
+# + sch26 - Auftragsnummer des Auftraggebers / der auftraggebenden Stelle
+# + sch27 - Bearbeitungsnummer der Leistungsstelle
 @hl7v2:SegmentDefinition {
     name: "SCH",
     required: false,
@@ -100,23 +96,11 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
-        "sch9": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
         "sch10": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: CNE
-        },
-        "sch11": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "sch12": {
             required: false,
@@ -227,9 +211,7 @@ public type SCH record {
     CWE sch6 = {};
     CWE sch7 = {};
     CWE sch8 = {};
-    ST sch9 = "";
     CNE sch10 = {};
-    ST sch11 = "";
     XCN[] sch12 = [{}];
     XTN sch13 = {};
     XAD[] sch14 = [{}];

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,35 +13,33 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ub11 - Segment Record Field
-# + ub12 - Segment Record Field
-# + ub13 - Segment Record Field
-# + ub14 - Segment Record Field
-# + ub15 - Segment Record Field
-# + ub16 - Segment Record Field
-# + ub17 - Segment Record Field
-# + ub18 - Segment Record Field
-# + ub19 - Segment Record Field
-# + ub110 - Segment Record Field
-# + ub111 - Segment Record Field
-# + ub112 - Segment Record Field
-# + ub113 - Segment Record Field
-# + ub114 - Segment Record Field
-# + ub115 - Segment Record Field
-# + ub116 - Segment Record Field
-# + ub117 - Segment Record Field
-# + ub118 - Segment Record Field
-# + ub119 - Segment Record Field
-# + ub120 - Segment Record Field
-# + ub121 - Segment Record Field
-# + ub122 - Segment Record Field
-# + ub123 - Segment Record Field
+# + ub11 - (Segment UB1 wird nicht verwendet)
+# + ub13 - nicht verwendet
+# + ub14 - nicht verwendet
+# + ub15 - nicht verwendet
+# + ub16 - nicht verwendet
+# + ub17 - nicht verwendet
+# + ub18 - nicht verwendet
+# + ub19 - nicht verwendet
+# + ub110 - nicht verwendet
+# + ub111 - nicht verwendet
+# + ub112 - nicht verwendet
+# + ub113 - nicht verwendet
+# + ub114 - nicht verwendet
+# + ub115 - nicht verwendet
+# + ub116 - nicht verwendet
+# + ub117 - nicht verwendet
+# + ub118 - nicht verwendet
+# + ub119 - nicht verwendet
+# + ub120 - nicht verwendet
+# + ub121 - nicht verwendet
+# + ub122 - nicht verwendet
+# + ub123 - nicht verwendet
 @hl7v2:SegmentDefinition {
     name: "UB1",
     required: false,
@@ -53,12 +50,6 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: SI
-        },
-        "ub12": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
         },
         "ub13": {
             required: false,
@@ -192,7 +183,6 @@ public type UB1 record {
     *hl7v2:Segment;
     string name = UB1_SEGMENT_NAME;
     SI ub11 = "";
-    ST ub12 = "";
     NM ub13 = "";
     NM ub14 = "";
     NM ub15 = "";

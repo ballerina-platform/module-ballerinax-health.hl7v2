@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,21 +13,20 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + urs1 - Segment Record Field
-# + urs2 - Segment Record Field
-# + urs3 - Segment Record Field
-# + urs4 - Segment Record Field
-# + urs5 - Segment Record Field
-# + urs6 - Segment Record Field
-# + urs7 - Segment Record Field
-# + urs8 - Segment Record Field
-# + urs9 - Segment Record Field
+# + urs1 - Abteilung / System, auf die sich der Bericht bezieht
+# + urs2 - Anfang des Berichtszeitraums
+# + urs3 - Ende des Berichtszeitraums
+# + urs4 - Benutzerspezifisches Kriterium
+# + urs5 - Installationsspezifisches Kriterium
+# + urs6 - Ereignisse, auf die sich der Bericht bezieht
+# + urs7 - Status des Berichtsgegenstandes
+# + urs8 - Berichtsumfang
+# + urs9 - Zeitpunkt-/intervall-/Mengenfestlegung
 @hl7v2:SegmentDefinition {
     name: "URS",
     required: false,

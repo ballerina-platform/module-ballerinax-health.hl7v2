@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ccd1 - Data type field
-# + ccd2 - Data type field
+# + ccd1 - Invocation Event
+# + ccd2 - Date/time
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -16,12 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-# Numeric Array.
+# Data type description
 #
-# + na1 - Value1  
-# + na2 - Value2  
-# + na3 - Value3  
-# + na4 - Value4
+# + na1 - value1
+# + na2 - value2
+# + na3 - value3
+# + na4 - value4
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -29,8 +29,8 @@ import ballerinax/health.hl7v2;
 }
 public type NA record {
     *hl7v2:CompositeType;
-    NM na1 = -1;
-    NM na2 = -1;
-    NM na3 = -1;
-    NM na4 = -1;
+    NM na1 = "";
+    NM na2 = "";
+    NM na3 = "";
+    NM na4 = "";
 };

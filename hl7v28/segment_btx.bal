@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,31 +13,30 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + btx1 - Segment Record Field
-# + btx2 - Segment Record Field
-# + btx3 - Segment Record Field
-# + btx4 - Segment Record Field
-# + btx5 - Segment Record Field
-# + btx6 - Segment Record Field
-# + btx7 - Segment Record Field
-# + btx8 - Segment Record Field
-# + btx9 - Segment Record Field
-# + btx10 - Segment Record Field
-# + btx11 - Segment Record Field
-# + btx12 - Segment Record Field
-# + btx13 - Segment Record Field
-# + btx14 - Segment Record Field
-# + btx15 - Segment Record Field
-# + btx16 - Segment Record Field
-# + btx17 - Segment Record Field
-# + btx18 - Segment Record Field
-# + btx19 - Segment Record Field
+# + btx1 - BTX-Segmentnummer
+# + btx2 - ID der Blutspende (für Blutkomponenten)
+# + btx3 - Art der Blutkomponente
+# + btx4 - Blutgruppe der Blutkomponente
+# + btx5 - Art des kommerziellen Blutprodukts
+# + btx6 - Hersteller des kommerziellen Blutprodukts
+# + btx7 - Chargennummer des kommerziellen Blutprodukts
+# + btx8 - Anzahl der Blutprodukte
+# + btx9 - Verpackungseinheit des Blutprodukts
+# + btx10 - Maßeinheit der Verpackungseinheit des Blutprodukts
+# + btx11 - Transfusions-/Auslieferungsstatus des Blutprodukts
+# + btx12 - Status von BTX-11
+# + btx13 - Zeitpunkt der Statusbestimmung
+# + btx14 - Verantwortlicher für die Transfusion
+# + btx15 - Kontrollperson für die Transfusion
+# + btx16 - Startzeitpunkt der Transfusion
+# + btx17 - Endzeitpunkt der Transfusion
+# + btx18 - Art der Komplikation (adverse Reaktion)
+# + btx19 - Grund für Transfusionsunterbrechung
 @hl7v2:SegmentDefinition {
     name: "BTX",
     required: false,

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,36 +13,35 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + om71 - Segment Record Field
-# + om72 - Segment Record Field
-# + om73 - Segment Record Field
-# + om74 - Segment Record Field
-# + om75 - Segment Record Field
-# + om76 - Segment Record Field
-# + om77 - Segment Record Field
-# + om78 - Segment Record Field
-# + om79 - Segment Record Field
-# + om710 - Segment Record Field
-# + om711 - Segment Record Field
-# + om712 - Segment Record Field
-# + om713 - Segment Record Field
-# + om714 - Segment Record Field
-# + om715 - Segment Record Field
-# + om716 - Segment Record Field
-# + om717 - Segment Record Field
-# + om718 - Segment Record Field
-# + om719 - Segment Record Field
-# + om720 - Segment Record Field
-# + om721 - Segment Record Field
-# + om722 - Segment Record Field
-# + om723 - Segment Record Field
-# + om724 - Segment Record Field
+# + om71 - Laufende Nummer des OMx-Segment des gleichen Typs in einer Nachricht
+# + om72 - Leistungsidentifikation
+# + om73 - ID der Kategorie
+# + om74 - Beschreibung der Kategorie
+# + om75 - Synonym für die Kategorie
+# + om76 - Startzeitpunkt der Verfügbarkeit
+# + om77 - Endzeitpunkt der Verfügbarkeit
+# + om78 - normale Dauer
+# + om79 - Einheiten für Dauer
+# + om710 - normale Wiederholungsfrequenz
+# + om711 - Merkmal Einwilligung erforderlich
+# + om712 - ID der Einwilligung
+# + om713 - Einwilligung gültig ab
+# + om714 - Einwilligung gültig bis
+# + om715 - Einwilligungszeitraum
+# + om716 - Einheit des Einwilligungszeitraums
+# + om717 - Wartezeit nach Einwilligung
+# + om718 - Einheit der Wartezeit nach Einwilligung
+# + om719 - Zeitpunkt der letzten, die Vergleichbarkeit von Erg. beeinflussenden Änderung
+# + om720 - Eingegeben durch
+# + om721 - Ort der Auftragsannahme
+# + om722 - Status im Hauskatalog
+# + om723 - Merkmal spezielle Anforderung
+# + om724 - Primärschlüssel
 @hl7v2:SegmentDefinition {
     name: "OM7",
     required: false,

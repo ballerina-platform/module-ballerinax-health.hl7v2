@@ -16,13 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_pip1 - Data type field
-# + cm_pip2 - Data type field
-# + cm_pip3 - Data type field
-# + cm_pip4 - Data type field
+# + cm_pip1 - privilege
+# + cm_pip2 - privilege class
+# + cm_pip3 - expiration date
+# + cm_pip4 - activation date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

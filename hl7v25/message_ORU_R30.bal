@@ -13,39 +13,70 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const ORU_R30_MESSAGE_TYPE = "ORU_R30";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + pid - Message Record Field
-# + pd1 - Message Record Field
-# + orc - Message Record Field
-# + obr - Message Record Field
-# + nte - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + pid - PID Segment
+# + pd1 - PD1 Segment
+# + orc - ORC Segment
+# + obr - OBR Segment
+# + nte - NTE Segment
+# + visit - ORU_R30_VISIT Segment Group
+# + timing_qty - ORU_R30_TIMING_QTY Segment Group
+# + observation - ORU_R30_OBSERVATION Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
-        "ORC": {name: "ORC", maxReps: 1, required: false, segmentType: ORC},
-        "OBR": {name: "OBR", maxReps: 1, required: false, segmentType: OBR},
+        "ORC": {name: "ORC", maxReps: 1, required: true, segmentType: ORC},
+        "OBR": {name: "OBR", maxReps: 1, required: true, segmentType: OBR},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
+    }
+    ,groups: {
+        "ORU_R30_VISIT": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
+                "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2}
+            }
+        },
+        "ORU_R30_TIMING_QTY": {
+            maxReps: -1,
+            required: false,
+            segments: {
+                "TQ1": {name: "TQ1", maxReps: 1, required: true, segmentType: typeof TQ1},
+                "TQ2": {name: "TQ2", maxReps: -1, required: false, segmentType: typeof TQ2}
+            }
+        },
+        "ORU_R30_OBSERVATION": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "OBX": {name: "OBX", maxReps: 1, required: true, segmentType: typeof OBX},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE}
+            }
+        }
     }
 }
 public type ORU_R30 record {
     *hl7v2:Message;
     string name = ORU_R30_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    PID pid?;
+    PID pid;
     PD1 pd1?;
-    ORC orc?;
-    OBR obr?;
+    ORC orc;
+    OBR obr;
     NTE[] nte = [];
+    ORU_R30_VISIT[] visit = [{pv1:{}}];
+    ORU_R30_TIMING_QTY[] timing_qty = [{tq1:{}}];
+    ORU_R30_OBSERVATION[] observation = [{obx:{}}];
 };

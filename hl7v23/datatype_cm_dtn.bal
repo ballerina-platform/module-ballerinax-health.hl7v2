@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cm_dtn1 - Data type field
-# + cm_dtn2 - Data type field
+# + cm_dtn1 - day type
+# + cm_dtn2 - number of days
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -28,5 +28,5 @@ import ballerinax/health.hl7v2;
 public type CM_DTN record {
     *hl7v2:CompositeType;
     IS cm_dtn1 = "";
-    NM cm_dtn2 = -1;
+    NM cm_dtn2 = "";
 };

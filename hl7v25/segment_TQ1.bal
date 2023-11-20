@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + tq11 - Segment Record Field
-# + tq12 - Segment Record Field
-# + tq13 - Segment Record Field
-# + tq14 - Segment Record Field
-# + tq15 - Segment Record Field
-# + tq16 - Segment Record Field
-# + tq17 - Segment Record Field
-# + tq18 - Segment Record Field
-# + tq19 - Segment Record Field
-# + tq110 - Segment Record Field
-# + tq111 - Segment Record Field
-# + tq112 - Segment Record Field
-# + tq113 - Segment Record Field
-# + tq114 - Segment Record Field
+# + tq11 - Set ID - TQ1
+# + tq12 - Quantity
+# + tq13 - Repeat Pattern
+# + tq14 - Explicit Time
+# + tq15 - Relative Time and Units
+# + tq16 - Service Duration
+# + tq17 - Start date/time
+# + tq18 - End date/time
+# + tq19 - Priority
+# + tq110 - Condition text
+# + tq111 - Text instruction
+# + tq112 - Conjunction
+# + tq113 - Occurrence duration
+# + tq114 - Total occurrence's
 @hl7v2:SegmentDefinition {
     name: "TQ1",
     required: false,

@@ -13,48 +13,59 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const ADT_A03_MESSAGE_TYPE = "ADT_A03";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + evn - Message Record Field
-# + pid - Message Record Field
-# + pd1 - Message Record Field
-# + pv1 - Message Record Field
-# + pv2 - Message Record Field
-# + db1 - Message Record Field
-# + dg1 - Message Record Field
-# + drg - Message Record Field
-# + obx - Message Record Field
+# + msh - MSH Segment
+# + evn - EVN Segment
+# + pid - PID Segment
+# + pd1 - PD1 Segment
+# + pv1 - PV1 Segment
+# + pv2 - PV2 Segment
+# + db1 - DB1 Segment
+# + dg1 - DG1 Segment
+# + drg - DRG Segment
+# + obx - OBX Segment
+# + procedure - ADT_A03_PROCEDURE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "EVN": {name: "EVN", maxReps: 1, required: false, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
         "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
-        "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: PV1},
+        "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: PV1},
         "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: PV2},
         "DB1": {name: "DB1", maxReps: -1, required: false, segmentType: DB1},
         "DG1": {name: "DG1", maxReps: -1, required: false, segmentType: DG1},
         "DRG": {name: "DRG", maxReps: 1, required: false, segmentType: DRG},
         "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: OBX}
     }
+    ,groups: {
+        "ADT_A03_PROCEDURE": {
+            maxReps: -1,
+            required: false,
+            segments: {
+                "PR1": {name: "PR1", maxReps: 1, required: true, segmentType: typeof PR1},
+                "ROL": {name: "ROL", maxReps: -1, required: false, segmentType: typeof ROL}
+            }
+        }
+    }
 }
 public type ADT_A03 record {
     *hl7v2:Message;
     string name = ADT_A03_MESSAGE_TYPE;
-    MSH msh?;
-    EVN evn?;
-    PID pid?;
+    MSH msh;
+    EVN evn;
+    PID pid;
     PD1 pd1?;
-    PV1 pv1?;
+    PV1 pv1;
     PV2 pv2?;
     DB1[] db1 = [];
     DG1[] dg1 = [];
     DRG drg?;
     OBX[] obx = [];
+    ADT_A03_PROCEDURE[] procedure = [{pr1:{}}];
 };

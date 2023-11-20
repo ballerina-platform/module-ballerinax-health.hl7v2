@@ -16,11 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_range1 - Data type field
-# + cm_range2 - Data type field
+# + cm_range1 - Low Value
+# + cm_range2 - High Value
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

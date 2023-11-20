@@ -13,21 +13,20 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
-#  Holds error comments to acknowledgment messages.
+# The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
-# + name - Segment name 
+# + name - Segment Name
 # + err1 - Error Code and Location
 @hl7v2:SegmentDefinition {
     name: "ERR",
     required: false,
-    maxReps: 1,
+    maxReps: 0,
     fields: {
         "err1": {
             required: true,
-            length: 80,
+            length: 1,
             maxReps: -1,
             dataType: CM_ELD
         }

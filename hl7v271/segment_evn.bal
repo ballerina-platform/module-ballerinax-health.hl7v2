@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,18 +13,17 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + evn2 - Segment Record Field
-# + evn3 - Segment Record Field
-# + evn4 - Segment Record Field
-# + evn5 - Segment Record Field
-# + evn6 - Segment Record Field
-# + evn7 - Segment Record Field
+# + evn2 - Zeitpunkt der Erfassung (im System) des Ereignisses ins System
+# + evn3 - Geplanter Zeitpunkt des Ereignisses
+# + evn4 - Grund für das Auslösen des Ereignisses
+# + evn5 - Sachbearbeiterkennzeichen
+# + evn6 - Zeitpunkt des tatsächlichen Auftretens des Ereignisses
+# + evn7 - Einrichtung, in der das Ereignis aufgetreten ist
 @hl7v2:SegmentDefinition {
     name: "EVN",
     required: false,

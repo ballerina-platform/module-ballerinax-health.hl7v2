@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,20 +13,18 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + msa1 - Segment Record Field
-# + msa2 - Segment Record Field
-# + msa3 - Segment Record Field
-# + msa5 - Segment Record Field
-# + msa4 - Segment Record Field
-# + msa6 - Segment Record Field
-# + msa7 - Segment Record Field
-# + msa8 - Segment Record Field
+# + msa1 - Bestätigungscode
+# + msa2 - Nachrichtenkontrollnummer
+# + msa3 - Klartexterläuterung
+# + msa4 - Erwartete laufende Nummer der Nachricht
+# + msa6 - Fehlerbeschreibung
+# + msa7 - Anzahl anstehender Nachrichten
+# + msa8 - Höchste Priorität in den anstehenden Nachrichten
 @hl7v2:SegmentDefinition {
     name: "MSA",
     required: false,
@@ -57,12 +54,6 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: NM
         },
-        "msa5": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
         "msa6": {
             required: false,
             length: 1,
@@ -90,7 +81,6 @@ public type MSA record {
     ST msa2 = "";
     ST msa3 = "";
     NM msa4 = "";
-    ST msa5 = "";
     CNE msa6 = {};
     NM msa7 = "";
     ID msa8 = "";

@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ei1 - Data type field
-# + ei2 - Data type field
-# + ei3 - Data type field
-# + ei4 - Data type field
+# + ei1 - entity identifier
+# + ei2 - namespace ID
+# + ei3 - universal ID
+# + ei4 - universal ID type
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,24 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pes1 - Segment Record Field
-# + pes2 - Segment Record Field
-# + pes3 - Segment Record Field
-# + pes4 - Segment Record Field
-# + pes5 - Segment Record Field
-# + pes6 - Segment Record Field
-# + pes7 - Segment Record Field
-# + pes8 - Segment Record Field
-# + pes9 - Segment Record Field
-# + pes10 - Segment Record Field
-# + pes11 - Segment Record Field
-# + pes12 - Segment Record Field
-# + pes13 - Segment Record Field
+# + pes1 - Sender Organization Name
+# + pes2 - Sender Individual Name
+# + pes3 - Sender Address
+# + pes4 - Sender Telephone
+# + pes5 - Sender Event Identifier
+# + pes6 - Sender Sequence Number
+# + pes7 - Sender Event Description
+# + pes8 - Sender Comment
+# + pes9 - Sender Aware Date/Time
+# + pes10 - Event Report Date
+# + pes11 - Event Report Timing/Type
+# + pes12 - Event Report Source
+# + pes13 - Event Reported To
 @hl7v2:SegmentDefinition {
     name: "PES",
     required: false,
@@ -127,7 +124,7 @@ public type PES record {
     XAD[] pes3 = [{}];
     XTN[] pes4 = [{}];
     EI pes5 = {};
-    NM pes6 = -1;
+    NM pes6 = "";
     FT[] pes7 = [""];
     FT pes8 = "";
     TS pes9 = {};

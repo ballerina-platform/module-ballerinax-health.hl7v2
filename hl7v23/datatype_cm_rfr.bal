@@ -16,16 +16,15 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_rfr1 - Data type field
-# + cm_rfr2 - Data type field
-# + cm_rfr3 - Data type field
-# + cm_rfr4 - Data type field
-# + cm_rfr5 - Data type field
-# + cm_rfr6 - Data type field
-# + cm_rfr7 - Data type field
+# + cm_rfr1 - reference range
+# + cm_rfr2 - sex
+# + cm_rfr3 - age range
+# + cm_rfr4 - age gestation
+# + cm_rfr5 - species
+# + cm_rfr6 - race/subspecies
+# + cm_rfr7 - conditions
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

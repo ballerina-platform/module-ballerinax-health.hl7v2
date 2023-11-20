@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pd11 - Segment Record Field
-# + pd12 - Segment Record Field
-# + pd13 - Segment Record Field
-# + pd14 - Segment Record Field
-# + pd15 - Segment Record Field
-# + pd16 - Segment Record Field
-# + pd17 - Segment Record Field
-# + pd18 - Segment Record Field
-# + pd19 - Segment Record Field
-# + pd110 - Segment Record Field
-# + pd111 - Segment Record Field
-# + pd112 - Segment Record Field
+# + pd11 - Living Dependency
+# + pd12 - Living Arrangement
+# + pd13 - Patient Primary Facility
+# + pd14 - Patient Primary Care Provider Name & ID No.
+# + pd15 - Student Indicator
+# + pd16 - Handicap
+# + pd17 - Living Will
+# + pd18 - Organ Donor
+# + pd19 - Separate Bill
+# + pd110 - Duplicate Patient
+# + pd111 - Publicity Code
+# + pd112 - Protection Indicator
 @hl7v2:SegmentDefinition {
     name: "PD1",
     required: false,

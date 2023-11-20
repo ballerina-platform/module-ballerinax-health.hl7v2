@@ -337,41 +337,10 @@ class HL7Parser {
             [key, segment] = segmentEntry;
             log:printDebug(string `current processing segment: ${key}`);
             if segment is hl7v2:SegmentComponent {
-                [string, anydata][] innerSegments = segment.entries().toArray();
-                foreach var innerSegmentItem in innerSegments {
-                    string innerSegmentKey;
-                    anydata innerSegment;
-                    [innerSegmentKey, innerSegment] = innerSegmentItem;
-                    log:printDebug(string `current processing segment: ${innerSegmentKey} of segment component: ${segment.name}`);
-                    if innerSegment is hl7v2:Segment {
-                        string encodedSegment = self.encodeSegment(innerSegment);
-                        encodedMessage = string:concat(encodedMessage, "\r", encodedSegment);
-                    } else if innerSegment is hl7v2:Segment[] {
-                        foreach hl7v2:Segment childSegment in innerSegment {
-                            string encodedSegment = self.encodeSegment(childSegment);
-                            encodedMessage = string:concat(encodedMessage, "\r", encodedSegment);
-                        }
-                    }
-                }
-
+                encodedMessage = string:concat(encodedMessage, "", self.encodeSegmentGroup(segment));
             } else if segment is hl7v2:SegmentComponent[] {
                 foreach hl7v2:SegmentComponent childSegmentComponent in segment {
-                    [string, anydata][] innerSegments = childSegmentComponent.entries().toArray();
-                    foreach var innerSegmentItem in innerSegments {
-                        string innerSegmentKey;
-                        anydata innerSegment;
-                        [innerSegmentKey, innerSegment] = innerSegmentItem;
-                        log:printDebug(string `current processing segment: ${innerSegmentKey} of segment component: ${childSegmentComponent.name}`);
-                        if innerSegment is hl7v2:Segment {
-                            string encodedSegment = self.encodeSegment(innerSegment);
-                            encodedMessage = string:concat(encodedMessage, "\r", encodedSegment);
-                        } else if innerSegment is hl7v2:Segment[] {
-                            foreach hl7v2:Segment childSegment in innerSegment {
-                                string encodedSegment = self.encodeSegment(childSegment);
-                                encodedMessage = string:concat(encodedMessage, "\r", encodedSegment);
-                            }
-                        }
-                    }
+                    encodedMessage = string:concat(encodedMessage, "", self.encodeSegmentGroup(childSegmentComponent));
                 }
             } else if segment is hl7v2:Segment {
                 string encodedSegment = self.encodeSegment(segment);
@@ -387,6 +356,41 @@ class HL7Parser {
             }
         }
         return string:trim(encodedMessage);
+    }
+
+    # Encode the HL7 segment group model and return the encoded segment group string.
+    # 
+    # + segment - HL7 segment group model
+    # + return - Encoded segment group string
+    private isolated function encodeSegmentGroup(hl7v2:SegmentComponent segment) returns string {
+        string encodedString = "";
+        [string, anydata][] innerSegments = segment.entries().toArray();
+        foreach var innerSegmentItem in innerSegments {
+            string innerSegmentKey;
+            anydata innerSegment;
+            [innerSegmentKey, innerSegment] = innerSegmentItem;
+            log:printDebug(string `current processing segment: ${innerSegmentKey} of segment component: ${segment.name}`);
+            if innerSegment is hl7v2:SegmentComponent {
+                return string:concat(encodedString, "", self.encodeSegmentGroup(innerSegment));
+            } else if innerSegment is hl7v2:SegmentComponent[] {
+                foreach hl7v2:SegmentComponent childSegmentComponent in innerSegment {
+                    return string:concat(encodedString, "", self.encodeSegmentGroup(childSegmentComponent));
+                }
+            } else if innerSegment is hl7v2:Segment {
+                string encodeSegmentResult = self.encodeSegment(innerSegment);
+                if encodeSegmentResult != "" {
+                    encodedString = string:concat(encodedString, "\r", encodeSegmentResult);
+                }
+            } else if innerSegment is hl7v2:Segment[] {
+                foreach hl7v2:Segment childSegment in innerSegment {
+                    string encodeSegmentResult = self.encodeSegment(childSegment);
+                    if encodeSegmentResult != "" {
+                        encodedString = string:concat(encodedString, "\r", encodeSegmentResult);
+                    }
+                }
+            }
+        }
+        return encodedString;
     }
 
     # Encode the HL7 segment model and return the encoded segment string.
@@ -427,6 +431,9 @@ class HL7Parser {
             }
         }
         encodedString = stripExtraDelimeters(encodedString, self.encodingCharacters.getComponentSeparator());
+        if isEmptySegment(encodedString) {
+            return "";
+        }
         return encodedString;
     }
 

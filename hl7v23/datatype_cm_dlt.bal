@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cm_dlt1 - Data type field
-# + cm_dlt2 - Data type field
-# + cm_dlt3 - Data type field
-# + cm_dlt4 - Data type field
+# + cm_dlt1 - Range
+# + cm_dlt2 - numeric threshold
+# + cm_dlt3 - change
+# + cm_dlt4 - length of time-days
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -30,7 +30,7 @@ import ballerinax/health.hl7v2;
 public type CM_DLT record {
     *hl7v2:CompositeType;
     CM_RANGE cm_dlt1 = {};
-    NM cm_dlt2 = -1;
+    NM cm_dlt2 = "";
     ST cm_dlt3 = "";
-    NM cm_dlt4 = -1;
+    NM cm_dlt4 = "";
 };

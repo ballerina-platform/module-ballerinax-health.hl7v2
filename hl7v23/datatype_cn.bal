@@ -16,17 +16,17 @@
 
 import ballerinax/health.hl7v2;
 
-# Composite ID Number And Name. A field identifying a person both as a coded value and with a text name. 
+# Data type description
 #
-# + cn1 - ID Number  
-# + cn2 - Family Name  
-# + cn3 - Given Name  
-# + cn4 - Middle Initial Or Name  
-# + cn5 - Suffix  
-# + cn6 - Prefix  
-# + cn7 - Degree  
-# + cn8 - Source Table  
-# + cn9 - Assigning Authority
+# + cn1 - ID number (ST)
+# + cn2 - family name
+# + cn3 - given name
+# + cn4 - middle initial or name
+# + cn5 - suffix (e.g., JR or III)
+# + cn6 - prefix (e.g., DR)
+# + cn7 - degree (e.g., MD)
+# + cn8 - source table
+# + cn9 - assigning authority
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -42,5 +42,5 @@ public type CN record {
     ST cn6 = "";
     ST cn7 = "";
     ID cn8 = "";
-    ST cn9 = "";
+    HD cn9 = {};
 };

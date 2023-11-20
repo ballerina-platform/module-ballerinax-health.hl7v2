@@ -13,43 +13,41 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const MFR_M07_MESSAGE_TYPE = "MFR_M07";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + qak - Message Record Field
-# + qrd - Message Record Field
-# + qrf - Message Record Field
-# + mfi - Message Record Field
-# + dsc - Message Record Field
-# + mf_query - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + qak - QAK Segment
+# + qrd - QRD Segment
+# + qrf - QRF Segment
+# + mfi - MFI Segment
+# + dsc - DSC Segment
+# + mf_query - MFR_M07_MF_QUERY Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
         "QAK": {name: "QAK", maxReps: 1, required: false, segmentType: QAK},
-        "QRD": {name: "QRD", maxReps: 1, required: false, segmentType: QRD},
+        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
         "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF},
-        "MFI": {name: "MFI", maxReps: 1, required: false, segmentType: MFI},
+        "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
     }
     ,groups: {
-        "MF_QUERY": {
+        "MFR_M07_MF_QUERY": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
-                "MFE": {name: "MFE", maxReps: 1, required: false, segmentType: typeof MFE},
-                "CM0": {name: "CM0", maxReps: 1, required: false, segmentType: typeof CM0},
+                "MFE": {name: "MFE", maxReps: 1, required: true, segmentType: typeof MFE},
+                "CM0": {name: "CM0", maxReps: 1, required: true, segmentType: typeof CM0},
                 "CM2": {name: "CM2", maxReps: -1, required: false, segmentType: typeof CM2}
             }
         }
@@ -58,14 +56,14 @@ public const MFR_M07_MESSAGE_TYPE = "MFR_M07";
 public type MFR_M07 record {
     *hl7v2:Message;
     string name = MFR_M07_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
-    MSA msa?;
+    MSA msa;
     ERR[] err = [];
     QAK qak?;
-    QRD qrd?;
+    QRD qrd;
     QRF qrf?;
-    MFI mfi?;
+    MFI mfi;
     DSC dsc?;
-    MF_QUERY[] mf_query = [{}];
+    MFR_M07_MF_QUERY[] mf_query = [{mfe:{}, cm0:{}}];
 };

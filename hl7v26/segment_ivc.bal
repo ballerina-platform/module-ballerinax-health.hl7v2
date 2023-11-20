@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,42 +13,41 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ivc1 - Segment Record Field
-# + ivc2 - Segment Record Field
-# + ivc3 - Segment Record Field
-# + ivc4 - Segment Record Field
-# + ivc5 - Segment Record Field
-# + ivc6 - Segment Record Field
-# + ivc7 - Segment Record Field
-# + ivc8 - Segment Record Field
-# + ivc9 - Segment Record Field
-# + ivc10 - Segment Record Field
-# + ivc11 - Segment Record Field
-# + ivc12 - Segment Record Field
-# + ivc13 - Segment Record Field
-# + ivc14 - Segment Record Field
-# + ivc15 - Segment Record Field
-# + ivc16 - Segment Record Field
-# + ivc17 - Segment Record Field
-# + ivc18 - Segment Record Field
-# + ivc19 - Segment Record Field
-# + ivc20 - Segment Record Field
-# + ivc21 - Segment Record Field
-# + ivc22 - Segment Record Field
-# + ivc23 - Segment Record Field
-# + ivc24 - Segment Record Field
-# + ivc25 - Segment Record Field
-# + ivc26 - Segment Record Field
-# + ivc27 - Segment Record Field
-# + ivc28 - Segment Record Field
-# + ivc29 - Segment Record Field
-# + ivc30 - Segment Record Field
+# + ivc1 - 1914EIHL7Provider Invoice Number
+# + ivc2 - 1915EIHL7Payer Invoice Number
+# + ivc3 - 1916EIHL7Contract/Agreement Number
+# + ivc4 - 1917ISHL70553HL7Invoice Control
+# + ivc5 - 1918ISHL70554HL7Invoice Reason
+# + ivc6 - 1919ISHL70555HL7Invoice Type
+# + ivc7 - 1920DTMHL7Invoice Date/Time
+# + ivc8 - 1921CPHL7Invoice Amount
+# + ivc9 - 1922STHL7Payment Terms
+# + ivc10 - 1923XONHL7Provider Organization
+# + ivc11 - 1924XONHL7Payer Organization
+# + ivc12 - 1925XCNHL7Attention
+# + ivc13 - 1926IDHL70136HL7Last Invoice Indicator
+# + ivc14 - 1927DTMHL7Invoice Booking Period
+# + ivc15 - 1928STHL7Origin
+# + ivc16 - 1929CPHL7Invoice Fixed Amount
+# + ivc17 - 1930CPHL7Special Costs
+# + ivc18 - 1931CPHL7Amount for Doctors Treatment
+# + ivc19 - 1932XCNHL7Responsible Physician
+# + ivc20 - Kostenstelle
+# + ivc21 - 1934CPHL7Invoice Prepaid Amount
+# + ivc22 - 1935CPHL7Total Invoice Amount without Prepaid Amount
+# + ivc23 - 1936CPHL7Total-Amount of VAT
+# + ivc24 - 1937NMHL7VAT-Rates applied
+# + ivc25 - 1938ISHL70556HL7Benefit Group
+# + ivc26 - 2038STHL7Provider Tax ID
+# + ivc27 - 2039STHL7Payer Tax ID
+# + ivc28 - 2040ISHL70572HL7Provider Tax status
+# + ivc29 - 2041ISHL70572HL7Payer Tax status
+# + ivc30 - 2042STHL7Sales Tax ID
 @hl7v2:SegmentDefinition {
     name: "IVC",
     required: false,

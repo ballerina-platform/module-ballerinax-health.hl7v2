@@ -13,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 public const EAC_U07_MESSAGE_TYPE = "EAC_U07";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + equ - Message Record Field
-# + ecd - Message Record Field
-# + sac - Message Record Field
-# + cns - Message Record Field
-# + rol - Message Record Field
+# + msh - MSH Segment
+# + equ - EQU Segment
+# + ecd - ECD Segment
+# + sac - SAC Segment
+# + cns - CNS Segment
+# + rol - ROL Segment
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "EQU": {name: "EQU", maxReps: 1, required: false, segmentType: EQU},
-        "ECD": {name: "ECD", maxReps: -1, required: false, segmentType: ECD},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "EQU": {name: "EQU", maxReps: 1, required: true, segmentType: EQU},
+        "ECD": {name: "ECD", maxReps: -1, required: true, segmentType: ECD},
         "SAC": {name: "SAC", maxReps: 1, required: false, segmentType: SAC},
         "CNS": {name: "CNS", maxReps: 1, required: false, segmentType: CNS},
         "ROL": {name: "ROL", maxReps: 1, required: false, segmentType: ROL}
@@ -39,8 +38,8 @@ public const EAC_U07_MESSAGE_TYPE = "EAC_U07";
 public type EAC_U07 record {
     *hl7v2:Message;
     string name = EAC_U07_MESSAGE_TYPE;
-    MSH msh?;
-    EQU equ?;
+    MSH msh;
+    EQU equ;
     ECD[] ecd = [];
     SAC sac?;
     CNS cns?;

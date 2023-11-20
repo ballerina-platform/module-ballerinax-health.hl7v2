@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + aip1 - Segment Record Field
-# + aip2 - Segment Record Field
-# + aip3 - Segment Record Field
-# + aip4 - Segment Record Field
-# + aip5 - Segment Record Field
-# + aip6 - Segment Record Field
-# + aip7 - Segment Record Field
-# + aip8 - Segment Record Field
-# + aip9 - Segment Record Field
-# + aip10 - Segment Record Field
-# + aip11 - Segment Record Field
-# + aip12 - Segment Record Field
+# + aip1 - Set ID - AIP
+# + aip2 - Segment Action Code
+# + aip3 - Personnel Resource ID
+# + aip4 - Resource Role
+# + aip5 - Resource Group
+# + aip6 - Start Date/Time
+# + aip7 - Start Date/Time Offset
+# + aip8 - Start Date/Time Offset Units
+# + aip9 - Duration
+# + aip10 - Duration Units
+# + aip11 - Allow Substitution Code
+# + aip12 - Filler Status Code
 @hl7v2:SegmentDefinition {
     name: "AIP",
     required: false,

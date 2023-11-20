@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + qrd1 - Segment Record Field
-# + qrd2 - Segment Record Field
-# + qrd3 - Segment Record Field
-# + qrd4 - Segment Record Field
-# + qrd5 - Segment Record Field
-# + qrd6 - Segment Record Field
-# + qrd7 - Segment Record Field
-# + qrd8 - Segment Record Field
-# + qrd9 - Segment Record Field
-# + qrd10 - Segment Record Field
-# + qrd11 - Segment Record Field
-# + qrd12 - Segment Record Field
+# + qrd1 - Anfragezeitpunkt
+# + qrd2 - Format der Antwort
+# + qrd3 - Anfragepriorität
+# + qrd4 - Anfragekennung
+# + qrd5 - Frühestens / spätestens (zu QRD-6)
+# + qrd6 - Antwortzeitpunkt
+# + qrd7 - Maximale Länge der Antwort
+# + qrd8 - Suchbegriff - Person
+# + qrd9 - Suchbegriff - Informationskategorie
+# + qrd10 - Suchbegriff - Objekte
+# + qrd11 - Merkmalsgrenzen
+# + qrd12 - Detaillierungsgrad der Antwort
 @hl7v2:SegmentDefinition {
     name: "QRD",
     required: false,

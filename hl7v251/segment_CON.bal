@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,37 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + con1 - Segment Record Field
-# + con2 - Segment Record Field
-# + con3 - Segment Record Field
-# + con4 - Segment Record Field
-# + con5 - Segment Record Field
-# + con6 - Segment Record Field
-# + con7 - Segment Record Field
-# + con8 - Segment Record Field
-# + con9 - Segment Record Field
-# + con10 - Segment Record Field
-# + con11 - Segment Record Field
-# + con12 - Segment Record Field
-# + con13 - Segment Record Field
-# + con14 - Segment Record Field
-# + con15 - Segment Record Field
-# + con16 - Segment Record Field
-# + con17 - Segment Record Field
-# + con18 - Segment Record Field
-# + con19 - Segment Record Field
-# + con20 - Segment Record Field
-# + con21 - Segment Record Field
-# + con22 - Segment Record Field
-# + con23 - Segment Record Field
-# + con24 - Segment Record Field
-# + con25 - Segment Record Field
+# + con1 - Set ID - CON
+# + con2 - Consent Type
+# + con3 - Consent Form ID
+# + con4 - Consent Form Number
+# + con5 - Consent Text
+# + con6 - Subject-specific Consent Text
+# + con7 - Consent Background
+# + con8 - Subject-specific Consent Background
+# + con9 - Consenter-imposed limitations
+# + con10 - Consent Mode
+# + con11 - Consent Status
+# + con12 - Consent Discussion Date/Time
+# + con13 - Consent Decision Date/Time
+# + con14 - Consent Effective Date/Time
+# + con15 - Consent End Date/Time
+# + con16 - Subject Competence Indicator
+# + con17 - Translator Assistance Indicator
+# + con18 - Language Translated To
+# + con19 - Informational Material Supplied Indicator
+# + con20 - Consent Bypass Reason
+# + con21 - Consent Disclosure Level
+# + con22 - Consent Non-disclosure Reason
+# + con23 - Non-subject Consenter Reason
+# + con24 - Consenter ID
+# + con25 - Relationship to Subject Table
 @hl7v2:SegmentDefinition {
     name: "CON",
     required: false,

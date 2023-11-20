@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,59 +13,58 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + obr1 - Segment Record Field
-# + obr2 - Segment Record Field
-# + obr3 - Segment Record Field
-# + obr4 - Segment Record Field
-# + obr5 - Segment Record Field
-# + obr6 - Segment Record Field
-# + obr7 - Segment Record Field
-# + obr8 - Segment Record Field
-# + obr9 - Segment Record Field
-# + obr10 - Segment Record Field
-# + obr11 - Segment Record Field
-# + obr12 - Segment Record Field
-# + obr13 - Segment Record Field
-# + obr14 - Segment Record Field
-# + obr15 - Segment Record Field
-# + obr16 - Segment Record Field
-# + obr17 - Segment Record Field
-# + obr18 - Segment Record Field
-# + obr19 - Segment Record Field
-# + obr20 - Segment Record Field
-# + obr21 - Segment Record Field
-# + obr22 - Segment Record Field
-# + obr23 - Segment Record Field
-# + obr24 - Segment Record Field
-# + obr25 - Segment Record Field
-# + obr26 - Segment Record Field
-# + obr27 - Segment Record Field
-# + obr28 - Segment Record Field
-# + obr29 - Segment Record Field
-# + obr30 - Segment Record Field
-# + obr31 - Segment Record Field
-# + obr32 - Segment Record Field
-# + obr33 - Segment Record Field
-# + obr34 - Segment Record Field
-# + obr35 - Segment Record Field
-# + obr36 - Segment Record Field
-# + obr37 - Segment Record Field
-# + obr38 - Segment Record Field
-# + obr39 - Segment Record Field
-# + obr40 - Segment Record Field
-# + obr41 - Segment Record Field
-# + obr42 - Segment Record Field
-# + obr43 - Segment Record Field
-# + obr44 - Segment Record Field
-# + obr45 - Segment Record Field
-# + obr46 - Segment Record Field
-# + obr47 - Segment Record Field
+# + obr1 - Set ID - OBR
+# + obr2 - Placer Order Number
+# + obr3 - Filler Order Number
+# + obr4 - Universal Service Identifier
+# + obr5 - Priority
+# + obr6 - Requested Date/Time
+# + obr7 - Observation Date/Time #
+# + obr8 - Observation End Date/Time #
+# + obr9 - Collection Volume *
+# + obr10 - Collector Identifier *
+# + obr11 - Specimen Action Code *
+# + obr12 - Danger Code
+# + obr13 - Relevant Clinical Info.
+# + obr14 - Specimen Received Date/Time *
+# + obr15 - Specimen Source
+# + obr16 - Ordering Provider
+# + obr17 - Order Callback Phone Number
+# + obr18 - Placer Field 1
+# + obr19 - Placer Field 2
+# + obr20 - Filler Field 1 +
+# + obr21 - Filler Field 2 +
+# + obr22 - Results Rpt/Status Chng - Date/Time +
+# + obr23 - Charge to Practice +
+# + obr24 - Diagnostic Serv Sect ID
+# + obr25 - Result Status +
+# + obr26 - Parent Result +
+# + obr27 - Quantity/Timing
+# + obr28 - Result Copies To
+# + obr29 - Parent
+# + obr30 - Transportation Mode
+# + obr31 - Reason for Study
+# + obr32 - Principal Result Interpreter +
+# + obr33 - Assistant Result Interpreter +
+# + obr34 - Technician +
+# + obr35 - Transcriptionist +
+# + obr36 - Scheduled Date/Time +
+# + obr37 - Number of Sample Containers *
+# + obr38 - Transport Logistics of Collected Sample *
+# + obr39 - Collector's Comment *
+# + obr40 - Transport Arrangement Responsibility
+# + obr41 - Transport Arranged
+# + obr42 - Escort Required
+# + obr43 - Planned Patient Transport Comment
+# + obr44 - Procedure Code
+# + obr45 - Procedure Code Modifier
+# + obr46 - Placer Supplemental Service Information
+# + obr47 - Filler Supplemental Service Information
 @hl7v2:SegmentDefinition {
     name: "OBR",
     required: false,

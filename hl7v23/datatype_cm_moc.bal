@@ -16,11 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_moc1 - Data type field
-# + cm_moc2 - Data type field
+# + cm_moc1 - dollar amount
+# + cm_moc2 - charge code
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

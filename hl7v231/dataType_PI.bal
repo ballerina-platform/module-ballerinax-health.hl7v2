@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + pi1 - Data type field
-# + pi2 - Data type field
-# + pi3 - Data type field
+# + pi1 - ID number (ST)
+# + pi2 - type of ID number (IS)
+# + pi3 - other qualifying info
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

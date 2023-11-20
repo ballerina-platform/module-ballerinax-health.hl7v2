@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + bpo1 - Segment Record Field
-# + bpo2 - Segment Record Field
-# + bpo3 - Segment Record Field
-# + bpo4 - Segment Record Field
-# + bpo5 - Segment Record Field
-# + bpo6 - Segment Record Field
-# + bpo7 - Segment Record Field
-# + bpo8 - Segment Record Field
-# + bpo9 - Segment Record Field
-# + bpo10 - Segment Record Field
-# + bpo11 - Segment Record Field
-# + bpo12 - Segment Record Field
-# + bpo13 - Segment Record Field
-# + bpo14 - Segment Record Field
+# + bpo1 - Set ID - BPO
+# + bpo2 - BP Universal Service Identifier
+# + bpo3 - BP Processing Requirements
+# + bpo4 - BP Quantity
+# + bpo5 - BP Amount
+# + bpo6 - BP Units
+# + bpo7 - BP Intended Use Date/Time
+# + bpo8 - BP Intended Dispense From Location
+# + bpo9 - BP Intended Dispense From Address
+# + bpo10 - BP Requested Dispense Date/Time
+# + bpo11 - BP Requested Dispense To Location
+# + bpo12 - BP Requested Dispense To Address
+# + bpo13 - BP Indication for Use
+# + bpo14 - BP Informed Consent Indicator
 @hl7v2:SegmentDefinition {
     name: "BPO",
     required: false,

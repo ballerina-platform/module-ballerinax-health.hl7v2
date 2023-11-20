@@ -18,17 +18,17 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cns1 - Data type field
-# + cns2 - Data type field
-# + cns3 - Data type field
-# + cns4 - Data type field
-# + cns5 - Data type field
-# + cns6 - Data type field
-# + cns7 - Data type field
-# + cns8 - Data type field
-# + cns9 - Data type field
-# + cns10 - Data type field
-# + cns11 - Data type field
+# + cns1 - ID number (ST)
+# + cns2 - family name
+# + cns3 - given name
+# + cns4 - second and further given names or initials thereof
+# + cns5 - suffix (e.g., JR or III)
+# + cns6 - prefix (e.g., DR)
+# + cns7 - degree (e.g., MD)
+# + cns8 - source table
+# + cns9 - assigning authority namespace ID
+# + cns10 - assigning authority universal ID
+# + cns11 - assigning authority universal ID type
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,16 +13,14 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + nte1 - Segment Record Field
-# + nte2 - Segment Record Field
-# + nte3 - Segment Record Field
+# + nte1 - Set ID - Notes and Comments
+# + nte2 - Source of Comment
+# + nte3 - Comment
 @hl7v2:SegmentDefinition {
     name: "NTE",
     required: false,
@@ -52,7 +49,7 @@ import ballerinax/health.hl7v2;
 public type NTE record {
     *hl7v2:Segment;
     string name = NTE_SEGMENT_NAME;
-    SI nte1 = -1;
+    SI nte1 = "";
     ID nte2 = "";
     FT[] nte3 = [""];
 };

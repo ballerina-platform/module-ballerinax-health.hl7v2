@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,64 +13,63 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pv11 - Segment Record Field
-# + pv12 - Segment Record Field
-# + pv13 - Segment Record Field
-# + pv14 - Segment Record Field
-# + pv15 - Segment Record Field
-# + pv16 - Segment Record Field
-# + pv17 - Segment Record Field
-# + pv18 - Segment Record Field
-# + pv19 - Segment Record Field
-# + pv110 - Segment Record Field
-# + pv111 - Segment Record Field
-# + pv112 - Segment Record Field
-# + pv113 - Segment Record Field
-# + pv114 - Segment Record Field
-# + pv115 - Segment Record Field
-# + pv116 - Segment Record Field
-# + pv117 - Segment Record Field
-# + pv118 - Segment Record Field
-# + pv119 - Segment Record Field
-# + pv120 - Segment Record Field
-# + pv121 - Segment Record Field
-# + pv122 - Segment Record Field
-# + pv123 - Segment Record Field
-# + pv124 - Segment Record Field
-# + pv125 - Segment Record Field
-# + pv126 - Segment Record Field
-# + pv127 - Segment Record Field
-# + pv128 - Segment Record Field
-# + pv129 - Segment Record Field
-# + pv130 - Segment Record Field
-# + pv131 - Segment Record Field
-# + pv132 - Segment Record Field
-# + pv133 - Segment Record Field
-# + pv134 - Segment Record Field
-# + pv135 - Segment Record Field
-# + pv136 - Segment Record Field
-# + pv137 - Segment Record Field
-# + pv138 - Segment Record Field
-# + pv139 - Segment Record Field
-# + pv140 - Segment Record Field
-# + pv141 - Segment Record Field
-# + pv142 - Segment Record Field
-# + pv143 - Segment Record Field
-# + pv144 - Segment Record Field
-# + pv145 - Segment Record Field
-# + pv146 - Segment Record Field
-# + pv147 - Segment Record Field
-# + pv148 - Segment Record Field
-# + pv149 - Segment Record Field
-# + pv150 - Segment Record Field
-# + pv151 - Segment Record Field
-# + pv152 - Segment Record Field
+# + pv11 - PV1-Segmentnummer
+# + pv12 - Patientenstatus (Abrechnungsart)
+# + pv13 - Zugewiesener Aufenthaltsort des Patienten
+# + pv14 - Aufnahmeart
+# + pv15 - Vor-Aufnahmenummer
+# + pv16 - Vorheriger Aufenthaltsort (bei Verlegung)
+# + pv17 - Behandelnder Arzt
+# + pv18 - Einweisender Arzt
+# + pv19 - Mitbehandelnde Ärzte (1 = Hausarzt, 2..n = weitere Ärzte)
+# + pv110 - Art der vorgesehenen Behandlung
+# + pv111 - Vorübergehender Aufenthaltsort des Patienten im Krankenhaus
+# + pv112 - Hinweis auf Untersuchungsprogramme, die vor der Aufnahme des Patienten durchzufü
+# + pv113 - Kennzeichen, ob eine Wiederaufnahme vorliegt
+# + pv114 - Einweisende Einrichtung (Institutionskennzeichen)
+# + pv115 - Mobilitätsstatus
+# + pv116 - VIP
+# + pv117 - Aufnehmender Arzt
+# + pv118 - Patientenart (PPR)
+# + pv119 - Fallnummer / Aufnahmenummer
+# + pv120 - Entgeldart (Schlüssel 4 GSG)
+# + pv121 - Kassenpatient / Selbstzahler
+# + pv122 - nicht verwendet
+# + pv123 - nicht verwendet
+# + pv124 - Abrechnungsart
+# + pv125 - Abrechnungsart gültig ab
+# + pv126 - Kostenanteil (Prozentsatz)
+# + pv127 - Gültigkeitsdauer der Abrechnungsart
+# + pv128 - nicht verwendet
+# + pv129 - nicht verwendet
+# + pv130 - nicht verwendet
+# + pv131 - nicht verwendet
+# + pv132 - nicht verwendet
+# + pv133 - nicht verwendet
+# + pv134 - Löschung des Patientenkontos
+# + pv135 - Datum der Löschung des Patientenkontos
+# + pv136 - Entlassungsart
+# + pv137 - Entlassen nach
+# + pv138 - Kostform plus Diät
+# + pv139 - Fachabteilung nach GSG
+# + pv140 - Bettenstatus
+# + pv141 - Status des Patientenkontos
+# + pv142 - Vorgesehener Aufenthaltsort des Patienten im Krankenhaus
+# + pv143 - Vorheriger vorübergehender Aufenthaltsort des Patienten
+# + pv144 - Aufnahmezeitpunkt
+# + pv145 - Entlassungszeitpunkt
+# + pv146 - nicht verwendet
+# + pv147 - nicht verwendet
+# + pv148 - nicht verwendet
+# + pv149 - nicht verwendet
+# + pv150 - Zusätzliche Fallnummer
+# + pv151 - Kontextindikator der Nachricht
+# + pv152 - Weiteres behandelndes Personal
 @hl7v2:SegmentDefinition {
     name: "PV1",
     required: false,

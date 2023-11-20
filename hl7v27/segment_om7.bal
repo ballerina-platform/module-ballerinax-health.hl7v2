@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,36 +13,35 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + om71 - Segment Record Field
-# + om72 - Segment Record Field
-# + om73 - Segment Record Field
-# + om74 - Segment Record Field
-# + om75 - Segment Record Field
-# + om76 - Segment Record Field
-# + om77 - Segment Record Field
-# + om78 - Segment Record Field
-# + om79 - Segment Record Field
-# + om710 - Segment Record Field
-# + om711 - Segment Record Field
-# + om712 - Segment Record Field
-# + om713 - Segment Record Field
-# + om714 - Segment Record Field
-# + om715 - Segment Record Field
-# + om716 - Segment Record Field
-# + om717 - Segment Record Field
-# + om718 - Segment Record Field
-# + om719 - Segment Record Field
-# + om720 - Segment Record Field
-# + om721 - Segment Record Field
-# + om722 - Segment Record Field
-# + om723 - Segment Record Field
-# + om724 - Segment Record Field
+# + om71 - Sequence Number - Test/Observation Master File
+# + om72 - Universal Service Identifier
+# + om73 - Category Identifier
+# + om74 - Category Description
+# + om75 - Category Synonym
+# + om76 - Effective Test/Service Start Date/Time
+# + om77 - Effective Test/Service End Date/Time
+# + om78 - Test/Service Default Duration Quantity
+# + om79 - Test/Service Default Duration Units
+# + om710 - Test/Service Default Frequency
+# + om711 - Consent Indicator
+# + om712 - Consent Identifier
+# + om713 - Consent Effective Start Date/Time
+# + om714 - Consent Effective End Date/Time
+# + om715 - Consent Interval Quantity
+# + om716 - Consent Interval Units
+# + om717 - Consent Waiting Period Quantity
+# + om718 - Consent Waiting Period Units
+# + om719 - Effective Date/Time of Change
+# + om720 - Entered By
+# + om721 - Orderable-at Location
+# + om722 - Formulary Status
+# + om723 - Special Order Indicator
+# + om724 - Primary Key Value - CDM
 @hl7v2:SegmentDefinition {
     name: "OM7",
     required: false,

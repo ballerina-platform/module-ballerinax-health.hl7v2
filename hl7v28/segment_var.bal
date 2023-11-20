@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,18 +13,17 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + var1 - Segment Record Field
-# + var2 - Segment Record Field
-# + var3 - Segment Record Field
-# + var4 - Segment Record Field
-# + var5 - Segment Record Field
-# + var6 - Segment Record Field
+# + var1 - ID der individuellen Abweichung
+# + var2 - Zeitpunkt der Dokumentation
+# + var3 - Zeitpunkt des Auftretens der Abweichung
+# + var4 - Erfasser der Abweichung
+# + var5 - Klassifikation der Abweichung
+# + var6 - Beschreibung der Abweichung
 @hl7v2:SegmentDefinition {
     name: "VAR",
     required: false,

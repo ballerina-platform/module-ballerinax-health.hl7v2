@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + om41 - Segment Record Field
-# + om42 - Segment Record Field
-# + om43 - Segment Record Field
-# + om44 - Segment Record Field
-# + om45 - Segment Record Field
-# + om46 - Segment Record Field
-# + om47 - Segment Record Field
-# + om48 - Segment Record Field
-# + om49 - Segment Record Field
-# + om410 - Segment Record Field
-# + om411 - Segment Record Field
-# + om412 - Segment Record Field
-# + om413 - Segment Record Field
-# + om414 - Segment Record Field
+# + om41 - Laufende Nummer des OMx-Segment des gleichen Typs in einer Nachricht
+# + om42 - Primäres / sekundäres Probenmaterial
+# + om43 - Beschreibung des Probengefäßes
+# + om44 - Probengefäßvolumen
+# + om45 - Maßeinheit für Probengefäßvolumen
+# + om46 - Probenmaterial
+# + om47 - Zusätze
+# + om48 - Vorbereitung des Probengefäßes
+# + om49 - Spezielle logistische Anweisung für Probe
+# + om410 - Standardprobenmenge
+# + om411 - Minimale Standardprobenmenge
+# + om412 - Besondere Anweisungen
+# + om413 - Zugelassene Prioritätsstufen
+# + om414 - Aufbewahrungszeitraum der Probe
 @hl7v2:SegmentDefinition {
     name: "OM4",
     required: false,

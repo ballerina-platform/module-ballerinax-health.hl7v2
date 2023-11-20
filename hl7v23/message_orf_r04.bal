@@ -13,34 +13,44 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const ORF_R04_MESSAGE_TYPE = "ORF_R04";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + msa - Message Record Field
-# + qrd - Message Record Field
-# + qrf - Message Record Field
-# + dsc - Message Record Field
+# + msh - MSH Segment
+# + msa - MSA Segment
+# + qrd - QRD Segment
+# + qrf - QRF Segment
+# + dsc - DSC Segment
+# + query_response - ORF_R04_QUERY_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
-        "QRD": {name: "QRD", maxReps: 1, required: false, segmentType: QRD},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
+        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
         "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
+    }
+    ,groups: {
+        "ORF_R04_QUERY_RESPONSE": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "ORF_R04_PATIENT": {name: "ORF_R04_PATIENT", maxReps: 1, required: false, segmentType: typeof ORF_R04_PATIENT},
+                "ORF_R04_ORDER": {name: "ORF_R04_ORDER", maxReps: -1, required: true, segmentType: typeof ORF_R04_ORDER}
+            }
+        }
     }
 }
 public type ORF_R04 record {
     *hl7v2:Message;
     string name = ORF_R04_MESSAGE_TYPE;
-    MSH msh?;
-    MSA msa?;
-    QRD qrd?;
+    MSH msh;
+    MSA msa;
+    QRD qrd;
     QRF qrf?;
     DSC dsc?;
+    ORF_R04_QUERY_RESPONSE[] query_response = [{}];
 };

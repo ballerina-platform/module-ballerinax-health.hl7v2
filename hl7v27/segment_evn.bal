@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,30 +13,22 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + evn1 - Segment Record Field
-# + evn2 - Segment Record Field
-# + evn3 - Segment Record Field
-# + evn4 - Segment Record Field
-# + evn5 - Segment Record Field
-# + evn6 - Segment Record Field
-# + evn7 - Segment Record Field
+# + evn2 - Recorded Date/Time
+# + evn3 - Date/Time Planned Event
+# + evn4 - Event Reason Code
+# + evn5 - Operator ID
+# + evn6 - Event Occurred
+# + evn7 - Event Facility
 @hl7v2:SegmentDefinition {
     name: "EVN",
     required: false,
     maxReps: 0,
-    fields: {        
-        "evn1": {
-            required: true,
-            length: 1,
-            maxReps: 1,
-            dataType: ST
-        },
+    fields: {
         "evn2": {
             required: true,
             length: 1,
@@ -79,7 +70,6 @@ import ballerinax/health.hl7v2;
 public type EVN record {
     *hl7v2:Segment;
     string name = EVN_SEGMENT_NAME;
-    ST evn1 = "";
     DTM evn2 = "";
     DTM evn3 = "";
     CWE evn4 = {};

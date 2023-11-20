@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,27 +13,27 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + adj1 - Segment Record Field
-# + adj2 - Segment Record Field
-# + adj3 - Segment Record Field
-# + adj4 - Segment Record Field
-# + adj5 - Segment Record Field
-# + adj6 - Segment Record Field
-# + adj7 - Segment Record Field
-# + adj8 - Segment Record Field
-# + adj9 - Segment Record Field
-# + adj10 - Segment Record Field
-# + adj11 - Segment Record Field
-# + adj12 - Segment Record Field
-# + adj13 - Segment Record Field
-# + adj14 - Segment Record Field
-# + adj15 - Segment Record Field
+# + adj1 - Provider Adjustment Number
+# + adj2 - Payer Adjustment Number
+# + adj3 - Adjustment Sequence Number
+# + adj4 - Adjustment Category
+# + adj5 - Adjustment Amount
+# + adj6 - Adjustment Quantity
+# + adj7 - Adjustment Reason PA
+# + adj8 - Adjustment Description
+# + adj9 - Original Value
+# + adj10 - Substitute Value
+# + adj11 - Adjustment Action
+# + adj12 - Provider Adjustment Number Cross Reference
+# + adj13 - Provider Product/Service Line Item Number Cross Reference
+            
+# + adj14 - Adjustment Date
+# + adj15 - Responsible Organization
 @hl7v2:SegmentDefinition {
     name: "ADJ",
     required: false,

@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + jcc1 - Data type field
-# + jcc2 - Data type field
+# + jcc1 - job code
+# + jcc2 - job class
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

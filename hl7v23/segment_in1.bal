@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,62 +13,60 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + in11 - Segment Record Field
-# + in12 - Segment Record Field
-# + in13 - Segment Record Field
-# + in14 - Segment Record Field
-# + in15 - Segment Record Field
-# + in16 - Segment Record Field
-# + in17 - Segment Record Field
-# + in18 - Segment Record Field
-# + in19 - Segment Record Field
-# + in110 - Segment Record Field
-# + in111 - Segment Record Field
-# + in112 - Segment Record Field
-# + in113 - Segment Record Field
-# + in114 - Segment Record Field
-# + in115 - Segment Record Field
-# + in116 - Segment Record Field
-# + in117 - Segment Record Field
-# + in118 - Segment Record Field
-# + in119 - Segment Record Field
-# + in120 - Segment Record Field
-# + in121 - Segment Record Field
-# + in122 - Segment Record Field
-# + in123 - Segment Record Field
-# + in124 - Segment Record Field
-# + in125 - Segment Record Field
-# + in126 - Segment Record Field
-# + in127 - Segment Record Field
-# + in128 - Segment Record Field
-# + in129 - Segment Record Field
-# + in130 - Segment Record Field
-# + in131 - Segment Record Field
-# + in132 - Segment Record Field
-# + in133 - Segment Record Field
-# + in134 - Segment Record Field
-# + in135 - Segment Record Field
-# + in136 - Segment Record Field
-# + in137 - Segment Record Field
-# + in138 - Segment Record Field
-# + in139 - Segment Record Field
-# + in140 - Segment Record Field
-# + in141 - Segment Record Field
-# + in142 - Segment Record Field
-# + in143 - Segment Record Field
-# + in144 - Segment Record Field
-# + in145 - Segment Record Field
-# + in146 - Segment Record Field
-# + in147 - Segment Record Field
-# + in148 - Segment Record Field
-# + in149 - Segment Record Field
+# + in11 - Set ID - Insurance
+# + in12 - Insurance Plan ID
+# + in13 - Insurance Company ID
+# + in14 - Insurance Company Name
+# + in15 - Insurance Company Address
+# + in16 - Insurance Co. Contact Ppers
+# + in17 - Insurance Co Phone Number
+# + in18 - Group Number
+# + in19 - Group Name
+# + in110 - Insured's group employer ID
+# + in111 - Insured's Group Emp Name
+# + in112 - Plan Effective Date
+# + in113 - Plan Expiration Date
+# + in114 - Authorization Information
+# + in115 - Plan Type
+# + in116 - Name of Insured
+# + in117 - Insured's Relationship to Patient
+# + in118 - Insured's Date of Birth
+# + in119 - Insured's Address
+# + in120 - Assignment of Benefits
+# + in121 - Coordination of Benefits
+# + in122 - Coord of Ben. Priority
+# + in123 - Notice of Admission Code
+# + in124 - Notice of Admission Date
+# + in125 - Rpt of Eigibility Code
+# + in126 - Rpt of Eligibility Date
+# + in127 - Release Information Code
+# + in128 - Pre-Admit Cert (PAC)
+# + in129 - Verification Date/Time
+# + in130 - Verification By
+# + in131 - Type of Agreement Code
+# + in132 - Billing Status
+# + in133 - Lifetime Reserve Days
+# + in134 - Delay before lifetime reserve days
+# + in135 - Company Plan Code
+# + in136 - Policy Number
+# + in137 - Policy Deductible
+# + in138 - Policy Limit - Amount
+# + in139 - Policy Limit - Days
+# + in140 - Room Rate - Semi-Private
+# + in141 - Room Rate - Private
+# + in142 - Insured's Employment Status
+# + in143 - Insured's Sex
+# + in144 - Insured's Employer Address
+# + in145 - Verification Status
+# + in146 - Prior Insurance Plan ID
+# + in147 - Coverage Type
+# + in148 - Handicap
+# + in149 - Insured's ID Number
 @hl7v2:SegmentDefinition {
     name: "IN1",
     required: false,
@@ -374,7 +371,7 @@ import ballerinax/health.hl7v2;
 public type IN1 record {
     *hl7v2:Segment;
     string name = IN1_SEGMENT_NAME;
-    SI in11 = -1;
+    SI in11 = "";
     CE in12 = {};
     CX in13 = {};
     XON in14 = {};
@@ -406,13 +403,13 @@ public type IN1 record {
     XPN in130 = {};
     IS in131 = "";
     IS in132 = "";
-    NM in133 = -1;
-    NM in134 = -1;
+    NM in133 = "";
+    NM in134 = "";
     IS in135 = "";
     ST in136 = "";
     CP in137 = {};
     CP in138 = {};
-    NM in139 = -1;
+    NM in139 = "";
     CP in140 = {};
     CP in141 = {};
     CE in142 = {};

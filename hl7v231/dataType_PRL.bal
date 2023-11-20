@@ -18,9 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + prl1 - Data type field
-# + prl2 - Data type field
-# + prl3 - Data type field
+# + prl1 - OBX-3 observation identifier of parent result
+# + prl2 - OBX-4 sub-ID of parent result
+# + prl3 - part of OBX-5 observation result from parent
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

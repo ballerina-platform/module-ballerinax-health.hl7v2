@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,33 +13,32 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + dg11 - Segment Record Field
-# + dg12 - Segment Record Field
-# + dg13 - Segment Record Field
-# + dg14 - Segment Record Field
-# + dg15 - Segment Record Field
-# + dg16 - Segment Record Field
-# + dg17 - Segment Record Field
-# + dg18 - Segment Record Field
-# + dg19 - Segment Record Field
-# + dg110 - Segment Record Field
-# + dg111 - Segment Record Field
-# + dg112 - Segment Record Field
-# + dg113 - Segment Record Field
-# + dg114 - Segment Record Field
-# + dg115 - Segment Record Field
-# + dg116 - Segment Record Field
-# + dg117 - Segment Record Field
-# + dg118 - Segment Record Field
-# + dg119 - Segment Record Field
-# + dg120 - Segment Record Field
-# + dg121 - Segment Record Field
+# + dg11 - Set ID - DG1
+# + dg12 - Diagnosis Coding Method
+# + dg13 - Diagnosis Code - DG1
+# + dg14 - Diagnosis Description
+# + dg15 - Diagnosis Date/Time
+# + dg16 - Diagnosis Type
+# + dg17 - Major Diagnostic Category
+# + dg18 - Diagnostic Related Group
+# + dg19 - DRG Approval Indicator
+# + dg110 - DRG Grouper Review Code
+# + dg111 - Outlier Type
+# + dg112 - Outlier Days
+# + dg113 - Outlier Cost
+# + dg114 - Grouper Version And Type
+# + dg115 - Diagnosis Priority
+# + dg116 - Diagnosing Clinician
+# + dg117 - Diagnosis Classification
+# + dg118 - Confidential Indicator
+# + dg119 - Attestation Date/Time
+# + dg120 - Diagnosis Identifier
+# + dg121 - Diagnosis Action Code
 @hl7v2:SegmentDefinition {
     name: "DG1",
     required: false,

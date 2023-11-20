@@ -16,16 +16,16 @@
 
 import ballerinax/health.hl7v2;
 
-# Extended Person Name.
+# Data type description
 #
-# + xpn1 - Family Name  
-# + xpn2 - Given Name  
-# + xpn3 - Middle Initial Or Name  
-# + xpn4 - Suffix  
-# + xpn5 - Prefix  
-# + xpn6 - Degree  
-# + xpn7 - Name Type Code  
-# + xpn8 - Name Representation Code
+# + xpn1 - family name
+# + xpn2 - given name
+# + xpn3 - middle initial or name
+# + xpn4 - suffix (e.g., JR or III)
+# + xpn5 - prefix (e.g., DR)
+# + xpn6 - degree (e.g., MD)
+# + xpn7 - name type code
+# + xpn8 - Name Representation code
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

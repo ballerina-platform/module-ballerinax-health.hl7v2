@@ -16,17 +16,17 @@
 
 import ballerinax/health.hl7v2;
 
-# Extended Telecommunication Number.
+# Data type description
 #
-# + xtn1 - Telephone Number  
-# + xtn2 - Telecommunication Use Code  
-# + xtn3 - Telecommunication Equipment Type  
-# + xtn4 - Email Address  
-# + xtn5 - Country Code  
-# + xtn6 - Area/city Code  
-# + xtn7 - Phone Number  
-# + xtn8 - Extension  
-# + xtn9 - Any Text
+# + xtn1 - [(999)] 999-9999 [X99999][C any text]
+# + xtn2 - telecommunication use code
+# + xtn3 - telecommunication equipment type (ID)
+# + xtn4 - Email address
+# + xtn5 - Country Code
+# + xtn6 - Area/city code
+# + xtn7 - Phone number
+# + xtn8 - Extension
+# + xtn9 - any text
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -38,9 +38,9 @@ public type XTN record {
     ID xtn2 = "";
     ID xtn3 = "";
     ST xtn4 = "";
-    NM xtn5 = -1;
-    NM xtn6 = -1;
-    NM xtn7 = -1;
-    NM xtn8 = -1;
+    NM xtn5 = "";
+    NM xtn6 = "";
+    NM xtn7 = "";
+    NM xtn8 = "";
     ST xtn9 = "";
 };

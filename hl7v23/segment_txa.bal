@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,36 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + txa1 - Segment Record Field
-# + txa2 - Segment Record Field
-# + txa3 - Segment Record Field
-# + txa4 - Segment Record Field
-# + txa5 - Segment Record Field
-# + txa6 - Segment Record Field
-# + txa7 - Segment Record Field
-# + txa8 - Segment Record Field
-# + txa9 - Segment Record Field
-# + txa10 - Segment Record Field
-# + txa11 - Segment Record Field
-# + txa12 - Segment Record Field
-# + txa13 - Segment Record Field
-# + txa14 - Segment Record Field
-# + txa15 - Segment Record Field
-# + txa16 - Segment Record Field
-# + txa17 - Segment Record Field
-# + txa18 - Segment Record Field
-# + txa19 - Segment Record Field
-# + txa20 - Segment Record Field
-# + txa21 - Segment Record Field
-# + txa22 - Segment Record Field
-# + txa23 - Segment Record Field
+# + txa1 - Set ID- TXA
+# + txa2 - Document Type
+# + txa3 - Document Content Presentation
+# + txa4 - Activity Date/Time
+# + txa5 - Primary Activity Provider Code/Name
+# + txa6 - Origination Date/Time
+# + txa7 - Transcription Date/Time
+# + txa8 - Edit Date/Time
+# + txa9 - Originator Code/Name
+# + txa10 - Assigned Document Authenticator
+# + txa11 - Transcriptionist Code/Name
+# + txa12 - Unique Document Number
+# + txa13 - Parent Document Number
+# + txa14 - Placer Order Number
+# + txa15 - Filler Order Number
+# + txa16 - Unique Document File Name
+# + txa17 - Document Completion Status
+# + txa18 - Document Confidentiality Status
+# + txa19 - Document Availability Status
+# + txa20 - Document Storage Status
+# + txa21 - Document Change Reason
+# + txa22 - Authentication Person, Time Stamp
+# + txa23 - Distributed Copies (Code and Name of Recipients)
 @hl7v2:SegmentDefinition {
     name: "TXA",
     required: false,
@@ -192,7 +189,7 @@ import ballerinax/health.hl7v2;
 public type TXA record {
     *hl7v2:Segment;
     string name = TXA_SEGMENT_NAME;
-    SI txa1 = -1;
+    SI txa1 = "";
     IS txa2 = "";
     ID txa3 = "";
     TS txa4 = {};

@@ -18,10 +18,10 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + rp1 - Data type field
-# + rp2 - Data type field
-# + rp3 - Data type field
-# + rp4 - Data type field
+# + rp1 - pointer
+# + rp2 - application ID
+# + rp3 - type of data
+# + rp4 - subtype
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -13,25 +13,48 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const PPP_PCB_MESSAGE_TYPE = "PPP_PCB";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + pid - Message Record Field
+# + msh - MSH Segment
+# + pid - PID Segment
+# + patient_visit - PPP_PCB_PATIENT_VISIT Segment Group
+# + pathway - PPP_PCB_PATHWAY Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
-        "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID}
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
+        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID}
+    }
+    ,groups: {
+        "PPP_PCB_PATIENT_VISIT": {
+            maxReps: 1,
+            required: false,
+            segments: {
+                "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
+                "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2}
+            }
+        },
+        "PPP_PCB_PATHWAY": {
+            maxReps: -1,
+            required: true,
+            segments: {
+                "PTH": {name: "PTH", maxReps: 1, required: true, segmentType: typeof PTH},
+                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
+                "'VAR": {name: "'VAR", maxReps: -1, required: false, segmentType: typeof 'VAR},
+                "PPP_PCB_PATHWAY_ROLE": {name: "PPP_PCB_PATHWAY_ROLE", maxReps: -1, required: false, segmentType: typeof PPP_PCB_PATHWAY_ROLE},
+                "PPP_PCB_PROBLEM": {name: "PPP_PCB_PROBLEM", maxReps: -1, required: false, segmentType: typeof PPP_PCB_PROBLEM}
+            }
+        }
     }
 }
 public type PPP_PCB record {
     *hl7v2:Message;
     string name = PPP_PCB_MESSAGE_TYPE;
-    MSH msh?;
-    PID pid?;
+    MSH msh;
+    PID pid;
+    PPP_PCB_PATIENT_VISIT[] patient_visit = [{pv1:{}}];
+    PPP_PCB_PATHWAY[] pathway = [{pth:{}}];
 };

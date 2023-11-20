@@ -18,12 +18,12 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cd1 - Data type field
-# + cd2 - Data type field
-# + cd3 - Data type field
-# + cd4 - Data type field
-# + cd5 - Data type field
-# + cd6 - Data type field
+# + cd1 - Channel Identifier
+# + cd2 - Waveform Source
+# + cd3 - Channel Sensitivity and Units
+# + cd4 - Channel Calibration Parameters
+# + cd5 - Channel Sampling Frequency
+# + cd6 - Minimum and Maximum Data Values
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

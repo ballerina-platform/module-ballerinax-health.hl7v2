@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,38 +13,37 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ivt1 - Segment Record Field
-# + ivt2 - Segment Record Field
-# + ivt3 - Segment Record Field
-# + ivt4 - Segment Record Field
-# + ivt5 - Segment Record Field
-# + ivt6 - Segment Record Field
-# + ivt7 - Segment Record Field
-# + ivt8 - Segment Record Field
-# + ivt9 - Segment Record Field
-# + ivt10 - Segment Record Field
-# + ivt11 - Segment Record Field
-# + ivt12 - Segment Record Field
-# + ivt13 - Segment Record Field
-# + ivt14 - Segment Record Field
-# + ivt15 - Segment Record Field
-# + ivt16 - Segment Record Field
-# + ivt17 - Segment Record Field
-# + ivt18 - Segment Record Field
-# + ivt19 - Segment Record Field
-# + ivt20 - Segment Record Field
-# + ivt21 - Segment Record Field
-# + ivt22 - Segment Record Field
-# + ivt23 - Segment Record Field
-# + ivt24 - Segment Record Field
-# + ivt25 - Segment Record Field
-# + ivt26 - Segment Record Field
+# + ivt1 - IVT-Segmentnummer
+# + ivt2 - ID des Materiallagers
+# + ivt3 - Name des Materiallagers
+# + ivt4 - ID Hauptlager / Wareneinkauf
+# + ivt5 - Name Hauptlager / Wareneinkauf
+# + ivt6 - Verfügbarkeit des Artikels
+# + ivt7 - ID Lagerplatz (in Lager)
+# + ivt8 - Verpackungseinheit Nachbestellung/Nachfüllung
+# + ivt9 - Verpackungseinheit Ausgabe
+# + ivt10 - 2069EIHL7Default Inventory Asset Account
+# + ivt11 - Kennzeichen Artikel darf Patient berechnet werden
+# + ivt12 - Leistungsziffer / Buchungstext / Entgeltart EBM (GSG)
+# + ivt13 - Einzelpreis / Punktwert
+# + ivt14 - Wichtigkeit des Artikels für dieses Lager
+# + ivt15 - Kennzeichen Standard-Lagerartikel
+# + ivt16 - Kennzeichen Kommissionsartikel
+# + ivt17 - Kennzeichen wiederverwendbarer Artikel
+# + ivt18 - Kosten, die für wiederverwendbare Artikel in Rechnung gestellt werden
+# + ivt19 - ID für Alternativartikel
+# + ivt20 - ID latexfreier Alternativartikel
+# + ivt21 - Empfohlene Strategie für Nachbestellung
+# + ivt22 - Empfohlener Sicherheitsbestand in Tagen
+# + ivt23 - Empfohlener Maximalbestand in Tagen
+# + ivt24 - Empfohlener Mindestvorrat
+# + ivt25 - Empfohlene Bestellmenge
+# + ivt26 - Kennzeichen für nicht-bestandsgeführtes OP-Lager
 @hl7v2:SegmentDefinition {
     name: "IVT",
     required: false,

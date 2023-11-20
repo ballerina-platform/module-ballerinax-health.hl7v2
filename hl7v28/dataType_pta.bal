@@ -18,10 +18,9 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + pta1 - Data type field
-# + pta2 - Data type field
-# + pta3 - Data type field
-# + pta4 - Data type field
+# + pta1 - Policy Type
+# + pta2 - Amount Class
+# + pta4 - Money or Percentage
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -31,6 +30,5 @@ public type PTA record {
     *hl7v2:CompositeType;
     CWE pta1 = {};
     CWE pta2 = {};
-    ST pta3 = "";
     MOP pta4 = {};
 };

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,16 +13,15 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + iar1 - Segment Record Field
-# + iar2 - Segment Record Field
-# + iar3 - Segment Record Field
-# + iar4 - Segment Record Field
+# + iar1 - 3296CWEHL7Allergy Reaction Code
+# + iar2 - 3297CWEHL70128HL7Allergy Severity Code
+# + iar3 - 3298CWEHL70436HL7Sensitivity to Causative Agent Code
+# + iar4 - 3299STHL7Management
 @hl7v2:SegmentDefinition {
     name: "IAR",
     required: false,

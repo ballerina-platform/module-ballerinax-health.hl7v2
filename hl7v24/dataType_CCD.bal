@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + ccd1 - Data type field
-# + ccd2 - Data type field
+# + ccd1 - when to charge code
+# + ccd2 - date/time
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

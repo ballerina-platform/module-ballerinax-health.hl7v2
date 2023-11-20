@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,28 +13,27 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rel1 - Segment Record Field
-# + rel2 - Segment Record Field
-# + rel3 - Segment Record Field
-# + rel4 - Segment Record Field
-# + rel5 - Segment Record Field
-# + rel6 - Segment Record Field
-# + rel7 - Segment Record Field
-# + rel8 - Segment Record Field
-# + rel9 - Segment Record Field
-# + rel10 - Segment Record Field
-# + rel11 - Segment Record Field
-# + rel12 - Segment Record Field
-# + rel13 - Segment Record Field
-# + rel14 - Segment Record Field
-# + rel15 - Segment Record Field
-# + rel16 - Segment Record Field
+# + rel1 - REL-Segmentnummer
+# + rel2 - Art der Beziehung
+# + rel3 - ID der Beziehung
+# + rel4 - ID der Quellinformation
+# + rel5 - ID des Zielinformation
+# + rel6 - ID der eintragenden Entität
+# + rel7 - eintragende Person
+# + rel8 - eintragende Organisation
+# + rel9 - Adresse der eintragenden Entität
+# + rel10 - Kontaktinformationen der eintragenden Entität
+# + rel11 - Gültigkeitszeitraum
+# + rel12 - Kennzeichen Negation
+# + rel13 - Wahrscheinlichkeit der Beziehung
+# + rel14 - Priorität
+# + rel15 - Reihenfolge der Priorität
+# + rel16 - Kennzeichen Unabhängigkeit
 @hl7v2:SegmentDefinition {
     name: "REL",
     required: false,

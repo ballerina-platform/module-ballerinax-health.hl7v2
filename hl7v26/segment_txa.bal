@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,35 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + txa1 - Segment Record Field
-# + txa2 - Segment Record Field
-# + txa3 - Segment Record Field
-# + txa4 - Segment Record Field
-# + txa5 - Segment Record Field
-# + txa6 - Segment Record Field
-# + txa7 - Segment Record Field
-# + txa8 - Segment Record Field
-# + txa9 - Segment Record Field
-# + txa10 - Segment Record Field
-# + txa11 - Segment Record Field
-# + txa12 - Segment Record Field
-# + txa13 - Segment Record Field
-# + txa14 - Segment Record Field
-# + txa15 - Segment Record Field
-# + txa16 - Segment Record Field
-# + txa17 - Segment Record Field
-# + txa18 - Segment Record Field
-# + txa19 - Segment Record Field
-# + txa20 - Segment Record Field
-# + txa21 - Segment Record Field
-# + txa22 - Segment Record Field
-# + txa23 - Segment Record Field
+# + txa1 - TXA-Segmentnummer
+# + txa2 - Dokumenttyp
+# + txa3 - Format des Dokumenteninhalts
+# + txa4 - Zeitpunkt der dokumentierten Maßnahme
+# + txa5 - Verantwortlicher der Maßnahme
+# + txa6 - Zeitpunkt der Dokumentation
+# + txa7 - Zeitpunkt der Niederschrift
+# + txa8 - Zeitpunkt von Änderungen
+# + txa9 - Autor
+# + txa10 - Gegenzeichnungsberechtigte Person
+# + txa11 - Schreibkraft
+# + txa12 - Eindeutige Dokumentennummer
+# + txa13 - Nummer des Bezugsdokuments
+# + txa14 - Auftragsnummer des Auftraggebers / der auftraggebenden Stelle
+# + txa15 - Bearbeitungsnummer der Leistungsstelle
+# + txa16 - Eindeutiger Dokumentenname
+# + txa17 - Bearbeitungsstatus des Dokuments
+# + txa18 - Vertraulichkeitsstatus des Dokuments
+# + txa19 - Verfügbarkeitstatus des Dokuments
+# + txa20 - Archivierungsstatus des Dokuments
+# + txa21 - Grund der Änderung des Dokuments
+# + txa22 - Person und Zeitpunkt der Gegenzeichnung
+# + txa23 - Empfänger einer Kopie
 @hl7v2:SegmentDefinition {
     name: "TXA",
     required: false,

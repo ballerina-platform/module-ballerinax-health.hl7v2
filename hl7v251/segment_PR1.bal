@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,32 +13,31 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pr11 - Segment Record Field
-# + pr12 - Segment Record Field
-# + pr13 - Segment Record Field
-# + pr14 - Segment Record Field
-# + pr15 - Segment Record Field
-# + pr16 - Segment Record Field
-# + pr17 - Segment Record Field
-# + pr18 - Segment Record Field
-# + pr19 - Segment Record Field
-# + pr110 - Segment Record Field
-# + pr111 - Segment Record Field
-# + pr112 - Segment Record Field
-# + pr113 - Segment Record Field
-# + pr114 - Segment Record Field
-# + pr115 - Segment Record Field
-# + pr116 - Segment Record Field
-# + pr117 - Segment Record Field
-# + pr118 - Segment Record Field
-# + pr119 - Segment Record Field
-# + pr120 - Segment Record Field
+# + pr11 - Set ID - PR1
+# + pr12 - Procedure Coding Method
+# + pr13 - Procedure Code
+# + pr14 - Procedure Description
+# + pr15 - Procedure Date/Time
+# + pr16 - Procedure Functional Type
+# + pr17 - Procedure Minutes
+# + pr18 - Anesthesiologist
+# + pr19 - Anesthesia Code
+# + pr110 - Anesthesia Minutes
+# + pr111 - Surgeon
+# + pr112 - Procedure Practitioner
+# + pr113 - Consent Code
+# + pr114 - Procedure Priority
+# + pr115 - Associated Diagnosis Code
+# + pr116 - Procedure Code Modifier
+# + pr117 - Procedure DRG Type
+# + pr118 - Tissue Type Code
+# + pr119 - Procedure Identifier
+# + pr120 - Procedure Action Code
 @hl7v2:SegmentDefinition {
     name: "PR1",
     required: false,

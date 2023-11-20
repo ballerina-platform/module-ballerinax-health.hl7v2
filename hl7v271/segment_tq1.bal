@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + tq11 - Segment Record Field
-# + tq12 - Segment Record Field
-# + tq13 - Segment Record Field
-# + tq14 - Segment Record Field
-# + tq15 - Segment Record Field
-# + tq16 - Segment Record Field
-# + tq17 - Segment Record Field
-# + tq18 - Segment Record Field
-# + tq19 - Segment Record Field
-# + tq110 - Segment Record Field
-# + tq111 - Segment Record Field
-# + tq112 - Segment Record Field
-# + tq113 - Segment Record Field
-# + tq114 - Segment Record Field
+# + tq11 - TQ1-Segmentnummer
+# + tq12 - Menge
+# + tq13 - Wiederholungsmuster
+# + tq14 - genaue Zeitangabe
+# + tq15 - relative Zeitangabe
+# + tq16 - Dauer des Tests/der Untersuchung
+# + tq17 - Startzeitpunkt
+# + tq18 - Endzeitpunkt
+# + tq19 - Priorität
+# + tq110 - Bedingung
+# + tq111 - Handlungsanweisung
+# + tq112 - Beziehung zu nächstem TQ1-Segment
+# + tq113 - Dauer f. einzelnen Test/Untersuchung
+# + tq114 - Gesamtanzahl dieser Tests/Untersuchungen
 @hl7v2:SegmentDefinition {
     name: "TQ1",
     required: false,

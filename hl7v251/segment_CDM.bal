@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,25 +13,24 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + cdm1 - Segment Record Field
-# + cdm2 - Segment Record Field
-# + cdm3 - Segment Record Field
-# + cdm4 - Segment Record Field
-# + cdm5 - Segment Record Field
-# + cdm6 - Segment Record Field
-# + cdm7 - Segment Record Field
-# + cdm8 - Segment Record Field
-# + cdm9 - Segment Record Field
-# + cdm10 - Segment Record Field
-# + cdm11 - Segment Record Field
-# + cdm12 - Segment Record Field
-# + cdm13 - Segment Record Field
+# + cdm1 - Primary Key Value - CDM
+# + cdm2 - Charge Code Alias
+# + cdm3 - Charge Description Short
+# + cdm4 - Charge Description Long
+# + cdm5 - Description Override Indicator
+# + cdm6 - Exploding Charges
+# + cdm7 - Procedure Code
+# + cdm8 - Active/Inactive Flag
+# + cdm9 - Inventory Number
+# + cdm10 - Resource Load
+# + cdm11 - Contract Number
+# + cdm12 - Contract Organization
+# + cdm13 - Room Fee Indicator
 @hl7v2:SegmentDefinition {
     name: "CDM",
     required: false,

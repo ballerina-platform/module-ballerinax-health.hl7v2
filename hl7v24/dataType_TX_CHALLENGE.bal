@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + tx_challenge1 - Data type field
-# + tx_challenge2 - Data type field
+# + tx_challenge1 - ???????????
+# + tx_challenge2 - ???????????
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -18,24 +18,24 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + xcn1 - Data type field
-# + xcn2 - Data type field
-# + xcn3 - Data type field
-# + xcn4 - Data type field
-# + xcn5 - Data type field
-# + xcn6 - Data type field
-# + xcn7 - Data type field
-# + xcn8 - Data type field
-# + xcn9 - Data type field
-# + xcn10 - Data type field
-# + xcn11 - Data type field
-# + xcn12 - Data type field
-# + xcn13 - Data type field
-# + xcn14 - Data type field
-# + xcn15 - Data type field
-# + xcn16 - Data type field
-# + xcn17 - Data type field
-# + xcn18 - Data type field
+# + xcn1 - ID number (ST)
+# + xcn2 - family name
+# + xcn3 - given name
+# + xcn4 - second and further given names or initials thereof
+# + xcn5 - suffix (e.g., JR or III)
+# + xcn6 - prefix (e.g., DR)
+# + xcn7 - degree (e.g., MD)
+# + xcn8 - source table
+# + xcn9 - assigning authority
+# + xcn10 - name type code
+# + xcn11 - identifier check digit
+# + xcn12 - code identifying the check digit scheme employed
+# + xcn13 - identifier type code (IS)
+# + xcn14 - assigning facility
+# + xcn15 - Name Representation code
+# + xcn16 - name context
+# + xcn17 - name validity range
+# + xcn18 - name assembly order
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

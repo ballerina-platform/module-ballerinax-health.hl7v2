@@ -18,12 +18,12 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cd1 - Data type field
-# + cd2 - Data type field
-# + cd3 - Data type field
-# + cd4 - Data type field
-# + cd5 - Data type field
-# + cd6 - Data type field
+# + cd1 - channel identifier
+# + cd2 - electrode names
+# + cd3 - channel sensitivity/units
+# + cd4 - calibration parameters
+# + cd5 - sampling frequency
+# + cd6 - minimum/maximum data values
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -35,6 +35,6 @@ public type CD record {
     CM_CD_ELECTRODE cd2 = "";
     CM_CSU cd3 = "";
     CM_CCP cd4 = "";
-    NM cd5 = -1;
+    NM cd5 = "";
     CM_MDV cd6 = "";
 };

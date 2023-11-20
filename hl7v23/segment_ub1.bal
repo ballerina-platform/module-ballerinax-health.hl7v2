@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,36 +13,34 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ub11 - Segment Record Field
-# + ub12 - Segment Record Field
-# + ub13 - Segment Record Field
-# + ub14 - Segment Record Field
-# + ub15 - Segment Record Field
-# + ub16 - Segment Record Field
-# + ub17 - Segment Record Field
-# + ub18 - Segment Record Field
-# + ub19 - Segment Record Field
-# + ub110 - Segment Record Field
-# + ub111 - Segment Record Field
-# + ub112 - Segment Record Field
-# + ub113 - Segment Record Field
-# + ub114 - Segment Record Field
-# + ub115 - Segment Record Field
-# + ub116 - Segment Record Field
-# + ub117 - Segment Record Field
-# + ub118 - Segment Record Field
-# + ub119 - Segment Record Field
-# + ub120 - Segment Record Field
-# + ub121 - Segment Record Field
-# + ub122 - Segment Record Field
-# + ub123 - Segment Record Field
+# + ub11 - Set ID - UB1
+# + ub12 - Blood Deductible  (43)
+# + ub13 - Blood Furnished Pints Of (40)
+# + ub14 - Blood Replaced Pints (41)
+# + ub15 - Blood Not Replaced Pints(42)
+# + ub16 - Co Insurance Days (25)
+# + ub17 - Condition Code (35-39)
+# + ub18 - Covered Days   (23)
+# + ub19 - Non Covered Days   (24)
+# + ub110 - Value Amount & Code (46-49)
+# + ub111 - Number Of Grace Days (90)
+# + ub112 - Spec Program Indicator (44)
+# + ub113 - PSRO/UR Approval Indicator (87)
+# + ub114 - PSRO/UR Approved Stay Fm (88)
+# + ub115 - PSRO/UR Approved Stay To (89)
+# + ub116 - Occurrence (28 32)
+# + ub117 - Occurrence Span (33)
+# + ub118 - Occur Span Start Date(33)
+# + ub119 - Occur Span End Date (33)
+# + ub120 - UB 82 Locator 2
+# + ub121 - UB 82 Locator 9
+# + ub122 - UB 82 Locator 27
+# + ub123 - UB 82 Locator 45
 @hl7v2:SegmentDefinition {
     name: "UB1",
     required: false,
@@ -192,17 +189,17 @@ import ballerinax/health.hl7v2;
 public type UB1 record {
     *hl7v2:Segment;
     string name = UB1_SEGMENT_NAME;
-    SI ub11 = -1;
-    NM ub12 = -1;
-    NM ub13 = -1;
-    NM ub14 = -1;
-    NM ub15 = -1;
-    NM ub16 = -1;
+    SI ub11 = "";
+    NM ub12 = "";
+    NM ub13 = "";
+    NM ub14 = "";
+    NM ub15 = "";
+    NM ub16 = "";
     IS[] ub17 = [""];
-    NM ub18 = -1;
-    NM ub19 = -1;
+    NM ub18 = "";
+    NM ub19 = "";
     CM_UVC[] ub110 = [{}];
-    NM ub111 = -1;
+    NM ub111 = "";
     CE ub112 = {};
     ID ub113 = "";
     DT ub114 = "";

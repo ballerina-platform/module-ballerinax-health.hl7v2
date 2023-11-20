@@ -18,20 +18,20 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + xpn1 - Data type field
-# + xpn2 - Data type field
-# + xpn3 - Data type field
-# + xpn4 - Data type field
-# + xpn5 - Data type field
-# + xpn6 - Data type field
-# + xpn7 - Data type field
-# + xpn8 - Data type field
-# + xpn9 - Data type field
-# + xpn10 - Data type field
-# + xpn11 - Data type field
-# + xpn12 - Data type field
-# + xpn13 - Data type field
-# + xpn14 - Data type field
+# + xpn1 - Family Name
+# + xpn2 - Given Name
+# + xpn3 - Second and Further Given Names or Initials Thereof
+# + xpn4 - Suffix (e.g., JR or III)
+# + xpn5 - Prefix (e.g., DR)
+# + xpn6 - Degree (e.g., MD)
+# + xpn7 - Name Type Code
+# + xpn8 - Name Representation Code
+# + xpn9 - Name Context
+# + xpn10 - Name Validity Range
+# + xpn11 - Name Assembly Order
+# + xpn12 - Effective Date
+# + xpn13 - Expiration Date
+# + xpn14 - Professional Suffix
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

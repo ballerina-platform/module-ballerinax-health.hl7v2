@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,37 +13,36 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + con1 - Segment Record Field
-# + con2 - Segment Record Field
-# + con3 - Segment Record Field
-# + con4 - Segment Record Field
-# + con5 - Segment Record Field
-# + con6 - Segment Record Field
-# + con7 - Segment Record Field
-# + con8 - Segment Record Field
-# + con9 - Segment Record Field
-# + con10 - Segment Record Field
-# + con11 - Segment Record Field
-# + con12 - Segment Record Field
-# + con13 - Segment Record Field
-# + con14 - Segment Record Field
-# + con15 - Segment Record Field
-# + con16 - Segment Record Field
-# + con17 - Segment Record Field
-# + con18 - Segment Record Field
-# + con19 - Segment Record Field
-# + con20 - Segment Record Field
-# + con21 - Segment Record Field
-# + con22 - Segment Record Field
-# + con23 - Segment Record Field
-# + con24 - Segment Record Field
-# + con25 - Segment Record Field
+# + con1 - CON-Segmentnummer
+# + con2 - Art der Einverständniserklärung
+# + con3 - verwendetes Formular der Einverständniserklärung
+# + con4 - eindeutige Identifikation der Einverständniserklärung
+# + con5 - Einverständnis - Text
+# + con6 - Spezifische Einverständnisse
+# + con7 - zusätzliche Informationen
+# + con8 - spezifische Zusatzinformationen
+# + con9 - Einschränkungen durch den Einwilligenden
+# + con10 - Form der Einverständniserklärung
+# + con11 - Status der Einverständniserklärung
+# + con12 - Zeitpunkt des Patientengesprächs
+# + con13 - Zeitpunkt der Patientenentscheidung
+# + con14 - Beginn des Einverständniszeitraums
+# + con15 - Ende des Einverständniszeitraums
+# + con16 - Merkmal Patientenverständnis vorhanden
+# + con17 - Merkmal Dolmetscher benötigt
+# + con18 - übersetzt nach
+# + con19 - Merkmal zusätzliches Informationsmaterial ausgehändigt
+# + con20 - Grund für Nichteinholung eines Einverständnisses
+# + con21 - Umfang der Patientenaufklärung
+# + con22 - Grund für eingeschränkte Patientenaufklärung
+# + con23 - Grund für die Einwilligung durch Dritte
+# + con24 - Einwilligende Person
+# + con25 - Beziehung des Einwilligenden zum Patienten
 @hl7v2:SegmentDefinition {
     name: "CON",
     required: false,

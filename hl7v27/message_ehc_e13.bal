@@ -13,51 +13,49 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 public const EHC_E13_MESSAGE_TYPE = "EHC_E13";
 
 #  HL7 Message Default Description
 #
 # + name - Message name
-# + msh - Message Record Field
-# + sft - Message Record Field
-# + uac - Message Record Field
-# + msa - Message Record Field
-# + err - Message Record Field
-# + rfi - Message Record Field
-# + ctd - Message Record Field
-# + ivc - Message Record Field
-# + pss - Message Record Field
-# + psg - Message Record Field
-# + pid - Message Record Field
-# + psl - Message Record Field
-# + request - Message Record Field
+# + msh - MSH Segment
+# + sft - SFT Segment
+# + uac - UAC Segment
+# + msa - MSA Segment
+# + err - ERR Segment
+# + rfi - RFI Segment
+# + ctd - CTD Segment
+# + ivc - IVC Segment
+# + pss - PSS Segment
+# + psg - PSG Segment
+# + pid - PID Segment
+# + psl - PSL Segment
+# + request - EHC_E13_REQUEST Segment Group
 @hl7v2:MessageDefinition {
     segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: false, segmentType: MSH},
+        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
         "UAC": {name: "UAC", maxReps: -1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
+        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
         "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
-        "RFI": {name: "RFI", maxReps: 1, required: false, segmentType: RFI},
+        "RFI": {name: "RFI", maxReps: 1, required: true, segmentType: RFI},
         "CTD": {name: "CTD", maxReps: -1, required: false, segmentType: CTD},
-        "IVC": {name: "IVC", maxReps: 1, required: false, segmentType: IVC},
-        "PSS": {name: "PSS", maxReps: 1, required: false, segmentType: PSS},
-        "PSG": {name: "PSG", maxReps: 1, required: false, segmentType: PSG},
+        "IVC": {name: "IVC", maxReps: 1, required: true, segmentType: IVC},
+        "PSS": {name: "PSS", maxReps: 1, required: true, segmentType: PSS},
+        "PSG": {name: "PSG", maxReps: 1, required: true, segmentType: PSG},
         "PID": {name: "PID", maxReps: 1, required: false, segmentType: PID},
         "PSL": {name: "PSL", maxReps: 1, required: false, segmentType: PSL}
     }
     ,groups: {
-        "REQUEST": {
+        "EHC_E13_REQUEST": {
             maxReps: -1,
-            required: false,
+            required: true,
             segments: {
                 "CTD": {name: "CTD", maxReps: 1, required: false, segmentType: typeof CTD},
-                "OBR": {name: "OBR", maxReps: 1, required: false, segmentType: typeof OBR},
+                "OBR": {name: "OBR", maxReps: 1, required: true, segmentType: typeof OBR},
                 "NTE": {name: "NTE", maxReps: 1, required: false, segmentType: typeof NTE},
-                "RESPONSE": {name: "RESPONSE", maxReps: -1, required: false, segmentType: typeof RESPONSE}
+                "EHC_E13_RESPONSE": {name: "EHC_E13_RESPONSE", maxReps: -1, required: true, segmentType: typeof EHC_E13_RESPONSE}
             }
         }
     }
@@ -65,17 +63,17 @@ public const EHC_E13_MESSAGE_TYPE = "EHC_E13";
 public type EHC_E13 record {
     *hl7v2:Message;
     string name = EHC_E13_MESSAGE_TYPE;
-    MSH msh?;
+    MSH msh;
     SFT[] sft = [];
     UAC[] uac = [];
-    MSA msa?;
+    MSA msa;
     ERR[] err = [];
-    RFI rfi?;
+    RFI rfi;
     CTD[] ctd = [];
-    IVC ivc?;
-    PSS pss?;
-    PSG psg?;
+    IVC ivc;
+    PSS pss;
+    PSG psg;
     PID pid?;
     PSL psl?;
-    REQUEST[] request = [{}];
+    EHC_E13_REQUEST[] request = [{obr:{}}];
 };

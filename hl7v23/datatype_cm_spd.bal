@@ -16,13 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_spd1 - Data type field
-# + cm_spd2 - Data type field
-# + cm_spd3 - Data type field
-# + cm_spd4 - Data type field
+# + cm_spd1 - specialty name
+# + cm_spd2 - governing board
+# + cm_spd3 - eligible or certified
+# + cm_spd4 - date of certification
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

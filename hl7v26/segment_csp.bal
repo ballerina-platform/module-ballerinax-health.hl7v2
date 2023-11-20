@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,16 +13,15 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + csp1 - Segment Record Field
-# + csp2 - Segment Record Field
-# + csp3 - Segment Record Field
-# + csp4 - Segment Record Field
+# + csp1 - ID der Studienphase
+# + csp2 - Zeitpunkt des Anfangs der Studienphase
+# + csp3 - Zeitpunkt des Endes der Studienphase
+# + csp4 - Auswertbarkeit der Studienphase
 @hl7v2:SegmentDefinition {
     name: "CSP",
     required: false,

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,34 +13,33 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rxa1 - Segment Record Field
-# + rxa2 - Segment Record Field
-# + rxa3 - Segment Record Field
-# + rxa4 - Segment Record Field
-# + rxa5 - Segment Record Field
-# + rxa6 - Segment Record Field
-# + rxa7 - Segment Record Field
-# + rxa8 - Segment Record Field
-# + rxa9 - Segment Record Field
-# + rxa10 - Segment Record Field
-# + rxa11 - Segment Record Field
-# + rxa12 - Segment Record Field
-# + rxa13 - Segment Record Field
-# + rxa14 - Segment Record Field
-# + rxa15 - Segment Record Field
-# + rxa16 - Segment Record Field
-# + rxa17 - Segment Record Field
-# + rxa18 - Segment Record Field
-# + rxa19 - Segment Record Field
-# + rxa20 - Segment Record Field
-# + rxa21 - Segment Record Field
-# + rxa22 - Segment Record Field
+# + rxa1 - Give Sub-ID Counter
+# + rxa2 - Administration Sub-ID Counter
+# + rxa3 - Date/Time Start of Administration
+# + rxa4 - Date/Time End of Administration
+# + rxa5 - Administered Code
+# + rxa6 - Administered Amount
+# + rxa7 - Administered Units
+# + rxa8 - Administered Dosage Form
+# + rxa9 - Administration Notes
+# + rxa10 - Administering Provider
+# + rxa11 - Administered-at Location
+# + rxa12 - Administered Per (Time Unit)
+# + rxa13 - Administered Strength
+# + rxa14 - Administered Strength Units
+# + rxa15 - Substance Lot Number
+# + rxa16 - Substance Expiration Date
+# + rxa17 - Substance Manufacturer Name
+# + rxa18 - Substance Refusal Reason
+# + rxa19 - Indication
+# + rxa20 - Completion Status
+# + rxa21 - Action Code-RXA
+# + rxa22 - System Entry Date/Time
 @hl7v2:SegmentDefinition {
     name: "RXA",
     required: false,

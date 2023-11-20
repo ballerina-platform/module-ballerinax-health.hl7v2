@@ -16,12 +16,11 @@
 
 import ballerinax/health.hl7v2;
 
-
 # Data type description
 #
-# + cm_rmc1 - Data type field
-# + cm_rmc2 - Data type field
-# + cm_rmc3 - Data type field
+# + cm_rmc1 - room type
+# + cm_rmc2 - amount type
+# + cm_rmc3 - coverage amount
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -31,5 +30,5 @@ public type CM_RMC record {
     *hl7v2:CompositeType;
     IS cm_rmc1 = "";
     IS cm_rmc2 = "";
-    NM cm_rmc3 = -1;
+    NM cm_rmc3 = "";
 };

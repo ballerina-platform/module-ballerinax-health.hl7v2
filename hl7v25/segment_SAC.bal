@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,56 +13,55 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + sac1 - Segment Record Field
-# + sac2 - Segment Record Field
-# + sac3 - Segment Record Field
-# + sac4 - Segment Record Field
-# + sac5 - Segment Record Field
-# + sac6 - Segment Record Field
-# + sac7 - Segment Record Field
-# + sac8 - Segment Record Field
-# + sac9 - Segment Record Field
-# + sac10 - Segment Record Field
-# + sac11 - Segment Record Field
-# + sac12 - Segment Record Field
-# + sac13 - Segment Record Field
-# + sac14 - Segment Record Field
-# + sac15 - Segment Record Field
-# + sac16 - Segment Record Field
-# + sac17 - Segment Record Field
-# + sac18 - Segment Record Field
-# + sac19 - Segment Record Field
-# + sac20 - Segment Record Field
-# + sac21 - Segment Record Field
-# + sac22 - Segment Record Field
-# + sac23 - Segment Record Field
-# + sac24 - Segment Record Field
-# + sac25 - Segment Record Field
-# + sac26 - Segment Record Field
-# + sac27 - Segment Record Field
-# + sac28 - Segment Record Field
-# + sac29 - Segment Record Field
-# + sac30 - Segment Record Field
-# + sac31 - Segment Record Field
-# + sac32 - Segment Record Field
-# + sac33 - Segment Record Field
-# + sac34 - Segment Record Field
-# + sac35 - Segment Record Field
-# + sac36 - Segment Record Field
-# + sac37 - Segment Record Field
-# + sac38 - Segment Record Field
-# + sac39 - Segment Record Field
-# + sac40 - Segment Record Field
-# + sac41 - Segment Record Field
-# + sac42 - Segment Record Field
-# + sac43 - Segment Record Field
-# + sac44 - Segment Record Field
+# + sac1 - External Accession Identifier
+# + sac2 - Accession Identifier
+# + sac3 - Container Identifier
+# + sac4 - Primary (parent) Container Identifier
+# + sac5 - Equipment Container Identifier
+# + sac6 - Specimen Source
+# + sac7 - Registration Date/Time
+# + sac8 - Container Status
+# + sac9 - Carrier Type
+# + sac10 - Carrier Identifier
+# + sac11 - Position in Carrier
+# + sac12 - Tray Type - SAC
+# + sac13 - Tray Identifier
+# + sac14 - Position in Tray
+# + sac15 - Location
+# + sac16 - Container Height
+# + sac17 - Container Diameter
+# + sac18 - Barrier Delta
+# + sac19 - Bottom Delta
+# + sac20 - Container Height/Diameter/Delta Units
+# + sac21 - Container Volume
+# + sac22 - Available Specimen Volume
+# + sac23 - Initial Specimen Volume
+# + sac24 - Volume Units
+# + sac25 - Separator Type
+# + sac26 - Cap Type
+# + sac27 - Additive
+# + sac28 - Specimen Component
+# + sac29 - Dilution Factor
+# + sac30 - Treatment
+# + sac31 - Temperature
+# + sac32 - Hemolysis Index
+# + sac33 - Hemolysis Index Units
+# + sac34 - Lipemia Index
+# + sac35 - Lipemia Index Units
+# + sac36 - Icterus Index
+# + sac37 - Icterus Index Units
+# + sac38 - Fibrin Index
+# + sac39 - Fibrin Index Units
+# + sac40 - System Induced Contaminants
+# + sac41 - Drug Interference
+# + sac42 - Artificial Blood
+# + sac43 - Special Handling Code
+# + sac44 - Other Environmental Factors
 @hl7v2:SegmentDefinition {
     name: "SAC",
     required: false,

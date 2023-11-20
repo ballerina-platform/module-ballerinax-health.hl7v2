@@ -18,8 +18,8 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + fc1 - Data type field
-# + fc2 - Data type field
+# + fc1 - Financial Class
+# + fc2 - Effective Date
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

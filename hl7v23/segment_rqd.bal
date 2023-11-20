@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,23 +13,21 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
-
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + rqd1 - Segment Record Field
-# + rqd2 - Segment Record Field
-# + rqd3 - Segment Record Field
-# + rqd4 - Segment Record Field
-# + rqd5 - Segment Record Field
-# + rqd6 - Segment Record Field
-# + rqd7 - Segment Record Field
-# + rqd8 - Segment Record Field
-# + rqd9 - Segment Record Field
-# + rqd10 - Segment Record Field
+# + rqd1 - Requisition Line Number
+# + rqd2 - Item Code - Internal
+# + rqd3 - Item Code - External
+# + rqd4 - Hospital Item Code
+# + rqd5 - Requisition Quantity
+# + rqd6 - Requisition Unit of Measure
+# + rqd7 - Department Cost Center
+# + rqd8 - Item Natural Account Code
+# + rqd9 - Deliver To ID
+# + rqd10 - Date Needed
 @hl7v2:SegmentDefinition {
     name: "RQD",
     required: false,
@@ -101,11 +98,11 @@ import ballerinax/health.hl7v2;
 public type RQD record {
     *hl7v2:Segment;
     string name = RQD_SEGMENT_NAME;
-    SI rqd1 = -1;
+    SI rqd1 = "";
     CE rqd2 = {};
     CE rqd3 = {};
     CE rqd4 = {};
-    NM rqd5 = -1;
+    NM rqd5 = "";
     CE rqd6 = {};
     ID rqd7 = "";
     ID rqd8 = "";

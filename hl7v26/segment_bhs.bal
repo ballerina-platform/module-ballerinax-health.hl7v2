@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,26 +13,25 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + bhs1 - Segment Record Field
-# + bhs2 - Segment Record Field
-# + bhs3 - Segment Record Field
-# + bhs4 - Segment Record Field
-# + bhs5 - Segment Record Field
-# + bhs6 - Segment Record Field
-# + bhs7 - Segment Record Field
-# + bhs8 - Segment Record Field
-# + bhs9 - Segment Record Field
-# + bhs10 - Segment Record Field
-# + bhs11 - Segment Record Field
-# + bhs12 - Segment Record Field
-# + bhs13 - Segment Record Field
-# + bhs14 - Segment Record Field
+# + bhs1 - Feldtrennzeichen
+# + bhs2 - Weitere Trennzeichen
+# + bhs3 - Sendende Anwendung / Sendender Bereich
+# + bhs4 - Sendender Prozeß / Sendende Einrichtung innerhalb Bereich
+# + bhs5 - Empfangende Anwendung / Empfangender Bereich
+# + bhs6 - Empfangender Prozeß / Empfangende Einrichtung innerhalb Bereich
+# + bhs7 - Zeitpunkt der Erstellung der Nachrichtengruppe
+# + bhs8 - Sicherheitsspezifikation
+# + bhs9 - Name / Kennung / Typ der Nachrichtengruppe
+# + bhs10 - Kommentar
+# + bhs11 - Kontrollnummer der Nachrichtengruppe
+# + bhs12 - Kontrollnummer der Original-Nachrichtengruppe (bei Übertragungsfehlern)
+# + bhs13 - Netzwerkadresse Sender
+# + bhs14 - Netzwerkadresse Empfänger
 @hl7v2:SegmentDefinition {
     name: "BHS",
     required: false,

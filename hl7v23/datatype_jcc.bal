@@ -16,10 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Job Code Class.
+# Data type description
 #
-# + jcc1 - Job Code  
-# + jss2 - Job Class
+# + jcc1 - job code
+# + jcc2 - job class
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -28,5 +28,5 @@ import ballerinax/health.hl7v2;
 public type JCC record {
     *hl7v2:CompositeType;
     IS jcc1 = "";
-    IS jss2 = "";
+    IS jcc2 = "";
 };

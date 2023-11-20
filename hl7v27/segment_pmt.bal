@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,24 +13,23 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + pmt1 - Segment Record Field
-# + pmt2 - Segment Record Field
-# + pmt3 - Segment Record Field
-# + pmt4 - Segment Record Field
-# + pmt5 - Segment Record Field
-# + pmt6 - Segment Record Field
-# + pmt7 - Segment Record Field
-# + pmt8 - Segment Record Field
-# + pmt9 - Segment Record Field
-# + pmt10 - Segment Record Field
-# + pmt11 - Segment Record Field
-# + pmt12 - Segment Record Field
+# + pmt1 - Payment/Remittance Advice Number
+# + pmt2 - Payment/Remittance Effective Date/Time
+# + pmt3 - Payment/Remittance Expiration Date/Time
+# + pmt4 - Payment Method
+# + pmt5 - Payment/Remittance Date/Time
+# + pmt6 - Payment/Remittance Amount
+# + pmt7 - Check Number
+# + pmt8 - Payee Bank Identification
+# + pmt9 - Payee Transit Number
+# + pmt10 - Payee Bank Account ID
+# + pmt11 - Payment Organization
+# + pmt12 - ESR-Code-Line
 @hl7v2:SegmentDefinition {
     name: "PMT",
     required: false,

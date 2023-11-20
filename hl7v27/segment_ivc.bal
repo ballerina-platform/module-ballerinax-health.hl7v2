@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,42 +13,41 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ivc1 - Segment Record Field
-# + ivc2 - Segment Record Field
-# + ivc3 - Segment Record Field
-# + ivc4 - Segment Record Field
-# + ivc5 - Segment Record Field
-# + ivc6 - Segment Record Field
-# + ivc7 - Segment Record Field
-# + ivc8 - Segment Record Field
-# + ivc9 - Segment Record Field
-# + ivc10 - Segment Record Field
-# + ivc11 - Segment Record Field
-# + ivc12 - Segment Record Field
-# + ivc13 - Segment Record Field
-# + ivc14 - Segment Record Field
-# + ivc15 - Segment Record Field
-# + ivc16 - Segment Record Field
-# + ivc17 - Segment Record Field
-# + ivc18 - Segment Record Field
-# + ivc19 - Segment Record Field
-# + ivc20 - Segment Record Field
-# + ivc21 - Segment Record Field
-# + ivc22 - Segment Record Field
-# + ivc23 - Segment Record Field
-# + ivc24 - Segment Record Field
-# + ivc25 - Segment Record Field
-# + ivc26 - Segment Record Field
-# + ivc27 - Segment Record Field
-# + ivc28 - Segment Record Field
-# + ivc29 - Segment Record Field
-# + ivc30 - Segment Record Field
+# + ivc1 - Provider Invoice Number
+# + ivc2 - Payer Invoice Number
+# + ivc3 - Contract/Agreement Number
+# + ivc4 - Invoice Control
+# + ivc5 - Invoice Reason
+# + ivc6 - Invoice Type
+# + ivc7 - Invoice Date/Time
+# + ivc8 - Invoice Amount
+# + ivc9 - Payment Terms
+# + ivc10 - Provider Organization
+# + ivc11 - Payer Organization
+# + ivc12 - Attention
+# + ivc13 - Last Invoice Indicator
+# + ivc14 - Invoice Booking Period
+# + ivc15 - Origin
+# + ivc16 - Invoice Fixed Amount
+# + ivc17 - Special Costs
+# + ivc18 - Amount for Doctors Treatment
+# + ivc19 - Responsible Physician
+# + ivc20 - Cost Center
+# + ivc21 - Invoice Prepaid Amount
+# + ivc22 - Total Invoice Amount without Prepaid Amount
+# + ivc23 - Total-Amount of VAT
+# + ivc24 - VAT-Rates applied
+# + ivc25 - Benefit Group
+# + ivc26 - Provider Tax ID
+# + ivc27 - Payer Tax ID
+# + ivc28 - Provider Tax Status
+# + ivc29 - Payer Tax Status
+# + ivc30 - Sales Tax ID
 @hl7v2:SegmentDefinition {
     name: "IVC",
     required: false,

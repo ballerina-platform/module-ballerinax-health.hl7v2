@@ -16,10 +16,10 @@
 
 import ballerinax/health.hl7v2;
 
-# Money.
+# Data type description
 #
-# + mo1 - Quantity  
-# + mo2 - Denomination
+# + mo1 - quantity
+# + mo2 - denomination
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -27,6 +27,6 @@ import ballerinax/health.hl7v2;
 }
 public type MO record {
     *hl7v2:CompositeType;
-    NM mo1 = -1;
+    NM mo1 = "";
     ID mo2 = "";
 };

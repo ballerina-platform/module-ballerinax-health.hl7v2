@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,17 +13,16 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + gp11 - Segment Record Field
-# + gp12 - Segment Record Field
-# + gp13 - Segment Record Field
-# + gp14 - Segment Record Field
-# + gp15 - Segment Record Field
+# + gp11 - Type of Bill Code
+# + gp12 - Revenue Code
+# + gp13 - Overall Claim Disposition Code
+# + gp14 - OCE Edits per Visit Code
+# + gp15 - Outlier Cost
 @hl7v2:SegmentDefinition {
     name: "GP1",
     required: false,

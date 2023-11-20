@@ -18,15 +18,15 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cwe1 - Data type field
-# + cwe2 - Data type field
-# + cwe3 - Data type field
-# + cwe4 - Data type field
-# + cwe5 - Data type field
-# + cwe6 - Data type field
-# + cwe7 - Data type field
-# + cwe8 - Data type field
-# + cwe9 - Data type field
+# + cwe1 - Identifier
+# + cwe2 - Text
+# + cwe3 - Name of Coding System
+# + cwe4 - Alternate Identifier
+# + cwe5 - Alternate Text
+# + cwe6 - Name of Alternate Coding System
+# + cwe7 - Coding System Version ID
+# + cwe8 - Alternate Coding System Version ID
+# + cwe9 - Original Text
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,29 +13,28 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + ub21 - Segment Record Field
-# + ub22 - Segment Record Field
-# + ub23 - Segment Record Field
-# + ub24 - Segment Record Field
-# + ub25 - Segment Record Field
-# + ub26 - Segment Record Field
-# + ub27 - Segment Record Field
-# + ub28 - Segment Record Field
-# + ub29 - Segment Record Field
-# + ub210 - Segment Record Field
-# + ub211 - Segment Record Field
-# + ub212 - Segment Record Field
-# + ub213 - Segment Record Field
-# + ub214 - Segment Record Field
-# + ub215 - Segment Record Field
-# + ub216 - Segment Record Field
-# + ub217 - Segment Record Field
+# + ub21 - (Segment UB2 wird nicht verwendet)
+# + ub22 - 554STHL7Co-Insurance Days (9)
+# + ub23 - 555CWEHL70043HL7Condition Code (24-30)
+# + ub24 - 556STHL7Covered Days (7)
+# + ub25 - 557STHL7Non-Covered Days (8)
+# + ub26 - 558UVCHL7Value Amount & Code
+# + ub27 - 559OCDHL7Occurrence Code & Date (32-35)
+# + ub28 - 560OSPHL7Occurrence Span Code/Dates (36)
+# + ub29 - 561STHL7Uniform Billing Locator 2 (State)
+# + ub210 - 562STHL7Uniform Billing 11 (State)
+# + ub211 - 563STHL7Uniform Billing 31 (National)
+# + ub212 - 564STHL7Document Control Number
+# + ub213 - 565STHL7Uniform Billing 49 (National)
+# + ub214 - 566STHL7Uniform Billing 56 (State)
+# + ub215 - 567STHL7Uniform Billing 57 (National)
+# + ub216 - 568STHL7Uniform Billing 78 (State)
+# + ub217 - 815NMHL7Special Visit Count
 @hl7v2:SegmentDefinition {
     name: "UB2",
     required: false,

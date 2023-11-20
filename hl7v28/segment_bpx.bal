@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,33 +13,32 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + bpx1 - Segment Record Field
-# + bpx2 - Segment Record Field
-# + bpx3 - Segment Record Field
-# + bpx4 - Segment Record Field
-# + bpx5 - Segment Record Field
-# + bpx6 - Segment Record Field
-# + bpx7 - Segment Record Field
-# + bpx8 - Segment Record Field
-# + bpx9 - Segment Record Field
-# + bpx10 - Segment Record Field
-# + bpx11 - Segment Record Field
-# + bpx12 - Segment Record Field
-# + bpx13 - Segment Record Field
-# + bpx14 - Segment Record Field
-# + bpx15 - Segment Record Field
-# + bpx16 - Segment Record Field
-# + bpx17 - Segment Record Field
-# + bpx18 - Segment Record Field
-# + bpx19 - Segment Record Field
-# + bpx20 - Segment Record Field
-# + bpx21 - Segment Record Field
+# + bpx1 - BPX-Segmentnummer
+# + bpx2 - Ausgabestatus des Blutprodukts
+# + bpx3 - Status von BPX-2
+# + bpx4 - Zeitpunkt der Statusbestimmung
+# + bpx5 - ID der Blutspende (für Blutkomponenten)
+# + bpx6 - Art der Blutkomponente
+# + bpx7 - Art/Verwendungszweck der Blutspende (für Blutkomponenten)
+# + bpx8 - Art des kommerziellen Blutprodukts
+# + bpx9 - Hersteller des kommerziellen Blutprodukts
+# + bpx10 - Chargennummer des kommerziellen Blutprodukts
+# + bpx11 - Blutgruppe des Blutprodukts
+# + bpx12 - durchgeführte Untersuchungen bei dieser Blutkomponente
+# + bpx13 - Verfallszeitpunkt des Blutprodukts
+# + bpx14 - Anzahl der Blutprodukte
+# + bpx15 - Verpackungseinheit des Blutprodukts
+# + bpx16 - Maßeinheit der Verpackung des Blutprodukts
+# + bpx17 - ID des Blutprodukts
+# + bpx18 - tatsächlicher Anlieferungsort des Blutprodukts
+# + bpx19 - tatsächliche Anlieferungsadresse des Blutprodukts
+# + bpx20 - zustellende Person des Blutprodukts
+# + bpx21 - ausgebende Person des Blutprodukts
 @hl7v2:SegmentDefinition {
     name: "BPX",
     required: false,

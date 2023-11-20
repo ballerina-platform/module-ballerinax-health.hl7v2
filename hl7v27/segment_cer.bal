@@ -1,4 +1,3 @@
-
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
@@ -14,43 +13,42 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerinax/health.hl7v2;
 
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
-# + cer1 - Segment Record Field
-# + cer2 - Segment Record Field
-# + cer3 - Segment Record Field
-# + cer4 - Segment Record Field
-# + cer5 - Segment Record Field
-# + cer6 - Segment Record Field
-# + cer7 - Segment Record Field
-# + cer8 - Segment Record Field
-# + cer9 - Segment Record Field
-# + cer10 - Segment Record Field
-# + cer11 - Segment Record Field
-# + cer12 - Segment Record Field
-# + cer13 - Segment Record Field
-# + cer14 - Segment Record Field
-# + cer15 - Segment Record Field
-# + cer16 - Segment Record Field
-# + cer17 - Segment Record Field
-# + cer18 - Segment Record Field
-# + cer19 - Segment Record Field
-# + cer20 - Segment Record Field
-# + cer21 - Segment Record Field
-# + cer22 - Segment Record Field
-# + cer23 - Segment Record Field
-# + cer24 - Segment Record Field
-# + cer25 - Segment Record Field
-# + cer26 - Segment Record Field
-# + cer27 - Segment Record Field
-# + cer28 - Segment Record Field
-# + cer29 - Segment Record Field
-# + cer30 - Segment Record Field
-# + cer31 - Segment Record Field
+# + cer1 - Set ID - CER
+# + cer2 - Serial Number
+# + cer3 - Version
+# + cer4 - Granting Authority
+# + cer5 - Issuing Authority
+# + cer6 - Signature
+# + cer7 - Granting Country
+# + cer8 - Granting State/Province
+# + cer9 - Granting County/Parish
+# + cer10 - Certificate Type
+# + cer11 - Certificate Domain
+# + cer12 - Subject ID
+# + cer13 - Subject Name
+# + cer14 - Subject Directory Attribute Extension
+# + cer15 - Subject Public Key Info
+# + cer16 - Authority Key Identifier
+# + cer17 - Basic Constraint
+# + cer18 - CRL Distribution Point
+# + cer19 - Jurisdiction Country
+# + cer20 - Jurisdiction State/Province
+# + cer21 - Jurisdiction County/Parish
+# + cer22 - Jurisdiction Breadth
+# + cer23 - Granting Date
+# + cer24 - Issuing Date
+# + cer25 - Activation Date
+# + cer26 - Inactivation Date
+# + cer27 - Expiration Date
+# + cer28 - Renewal Date
+# + cer29 - Revocation Date
+# + cer30 - Revocation Reason Code
+# + cer31 - Certificate Status Code
 @hl7v2:SegmentDefinition {
     name: "CER",
     required: false,

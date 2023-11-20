@@ -18,15 +18,15 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + xtn1 - Data type field
-# + xtn2 - Data type field
-# + xtn3 - Data type field
-# + xtn4 - Data type field
-# + xtn5 - Data type field
-# + xtn6 - Data type field
-# + xtn7 - Data type field
-# + xtn8 - Data type field
-# + xtn9 - Data type field
+# + xtn1 - [(999)] 999-9999 [X99999][C any text]
+# + xtn2 - telecommunication use code
+# + xtn3 - telecommunication equipment type (ID)
+# + xtn4 - Email address
+# + xtn5 - Country Code
+# + xtn6 - Area/city code
+# + xtn7 - Phone number
+# + xtn8 - Extension
+# + xtn9 - any text
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

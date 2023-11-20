@@ -18,12 +18,12 @@ import ballerinax/health.hl7v2;
 
 # Data type description
 #
-# + cp1 - Data type field
-# + cp2 - Data type field
-# + cp3 - Data type field
-# + cp4 - Data type field
-# + cp5 - Data type field
-# + cp6 - Data type field
+# + cp1 - Price
+# + cp2 - Price Type
+# + cp3 - From Value
+# + cp4 - To Value
+# + cp5 - Range Units
+# + cp6 - Range Type
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),

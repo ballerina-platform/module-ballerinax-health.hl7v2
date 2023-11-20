@@ -16,22 +16,22 @@
 
 import ballerinax/health.hl7v2;
 
-# Extended Composite ID Number And Name.
+# Data type description
 #
-# + xcn1 - ID Number  
-# + xcn2 - Family Name  
-# + xcn3 - Given Name  
-# + xcn4 - Middle Initial Or Name  
-# + xcn5 - Suffix  
-# + xcn6 - Prefix  
-# + xcn7 - Degree  
-# + xcn8 - Source Table  
-# + xcn9 - Assigning Authority  
-# + xcn10 - Name Type  
-# + xcn11 - Identifier Check Digit  
-# + xcn12 - Code Identifying The Check Digit Scheme Employed  
-# + xcn13 - Identifier Type Code  
-# + xcn14 - Assigning Facility ID
+# + xcn1 - ID number (ST)
+# + xcn2 - family name
+# + xcn3 - given name
+# + xcn4 - middle initial or name
+# + xcn5 - suffix (e.g., JR or III)
+# + xcn6 - prefix (e.g., DR)
+# + xcn7 - degree (e.g., MD)
+# + xcn8 - source table
+# + xcn9 - assigning authority
+# + xcn10 - name type
+# + xcn11 - identifier check digit
+# + xcn12 - code identifying the check digit scheme employed
+# + xcn13 - identifier type code
+# + xcn14 - assigning facility ID
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -46,7 +46,7 @@ public type XCN record {
     ST xcn5 = "";
     ST xcn6 = "";
     ST xcn7 = "";
-    IS xcn8 = "";
+    ID xcn8 = "";
     HD xcn9 = {};
     ID xcn10 = "";
     ST xcn11 = "";

@@ -16,12 +16,12 @@
 
 import ballerinax/health.hl7v2;
 
-# Structured Numeric.
+# Data type description
 #
-# + sn1 - Comparator  
-# + sn2 - Num1  
-# + sn3 - Separator Or Suffix  
-# + sn4 - Num2
+# + sn1 - comparator
+# + sn2 - num1
+# + sn3 - separator or suffix
+# + sn4 - num2
 @hl7v2:TypeDefinition {
     length: (),
     maxReps: (),
@@ -30,7 +30,7 @@ import ballerinax/health.hl7v2;
 public type SN record {
     *hl7v2:CompositeType;
     ST sn1 = "";
-    NM sn2 = -1;
+    NM sn2 = "";
     ST sn3 = "";
-    NM sn4 = -1;
+    NM sn4 = "";
 };
