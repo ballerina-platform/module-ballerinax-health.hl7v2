@@ -15,7 +15,6 @@
 // under the License.
 
 import ballerina/log;
-import ballerina/regex;
 import ballerina/time;
 
 # Delegates parsing of HL7 message to the relevant HL7 version's parser.
@@ -40,7 +39,7 @@ public isolated function parse(string|byte[] message) returns Message|HL7Error {
         return error(HL7_V2_PARSER_ERROR, message = "Failed to create string from byte array.");
     }
 
-    msgStr = regex:replaceAll(msgStr, "\n", "\r");
+    msgStr = re `\n`.replaceAll(msgStr, "\r");
     if msgStr is error {
         return error(HL7_V2_PARSER_ERROR, message = "Failed when replacing new line with the carriage return.");
     }
@@ -98,8 +97,8 @@ public isolated function createHL7WirePayload(byte[] message) returns byte[] {
 # + message - HL7 message string
 # + return - HL7 version
 isolated function extractHL7Version(string message) returns string? {
-    string[] splitMsg = regex:split(message, "\\r");
-    string[] splitFields = regex:split(splitMsg[0].trim(), "\\|");
+    string[] splitMsg = re `\r`.split(message);
+    string[] splitFields = re `\|`.split(splitMsg[0].trim());
     if splitFields.length() >= 12 {
        return splitFields[11]; 
     }
