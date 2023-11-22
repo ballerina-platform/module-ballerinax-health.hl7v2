@@ -15,7 +15,6 @@
 // under the License.
 
 import ballerina/log;
-import ballerina/regex;
 import ballerinax/health.hl7v2;
 
 # HL7v25 message parser implementation.
@@ -50,7 +49,7 @@ class HL7Parser {
         }
         string message = messageStr.substring(1, messageStr.length() - 1);
         hl7v2:Message? messageResult = ();
-        string[] segments = regex:split(message, "\r");
+        string[] segments = re `\r`.split(message);
         if segments.length() == 0 {
             log:printError(string `There should be at least 1 segment for the HL7 message: ${message}`);
             return error hl7v2:HL7Error(hl7v2:HL7_V2_PARSER_ERROR,
@@ -233,9 +232,9 @@ class HL7Parser {
         }
         boolean isMSHSegment = isMshSegment(segment.name);
         int fieldNum;
-        string[] fields = regex:split(segmentContent, self.encodingCharacters.getFieldSeparatorWithEscapeChars());
+        string[] fields = re `self.encodingCharacters.getFieldSeparatorWithEscapeChars()`.split(segmentContent);
         foreach int i in 0 ..< fields.length() {
-            string[] repetitions = regex:split(fields[i], self.encodingCharacters.getRepetitionSeperator());
+            string[] repetitions = re `self.encodingCharacters.getRepetitionSeperator()`.split(fields[i]);
             boolean isMSH2 = isDelimeterDefinedSegment(segment.name) && (i + fieldOffset == 2);
             if isMSH2 {
                 repetitions = [fields[i]];
@@ -271,9 +270,9 @@ class HL7Parser {
     # + typeContent - Data type content string
     private isolated function parseType(anydata|hl7v2:PrimitiveType typ, string typeContent) {
 
-        string[] components = regex:split(typeContent, self.encodingCharacters.getComponentSeparatorWithEscapeChars());
+        string[] components = re ` self.encodingCharacters.getComponentSeparatorWithEscapeChars()`.split(typeContent);
         foreach int i in 0 ..< components.length() {
-            string[] subComponents = regex:split(components[i], self.encodingCharacters.getSubcomponentSeparator());
+            string[] subComponents = re `self.encodingCharacters.getSubcomponentSeparator()`.split(components[i]);
             foreach int j in 0 ..< subComponents.length() {
                 if typ is hl7v2:PrimitiveType {
                     self.parsePrimitive(typ, subComponents[j]);
