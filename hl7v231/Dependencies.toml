@@ -131,7 +131,7 @@ dependencies = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2"
-version = "2.1.0"
+version = "2.2.0"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
@@ -145,7 +145,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v231"
-version = "2.1.1"
+version = "3.0.0"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
