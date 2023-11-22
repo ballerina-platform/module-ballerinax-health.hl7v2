@@ -102,7 +102,7 @@ public function main() returns error? {
             qrd2: "R",
             qrd3: "I",
             qrd4: "QueryID01",
-            qrd7: {cq1: 5},
+            qrd7: {cq1: "5"},
             qrd8: [{xcn1: "1", xcn2: "ADAM", xcn3: "EVERMAN"}],
             qrd9: [{ce1: "VXI"}],
             qrd10: [{ce1: "SIIS"}]    
@@ -146,7 +146,7 @@ public function main() returns error? {
             qrd2: "R",
             qrd3: "I",
             qrd4: "QueryID01",
-            qrd7: {cq1: 5},
+            qrd7: {cq1: "5"},
             qrd8: [{xcn1: "1", xcn2: "ADAM", xcn3: "EVERMAN"}],
             qrd9: [{ce1: "VXI"}],
             qrd10: [{ce1: "SIIS"}]    
