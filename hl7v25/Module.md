@@ -66,6 +66,7 @@ service class HL7ServiceConnectionService {
         // Create Acknowledgement message.
         hl7v25:ACK ack = {
             msh: {
+                msh2: "^~\\&",
                 msh3: {hd1: "TESTSERVER"},
                 msh4: {hd1: "WSO2OH"},
                 msh5: {hd1: msh.msh3.hd1},
