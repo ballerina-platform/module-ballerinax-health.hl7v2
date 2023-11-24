@@ -232,9 +232,9 @@ class HL7Parser {
         }
         boolean isMSHSegment = isMshSegment(segment.name);
         int fieldNum;
-        string[] fields = re `self.encodingCharacters.getFieldSeparatorWithEscapeChars()`.split(segmentContent);
+        string[] fields = re `${self.encodingCharacters.getFieldSeparatorWithEscapeChars()}`.split(segmentContent);
         foreach int i in 0 ..< fields.length() {
-            string[] repetitions = re `self.encodingCharacters.getRepetitionSeperator()`.split(fields[i]);
+            string[] repetitions = re `${self.encodingCharacters.getRepetitionSeperator()}`.split(fields[i]);
             boolean isMSH2 = isDelimeterDefinedSegment(segment.name) && (i + fieldOffset == 2);
             if isMSH2 {
                 repetitions = [fields[i]];
@@ -270,9 +270,9 @@ class HL7Parser {
     # + typeContent - Data type content string
     private isolated function parseType(anydata|hl7v2:PrimitiveType typ, string typeContent) {
 
-        string[] components = re `self.encodingCharacters.getComponentSeparatorWithEscapeChars()`.split(typeContent);
+        string[] components = re `${self.encodingCharacters.getComponentSeparatorWithEscapeChars()}`.split(typeContent);
         foreach int i in 0 ..< components.length() {
-            string[] subComponents = re `self.encodingCharacters.getSubcomponentSeparator()`.split(components[i]);
+            string[] subComponents = re `${self.encodingCharacters.getSubcomponentSeparator()}`.split(components[i]);
             foreach int j in 0 ..< subComponents.length() {
                 if typ is hl7v2:PrimitiveType {
                     self.parsePrimitive(typ, subComponents[j]);
