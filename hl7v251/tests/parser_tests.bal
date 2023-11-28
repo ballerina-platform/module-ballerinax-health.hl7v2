@@ -25,12 +25,20 @@ final string msg = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, INC.|GOOD HEALT
 "\rNK1|1|NUCLEAR^NELDA^W|SPO^SPOUSE||||NK^NEXT OF KIN$\rPV1|1|I|2000^2012^01||||" +
 "004777^ATTEND^AARON^A|||SUR||||ADM|A0|";
 
+final string msgWithInvalidField = "MSH|^~\\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20230101120000||ADT^A01|MSG000001|P|2.5.1|\r" +
+"EVN|A01|20230101120000||\r" +
+"PID|1||123456789|^^^^MR||Doe^John^||19600101|M|||123 Main St^Apt 4B^New York^NY^10001||(555)555-5555||S||123456789|\r" +
+"PV1|1|O|^^^OP^||||12345^Smith^John^Dr.||||||||||||||||N|||||||||\r" +
+"CSP|1|20230101|20231231|E|XXX|";
+
 @test:Config {}
 function parseHl7Message() {
     hl7:Message|hl7:HL7Error parseResult = hl7:parse(msg);
     if parseResult is hl7:Message {
         test:assertEquals(parseResult.name, "ADT_A01", "Parsing issue occurred with the message");
-    } 
+    } else {
+        test:assertFail("Parsing failed");
+    }
 }
 
 @test:Config {}
@@ -63,3 +71,20 @@ function testEncodeHl7Message() returns error? {
     byte[] encodedQRYA19 = check hl7:encode(VERSION, qry_a19);
     test:assertEquals(encodedQRYA19[0], hl7:HL7_MSG_START_BLOCK, "HL7 Message start block is not correct");
 }
+
+@test:Config {}
+function testInvalidField() {
+    hl7:Message|hl7:HL7Error parseResult = hl7:parse(msgWithInvalidField);
+    if parseResult is hl7:Message {
+        anydata cspSegment = parseResult.get("csp");
+        if cspSegment is hl7:Segment[] {
+            hl7:Segment csp = cspSegment[0];
+            test:assertEquals(csp.entries().length(), 5, "Invalid field is not handled properly");
+        } else {
+            test:assertFail("Extrating CSP segment failed");
+        }
+    } else {
+        test:assertFail("Parsing failed");
+    }
+}
+

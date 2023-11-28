@@ -5158,7 +5158,7 @@ isolated function isPrimitiveType(anydata data) returns boolean {
 # + segment - Segment model
 # + return - Value of the segment field
 isolated function getSegmentField(int fieldNum, int repetitionNum, hl7v2:Segment segment) returns anydata|hl7v2:PrimitiveType {
-    if segment.keys().length() >= fieldNum {
+    if segment.keys().length() > fieldNum {
         [string, anydata][] entries = segment.entries().toArray();
         string key;
         anydata val;

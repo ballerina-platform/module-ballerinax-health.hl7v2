@@ -15,3 +15,4 @@
 // under the License.
 
 public const VERSION = "2.3";
+const EMPTY_STRING = "";

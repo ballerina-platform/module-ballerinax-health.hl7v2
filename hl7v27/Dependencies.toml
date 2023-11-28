@@ -41,23 +41,6 @@ dependencies = [
 
 [[package]]
 org = "ballerina"
-name = "lang.regexp"
-version = "0.0.0"
-dependencies = [
-	{org = "ballerina", name = "jballerina.java"}
-]
-
-[[package]]
-org = "ballerina"
-name = "lang.string"
-version = "0.0.0"
-dependencies = [
-	{org = "ballerina", name = "jballerina.java"},
-	{org = "ballerina", name = "lang.regexp"}
-]
-
-[[package]]
-org = "ballerina"
 name = "lang.value"
 version = "0.0.0"
 dependencies = [
@@ -84,18 +67,6 @@ name = "observe"
 version = "1.2.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
-]
-
-[[package]]
-org = "ballerina"
-name = "regex"
-version = "1.4.3"
-dependencies = [
-	{org = "ballerina", name = "jballerina.java"},
-	{org = "ballerina", name = "lang.string"}
-]
-modules = [
-	{org = "ballerina", packageName = "regex", moduleName = "regex"}
 ]
 
 [[package]]
@@ -131,10 +102,9 @@ dependencies = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2"
-version = "2.1.0"
+version = "2.2.0"
 dependencies = [
 	{org = "ballerina", name = "log"},
-	{org = "ballerina", name = "regex"},
 	{org = "ballerina", name = "tcp"},
 	{org = "ballerina", name = "time"}
 ]
@@ -148,7 +118,6 @@ name = "health.hl7v27"
 version = "2.1.1"
 dependencies = [
 	{org = "ballerina", name = "log"},
-	{org = "ballerina", name = "regex"},
 	{org = "ballerina", name = "test"},
 	{org = "ballerinax", name = "health.hl7v2"}
 ]
