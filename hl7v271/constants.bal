@@ -14,4 +14,5 @@
 // specific language governing permissions and limitations
 // under the License.
 
-public const string VERSION = "2.7.1";
+public const VERSION = "2.7.1";
+const EMPTY_STRING = "";

@@ -33,11 +33,19 @@ final string msgWithAllSegments = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, 
 "LCH|\rRXA|\rPD1|\rRXC|\rPCR|\rRXE|\rRGS|\rRXD|\rRXG|\rORC|\rPTH|\rRXO|\rMFA|\rBHS|\rMFE|\rRXR|\rPDC|\rFHS|\rMFI|\rNPU|\rRQ1|\rLDP|\rOBR|\rCSP|\r" +
 "CSS|\rCSR|\rOBX|\rRQD|\rGT1|\rFAC|\rPV2|\rCTD|\rCTI|\rSCH|\rPEO|\rPES|";
 
+final string msgWithInvalidField = "MSH|^~\\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20230101120000||ADT^A01|MSG000001|P|2.3|\r" +
+"EVN|A01|20230101120000||\r" +
+"PID|1||123456789|^^^^MR||Doe^John^||19600101|M|||123 Main St^Apt 4B^New York^NY^10001||(555)555-5555||S||123456789|\r" +
+"PV1|1|O|^^^OP^||||12345^Smith^John^Dr.||||||||||||||||N|||||||||\r" +
+"CSP|1|20230101|20231231|E|XXX|";
+
 @test:Config {}
 function testParseHl7Message() {
     hl7:Message|hl7:HL7Error parseResult = hl7:parse(msg);
     if parseResult is hl7:Message {
-        test:assertEquals(parseResult.name, "ADT_A01", "Parsing  issue occurred with the message");
+        test:assertEquals(parseResult.name, "ADT_A01", "Parsing issue occurred with the message");
+    } else {
+        test:assertFail("Parsing failed");
     }
 }
 
@@ -74,4 +82,20 @@ function testEncodeHl7Message() returns error? {
 function testNonExistantMsgWithAllSegments() {
     hl7:Message|hl7:HL7Error parseResult = hl7:parse(msgWithAllSegments);
     test:assertTrue(parseResult is hl7:HL7Error, "Undefined messages are not handled properly");
+}
+
+@test:Config {}
+function testInvalidField() {
+    hl7:Message|hl7:HL7Error parseResult = hl7:parse(msgWithInvalidField);
+    if parseResult is hl7:Message {
+        anydata cspSegment = parseResult.get("csp");
+        if cspSegment is hl7:Segment[] {
+            hl7:Segment csp = cspSegment[0];
+            test:assertEquals(csp.entries().length(), 5, "Invalid field is not handled properly");
+        } else {
+            test:assertFail("Extrating CSP segment failed");
+        }
+    } else {
+        test:assertFail("Parsing failed");
+    }
 }
