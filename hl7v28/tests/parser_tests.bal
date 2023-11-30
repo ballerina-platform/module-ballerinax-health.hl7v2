@@ -1,19 +1,16 @@
+import ballerina/lang.regexp;
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
-
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
-
 // Unless required by applicable law or agreed to in writing,
 // software distributed under the License is distributed on an
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerina/test;
 import ballerinax/health.hl7v2 as hl7;
 
@@ -72,6 +69,48 @@ function testEncodeHl7Message() returns error? {
     };
     byte[] encodedQRYA19 = check hl7:encode(VERSION, oru_r01);
     test:assertEquals(encodedQRYA19[0], hl7:HL7_MSG_START_BLOCK, "HL7 Message start block is not correct");
+}
+
+@test:Config {}
+function testEncodeHl7MessageWithSegmentArrays() returns error? {
+    ORU_R01 orm_o01 = {
+        msh: {
+            msh1: "|",
+            msh2: "^~\\&",
+            msh7: "20231130080250.98+0530",
+            msh9: {msg1: "ORU", msg2: "R01"},
+            msh10: "301",
+            msh11: {pt1: "T"},
+            msh12: {vid1: "2.7"}
+        },
+        patient_result: [
+            {
+                oru_r01_patient: {
+                    pid: {
+                        pid1: "1",
+                        pid5: [{xpn1: {fn1: "WAYNE"}, xpn2: "BRUCE", xpn7: "D", xpn5: "Mr"}],
+                        pid11: [
+                            {
+                                xad1: {
+                                    sad1: "Hays street"
+                                },
+                                xad3: "Geelong",
+                                xad6: "Au"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    };
+    byte[] encodedORMO01 = check hl7:encode(VERSION, orm_o01);
+    string|error encodedMsgStr = string:fromBytes(encodedORMO01);
+    if encodedMsgStr is string {
+        string[] segmentLines = regexp:split(re `\r`, encodedMsgStr);
+        test:assertEquals(segmentLines[1], "PID|1||WAYNE^BRUCE^^^Mr^D|||||Hays street^^Geelong^^^Au|||||||||||||||||||||||||", "Encoding issue occurred with the message");
+    } else {
+        test:assertFail("Encoding failed");
+    }
 }
 
 @test:Config {}

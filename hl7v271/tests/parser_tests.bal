@@ -16,6 +16,7 @@
 
 import ballerina/test;
 import ballerinax/health.hl7v2 as hl7;
+import ballerina/lang.regexp;
 
 final string msg = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, INC.|GOOD HEALTH HOSPITAL|" +
 "198808181126|SECURITY|ADT^A01^ADT_A01|MSG00001|P|2.7.1||\rEVN|A01|200708181123||" +
@@ -60,6 +61,48 @@ function testEncodeHl7Message() returns error? {
     };
     byte[] encodedQRYA19 = check hl7:encode(VERSION, oru_r01);
     test:assertEquals(encodedQRYA19[0], hl7:HL7_MSG_START_BLOCK, "HL7 Message start block is not correct");
+}
+
+@test:Config {}
+function testEncodeHl7MessageWithSegmentArrays() returns error? {
+    ORU_R01 orm_o01 = {
+        msh: {
+            msh1: "|",
+            msh2: "^~\\&",
+            msh7: "20231130080250.98+0530",
+            msh9: {msg1: "ORU", msg2: "R01"},
+            msh10: "301",
+            msh11: {pt1: "T"},
+            msh12: {vid1: "2.7.1"}
+        },
+        patient_result: [
+            {
+                oru_r01_patient: {
+                    pid: {
+                        pid1: "1",
+                        pid5: [{xpn1: {fn1: "WAYNE"}, xpn2: "BRUCE", xpn7: "D", xpn5: "Mr"}],
+                        pid11: [
+                            {
+                                xad1: {
+                                    sad1: "Hays street"
+                                },
+                                xad3: "Geelong",
+                                xad6: "Au"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    };
+    byte[] encodedORMO01 = check hl7:encode(VERSION, orm_o01);
+    string|error encodedMsgStr = string:fromBytes(encodedORMO01);
+    if encodedMsgStr is string {
+        string[] segmentLines = regexp:split(re `\r`, encodedMsgStr);
+        test:assertEquals(segmentLines[1], "PID|1||WAYNE^BRUCE^^^Mr^D|||||Hays street^^Geelong^^^Au|||||||||||||||||||||||||", "Encoding issue occurred with the message");
+    } else {
+        test:assertFail("Encoding failed");
+    }
 }
 
 @test:Config {}
