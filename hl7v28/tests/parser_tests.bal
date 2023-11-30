@@ -107,7 +107,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
     string|error encodedMsgStr = string:fromBytes(encodedORMO01);
     if encodedMsgStr is string {
         string[] segmentLines = regexp:split(re `\r`, encodedMsgStr);
-        test:assertEquals(segmentLines[1], "PID|1||WAYNE^BRUCE^^^Mr^D|||||Hays street^^Geelong^^^Au|||||||||||||||||||||||||", "Encoding issue occurred with the message");
+        test:assertEquals(segmentLines[1], "PID|1||||WAYNE^BRUCE^^^Mr^D||||||Hays street^^Geelong^^^Au|||||||||||||||||||||||||||||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");
     }

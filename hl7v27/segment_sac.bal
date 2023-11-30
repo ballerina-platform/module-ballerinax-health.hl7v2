@@ -23,6 +23,7 @@ import ballerinax/health.hl7v2;
 # + sac3 - Container Identifier
 # + sac4 - Primary (Parent) Container Identifier
 # + sac5 - Equipment Container Identifier
+# + sac6 - Withdrawn field
 # + sac7 - Registration Date/Time
 # + sac8 - Container Status
 # + sac9 - Carrier Type
@@ -95,6 +96,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: EI
+        },
+        "sac6": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "sac7": {
             required: false,
@@ -334,6 +341,7 @@ public type SAC record {
     EI sac3 = {};
     EI sac4 = {};
     EI sac5 = {};
+    ST sac6 = "";
     DTM sac7 = "";
     CWE sac8 = {};
     CWE sac9 = {};

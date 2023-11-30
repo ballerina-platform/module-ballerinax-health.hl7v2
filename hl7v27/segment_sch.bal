@@ -26,7 +26,9 @@ import ballerinax/health.hl7v2;
 # + sch6 - Event Reason
 # + sch7 - Appointment Reason
 # + sch8 - Appointment Type
+# + sch9 - Withdrawn field
 # + sch10 - Appointment Duration Units
+# + sch11 - Withdrawn field
 # + sch12 - Placer Contact Person
 # + sch13 - Placer Contact Phone Number
 # + sch14 - Placer Contact Address
@@ -96,11 +98,23 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "sch9": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "sch10": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: CNE
+        },
+        "sch11": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "sch12": {
             required: false,
@@ -211,7 +225,9 @@ public type SCH record {
     CWE sch6 = {};
     CWE sch7 = {};
     CWE sch8 = {};
+    ST sch9 = "";
     CNE sch10 = {};
+    ST sch11 = "";
     XCN[] sch12 = [{}];
     XTN sch13 = {};
     XAD[] sch14 = [{}];
