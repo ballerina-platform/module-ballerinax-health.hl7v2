@@ -16,7 +16,6 @@
 
 import ballerina/test;
 import ballerinax/health.hl7v2 as hl7;
-import ballerina/lang.regexp;
 
 final string msg = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, INC.|GOOD HEALTH HOSPITAL|" +
 "198808181126|SECURITY|ADT^A01^ADT_A01|MSG00001|P|2.7.1||\rEVN|A01|200708181123||" +
@@ -98,7 +97,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
     byte[] encodedORMO01 = check hl7:encode(VERSION, orm_o01);
     string|error encodedMsgStr = string:fromBytes(encodedORMO01);
     if encodedMsgStr is string {
-        string[] segmentLines = regexp:split(re `\r`, encodedMsgStr);
+        string[] segmentLines = re `\r`.split(encodedMsgStr);
         test:assertEquals(segmentLines[1], "PID|1||||WAYNE^BRUCE^^^Mr^D||||||Hays street^^Geelong^^^Au|||||||||||||||||||||||||||||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");

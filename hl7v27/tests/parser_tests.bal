@@ -1,4 +1,3 @@
-import ballerina/lang.regexp;
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -107,7 +106,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
     byte[] encodedORMO01 = check hl7:encode(VERSION, orm_o01);
     string|error encodedMsgStr = string:fromBytes(encodedORMO01);
     if encodedMsgStr is string {
-        string[] segmentLines = regexp:split(re `\r`, encodedMsgStr);
+        string[] segmentLines = re `\r`.split(encodedMsgStr);
         test:assertEquals(segmentLines[1], "PID|1||||WAYNE^BRUCE^^^Mr^D||||||Hays street^^Geelong^^^Au|||||||||||||||||||||||||||||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");

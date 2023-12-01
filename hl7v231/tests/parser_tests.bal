@@ -16,7 +16,6 @@
 
 import ballerina/test;
 import ballerinax/health.hl7v2 as hl7;
-import ballerina/lang.regexp;
 
 final string msg = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, INC.|GOOD HEALTH HOSPITAL|" +
 "198808181126|SECURITY|ADT^A01^ADT_A01|MSG00001|P|2.3.1||\rEVN|A01|200708181123||" +
@@ -70,7 +69,7 @@ function testEncodeHl7Message() returns error? {
     byte[] encodedQRYA19 = check hl7:encode(VERSION, qry_a19);
     string|error encodedMsgStr = string:fromBytes(encodedQRYA19);
     if encodedMsgStr is string {
-        string[] segmentLines = regexp:split(re `\r`, encodedMsgStr);
+        string[] segmentLines = re `\r`.split(encodedMsgStr);
         test:assertEquals(segmentLines[1], "QRD|20220828104856+0000|R|I|QueryID01|||5|1^ADAM^EVERMAN|VXI|SIIS||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");
@@ -118,7 +117,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
     byte[] encodedORMO01 = check hl7:encode(VERSION, orm_o01);
     string|error encodedMsgStr = string:fromBytes(encodedORMO01);
     if encodedMsgStr is string {
-        string[] segmentLines = regexp:split(re `\r`, encodedMsgStr);
+        string[] segmentLines = re `\r`.split(encodedMsgStr);
         test:assertEquals(segmentLines[1], "PID|1|123456789^^^^SSN|||WAYNE^BRUCE^^^Mr^^D|||f|||Hays street^^Geelong^^^Au|||||||||||||||||||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");
