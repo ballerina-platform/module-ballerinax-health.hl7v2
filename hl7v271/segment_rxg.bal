@@ -20,6 +20,7 @@ import ballerinax/health.hl7v2;
 # + name - Segment Name
 # + rxg1 - Art der Substitution
 # + rxg2 - Laufende Nummer der Abgabe pro Verordnung
+# + rxg3 - Withdrawn field
 # + rxg4 - Verordnetes Medikament / Wirkstoff (Apotheke)
 # + rxg5 - Verordnete (Mindest-) Dosis (Apotheke)
 # + rxg6 - Verordnete Höchstdosis (Apotheke)
@@ -63,6 +64,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: NM
+        },
+        "rxg3": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "rxg4": {
             required: true,
@@ -233,6 +240,7 @@ public type RXG record {
     string name = RXG_SEGMENT_NAME;
     NM rxg1 = "";
     NM rxg2 = "";
+    ST rxg3 = "";
     CWE rxg4 = {};
     NM rxg5 = "";
     NM rxg6 = "";

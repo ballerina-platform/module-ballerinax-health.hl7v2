@@ -373,10 +373,10 @@ class HL7Parser {
             [innerSegmentKey, innerSegment] = innerSegmentItem;
             log:printDebug(string `current processing segment: ${innerSegmentKey} of segment component: ${segment.name}`);
             if innerSegment is hl7v2:SegmentComponent {
-                return string:concat(encodedString, "", self.encodeSegmentGroup(innerSegment));
+                encodedString = string:concat(encodedString, "", self.encodeSegmentGroup(innerSegment));
             } else if innerSegment is hl7v2:SegmentComponent[] {
                 foreach hl7v2:SegmentComponent childSegmentComponent in innerSegment {
-                    return string:concat(encodedString, "", self.encodeSegmentGroup(childSegmentComponent));
+                    encodedString = string:concat(encodedString, "", self.encodeSegmentGroup(childSegmentComponent));
                 }
             } else if innerSegment is hl7v2:Segment {
                 string encodeSegmentResult = self.encodeSegment(innerSegment);
@@ -421,9 +421,7 @@ class HL7Parser {
                     foreach var dataType in val {
                         string encodedTypeStr = stripExtraDelimeters(self.encodeType(dataType, self.encodingCharacters.getComponentSeparator(), ""),
                         self.encodingCharacters.getComponentSeparator());
-                        if encodedTypeStr != "" {
-                            encodedString = string:concat(encodedString, self.encodingCharacters.getFieldSeparator(), encodedTypeStr);
-                        }
+                        encodedString = string:concat(encodedString, self.encodingCharacters.getFieldSeparator(), encodedTypeStr);
                     }
                 } else {
                     string encodedTypeStr = stripExtraDelimeters(self.encodeType(val, self.encodingCharacters.getComponentSeparator(), ""),

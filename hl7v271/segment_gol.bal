@@ -32,6 +32,7 @@ import ballerinax/health.hl7v2;
 # + gol12 - Zeitpunkt der aktuellen Überprüfung
 # + gol13 - Zeitpunkt der nächsten Überprüfung
 # + gol14 - Zeitpunkt der vorherigen Überprüfung
+# + gol15 - Withdrawn field
 # + gol16 - Zielbewertung
 # + gol17 - Kommentar zur Zielbewertung
 # + gol18 - Zielstatus
@@ -128,6 +129,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: DTM
         },
+        "gol15": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "gol16": {
             required: false,
             length: 1,
@@ -189,6 +196,7 @@ public type GOL record {
     DTM gol12 = "";
     DTM gol13 = "";
     DTM gol14 = "";
+    ST gol15 = "";
     CWE gol16 = {};
     ST[] gol17 = [""];
     CWE gol18 = {};
