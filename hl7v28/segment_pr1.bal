@@ -19,12 +19,17 @@ import ballerinax/health.hl7v2;
 #
 # + name - Segment Name
 # + pr11 - PR1-Segmentnummer
+# + pr12 - Withdrawn field
 # + pr13 - Maßnahmen- / Operationsschlüssel
+# + pr14 - Withdrawn field
 # + pr15 - Zeitpunkt der Maßnahme
 # + pr16 - Art der Maßnahme
 # + pr17 - Dauer der Maßnahme in Minuten
+# + pr18 - Withdrawn field
 # + pr19 - nicht verwendet (veraltet; PR1-3 benutzen)
 # + pr110 - nicht verwendet (veraltet; PR1-7 benutzen)
+# + pr111 - Withdrawn field
+# + pr112 - Withdrawn field
 # + pr113 - Zustimmung des Patienten
 # + pr114 - Priorität der Maßnahme
 # + pr115 - Zugehörige Diagnose
@@ -49,11 +54,23 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: SI
         },
+        "pr12": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pr13": {
             required: true,
             length: 1,
             maxReps: 1,
             dataType: CNE
+        },
+        "pr14": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "pr15": {
             required: true,
@@ -73,6 +90,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: NM
         },
+        "pr18": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pr19": {
             required: false,
             length: 1,
@@ -84,6 +107,18 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: NM
+        },
+        "pr111": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "pr112": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "pr113": {
             required: false,
@@ -169,12 +204,17 @@ public type PR1 record {
     *hl7v2:Segment;
     string name = PR1_SEGMENT_NAME;
     SI pr11 = "";
+    ST pr12 = "";
     CNE pr13 = {};
+    ST pr14 = "";
     DTM pr15 = "";
     CWE pr16 = {};
     NM pr17 = "";
+    ST pr18 = "";
     CWE pr19 = {};
     NM pr110 = "";
+    ST pr111 = "";
+    ST pr112 = "";
     CWE pr113 = {};
     NM pr114 = "";
     CWE pr115 = {};

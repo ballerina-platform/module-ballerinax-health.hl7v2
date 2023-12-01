@@ -55,7 +55,10 @@ import ballerinax/health.hl7v2;
 # + in135 - nicht verwendet
 # + in136 - Versicherungspolicennummer / Vertragsnummer
 # + in137 - Übernahmeanteil des Zahlungspflichtigen
+# + in138 - Withdrawn field
 # + in139 - Aufenthaltstage, die vom Kostenträger getragen werden
+# + in140 - Withdrawn field
+# + in141 - Withdrawn field
 # + in142 - Arbeitsverhältnis des Versicherungsnehmers
 # + in143 - Geschlecht des Versicherungsnehmers
 # + in144 - Anschrift des Arbeitgebers
@@ -295,11 +298,29 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CP
         },
+        "in138": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "in139": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: NM
+        },
+        "in140": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "in141": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "in142": {
             required: false,
@@ -415,7 +436,10 @@ public type IN1 record {
     IS in135 = "";
     ST in136 = "";
     CP in137 = {};
+    ST in138 = "";
     NM in139 = "";
+    ST in140 = "";
+    ST in141 = "";
     CWE in142 = {};
     IS in143 = "";
     XAD[] in144 = [{}];
