@@ -18,12 +18,14 @@ import ballerinax/health.hl7v2;
 # The ACC segment contains patient information relative to an accident in which the patient has been involved.
 #
 # + name - Segment Name
+# + rxe1 - Withdrawn field
 # + rxe2 - Verordnetes Medikament / Wirkstoff (Apotheke)
 # + rxe3 - Verordnete (Mindest-) Dosis (Apotheke)
 # + rxe4 - Verordnete Höchstdosis (Apotheke)
 # + rxe5 - Maßeinheit (Apotheke)
 # + rxe6 - Verordnete Verabreichungsform (Apotheke)
 # + rxe7 - Verabreichungsanweisungen
+# + rxe8 - Withdrawn field
 # + rxe9 - Art der Substitution
 # + rxe10 - Abgabemenge
 # + rxe11 - Abgabeeinheit
@@ -66,6 +68,12 @@ import ballerinax/health.hl7v2;
     required: false,
     maxReps: 0,
     fields: {
+        "rxe1": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "rxe2": {
             required: true,
             length: 1,
@@ -101,6 +109,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: -1,
             dataType: CWE
+        },
+        "rxe8": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "rxe9": {
             required: false,
@@ -329,12 +343,14 @@ import ballerinax/health.hl7v2;
 public type RXE record {
     *hl7v2:Segment;
     string name = RXE_SEGMENT_NAME;
+    ST rxe1 = "";
     CWE rxe2 = {};
     NM rxe3 = "";
     NM rxe4 = "";
     CWE rxe5 = {};
     CWE rxe6 = {};
     CWE[] rxe7 = [{}];
+    ST rxe8 = "";
     ID rxe9 = "";
     NM rxe10 = "";
     CWE rxe11 = {};

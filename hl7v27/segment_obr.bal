@@ -22,6 +22,8 @@ import ballerinax/health.hl7v2;
 # + obr2 - Placer Order Number
 # + obr3 - Filler Order Number
 # + obr4 - Universal Service Identifier
+# + obr5 - Withdrawn field
+# + obr6 - Withdrawn field
 # + obr7 - Observation Date/Time #
 # + obr8 - Observation End Date/Time #
 # + obr9 - Collection Volume *
@@ -29,6 +31,8 @@ import ballerinax/health.hl7v2;
 # + obr11 - Specimen Action Code *
 # + obr12 - Danger Code
 # + obr13 - Relevant Clinical Information
+# + obr14 - Withdrawn field
+# + obr15 - Withdrawn field
 # + obr16 - Ordering Provider
 # + obr17 - Order Callback Phone Number
 # + obr18 - Placer Field 1
@@ -40,6 +44,7 @@ import ballerinax/health.hl7v2;
 # + obr24 - Diagnostic Serv Sect ID
 # + obr25 - Result Status +
 # + obr26 - Parent Result +
+# + obr27 - Withdrawn field
 # + obr28 - Result Copies To
 # + obr29 - Parent
 # + obr30 - Transportation Mode
@@ -95,6 +100,18 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "obr5": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "obr6": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "obr7": {
             required: false,
             length: 1,
@@ -132,6 +149,18 @@ import ballerinax/health.hl7v2;
             dataType: CWE
         },
         "obr13": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "obr14": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "obr15": {
             required: false,
             length: 1,
             maxReps: 1,
@@ -202,6 +231,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: PRL
+        },
+        "obr27": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "obr28": {
             required: false,
@@ -368,6 +403,8 @@ public type OBR record {
     EI obr2 = {};
     EI obr3 = {};
     CWE obr4 = {};
+    ST obr5 = "";
+    ST obr6 = "";
     DTM obr7 = "";
     DTM obr8 = "";
     CQ obr9 = {};
@@ -375,6 +412,8 @@ public type OBR record {
     ID obr11 = "";
     CWE obr12 = {};
     ST obr13 = "";
+    ST obr14 = "";
+    ST obr15 = "";
     XCN[] obr16 = [{}];
     XTN obr17 = {};
     ST obr18 = "";
@@ -386,6 +425,7 @@ public type OBR record {
     ID obr24 = "";
     ID obr25 = "";
     PRL obr26 = {};
+    ST obr27 = "";
     XCN[] obr28 = [{}];
     EIP obr29 = {};
     ID obr30 = "";

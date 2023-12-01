@@ -25,6 +25,8 @@ import ballerinax/health.hl7v2;
 # + ft15 - Buchungsdatum
 # + ft16 - Buchungsart / Rechnungsart (GSG)
 # + ft17 - Leistungsziffer / Buchungstext / Entgeltart EBM (GSG)
+# + ft18 - Withdrawn field
+# + ft19 - Withdrawn field
 # + ft110 - Anzahl der Leistungen / Punktzahl
 # + ft111 - Betrag (Summe)
 # + ft112 - Einzelpreis / Punktwert
@@ -105,6 +107,18 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: CWE
+        },
+        "ft18": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "ft19": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "ft110": {
             required: false,
@@ -322,6 +336,8 @@ public type FT1 record {
     DTM ft15 = "";
     CWE ft16 = {};
     CWE ft17 = {};
+    ST ft18 = "";
+    ST ft19 = "";
     NM ft110 = "";
     CP ft111 = {};
     CP ft112 = {};

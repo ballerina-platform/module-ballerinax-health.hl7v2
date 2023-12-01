@@ -32,6 +32,7 @@ import ballerinax/health.hl7v2;
 # + gol12 - Current Goal Review Date/Time
 # + gol13 - Next Goal Review Date/Time
 # + gol14 - Previous Goal Review Date/Time
+# + gol15 - Withdrawn field
 # + gol16 - Goal Evaluation
 # + gol17 - Goal Evaluation Comment
 # + gol18 - Goal Life Cycle Status
@@ -128,6 +129,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: DTM
         },
+        "gol15": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "gol16": {
             required: false,
             length: 1,
@@ -189,6 +196,7 @@ public type GOL record {
     DTM gol12 = "";
     DTM gol13 = "";
     DTM gol14 = "";
+    ST gol15 = "";
     CWE gol16 = {};
     ST[] gol17 = [""];
     CWE gol18 = {};
