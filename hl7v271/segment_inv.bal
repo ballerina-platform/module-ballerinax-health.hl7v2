@@ -31,6 +31,7 @@ import ballerinax/health.hl7v2;
 # + inv11 - Einheit der Mengenangaben
 # + inv12 - Zeitpunkt des Verfalls
 # + inv13 - Zeitpunkt der ersten Benutzung
+# + inv14 - Withdrawn field
 # + inv15 - ID der Tests/Körperflüssigkeiten
 # + inv16 - Chargennummer des Herstellers
 # + inv17 - Herstellernummer und -name
@@ -120,6 +121,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: DTM
         },
+        "inv14": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "inv15": {
             required: false,
             length: 1,
@@ -174,6 +181,7 @@ public type INV record {
     CWE inv11 = {};
     DTM inv12 = "";
     DTM inv13 = "";
+    ST inv14 = "";
     CWE[] inv15 = [{}];
     ST inv16 = "";
     CWE inv17 = {};

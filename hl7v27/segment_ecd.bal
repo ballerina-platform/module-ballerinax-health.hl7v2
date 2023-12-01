@@ -21,6 +21,7 @@ import ballerinax/health.hl7v2;
 # + ecd1 - Reference Command Number
 # + ecd2 - Remote Control Command
 # + ecd3 - Response Required
+# + ecd4 - Withdrawn field
 # + ecd5 - Parameters
 @hl7v2:SegmentDefinition {
     name: "ECD",
@@ -45,6 +46,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: ID
         },
+        "ecd4": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "ecd5": {
             required: false,
             length: 1,
@@ -59,6 +66,7 @@ public type ECD record {
     NM ecd1 = "";
     CWE ecd2 = {};
     ID ecd3 = "";
+    ST ecd4 = "";
     TX[] ecd5 = [""];
 };
 

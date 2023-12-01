@@ -69,7 +69,63 @@ function testEncodeHl7Message() returns error? {
         }
     };
     byte[] encodedQRYA19 = check hl7:encode(VERSION, qry_a19);
+    string|error encodedMsgStr = string:fromBytes(encodedQRYA19);
+    if encodedMsgStr is string {
+        string[] segmentLines = re `\r`.split(encodedMsgStr);
+        test:assertEquals(segmentLines[1], "QRD|20220828104856+0000|R|I|QueryID01|||5|1^ADAM^EVERMAN|VXI|SIIS||", "Encoding issue occurred with the message");
+    } else {
+        test:assertFail("Encoding failed");
+    }
     test:assertEquals(encodedQRYA19[0], hl7:HL7_MSG_START_BLOCK, "HL7 Message start block is not correct");
+}
+
+@test:Config {}
+function testEncodeHl7MessageWithSegmentArrays() returns error? {
+    ORM_O01 orm_o01 = {
+        msh: {
+            msh1: "|",
+            msh2: "^~\\&",
+            msh7: {ts1: "20231130080250.98+0530"},
+            msh9: {msg1: "ORM", msg2: "O01"},
+            msh10: "301",
+            msh11: {pt1: "T"},
+            msh12: {vid1: "2.5.1"}
+        },
+        patient: [
+            {
+                pid: {
+                    pid1: "1",
+                    pid2: {cx1: "123456789", cx5: "SSN"},
+                    pid5: [{xpn1: {fn1: "WAYNE"}, xpn2: "BRUCE", xpn7: "D", xpn5: "Mr"}],
+                    pid8: "f",
+                    pid11: [
+                        {
+                            xad1: {
+                                sad1: "Hays street"
+                            },
+                            xad3: "Geelong",
+                            xad6: "Au"
+                        }
+                    ]
+                }
+            }
+        ],
+        'order: [
+            {
+                orc: {
+                    orc2: {ei1: "23121A"}
+                }
+            }
+        ]
+    };
+    byte[] encodedORMO01 = check hl7:encode(VERSION, orm_o01);
+    string|error encodedMsgStr = string:fromBytes(encodedORMO01);
+    if encodedMsgStr is string {
+        string[] segmentLines = re `\r`.split(encodedMsgStr);
+        test:assertEquals(segmentLines[1], "PID|1|123456789^^^^SSN|||WAYNE^BRUCE^^^Mr^^D|||f|||Hays street^^Geelong^^^Au||||||||||||||||||||||||||||", "Encoding issue occurred with the message");
+    } else {
+        test:assertFail("Encoding failed");
+    }
 }
 
 @test:Config {}
