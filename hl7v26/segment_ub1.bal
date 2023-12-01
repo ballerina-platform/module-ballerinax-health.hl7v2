@@ -19,6 +19,7 @@ import ballerinax/health.hl7v2;
 #
 # + name - Segment Name
 # + ub11 - (Segment UB1 wird nicht verwendet)
+# + ub12 - Withdrawn field
 # + ub13 - nicht verwendet
 # + ub14 - nicht verwendet
 # + ub15 - nicht verwendet
@@ -50,6 +51,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: SI
+        },
+        "ub12": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "ub13": {
             required: false,
@@ -183,6 +190,7 @@ public type UB1 record {
     *hl7v2:Segment;
     string name = UB1_SEGMENT_NAME;
     SI ub11 = "";
+    ST ub12 = "";
     NM ub13 = "";
     NM ub14 = "";
     NM ub15 = "";

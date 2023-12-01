@@ -20,6 +20,7 @@ import ballerinax/health.hl7v2;
 # + name - Segment Name
 # + tcc1 - Universal Service Identifier
 # + tcc2 - Equipment Test Application Identifier
+# + tcc3 - Withdrawn field
 # + tcc4 - Auto-Dilution Factor Default
 # + tcc5 - Rerun Dilution Factor Default
 # + tcc6 - Pre-Dilution Factor Default
@@ -47,6 +48,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: EI
+        },
+        "tcc3": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "tcc4": {
             required: false,
@@ -121,6 +128,7 @@ public type TCC record {
     string name = TCC_SEGMENT_NAME;
     CWE tcc1 = {};
     EI tcc2 = {};
+    ST tcc3 = "";
     SN tcc4 = {};
     SN tcc5 = {};
     SN tcc6 = {};

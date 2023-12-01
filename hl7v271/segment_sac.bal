@@ -23,6 +23,7 @@ import ballerinax/health.hl7v2;
 # + sac3 - ID des Probengefässes
 # + sac4 - ID des Primarprobengefässes
 # + sac5 - Gerätespezifische ID des Probengefässes
+# + sac6 - Withdrawn field
 # + sac7 - Zeitpunkt der Registrierung
 # + sac8 - Status des Probengefässes
 # + sac9 - Art des Trägers
@@ -95,6 +96,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: EI
+        },
+        "sac6": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "sac7": {
             required: false,
@@ -334,6 +341,7 @@ public type SAC record {
     EI sac3 = {};
     EI sac4 = {};
     EI sac5 = {};
+    ST sac6 = "";
     DTM sac7 = "";
     CWE sac8 = {};
     CWE sac9 = {};
