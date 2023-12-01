@@ -19,7 +19,9 @@ import ballerinax/health.hl7v2;
 #
 # + name - Segment Name
 # + mrg1 - bisherige Patienten-ID-Liste
+# + mrg2 - Withdrawn field
 # + mrg3 - Frühere Abrechnungsnummer / Debitorenkontonummer
+# + mrg4 - Withdrawn field
 # + mrg5 - Frühere Fallnummer
 # + mrg6 - Frühere alternative Fallnummer
 # + mrg7 - Früherer Patientenname
@@ -34,11 +36,23 @@ import ballerinax/health.hl7v2;
             maxReps: -1,
             dataType: CX
         },
+        "mrg2": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "mrg3": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: CX
+        },
+        "mrg4": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "mrg5": {
             required: false,
@@ -64,7 +78,9 @@ public type MRG record {
     *hl7v2:Segment;
     string name = MRG_SEGMENT_NAME;
     CX[] mrg1 = [{}];
+    ST mrg2 = "";
     CX mrg3 = {};
+    ST mrg4 = "";
     CX mrg5 = {};
     CX mrg6 = {};
     XPN[] mrg7 = [{}];

@@ -26,7 +26,9 @@ import ballerinax/health.hl7v2;
 # + sch6 - Grund der Nachricht
 # + sch7 - Grund der Terminanforderung
 # + sch8 - Typ der Terminanforderung
+# + sch9 - Withdrawn field
 # + sch10 - Einheit der Dauer des Termins
+# + sch11 - Withdrawn field
 # + sch12 - Ansprechpartner beim Auftraggeber
 # + sch13 - Telefonnummer des Ansprechpartner beim Auftraggeber
 # + sch14 - Adresse des Ansprechpartners
@@ -96,11 +98,23 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "sch9": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "sch10": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: CNE
+        },
+        "sch11": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "sch12": {
             required: false,
@@ -211,7 +225,9 @@ public type SCH record {
     CWE sch6 = {};
     CWE sch7 = {};
     CWE sch8 = {};
+    ST sch9 = "";
     CNE sch10 = {};
+    ST sch11 = "";
     XCN[] sch12 = [{}];
     XTN sch13 = {};
     XAD[] sch14 = [{}];
