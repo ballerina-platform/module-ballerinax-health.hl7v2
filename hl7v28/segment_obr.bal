@@ -22,6 +22,8 @@ import ballerinax/health.hl7v2;
 # + obr2 - Auftragsnummer des Auftraggebers / der auftraggebenden Stelle
 # + obr3 - Bearbeitungsnummer der Leistungsstelle
 # + obr4 - Leistungsidentifikation
+# + obr5 - Withdrawn field
+# + obr6 - Withdrawn field
 # + obr7 - Zeitpunkt der Probenentnahme / Beobachtung / Untersuchung
 # + obr8 - Zeitpunkt, an dem die Untersuchungsperiode endete
 # + obr9 - Probenmenge
@@ -29,6 +31,8 @@ import ballerinax/health.hl7v2;
 # + obr11 - Weitere Angaben zur Untersuchung
 # + obr12 - Warnhinweise bei ansteckenden Materialien
 # + obr13 - wichtige klinische Information
+# + obr14 - Withdrawn field
+# + obr15 - Withdrawn field
 # + obr16 - Verantwortlicher Auftraggeber
 # + obr17 - Telefonnummer für Rückrufe
 # + obr18 - Freitext 1 für Auftraggeber
@@ -40,6 +44,7 @@ import ballerinax/health.hl7v2;
 # + obr24 - Detailspezifikation der erbringenden Stelle
 # + obr25 - Ergebnisstatus dieses (Teil-) Auftrags (OBR-2)
 # + obr26 - Ergebnis des Hauptauftrags
+# + obr27 - Withdrawn field
 # + obr28 - Ergebnisberichte an
 # + obr29 - Verweis auf Hauptauftrag
 # + obr30 - Transportart (Patient)
@@ -95,6 +100,18 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "obr5": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "obr6": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "obr7": {
             required: false,
             length: 1,
@@ -132,6 +149,18 @@ import ballerinax/health.hl7v2;
             dataType: CWE
         },
         "obr13": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "obr14": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "obr15": {
             required: false,
             length: 1,
             maxReps: 1,
@@ -202,6 +231,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: PRL
+        },
+        "obr27": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "obr28": {
             required: false,
@@ -368,6 +403,8 @@ public type OBR record {
     EI obr2 = {};
     EI obr3 = {};
     CWE obr4 = {};
+    ST obr5 = "";
+    ST obr6 = "";
     DTM obr7 = "";
     DTM obr8 = "";
     CQ obr9 = {};
@@ -375,6 +412,8 @@ public type OBR record {
     ID obr11 = "";
     CWE obr12 = {};
     ST obr13 = "";
+    ST obr14 = "";
+    ST obr15 = "";
     XCN[] obr16 = [{}];
     XTN obr17 = {};
     ST obr18 = "";
@@ -386,6 +425,7 @@ public type OBR record {
     ID obr24 = "";
     ID obr25 = "";
     PRL obr26 = {};
+    ST obr27 = "";
     XCN[] obr28 = [{}];
     EIP obr29 = {};
     ID obr30 = "";
