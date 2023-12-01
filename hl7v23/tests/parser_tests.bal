@@ -1,19 +1,15 @@
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
-
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
-
 // Unless required by applicable law or agreed to in writing,
 // software distributed under the License is distributed on an
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerina/test;
 import ballerinax/health.hl7v2 as hl7;
 
@@ -28,7 +24,7 @@ final string msg = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, INC.|GOOD HEALT
 final string msgWithAllSegments = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, INC.|GOOD HEALTH HOSPITAL|" +
 "198808181126|SECURITY|ADT^A0X^ADT_A0X|MSG00001|P|2.3||\rAPR|\rSTF|\rCM1|\rVAR|\rCM0|\rCM2|\rCDM|\rDG1|\rOM1|\rOM3|\rNK1|\rOM2|\rOM5|\rOM4|\rOM6|\rODT|\rAIG|\rNSC|" +
 "\rODS|\rEQL|\rLOC|\rFT1|\rAIL|\rAIP|\rAIS|\rNST|\rNCK|\rQAK|\rBLG|\rTXA|\rNTE|\rARQ|\rBTS|\rQRD|\rMRG|\rERR|\rFTS|\rQRF|\rUB2|\rERQ|\rUB1|\rURD|" +
-"VTQ|\rRDF|\rURS|\rMSA|\rACC|\rRDT|\rGOL|\rAL1|\rPR1|\rNTE|\rARQ|\rBTS|\rQRD|\rMRG|\rERR|\rFTS|\rQRF|\rUB2|\rERQ|\rUB1|\rURD|\rVTQ|\rRDF|\rURS|\rMSA|" + 
+"VTQ|\rRDF|\rURS|\rMSA|\rACC|\rRDT|\rGOL|\rAL1|\rPR1|\rNTE|\rARQ|\rBTS|\rQRD|\rMRG|\rERR|\rFTS|\rQRF|\rUB2|\rERQ|\rUB1|\rURD|\rVTQ|\rRDF|\rURS|\rMSA|" +
 "ACC|\rRDT|\rGOL|\rAL1|\rPR1|\rDB1|\rDRG|\rRF1|\rPRA|\rPRC|\rADD|\rPRB|\rPRD|\rLRL|\rSPR|\rDSC|\rAUT|\rDSP|\rPSH|\rIN2|\rIN1|\rLCC|\rROL|\rIN3|\r" +
 "LCH|\rRXA|\rPD1|\rRXC|\rPCR|\rRXE|\rRGS|\rRXD|\rRXG|\rORC|\rPTH|\rRXO|\rMFA|\rBHS|\rMFE|\rRXR|\rPDC|\rFHS|\rMFI|\rNPU|\rRQ1|\rLDP|\rOBR|\rCSP|\r" +
 "CSS|\rCSR|\rOBX|\rRQD|\rGT1|\rFAC|\rPV2|\rCTD|\rCTI|\rSCH|\rPEO|\rPES|";
@@ -53,6 +49,7 @@ function testParseHl7Message() {
 function testEncodeHl7Message() returns error? {
     QRY_A19 qry_a19 = {
         msh: {
+            msh2: "^~\\&",
             msh3: {hd1: "ADT1"},
             msh4: {hd1: "MCM"},
             msh5: {hd1: "LABADT"},
@@ -75,7 +72,56 @@ function testEncodeHl7Message() returns error? {
         }
     };
     byte[] encodedQRYA19 = check hl7:encode(VERSION, qry_a19);
+    string|error encodedMsgStr = string:fromBytes(encodedQRYA19);
+    if encodedMsgStr is string {
+        string[] segmentLines = re `\r`.split(encodedMsgStr);
+        test:assertEquals(segmentLines[1], "QRD|20220828104856+0000|R|I|QueryID01|||5|1^ADAM^EVERMAN|VXI|SIIS||", "Encoding issue occurred with the message");
+    } else {
+        test:assertFail("Encoding failed");
+    }
     test:assertEquals(encodedQRYA19[0], hl7:HL7_MSG_START_BLOCK, "HL7 Message start block is not correct");
+}
+
+@test:Config {}
+function testEncodeHl7MessageWithSegmentArrays() returns error? {
+    ORM_O01 orm_o01 = {
+        msh: {
+            msh1: "|",
+            msh2: "^~\\&",
+            msh7: {ts1: "20231130080250.98+0530"},
+            msh9: {cm_msg1: "ORM", cm_msg2: "O01"},
+            msh10: "301",
+            msh11: {pt1: "T"},
+            msh12: "2.3"
+        },
+        patient: [
+            {
+                pid: {
+                    pid1: "1",
+                    pid2: {cx1: "123456789", cx5: "SSN"},
+                    pid5: [{xpn1: "WAYNE", xpn2: "BRUCE", xpn7: "D", xpn5: "Mr"}],
+                    pid8: "f",
+                    pid11: [{xad1: "Hays street", xad3: "Geelong", xad6: "Au"}]
+
+                }
+            }
+        ],
+        'order: [
+            {
+                orc: {
+                    orc2: [{ei1: "23121A"}]
+                }
+            }
+        ]
+    };
+    byte[] encodedORMO01 = check hl7:encode(VERSION, orm_o01);
+    string|error encodedMsgStr = string:fromBytes(encodedORMO01);
+    if encodedMsgStr is string {
+        string[] segmentLines = re `\r`.split(encodedMsgStr);
+        test:assertEquals(segmentLines[1], "PID|1|123456789^^^^SSN|||WAYNE^BRUCE^^^Mr^^D|||f|||Hays street^^Geelong^^^Au|||||||||||||||||||", "Encoding issue occurred with the message");
+    } else {
+        test:assertFail("Encoding failed");
+    }
 }
 
 @test:Config {}
