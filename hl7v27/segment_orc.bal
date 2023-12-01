@@ -24,6 +24,7 @@ import ballerinax/health.hl7v2;
 # + orc4 - Placer Group Number
 # + orc5 - Order Status
 # + orc6 - Response Flag
+# + orc7 - Withdrawn field
 # + orc8 - Parent
 # + orc9 - Date/Time of Transaction
 # + orc10 - Entered By
@@ -90,6 +91,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: ID
+        },
+        "orc7": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "orc8": {
             required: false,
@@ -258,6 +265,7 @@ public type ORC record {
     EI orc4 = {};
     ID orc5 = "";
     ID orc6 = "";
+    ST orc7 = "";
     EIP orc8 = {};
     DTM orc9 = "";
     XCN[] orc10 = [{}];

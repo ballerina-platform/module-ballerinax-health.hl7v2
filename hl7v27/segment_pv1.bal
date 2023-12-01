@@ -57,6 +57,7 @@ import ballerinax/health.hl7v2;
 # + pv137 - Discharged to Location
 # + pv138 - Diet Type
 # + pv139 - Servicing Facility
+# + pv140 - Withdrawn field
 # + pv141 - Account Status
 # + pv142 - Pending Location
 # + pv143 - Prior Temporary Location
@@ -68,6 +69,7 @@ import ballerinax/health.hl7v2;
 # + pv149 - Total Payments
 # + pv150 - Alternate Visit ID
 # + pv151 - Visit Indicator
+# + pv152 - Withdrawn field
 # + pv153 - Service Episode Description
 # + pv154 - Service Episode Identifier
 @hl7v2:SegmentDefinition {
@@ -309,6 +311,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "pv140": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pv141": {
             required: false,
             length: 1,
@@ -375,6 +383,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "pv152": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pv153": {
             required: false,
             length: 1,
@@ -431,6 +445,7 @@ public type PV1 record {
     DLD pv137 = {};
     CWE pv138 = {};
     CWE pv139 = {};
+    ST pv140 = "";
     CWE pv141 = {};
     PL pv142 = {};
     PL pv143 = {};
@@ -442,6 +457,7 @@ public type PV1 record {
     NM pv149 = "";
     CX pv150 = {};
     CWE pv151 = {};
+    ST pv152 = "";
     ST pv153 = "";
     CX pv154 = {};
 };

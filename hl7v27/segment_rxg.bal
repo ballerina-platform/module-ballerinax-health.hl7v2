@@ -20,6 +20,7 @@ import ballerinax/health.hl7v2;
 # + name - Segment Name
 # + rxg1 - Give Sub-ID Counter
 # + rxg2 - Dispense Sub-ID Counter
+# + rxg3 - Withdrawn field
 # + rxg4 - Give Code
 # + rxg5 - Give Amount - Minimum
 # + rxg6 - Give Amount - Maximum
@@ -64,6 +65,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: NM
+        },
+        "rxg3": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "rxg4": {
             required: true,
@@ -234,6 +241,7 @@ public type RXG record {
     string name = RXG_SEGMENT_NAME;
     NM rxg1 = "";
     NM rxg2 = "";
+    ST rxg3 = "";
     CWE rxg4 = {};
     NM rxg5 = "";
     NM rxg6 = "";

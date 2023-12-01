@@ -19,9 +19,19 @@ import ballerinax/health.hl7v2;
 #
 # + name - Segment Name
 # + dg11 - DG1-Segmentnummer
+# + dg12 - Withdrawn field
 # + dg13 - Diagnoseschlüssel
+# + dg14 - Withdrawn field
 # + dg15 - Zeitpunkt der Diagnosestellung
 # + dg16 - Diagnosetyp
+# + dg17 - Withdrawn field
+# + dg18 - Withdrawn field
+# + dg19 - Withdrawn field
+# + dg110 - Withdrawn field
+# + dg111 - Withdrawn field
+# + dg112 - Withdrawn field
+# + dg113 - Withdrawn field
+# + dg114 - Withdrawn field
 # + dg115 - Diagnosepriorität (1 = Hauptdiagnose, 2..n = weitere Diagnosen)
 # + dg116 - Verantwortlicher Arzt
 # + dg117 - Art der Diagnose
@@ -45,11 +55,23 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: SI
         },
+        "dg12": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "dg13": {
             required: true,
             length: 1,
             maxReps: 1,
             dataType: CWE
+        },
+        "dg14": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "dg15": {
             required: false,
@@ -62,6 +84,54 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: CWE
+        },
+        "dg17": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "dg18": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "dg19": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "dg110": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "dg111": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "dg112": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "dg113": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "dg114": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "dg115": {
             required: false,
@@ -141,9 +211,19 @@ public type DG1 record {
     *hl7v2:Segment;
     string name = DG1_SEGMENT_NAME;
     SI dg11 = "";
+    ST dg12 = "";
     CWE dg13 = {};
+    ST dg14 = "";
     DTM dg15 = "";
     CWE dg16 = {};
+    ST dg17 = "";
+    ST dg18 = "";
+    ST dg19 = "";
+    ST dg110 = "";
+    ST dg111 = "";
+    ST dg112 = "";
+    ST dg113 = "";
+    ST dg114 = "";
     NM dg115 = "";
     XCN[] dg116 = [{}];
     CWE dg117 = {};
