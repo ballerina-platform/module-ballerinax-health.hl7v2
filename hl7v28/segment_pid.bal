@@ -19,19 +19,25 @@ import ballerinax/health.hl7v2;
 #
 # + name - Segment Name
 # + pid1 - PID-Segmentnummer
+# + pid2 - Withdrawn field
 # + pid3 - Patienten-ID-Liste
+# + pid4 - Withdrawn field
 # + pid5 - Patientenname
 # + pid6 - veraltet; korrespondierendes Namensfeld verwenden
 # + pid7 - Geburtszeitpunkt
 # + pid8 - Geschlecht
+# + pid9 - Withdrawn field
 # + pid10 - Rasse
 # + pid11 - Anschrift des Patienten
+# + pid12 - Withdrawn field
 # + pid13 - Telefonnummer des Patienten (privat)
 # + pid14 - Telefonnummer des Patienten (dienstlich)
 # + pid15 - Muttersprache
 # + pid16 - Familienstand
 # + pid17 - Religion
 # + pid18 - Abrechnungsnummer / Debitorenkontonummer
+# + pid19 - Withdrawn field
+# + pid20 - Withdrawn field
 # + pid21 - Patientennummer der Mutter des Patienten
 # + pid22 - Ethnische Zugehörigkeit
 # + pid23 - Geburtsort des Patienten
@@ -39,6 +45,7 @@ import ballerinax/health.hl7v2;
 # + pid25 - Reihenfolge bei Mehrlingsgeburt
 # + pid26 - Länderkennzeichen / Staatsangehörigkeit
 # + pid27 - Beruf / Tätigkeit des Patienten
+# + pid28 - Withdrawn field
 # + pid29 - Zeitpunkt des Todes
 # + pid30 - Merkmal Todesfall
 # + pid31 - Kennzeichen Identität unbekannt
@@ -62,11 +69,23 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: SI
         },
+        "pid2": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pid3": {
             required: true,
             length: 1,
             maxReps: -1,
             dataType: CX
+        },
+        "pid4": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "pid5": {
             required: true,
@@ -92,6 +111,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: CWE
         },
+        "pid9": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "pid10": {
             required: false,
             length: 1,
@@ -103,6 +128,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: -1,
             dataType: XAD
+        },
+        "pid12": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "pid13": {
             required: false,
@@ -139,6 +170,18 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: CX
+        },
+        "pid19": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "pid20": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "pid21": {
             required: false,
@@ -181,6 +224,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: CWE
+        },
+        "pid28": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "pid29": {
             required: false,
@@ -260,19 +309,25 @@ public type PID record {
     *hl7v2:Segment;
     string name = PID_SEGMENT_NAME;
     SI pid1 = "";
+    ST pid2 = "";
     CX[] pid3 = [{}];
+    ST pid4 = "";
     XPN[] pid5 = [{}];
     XPN[] pid6 = [{}];
     DTM pid7 = "";
     CWE pid8 = {};
+    ST pid9 = "";
     CWE[] pid10 = [{}];
     XAD[] pid11 = [{}];
+    ST pid12 = "";
     XTN[] pid13 = [{}];
     XTN[] pid14 = [{}];
     CWE pid15 = {};
     CWE pid16 = {};
     CWE pid17 = {};
     CX pid18 = {};
+    ST pid19 = "";
+    ST pid20 = "";
     CX[] pid21 = [{}];
     CWE[] pid22 = [{}];
     ST pid23 = "";
@@ -280,6 +335,7 @@ public type PID record {
     NM pid25 = "";
     CWE[] pid26 = [{}];
     CWE pid27 = {};
+    ST pid28 = "";
     DTM pid29 = "";
     ID pid30 = "";
     ID pid31 = "";

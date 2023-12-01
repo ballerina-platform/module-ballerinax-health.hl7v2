@@ -421,9 +421,7 @@ class HL7Parser {
                     foreach var dataType in val {
                         string encodedTypeStr = stripExtraDelimeters(self.encodeType(dataType, self.encodingCharacters.getComponentSeparator(), ""),
                         self.encodingCharacters.getComponentSeparator());
-                        if encodedTypeStr != "" {
-                            encodedString = string:concat(encodedString, self.encodingCharacters.getFieldSeparator(), encodedTypeStr);
-                        }
+                        encodedString = string:concat(encodedString, self.encodingCharacters.getFieldSeparator(), encodedTypeStr);
                     }
                 } else {
                     string encodedTypeStr = stripExtraDelimeters(self.encodeType(val, self.encodingCharacters.getComponentSeparator(), ""),

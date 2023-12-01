@@ -22,6 +22,7 @@ import ballerinax/health.hl7v2;
 # + msa2 - Nachrichtenkontrollnummer
 # + msa3 - Klartexterläuterung
 # + msa4 - Erwartete laufende Nummer der Nachricht
+# + msa5 - Withdrawn field
 # + msa6 - Fehlerbeschreibung
 # + msa7 - Anzahl anstehender Nachrichten
 # + msa8 - Höchste Priorität in den anstehenden Nachrichten
@@ -54,6 +55,12 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: NM
         },
+        "msa5": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "msa6": {
             required: false,
             length: 1,
@@ -81,6 +88,7 @@ public type MSA record {
     ST msa2 = "";
     ST msa3 = "";
     NM msa4 = "";
+    ST msa5 = "";
     CNE msa6 = {};
     NM msa7 = "";
     ID msa8 = "";

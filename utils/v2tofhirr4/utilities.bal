@@ -222,26 +222,16 @@ public isolated function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons
 }
 
 public isolated function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns international401:PatientCommunication[]? {
-    string id = "";
-    string text = "";
-
     if pid15 is hl7v26:CWE {
-        id = pid15.cwe1;
-        text = pid15.cwe2;
-    } else if pid15 is hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE {
-        id = pid15.ce1;
-        text = pid15.ce2;
-    }
-
-    r4:CodeableConcept language = {
-        id: (id != "") ? id : (),
-        text: (text != "") ? text : ()
-    };
-
-    if language != {} {
         return [
             {
-                language: language
+                language: cweToCodeableConcept(pid15)
+            }
+        ];
+    } else if pid15 is hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE {
+        return [
+            {
+                language: ceToCodeableConcept(pid15)
             }
         ];
     }

@@ -21,6 +21,7 @@ import ballerinax/health.hl7v2;
 # + pd11 - Living Dependency
 # + pd12 - Living Arrangement
 # + pd13 - Patient Primary Facility
+# + pd14 - Withdrawn field
 # + pd15 - Student Indicator
 # + pd16 - Handicap
 # + pd17 - Living Will Code
@@ -61,6 +62,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: -1,
             dataType: XON
+        },
+        "pd14": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "pd15": {
             required: false,
@@ -178,6 +185,7 @@ public type PD1 record {
     CWE[] pd11 = [{}];
     CWE pd12 = {};
     XON[] pd13 = [{}];
+    ST pd14 = "";
     CWE pd15 = {};
     CWE pd16 = {};
     CWE pd17 = {};

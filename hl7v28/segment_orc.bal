@@ -24,6 +24,7 @@ import ballerinax/health.hl7v2;
 # + orc4 - Auftragsgruppennummer
 # + orc5 - Auftragsstatus
 # + orc6 - Gewünschter Umfang der Ergebnismeldung
+# + orc7 - Withdrawn field
 # + orc8 - Verweis auf Hauptauftrag
 # + orc9 - Zeitpunkt der Auftragseingabe bzw. -änderung
 # + orc10 - Eingegeben durch
@@ -90,6 +91,12 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: ID
+        },
+        "orc7": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "orc8": {
             required: false,
@@ -258,6 +265,7 @@ public type ORC record {
     EI orc4 = {};
     ID orc5 = "";
     ID orc6 = "";
+    ST orc7 = "";
     EIP orc8 = {};
     DTM orc9 = "";
     XCN[] orc10 = [{}];

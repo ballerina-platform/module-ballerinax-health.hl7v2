@@ -20,7 +20,10 @@ import ballerinax/health.hl7v2;
 # + name - Segment Name
 # + msa1 - Bestätigungscode
 # + msa2 - Nachrichtenkontrollnummer
+# + msa3 - Withdrawn field
 # + msa4 - Erwartete laufende Nummer der Nachricht
+# + msa5 - Withdrawn field
+# + msa6 - Withdrawn field
 # + msa7 - Anzahl anstehender Nachrichten
 # + msa8 - Höchste Priorität in den anstehenden Nachrichten
 @hl7v2:SegmentDefinition {
@@ -40,11 +43,29 @@ import ballerinax/health.hl7v2;
             maxReps: 1,
             dataType: ST
         },
+        "msa3": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
         "msa4": {
             required: false,
             length: 1,
             maxReps: 1,
             dataType: NM
+        },
+        "msa5": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
+        },
+        "msa6": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         },
         "msa7": {
             required: false,
@@ -65,7 +86,10 @@ public type MSA record {
     string name = MSA_SEGMENT_NAME;
     ID msa1 = "";
     ST msa2 = "";
+    ST msa3 = "";
     NM msa4 = "";
+    ST msa5 = "";
+    ST msa6 = "";
     NM msa7 = "";
     ID msa8 = "";
 };
