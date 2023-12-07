@@ -114,9 +114,29 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         }
         "DG1" => {
             Dg1ToCondition? dg1ToCondition = impl.dg1ToCondition;
+            string? conditionId = ();
+            string? patientId = ();
             if dg1ToCondition is Dg1ToCondition {
                 map<anydata> constructedResource = dg1ToCondition(check segment.ensureType(hl7v2commons:Dg1));
-                if constructedResource.keys().length() > 1 {
+                if constructedResource["id"] != () {
+                    conditionId = <string?>constructedResource["id"];
+                    entries.push({'resource: constructedResource});
+                }
+            }
+            Dg1ToEncounter? dg1ToEncounter = impl.dg1ToEncounter;
+            if dg1ToEncounter is Dg1ToEncounter {
+                r4:BundleEntry bundleEntry = entries[entries.length() - 1];
+                if bundleEntry?.'resource is international401:Condition {
+                    map<anydata> constructedResource = dg1ToEncounter(check segment.ensureType(hl7v2commons:Dg1), conditionId);
+                    if constructedResource["id"] != () {
+                        entries.push({'resource: constructedResource});
+                    }
+                }
+            }
+            Dg1ToEpisodeOfCare? dg1ToEpisodeOfCare = impl.dg1ToEpisodeOfCare;
+            if dg1ToEpisodeOfCare is Dg1ToEpisodeOfCare {
+                map<anydata> constructedResource = dg1ToEpisodeOfCare(check segment.ensureType(hl7v2commons:Dg1), conditionId, patientId);
+                if constructedResource["id"] != () {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -221,10 +241,10 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
             if reaction != "" {
                 international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
                     manifestation: [
-                            {
-                                text: <string?>reaction
-                            }
-                        ],
+                        {
+                            text: <string?>reaction
+                        }
+                    ],
                     onset: (al1.al16 != "") ? al1.al16 : ()
                 };
                 allergyIntoleranceReactions.push(allergyIntoleranceReaction);
@@ -246,6 +266,20 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
         patient: {}
     };
 
+    if al1.al14 is hl7v23:IS|hl7v231:IS {
+        if al1.al14 == "SV" {
+            allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
+        }
+    } else if al1.al14 is hl7v24:CE|hl7v25:CE|hl7v251:CE {
+        if (<hl7v24:CE|hl7v25:CE|hl7v251:CE>al1.al14).ce1 == "SV" {
+            allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
+        }
+    } else if al1.al14 is hl7v26:CWE|hl7v27:CWE|hl7v28:CWE {
+        if (<hl7v26:CWE|hl7v27:CWE|hl7v28:CWE>al1.al14).cwe1 == "SV" {
+            allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
+        }
+    }
+
     if al1.al12 is hl7v23:IS|hl7v231:IS {
         allergyIntolerance.'type = isToAllergyIntoleranceType(<hl7v23:IS>al1.al12);
     } else if al1.al12 is hl7v24:CE|hl7v25:CE|hl7v251:CE {
@@ -264,16 +298,10 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns internati
             display: evn.name
         }
     ];
-    r4:uri url = "";
-    if evn is hl7v23:EVN|hl7v231:EVN|hl7v24:EVN|hl7v25:EVN|hl7v251:EVN|hl7v26:EVN {
-        url = evn.evn4;
-    } else if evn is hl7v27:EVN|hl7v28:EVN {
-        url = evn.evn4.cwe1;
-    }
 
     international401:ProvenanceAgent[] agent = [];
     if evn.evn5 is hl7v23:XCN {
-        r4:Reference xcnToReferenceResult = xcnToReference(<hl7v23:XCN>evn.evn5);
+        r4:Reference xcnToReferenceResult = xcnToReferenceWithType(<hl7v23:XCN>evn.evn5, "Practitioner");
         if xcnToReferenceResult != {} {
             agent.push({
                 who: xcnToReferenceResult
@@ -281,7 +309,7 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns internati
         }
     } else {
         foreach var xcn in <anydata[]>evn.evn5 {
-            r4:Reference xcnToReferenceResult = xcnToReference(<Xcn>xcn);
+            r4:Reference xcnToReferenceResult = xcnToReferenceWithType(<Xcn>xcn, "Practitioner");
             if xcnToReferenceResult != {} {
                 agent.push({
                     who: xcnToReferenceResult
@@ -297,26 +325,31 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns internati
             coding: coding
         },
         recorded: recorded,
-        reason: (url != "") ? [
-                {
-                    extension: [
-                        {
-                            url: url
-                        }
-                    ]
-                }
-            ] : (),
-        meta: (url != "") ? {
-                extension: [
-                    {
-                        url: url
-                    }
-                ]
-            } : (),
         agent: agent,
         occurredDateTime: (occurredDateTime != "") ? occurredDateTime : (),
         target: []
     };
+
+    if evn is hl7v23:EVN|hl7v231:EVN|hl7v24:EVN|hl7v25:EVN|hl7v251:EVN|hl7v26:EVN {
+        if evn.evn4 != "" && evn.evn4 != "U" {
+            provenance.reason = [
+                {
+                    coding: [
+                        {
+                            code: evn.evn4
+                        }
+                    ]
+                }
+            ];
+        }
+    } else if evn is hl7v27:EVN|hl7v28:EVN {
+        if evn.evn4.cwe1 != "" && evn.evn4.cwe1 != "U" {
+            r4:CodeableConcept cweToCodeableConceptResult = cweToCodeableConcept(evn.evn4);
+            if cweToCodeableConceptResult != {} {
+                provenance.reason = [cweToCodeableConceptResult];
+            }
+        }
+    }
 
     if evn is hl7v23:EVN|hl7v231:EVN|hl7v24:EVN|hl7v25:EVN|hl7v251:EVN {
         if evn.evn2.ts1 != "" {
@@ -403,112 +436,114 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
     };
     international401:EncounterLocation[] encounterLocations = [];
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc1 = {
             location: {
                 display: pv1.pv13.pl1 != "" ? pv1.pv13.pl1 : ()
             },
-            status: pv1.pv13.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv13.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv13.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc1 != {} && encounterLoc1.location != {} {
+            encounterLocations.push(encounterLoc1);
         }
-    } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
-        international401:EncounterLocation encounterLoc = {
-            location: {
-                display: pv1.pv13.pl1.hd1 != "" ? pv1.pv13.pl1.hd1 : ()
-            },
-            status: pv1.pv13.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv13.pl5 : ()
-        };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
-        }
-    }
 
-    if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc2 = {
             location: {
                 display: pv1.pv16.pl1 != "" ? pv1.pv16.pl1 : ()
             },
-            status: pv1.pv16.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv16.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv16.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc2 != {} && encounterLoc2.location != {} {
+            encounterLocations.push(encounterLoc2);
         }
-    } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
-        international401:EncounterLocation encounterLoc = {
-            location: {
-                display: pv1.pv16.pl1.hd1 != "" ? pv1.pv16.pl1.hd1 : ()
-            },
-            status: pv1.pv16.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv16.pl5 : ()
-        };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
-        }
-    }
 
-    if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc3 = {
             location: {
                 display: pv1.pv111.pl1 != "" ? pv1.pv111.pl1 : ()
             },
-            status: pv1.pv111.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv111.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv111.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc3 != {} && encounterLoc3.location != {} {
+            encounterLocations.push(encounterLoc3);
         }
-    } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
-        international401:EncounterLocation encounterLoc = {
-            location: {
-                display: pv1.pv111.pl1.hd1 != "" ? pv1.pv111.pl1.hd1 : ()
-            },
-            status: pv1.pv111.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv111.pl5 : ()
-        };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
-        }
-    }
 
-    if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc4 = {
             location: {
                 display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
             },
-            status: pv1.pv142.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv142.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv142.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc4 != {} && encounterLoc4.location != {} {
+            encounterLocations.push(encounterLoc4);
         }
-    } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
-        international401:EncounterLocation encounterLoc = {
-            location: {
-                display: pv1.pv142.pl1.hd1 != "" ? pv1.pv142.pl1.hd1 : ()
-            },
-            status: pv1.pv142.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv142.pl5 : ()
-        };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
-        }
-    }
 
-    if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc5 = {
+            location: {
+                display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
+            },
+            status: getEncounterLocationStatus(pv1.pv142.pl5)
+        };
+        if encounterLoc5 != {} && encounterLoc5.location != {} {
+            encounterLocations.push(encounterLoc5);
+        }
+
+        international401:EncounterLocation encounterLoc6 = {
             location: {
                 display: pv1.pv143.pl1 != "" ? pv1.pv143.pl1 : ()
             },
-            status: pv1.pv143.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv143.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv143.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc6 != {} && encounterLoc6.location != {} {
+            encounterLocations.push(encounterLoc6);
         }
     } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc1 = {
+            location: {
+                display: pv1.pv13.pl1.hd1 != "" ? pv1.pv13.pl1.hd1 : ()
+            },
+            status: getEncounterLocationStatus(pv1.pv13.pl5)
+        };
+        if encounterLoc1 != {} && encounterLoc1.location != {} {
+            encounterLocations.push(encounterLoc1);
+        }
+
+        international401:EncounterLocation encounterLoc2 = {
+            location: {
+                display: pv1.pv16.pl1.hd1 != "" ? pv1.pv16.pl1.hd1 : ()
+            },
+            status: getEncounterLocationStatus(pv1.pv16.pl5)
+        };
+        if encounterLoc2 != {} && encounterLoc2.location != {} {
+            encounterLocations.push(encounterLoc2);
+        }
+
+        international401:EncounterLocation encounterLoc3 = {
+            location: {
+                display: pv1.pv111.pl1.hd1 != "" ? pv1.pv111.pl1.hd1 : ()
+            },
+            status: getEncounterLocationStatus(pv1.pv111.pl5)
+        };
+        if encounterLoc3 != {} && encounterLoc3.location != {} {
+            encounterLocations.push(encounterLoc3);
+        }
+
+        international401:EncounterLocation encounterLoc4 = {
+            location: {
+                display: pv1.pv142.pl1.hd1 != "" ? pv1.pv142.pl1.hd1 : ()
+            },
+            status: getEncounterLocationStatus(pv1.pv142.pl5)
+        };
+        if encounterLoc4 != {} && encounterLoc4.location != {} {
+            encounterLocations.push(encounterLoc4);
+        }
+
+        international401:EncounterLocation encounterLoc5 = {
             location: {
                 display: pv1.pv143.pl1.hd1 != "" ? pv1.pv143.pl1.hd1 : ()
             },
-            status: pv1.pv143.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv143.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv143.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc5 != {} && encounterLoc5.location != {} {
+            encounterLocations.push(encounterLoc5);
         }
     }
 
@@ -1012,19 +1047,117 @@ public isolated function dg1ToCondition(hl7v2commons:Dg1 dg1) returns internatio
     if dg1 is hl7v26:DG1|hl7v27:DG1|hl7v28:DG1 {
         r4:CodeableConcept cweToCodeableConceptResult = cweToCodeableConcept(dg1.dg13);
         if cweToCodeableConceptResult != {} {
+            cweToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();
             condition.code = cweToCodeableConceptResult;
         }
         condition.onsetDateTime = dg1.dg15 != "" ? dg1.dg15 : ();
         condition.recordedDate = dg1.dg119 != "" ? dg1.dg119 : ();
+        if dg1.dg120.ei1 != "" {
+            condition.identifier = [eiToIdentifier(dg1.dg120)];
+        }
+        if dg1.dg122.ei1 != "" {
+            r4:ReferenceExtension ref = {
+                url: "http://hl7.org/fhir/StructureDefinition/condition-dueTo",
+                valueReference: {
+                    reference: dg1.dg122.ei1
+                }
+            };
+            condition.extension = [ref];
+        }
     } else if dg1 is hl7v23:DG1|hl7v231:DG1|hl7v24:DG1|hl7v25:DG1|hl7v251:DG1 {
         r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(dg1.dg13);
         if ceToCodeableConceptResult != {} {
+            ceToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();
             condition.code = ceToCodeableConceptResult;
         }
         condition.onsetDateTime = dg1.dg15.ts1 != "" ? dg1.dg15.ts1 : ();
         condition.recordedDate = dg1.dg119.ts1 != "" ? dg1.dg119.ts1 : ();
     }
+    Xcn[] dg116 = dg1.dg116;
+    foreach var item in dg116 {
+        if item.xcn1 != "" {
+            condition.asserter.reference = item.xcn1;
+        }
+    }
+    if condition.keys().length() > 1 {
+        condition.id = generateFhirResourceId();
+    }
+
     return condition;
+}
+
+public isolated function dg1ToEncounter(hl7v2commons:Dg1 dg1, string? conditionId) returns international401:Encounter {
+    international401:Encounter encounter = {
+        'class: {},
+        status: "finished"
+    };
+    if dg1 is hl7v27:DG1|hl7v28:DG1 {
+        hl7v27:CWE|hl7v28:CWE dg16 = dg1.dg16;
+        if conditionId is string {
+            international401:EncounterDiagnosis encounterDiagnosis = {
+                condition: {
+                    reference: string `Condition/${conditionId}`
+                }
+            };
+            encounterDiagnosis.use = cweToCodeableConcept(dg16);
+            encounter.diagnosis = [encounterDiagnosis];
+            hl7v27:NM|hl7v28:NM dg115 = dg1.dg115;
+            int|error rankVal = int:fromString(dg115);
+            if rankVal is int {
+                encounterDiagnosis.rank = rankVal;
+            }
+            encounter.id = generateFhirResourceId();
+        }
+    } else if dg1 is hl7v23:DG1|hl7v231:DG1|hl7v24:DG1|hl7v25:DG1|hl7v251:DG1|hl7v26:DG1 {
+        Is dg16 = dg1.dg16;
+        if conditionId is string {
+            international401:EncounterDiagnosis encounterDiagnosis = {
+                condition: {
+                    reference: string `Condition/${conditionId}`
+                }
+            };
+            if dg16 != "" {
+                encounterDiagnosis.use = {
+                    text: dg16
+                };
+            }
+            encounter.diagnosis = [encounterDiagnosis];
+            encounter.id = generateFhirResourceId();
+        }
+    }
+    return encounter;
+}
+
+public isolated function dg1ToEpisodeOfCare(hl7v2commons:Dg1 dg1, string? conditionId, string? patientId) returns international401:EpisodeOfCare {
+    international401:EpisodeOfCare episodeOfCare = {
+        patient: {},
+        status: "active"
+    };
+    if conditionId is string {
+        international401:EpisodeOfCareDiagnosis episodeOfCareDiagnosis = {
+            condition: {
+                reference: string `Condition/${conditionId}`
+            }
+        };
+        episodeOfCare.diagnosis = [episodeOfCareDiagnosis];
+        if dg1 is hl7v27:DG1|hl7v28:DG1 {
+            hl7v27:CWE|hl7v28:CWE dg16 = dg1.dg16;
+            episodeOfCareDiagnosis.role = cweToCodeableConcept(dg16);
+        } else if dg1 is hl7v23:DG1|hl7v231:DG1|hl7v24:DG1|hl7v25:DG1|hl7v251:DG1|hl7v26:DG1 {
+            Is dg16 = dg1.dg16;
+            if dg16 != "" {
+                episodeOfCareDiagnosis.role = {
+                    text: dg16
+                };
+            }
+        }
+    }
+    if patientId is string {
+        episodeOfCare.patient.reference = string `Patient/${patientId}`;
+        episodeOfCare.id = generateFhirResourceId();
+    }
+
+    return episodeOfCare;
 }
 
 public isolated function obxToObservation(hl7v2commons:Obx obx) returns international401:Observation {

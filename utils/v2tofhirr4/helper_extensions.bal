@@ -20,9 +20,9 @@ isolated function getStringExtension(string[] itemList) returns r4:StringExtensi
     r4:StringExtension[] stringExtensions = [];
 
     foreach string item in itemList {
-        if item != "" {
+        if item != ""  {
             stringExtensions.push({
-                url: item,
+                url: "http://hl7.org/fhir/StructureDefinition/contactpoint-country",
                 valueString: item
             });
         }

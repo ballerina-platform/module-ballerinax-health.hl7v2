@@ -183,20 +183,17 @@ public isolated function xpnToHumanName(Xpn xpn) returns r4:HumanName {
     return humanName;
 };
 
-public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint {
+public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint? {
     r4:ContactPoint contactPoint = {
-        value: checkComputableAntlr([
-                {identifier: xtn.xtn3, comparisonOperator: "NIN", valueList: ["Internet", "X.400"]},
-                {identifier: xtn.xtn7.toString(), comparisonOperator: "IN", valueList: []}
-                //, {identifier: xtn.xtn12, comparisonOperator: "IN", valueList: []}                    //TODO: xtn12 is not defined yet
-            ]) ? ((xtn is hl7v26:XTN) ? xtn.xtn12 : xtn.xtn1) :
-                (checkComputableAntlr([{identifier: xtn.xtn3, comparisonOperator: "NIN", valueList: ["Internet", "X.400"]}])) ? (xtn.xtn4) : (),
         use: idToContactPointUse(xtn.xtn2),
         system: idToContactPointSystem(xtn.xtn3),
-        extension: getStringExtension([xtn.xtn5.toString(), xtn.xtn6.toString(), xtn.xtn7.toString(), xtn.xtn8.toString()])
+        extension: xtn.xtn5 != -1.0 ? getStringExtension([xtn.xtn5.toString()]) : ()
     };
+    if (xtn.xtn3 != "Internet" || xtn.xtn3 != "X.400") && xtn.xtn7 != "" {
+        contactPoint.value = xtn.xtn1;
+    }
     if contactPoint.value == "" {
-        return {};
+        return ();
     }
     return contactPoint;
 };
@@ -243,6 +240,12 @@ public isolated function eiToIdentifier(Ei ei) returns r4:Identifier => {
     value: (ei.ei1 != "") ? ei.ei1 : ()
 };
 
+public isolated function eiToReferenceWithType(Ei ei, string resourceType) returns r4:Reference {
+    return {
+        reference: (ei.ei1 != "") ? string `${resourceType}/${ei.ei1}` : ()
+    };
+};
+
 public isolated function idToCodeableConceptArray(Id id) returns r4:CodeableConcept[] {
     r4:CodeableConcept[] codeableConcept = [];
     r4:CodeableConcept? idToCodeableConceptResult = idToCodeableConcept(id);
@@ -274,6 +277,12 @@ public isolated function xcnToCodeableConcept(Xcn xcn) returns r4:CodeableConcep
 public isolated function xcnToReference(Xcn xcn) returns r4:Reference {
     return {
         reference: (xcn.xcn1 != "") ? xcn.xcn1 : ()
+    };
+};
+
+public isolated function xcnToReferenceWithType(Xcn xcn, string resourceType) returns r4:Reference {
+    return {
+        reference: (xcn.xcn1 != "") ? string `${resourceType}/${xcn.xcn1}` : ()
     };
 };
 

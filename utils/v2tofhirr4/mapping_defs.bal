@@ -39,6 +39,12 @@ public type PidToPatient isolated function (hl7v2commons:Pid pid) returns intern
 # Mapping function type for DG1 segment to Condition FHIR resource.
 public type Dg1ToCondition isolated function (hl7v2commons:Dg1 dg1) returns international401:Condition;
 
+# Mapping function type for DG1 segment to Encounter FHIR resource.
+public type Dg1ToEncounter isolated function (hl7v2commons:Dg1 dg1, string? conditionId) returns international401:Encounter;
+
+# Mapping function type for DG1 segment to EpisodeOfCare FHIR resource.
+public type Dg1ToEpisodeOfCare isolated function (hl7v2commons:Dg1 dg1, string? conditionId, string? patientId) returns international401:EpisodeOfCare;
+
 # Mapping function type for OBX segment to Observation FHIR resource.
 public type ObxToObservation isolated function (hl7v2commons:Obx obx) returns international401:Observation;
 
@@ -67,7 +73,9 @@ public type OrcToImmunization isolated function (hl7v2commons:Orc orc) returns i
 # + nk1ToPatient - NK1 segment to Patient FHIR resource mapping function 
 # + pd1ToPatient - PD1 segment to Patient FHIR resource mapping function  
 # + pidToPatient - PID segment to Patient FHIR resource mapping function  
-# + dg1ToCondition - DG1 segment to Condition FHIR resource mapping function  
+# + dg1ToCondition - DG1 segment to Condition FHIR resource mapping function
+# + dg1ToEncounter - DG1 segment to Encounter FHIR resource mapping function
+# + dg1ToEpisodeOfCare - DG1 segment to EpisodeOfCare FHIR resource mapping function  
 # + obxToObservation - OBX segment to Observation FHIR resource mapping function  
 # + obrToDiagnosticReport - OBR segment to DiagnosticReport FHIR resource mapping function  
 # + al1ToAllerygyIntolerance - AL1 segment to AllergyIntolerance FHIR resource mapping function  
@@ -82,6 +90,8 @@ public type V2SegmentToFhirMapper record {
     Pd1ToPatient pd1ToPatient?;
     PidToPatient pidToPatient?;
     Dg1ToCondition dg1ToCondition?;
+    Dg1ToEncounter dg1ToEncounter?;
+    Dg1ToEpisodeOfCare dg1ToEpisodeOfCare?;
     ObxToObservation obxToObservation?;
     ObrToDiagnosticReport obrToDiagnosticReport?;
     Al1ToAllerygyIntolerance al1ToAllerygyIntolerance?;
@@ -99,6 +109,8 @@ final readonly & V2SegmentToFhirMapper defaultMapper = {
     pd1ToPatient,
     pidToPatient,
     dg1ToCondition,
+    dg1ToEncounter,
+    dg1ToEpisodeOfCare,
     obxToObservation,
     obrToDiagnosticReport,
     al1ToAllerygyIntolerance,
