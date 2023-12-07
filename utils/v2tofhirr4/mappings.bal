@@ -436,112 +436,114 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
     };
     international401:EncounterLocation[] encounterLocations = [];
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc1 = {
             location: {
                 display: pv1.pv13.pl1 != "" ? pv1.pv13.pl1 : ()
             },
-            status: pv1.pv13.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv13.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv13.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc1 != {} && encounterLoc1.location != {} {
+            encounterLocations.push(encounterLoc1);
         }
-    } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
-        international401:EncounterLocation encounterLoc = {
-            location: {
-                display: pv1.pv13.pl1.hd1 != "" ? pv1.pv13.pl1.hd1 : ()
-            },
-            status: pv1.pv13.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv13.pl5 : ()
-        };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
-        }
-    }
 
-    if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc2 = {
             location: {
                 display: pv1.pv16.pl1 != "" ? pv1.pv16.pl1 : ()
             },
-            status: pv1.pv16.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv16.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv16.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc2 != {} && encounterLoc2.location != {} {
+            encounterLocations.push(encounterLoc2);
         }
-    } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
-        international401:EncounterLocation encounterLoc = {
-            location: {
-                display: pv1.pv16.pl1.hd1 != "" ? pv1.pv16.pl1.hd1 : ()
-            },
-            status: pv1.pv16.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv16.pl5 : ()
-        };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
-        }
-    }
 
-    if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc3 = {
             location: {
                 display: pv1.pv111.pl1 != "" ? pv1.pv111.pl1 : ()
             },
-            status: pv1.pv111.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv111.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv111.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc3 != {} && encounterLoc3.location != {} {
+            encounterLocations.push(encounterLoc3);
         }
-    } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
-        international401:EncounterLocation encounterLoc = {
-            location: {
-                display: pv1.pv111.pl1.hd1 != "" ? pv1.pv111.pl1.hd1 : ()
-            },
-            status: pv1.pv111.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv111.pl5 : ()
-        };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
-        }
-    }
 
-    if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc4 = {
             location: {
                 display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
             },
-            status: pv1.pv142.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv142.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv142.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc4 != {} && encounterLoc4.location != {} {
+            encounterLocations.push(encounterLoc4);
         }
-    } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
-        international401:EncounterLocation encounterLoc = {
-            location: {
-                display: pv1.pv142.pl1.hd1 != "" ? pv1.pv142.pl1.hd1 : ()
-            },
-            status: pv1.pv142.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv142.pl5 : ()
-        };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
-        }
-    }
 
-    if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc5 = {
+            location: {
+                display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
+            },
+            status: getEncounterLocationStatus(pv1.pv142.pl5)
+        };
+        if encounterLoc5 != {} && encounterLoc5.location != {} {
+            encounterLocations.push(encounterLoc5);
+        }
+
+        international401:EncounterLocation encounterLoc6 = {
             location: {
                 display: pv1.pv143.pl1 != "" ? pv1.pv143.pl1 : ()
             },
-            status: pv1.pv143.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv143.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv143.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc6 != {} && encounterLoc6.location != {} {
+            encounterLocations.push(encounterLoc6);
         }
     } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
-        international401:EncounterLocation encounterLoc = {
+        international401:EncounterLocation encounterLoc1 = {
+            location: {
+                display: pv1.pv13.pl1.hd1 != "" ? pv1.pv13.pl1.hd1 : ()
+            },
+            status: getEncounterLocationStatus(pv1.pv13.pl5)
+        };
+        if encounterLoc1 != {} && encounterLoc1.location != {} {
+            encounterLocations.push(encounterLoc1);
+        }
+
+        international401:EncounterLocation encounterLoc2 = {
+            location: {
+                display: pv1.pv16.pl1.hd1 != "" ? pv1.pv16.pl1.hd1 : ()
+            },
+            status: getEncounterLocationStatus(pv1.pv16.pl5)
+        };
+        if encounterLoc2 != {} && encounterLoc2.location != {} {
+            encounterLocations.push(encounterLoc2);
+        }
+
+        international401:EncounterLocation encounterLoc3 = {
+            location: {
+                display: pv1.pv111.pl1.hd1 != "" ? pv1.pv111.pl1.hd1 : ()
+            },
+            status: getEncounterLocationStatus(pv1.pv111.pl5)
+        };
+        if encounterLoc3 != {} && encounterLoc3.location != {} {
+            encounterLocations.push(encounterLoc3);
+        }
+
+        international401:EncounterLocation encounterLoc4 = {
+            location: {
+                display: pv1.pv142.pl1.hd1 != "" ? pv1.pv142.pl1.hd1 : ()
+            },
+            status: getEncounterLocationStatus(pv1.pv142.pl5)
+        };
+        if encounterLoc4 != {} && encounterLoc4.location != {} {
+            encounterLocations.push(encounterLoc4);
+        }
+
+        international401:EncounterLocation encounterLoc5 = {
             location: {
                 display: pv1.pv143.pl1.hd1 != "" ? pv1.pv143.pl1.hd1 : ()
             },
-            status: pv1.pv143.pl5 != "" ? <international401:EncounterLocationStatus>pv1.pv143.pl5 : ()
+            status: getEncounterLocationStatus(pv1.pv143.pl5)
         };
-        if encounterLoc != {} && encounterLoc.location != {} {
-            encounterLocations.push(encounterLoc);
+        if encounterLoc5 != {} && encounterLoc5.location != {} {
+            encounterLocations.push(encounterLoc5);
         }
     }
 

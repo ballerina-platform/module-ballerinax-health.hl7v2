@@ -220,17 +220,11 @@ public isolated function pidToPhoneNumber(hl7v2commons:Pid13 pid13, hl7v2commons
 
 public isolated function pidToPrimaryLanguage(hl7v2commons:Pid15 pid15) returns international401:PatientCommunication[]? {
     if pid15 is hl7v26:CWE {
-        return [
-            {
-                language: cweToCodeableConcept(pid15)
-            }
-        ];
+        r4:CodeableConcept cweToCodeableConceptResult = cweToCodeableConcept(pid15);
+        return cweToCodeableConceptResult != {} ? [{language: cweToCodeableConceptResult}] : ();
     } else if pid15 is hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE {
-        return [
-            {
-                language: ceToCodeableConcept(pid15)
-            }
-        ];
+        r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(pid15);
+        return ceToCodeableConceptResult != {} ? [{language: ceToCodeableConceptResult}] : ();
     }
     return ();
 }
@@ -456,4 +450,24 @@ isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? cu
 public isolated function generateFhirResourceId() returns string {
     // Generate a version 4 (random) UUID
     return uuid:createType4AsString();
+}
+
+isolated function getEncounterLocationStatus(string hl7LocationStatus) returns international401:EncounterLocationStatus? {
+    match hl7LocationStatus {
+        "active" => {
+            return "active";
+        }
+        "reserved" => {
+            return "reserved";
+        }
+        "planned" => {
+            return "planned";
+        }
+        "completed" => {
+            return "completed";
+        }
+        _ => {
+            return ();
+        }
+    }
 }

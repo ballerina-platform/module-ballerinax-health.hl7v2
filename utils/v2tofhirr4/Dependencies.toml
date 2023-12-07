@@ -61,7 +61,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "http"
-version = "2.10.3"
+version = "2.10.5"
 dependencies = [
 	{org = "ballerina", name = "auth"},
 	{org = "ballerina", name = "cache"},
@@ -362,10 +362,9 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2"
-version = "2.1.0"
+version = "2.2.0"
 dependencies = [
 	{org = "ballerina", name = "log"},
-	{org = "ballerina", name = "regex"},
 	{org = "ballerina", name = "tcp"},
 	{org = "ballerina", name = "time"}
 ]
