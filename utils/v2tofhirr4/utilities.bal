@@ -399,10 +399,20 @@ public isolated function nk1ToContact(hl7v2commons:Nk12 nk12, hl7v2commons:Nk14 
     return [patientContact];
 }
 
+isolated function isTransactionalMessage(hl7:Message message) returns boolean {
+    return message.name.startsWith("ADT") || message.name.startsWith("ORM") || message.name.startsWith("ORU") ||
+        message.name.startsWith("SIU") || message.name.startsWith("MDM") || message.name.startsWith("RDE");
+}
+
 isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMapper) returns json|error {
-    r4:Bundle bundle = {'type: "searchset"};
+    r4:Bundle bundle = {'type: "message"};
     r4:BundleEntry[] entries = [];
     bundle.entry = entries;
+
+    if isTransactionalMessage(message) {
+        bundle.'type = "transaction";
+    }
+
     foreach anydata segmentField in message.entries() {
         string key;
         anydata segment;
