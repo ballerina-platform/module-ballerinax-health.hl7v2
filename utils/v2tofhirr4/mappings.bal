@@ -1001,9 +1001,13 @@ public isolated function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns internatio
     string pv211 = pv2.pv211.toString();
     if pv211 != "" {
         decimal|error pv211Val = decimal:fromString(pv211);
-        if pv211Val is decimal {
+        if pv211Val is error {
+            log:printWarn("Error while converting pv2-11 field to decimal", pv211Val);
+        } else {
             encounter.length.value = pv211Val;
         }
+    } else {
+        log:printDebug("pv2-11 field is empty");
     }
 
     return encounter;
