@@ -1018,9 +1018,6 @@ public isolated function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns internatio
     international401:Encounter encounter = {
         location: location,
         reasonCode: ceToCodeableConcepts(pv2.pv23),
-        length: {
-            value: <decimal>pv2.pv211
-        },
         text: {
             div: pv2.pv212,
             status: "empty"
@@ -1035,6 +1032,18 @@ public isolated function pv2ToEncounter(hl7v2commons:Pv2 pv2) returns internatio
         'class: {},
         status: "in-progress"
     };
+
+    string pv211 = pv2.pv211.toString();
+    if pv211 != "" {
+        decimal|error pv211Val = decimal:fromString(pv211);
+        if pv211Val is error {
+            log:printWarn("Error while converting pv2-11 field to decimal", pv211Val);
+        } else {
+            encounter.length.value = pv211Val;
+        }
+    } else {
+        log:printDebug("pv2-11 field is empty");
+    }
 
     return encounter;
 };
