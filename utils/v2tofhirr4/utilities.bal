@@ -419,14 +419,14 @@ isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? cu
         [key, segment] = <[string, anydata]>segmentField;
         do {
             if segment is hl7:Segment {
-                r4:BundleEntry[] bundleEntries = segmentToFhir(segment.name, segment, customMapper);
+                r4:BundleEntry[] bundleEntries = check segmentToFhir(segment.name, segment, customMapper);
                 foreach r4:BundleEntry entry in bundleEntries {
                     entries.push(entry);
                 }
             }
             if segment is hl7:Segment[] {
                 foreach hl7:Segment segmentElem in segment {
-                    r4:BundleEntry[] bundleEntries = segmentToFhir(segmentElem.name, segmentElem, customMapper);
+                    r4:BundleEntry[] bundleEntries = check segmentToFhir(segmentElem.name, segmentElem, customMapper);
                     foreach r4:BundleEntry entry in bundleEntries {
                         entries.push(entry);
                     }
@@ -438,7 +438,7 @@ isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? cu
                     anydata segmentComponent;
                     [_, segmentComponent] = <[string, anydata]>segmentComponentField;
                     if segmentComponent is hl7:Segment {
-                        r4:BundleEntry[] bundleEntries = segmentToFhir(segmentComponent.name, segmentComponent, customMapper);
+                        r4:BundleEntry[] bundleEntries = check segmentToFhir(segmentComponent.name, segmentComponent, customMapper);
                         foreach r4:BundleEntry entry in bundleEntries {
                             entries.push(entry);
                         }

@@ -62,7 +62,7 @@ public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper?
 # + segment - HL7 segment  
 # + customMapper - Custom mapper implementation
 # + return - FHIR Bundle
-public isolated function segmentToFhir(string segmentName, hl7:Segment segment, V2SegmentToFhirMapper? customMapper) returns r4:BundleEntry[] {
+public isolated function segmentToFhir(string segmentName, hl7:Segment segment, V2SegmentToFhirMapper? customMapper) returns r4:BundleEntry[]|error {
     r4:BundleEntry[] entries = [];
     V2SegmentToFhirMapper impl;
     lock {
@@ -204,8 +204,6 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
                 }
             }
         }
-    } on fail var e {
-        log:printError(string `Error while transforming segment ${segmentName} to FHIR : ${e.detail().toString()}`, e, e.stackTrace());
     }
     return entries;
 }
