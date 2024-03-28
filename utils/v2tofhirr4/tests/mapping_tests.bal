@@ -42,15 +42,14 @@ function hlStringMessageParseTest() {
 function v2toFhirTransformTest() {
     json|error adtToFhirBundle = v2ToFhir(msg);
     if adtToFhirBundle is json {
-        r4:Bundle|error resultantBundle = adtToFhirBundle.ensureType(r4:Bundle);
+        r4:Bundle|error resultantBundle = adtToFhirBundle.cloneWithType(r4:Bundle);
         if resultantBundle is r4:Bundle {
             r4:BundleEntry[] entries = resultantBundle.entry ?: [];
-            test:assertEquals(entries, 4, "Transforming issue occurred with the message");
+            test:assertEquals(entries.length(), 5, "Transforming issue occurred with the message");
             
         } else {
             test:assertFail("ADT_A01 msg to FHIR transforming failed.");
         }
-        test:assertEquals(adtToFhirBundle.ensureType(r4:Bundle), "Bundle", "Transforming issue occurred with the message");
     } else {
         test:assertFail("ADT_A01 msg to FHIR transforming failed.");
     }
