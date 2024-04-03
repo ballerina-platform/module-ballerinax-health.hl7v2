@@ -1,20 +1,18 @@
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
-
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
-
 // Unless required by applicable law or agreed to in writing,
 // software distributed under the License is distributed on an
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import ballerina/test;
+import ballerina/log;
+import ballerina/tcp;
 
 final string msg = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, INC.|GOOD HEALTH HOSPITAL|" +
 "198808181126|SECURITY|ADT^A01^ADT_A01|MSG00001|P|2.x||\rEVN|A01|200708181123||" +
@@ -24,38 +22,22 @@ final string msg = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, INC.|GOOD HEALT
 "\rNK1|1|NUCLEAR^NELDA^W|SPO^SPOUSE||||NK^NEXT OF KIN$\rPV1|1|I|2000^2012^01||||" +
 "004777^ATTEND^AARON^A|||SUR||||ADM|A0|";
 
-isolated class Hl7v2XParser {
-    *Parser;
-    public isolated function parse(string message) returns Message|HL7Error {
-        return error(HL7_V2_PARSER_ERROR, message = "There is no concrete parser implementation for version 2.x.");
+final string invalidMsg = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, INC.|GOOD HEALTH HOSPITAL|" +
+"198808181126|SECURITY|ADT^A01^ADT_A01|MSG00001|P|||\rEVN|A01|200708181123||";
+
+tcp:Listener hl7Listener = check new tcp:Listener(59519);
+
+@test:BeforeSuite
+function startMockHl7Listener() {
+    error? attach = hl7Listener.attach(new TcpMockService());
+    if attach is error {
+        log:printError(string `Error occurred while attaching the HL7 listener: ${attach.message()}`, attach);
     }
-}
-
-isolated class Hl7v2XEncoder {
-    *Encoder;
-    public isolated function encode(Message message) returns byte[]|HL7Error {
-        return error(HL7_V2_PARSER_ERROR, message = "There is no concrete encoder implementation for version 2.x.");
+    error? 'start = hl7Listener.'start();
+    if 'start is error {
+        log:printError(string `Error occurred while starting the HL7 listener: ${'start.message()}`, 'start);
     }
-}
-
-public isolated function createHL7v2XParser() returns Parser {
-    Hl7v2XParser parser = new ();
-    return parser;
-}
-
-public isolated function createHL7v2XEncoder() returns Encoder {
-    Hl7v2XEncoder encoder = new ();
-    return encoder;
-}
-
-function hl7PackageSettingUp() {
-    readonly & HL7Package package = {
-        name: "HL7v2x",
-        hl7Version: "2.x",
-        parserCreator: createHL7v2XParser,
-        encoderCreator: createHL7v2XEncoder
-    };
-    hl7Registry.addPackage(package);
+    log:printInfo("HL7 listener started successfully.");
 }
 
 @test:Config {}
@@ -80,9 +62,25 @@ function testGetHL7Parser() {
 }
 
 @test:Config {}
-function testHL7MsgEncode() {
+function testHL7MsgEncode() returns error? {
     Encoder|HL7Error encoder = hl7Registry.getEncoder("2.x");
     test:assertTrue(encoder is Encoder, "Error occurred while retrieving the encoder for 2.x version");
+    TST_2XX tstMsg = {
+        msh: {
+            msh1: "MSH",
+            msh2: "^~\\&",
+            msh3: {
+                hd1: "ADT1",
+                hd2: "GOOD HEALTH HOSPITAL",
+                hd3: "GHH LAB, INC."
+            }
+        }
+    };
+    byte[]|HL7Error encodeResult = encode("2.x", tstMsg);
+    if encodeResult is byte[] {
+        test:assertEquals(encodeResult[0], HL7_MSG_START_BLOCK, "HL7 Message start block is not correct");
+        test:assertEquals(encodeResult[encodeResult.length() - 2], HL7_MSG_END_BLOCK, "HL7 Message end block is not correct");
+    }
 }
 
 @test:Config {}
@@ -99,6 +97,12 @@ function testHL7MsgParse() {
         message = parse(string:toBytes(msg));
         if message is HL7Error {
             test:assertEquals(message.detail().message, "There is no concrete parser implementation for version 2.x.");
+        }
+
+        //parse invalid hl7 message
+        message = parse(invalidMsg);
+        if message is HL7Error {
+            test:assertEquals(message.detail().message, "Package not found for HL7 version : ");
         }
     }
 }
@@ -129,4 +133,45 @@ function testEncodingCharacters() {
     test:assertEquals(customEncodingChars.getEscapeCharacter(), "$", "Escape character is not correct");
     test:assertEquals(customEncodingChars.getSubcomponentSeparator(), "%", "Sub component separator is not correct");
     test:assertEquals(customEncodingChars.getTruncationCharacter(), "^", "Encoding characters are not correct");
+}
+
+@test:Config {}
+function testHl7Client() returns error? {
+    HL7Client hl7client = check new ("localhost", 59519);
+    TST_2XX tstMsg = {
+        msh: {
+            msh1: "MSH",
+            msh2: "^~\\&",
+            msh3: {
+                hd1: "ADT1",
+                hd2: "GOOD HEALTH HOSPITAL",
+                hd3: "GHH LAB, INC."
+            },
+            msh12: "2.x"
+        }
+    };
+    Message|HL7Error response = hl7client.sendMessage(tstMsg);
+    //since the concrete parset implementation is not available for 2.x version, the message will be returned as a error string.
+    if response is HL7Error {
+        test:assertEquals(response.detail().message, "Error occurred while parsing HL7 response message.");
+    }
+    response = hl7client.sendMessage(createHL7WirePayload(string:toBytes(msg)));
+    if response is HL7Error {
+        test:assertEquals(response.detail().message, "Error occurred while parsing HL7 response message.");
+    }
+
+    HL7Client hl7clientForInvalidServer = check new ("localhost", 59550);
+    Message|HL7Error responseForInvalidServer = hl7clientForInvalidServer.sendMessage(tstMsg);
+    if responseForInvalidServer is HL7Error {
+        test:assertEquals(responseForInvalidServer.detail().message, "Error occurred while sending HL7 message.");
+    }
+}
+
+@test:AfterSuite
+function stopMockHl7Listener() {
+    error? gracefulStopState = hl7Listener.gracefulStop();
+    if gracefulStopState is error {
+        log:printError(string `Error occurred while stopping the HL7 listener: ${gracefulStopState.message()}`, gracefulStopState);
+    }
+    log:printInfo("HL7 listener stopped successfully.");
 }
