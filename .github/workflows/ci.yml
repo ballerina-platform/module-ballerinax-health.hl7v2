@@ -89,8 +89,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Ballerina Build
-        uses: ballerina-platform/ballerina-action@2201.9.0
+        uses: ballerina-platform/setup-ballerina@v1.1.0
         with:
+          version: ${{ vars.BAL_VERSION }}
           args: pack
         env:
           WORKING_DIR: ./${{ matrix.path }}
@@ -111,8 +112,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Ballerina Test
-        uses: ballerina-platform/ballerina-action@2201.9.0
+        uses: ballerina-platform/setup-ballerina@v1.1.0
         with:
+          version: ${{ vars.BAL_VERSION }}
           args: test --code-coverage
         env:
           WORKING_DIR: ./${{ matrix.path }}
