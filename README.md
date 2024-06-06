@@ -1,6 +1,8 @@
 Ballerina HL7v2 Packages
 ==========================
 
+![Daily Build](https://github.com/ballerina-platform/module-ballerinax-health.hl7v2/actions/workflows/daily-build.yml/badge.svg)
+
 The Ballerina HL7v2 packages include capabilities to implement HL7v2 related integration. 
 
 For more information, go to the module(s).
