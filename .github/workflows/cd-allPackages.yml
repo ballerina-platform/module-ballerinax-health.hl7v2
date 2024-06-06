@@ -12,7 +12,7 @@ on:
         - PROD
         required: true
       package_name:
-        description: CD Selector
+        description: CD Package
         type: choice
         options:
         - ALL
