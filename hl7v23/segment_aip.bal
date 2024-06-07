@@ -62,7 +62,7 @@ import ballerinax/health.hl7v2;
         "aip5": {
             required: false,
             length: 1,
-            maxReps: -1,
+            maxReps: 1,
             dataType: CE
         },
         "aip6": {
@@ -116,7 +116,7 @@ public type AIP record {
     ID aip2 = "";
     XCN aip3 = {};
     CE aip4 = {};
-    CE[] aip5 = [{}];
+    CE aip5 = {};
     TS aip6 = {};
     NM aip7 = "";
     CE aip8 = {};

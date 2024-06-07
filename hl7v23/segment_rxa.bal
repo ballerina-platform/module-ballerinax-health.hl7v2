@@ -49,7 +49,7 @@ import ballerinax/health.hl7v2;
             required: true,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: NM
         },
         "rxa2": {
             required: true,
@@ -182,7 +182,7 @@ import ballerinax/health.hl7v2;
 public type RXA record {
     *hl7v2:Segment;
     string name = RXA_SEGMENT_NAME;
-    ID rxa1 = "";
+    NM rxa1 = "";
     NM rxa2 = "";
     TS rxa3 = {};
     TS rxa4 = {};

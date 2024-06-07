@@ -82,7 +82,7 @@ import ballerinax/health.hl7v2;
             required: true,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "ft17": {
             required: true,
@@ -148,13 +148,13 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "ft118": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "ft119": {
             required: false,
@@ -178,7 +178,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: NM
+            dataType: CP
         },
         "ft123": {
             required: false,
@@ -208,7 +208,7 @@ public type FT1 record {
     ST ft13 = "";
     TS ft14 = {};
     TS ft15 = {};
-    ID ft16 = "";
+    IS ft16 = "";
     CE ft17 = {};
     ST ft18 = "";
     ST ft19 = "";
@@ -219,12 +219,12 @@ public type FT1 record {
     CE ft114 = {};
     CP ft115 = {};
     PL ft116 = {};
-    ID ft117 = "";
-    ID ft118 = "";
+    IS ft117 = "";
+    IS ft118 = "";
     CE[] ft119 = [{}];
     XCN ft120 = {};
     XCN ft121 = {};
-    NM ft122 = "";
+    CP ft122 = {};
     EI ft123 = {};
     XCN ft124 = {};
     CE ft125 = {};

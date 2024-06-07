@@ -98,7 +98,7 @@ import ballerinax/health.hl7v2;
         "in21": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CX
         },
         "in22": {
@@ -110,7 +110,7 @@ import ballerinax/health.hl7v2;
         "in23": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XCN
         },
         "in24": {
@@ -122,7 +122,7 @@ import ballerinax/health.hl7v2;
         "in25": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: IS
         },
         "in26": {
@@ -134,7 +134,7 @@ import ballerinax/health.hl7v2;
         "in27": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XPN
         },
         "in28": {
@@ -146,7 +146,7 @@ import ballerinax/health.hl7v2;
         "in29": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XPN
         },
         "in210": {
@@ -224,7 +224,7 @@ import ballerinax/health.hl7v2;
         "in222": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XPN
         },
         "in223": {
@@ -237,18 +237,18 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: ST
+            dataType: IS
         },
         "in225": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CX
         },
         "in226": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CX
         },
         "in227": {
@@ -532,15 +532,15 @@ import ballerinax/health.hl7v2;
 public type IN2 record {
     *hl7v2:Segment;
     string name = IN2_SEGMENT_NAME;
-    CX in21 = {};
+    CX[] in21 = [{}];
     ST in22 = "";
-    XCN in23 = {};
+    XCN[] in23 = [{}];
     IS in24 = "";
-    IS in25 = "";
+    IS[] in25 = [""];
     ST in26 = "";
-    XPN in27 = {};
+    XPN[] in27 = [{}];
     ST in28 = "";
-    XPN in29 = {};
+    XPN[] in29 = [{}];
     ST in210 = "";
     CE in211 = {};
     ST in212 = "";
@@ -553,11 +553,11 @@ public type IN2 record {
     ID in219 = "";
     ID in220 = "";
     ST in221 = "";
-    XPN in222 = {};
+    XPN[] in222 = [{}];
     ST in223 = "";
-    ST[] in224 = [""];
-    CX in225 = {};
-    CX in226 = {};
+    IS[] in224 = [""];
+    CX[] in225 = [{}];
+    CX[] in226 = [{}];
     IS in227 = "";
     CM_RMC[] in228 = [{}];
     CM_PTA[] in229 = [{}];
@@ -603,7 +603,7 @@ public type IN2 record {
     XON[] in269 = [{}];
     XON[] in270 = [{}];
     IS in271 = "";
-    ID in272 = "";
+    CE in272 = {};
 };
 
 public const IN2_SEGMENT_NAME = "IN2";

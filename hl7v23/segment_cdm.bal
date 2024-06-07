@@ -64,7 +64,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "cdm6": {
             required: false,
@@ -123,7 +123,7 @@ public type CDM record {
     CE[] cdm2 = [{}];
     ST cdm3 = "";
     ST cdm4 = "";
-    ID cdm5 = "";
+    IS cdm5 = "";
     CE[] cdm6 = [{}];
     CE[] cdm7 = [{}];
     ID cdm8 = "";

@@ -48,13 +48,13 @@ import ballerinax/health.hl7v2;
             dataType: ID
         },
         "ail3": {
-            required: true,
+            required: false,
             length: 1,
             maxReps: 1,
             dataType: PL
         },
         "ail4": {
-            required: false,
+            required: true,
             length: 1,
             maxReps: 1,
             dataType: CE

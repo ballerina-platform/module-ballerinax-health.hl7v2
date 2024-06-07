@@ -127,13 +127,13 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: CN
+            dataType: XCN
         },
         "rxo15": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: CN
+            dataType: XCN
         },
         "rxo16": {
             required: false,
@@ -195,8 +195,8 @@ public type RXO record {
     NM rxo11 = "";
     CE rxo12 = {};
     NM rxo13 = "";
-    CN rxo14 = {};
-    CN rxo15 = {};
+    XCN rxo14 = {};
+    XCN rxo15 = {};
     ID rxo16 = "";
     ST rxo17 = "";
     NM rxo18 = "";

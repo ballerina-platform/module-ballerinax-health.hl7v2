@@ -46,13 +46,13 @@ import ballerinax/health.hl7v2;
     maxReps: 0,
     fields: {
         "rxg1": {
-            required: false,
+            required: true,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: NM
         },
         "rxg2": {
-            required: true,
+            required: false,
             length: 1,
             maxReps: 1,
             dataType: NM
@@ -120,7 +120,7 @@ import ballerinax/health.hl7v2;
         "rxg13": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CE
         },
         "rxg14": {
@@ -174,7 +174,7 @@ import ballerinax/health.hl7v2;
         "rxg22": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CE
         }
     }
@@ -182,7 +182,7 @@ import ballerinax/health.hl7v2;
 public type RXG record {
     *hl7v2:Segment;
     string name = RXG_SEGMENT_NAME;
-    ID rxg1 = "";
+    NM rxg1 = "";
     NM rxg2 = "";
     TQ rxg3 = {};
     CE rxg4 = {};
@@ -194,7 +194,7 @@ public type RXG record {
     ID rxg10 = "";
     CM_LA1 rxg11 = {};
     ID rxg12 = "";
-    CE rxg13 = {};
+    CE[] rxg13 = [{}];
     ST rxg14 = "";
     ST rxg15 = "";
     CE rxg16 = {};
@@ -203,7 +203,7 @@ public type RXG record {
     ST[] rxg19 = [""];
     TS[] rxg20 = [{}];
     CE[] rxg21 = [{}];
-    CE rxg22 = {};
+    CE[] rxg22 = [{}];
 };
 
 public const RXG_SEGMENT_NAME = "RXG";

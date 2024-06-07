@@ -79,7 +79,7 @@ import ballerinax/health.hl7v2;
             dataType: SI
         },
         "in12": {
-            required: false,
+            required: true,
             length: 1,
             maxReps: 1,
             dataType: CE
@@ -87,25 +87,25 @@ import ballerinax/health.hl7v2;
         "in13": {
             required: true,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CX
         },
         "in14": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XON
         },
         "in15": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XAD
         },
         "in16": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XPN
         },
         "in17": {
@@ -123,19 +123,19 @@ import ballerinax/health.hl7v2;
         "in19": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XON
         },
         "in110": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CX
         },
         "in111": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XON
         },
         "in112": {
@@ -165,7 +165,7 @@ import ballerinax/health.hl7v2;
         "in116": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XPN
         },
         "in117": {
@@ -183,7 +183,7 @@ import ballerinax/health.hl7v2;
         "in119": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XAD
         },
         "in120": {
@@ -250,7 +250,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: XPN
+            dataType: XCN
         },
         "in131": {
             required: false,
@@ -333,7 +333,7 @@ import ballerinax/health.hl7v2;
         "in144": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XAD
         },
         "in145": {
@@ -363,7 +363,7 @@ import ballerinax/health.hl7v2;
         "in149": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CX
         }
     }
@@ -373,23 +373,23 @@ public type IN1 record {
     string name = IN1_SEGMENT_NAME;
     SI in11 = "";
     CE in12 = {};
-    CX in13 = {};
-    XON in14 = {};
-    XAD in15 = {};
-    XPN in16 = {};
+    CX[] in13 = [{}];
+    XON[] in14 = [{}];
+    XAD[] in15 = [{}];
+    XPN[] in16 = [{}];
     XTN[] in17 = [{}];
     ST in18 = "";
-    XON in19 = {};
-    CX in110 = {};
-    XON in111 = {};
+    XON[] in19 = [{}];
+    CX[] in110 = [{}];
+    XON[] in111 = [{}];
     DT in112 = "";
     DT in113 = "";
     CM_AUI in114 = {};
     IS in115 = "";
-    XPN in116 = {};
+    XPN[] in116 = [{}];
     IS in117 = "";
     TS in118 = {};
-    XAD in119 = {};
+    XAD[] in119 = [{}];
     IS in120 = "";
     IS in121 = "";
     ST in122 = "";
@@ -400,7 +400,7 @@ public type IN1 record {
     IS in127 = "";
     ST in128 = "";
     TS in129 = {};
-    XPN in130 = {};
+    XCN in130 = {};
     IS in131 = "";
     IS in132 = "";
     NM in133 = "";
@@ -414,12 +414,12 @@ public type IN1 record {
     CP in141 = {};
     CE in142 = {};
     IS in143 = "";
-    XAD in144 = {};
+    XAD[] in144 = [{}];
     ST in145 = "";
     IS in146 = "";
     IS in147 = "";
     IS in148 = "";
-    CX in149 = {};
+    CX[] in149 = [{}];
 };
 
 public const IN1_SEGMENT_NAME = "IN1";
