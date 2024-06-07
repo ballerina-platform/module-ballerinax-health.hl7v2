@@ -62,7 +62,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: ID
+            dataType: IS
         },
         "ldp6": {
             required: false,
@@ -109,7 +109,7 @@ public type LDP record {
     IS ldp2 = "";
     IS[] ldp3 = [""];
     CE[] ldp4 = [{}];
-    ID[] ldp5 = [""];
+    IS[] ldp5 = [""];
     ID ldp6 = "";
     TS ldp7 = {};
     TS ldp8 = {};

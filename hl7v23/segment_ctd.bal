@@ -31,9 +31,9 @@ import ballerinax/health.hl7v2;
     maxReps: 0,
     fields: {
         "ctd1": {
-            required: true,
+            required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CE
         },
         "ctd2": {
@@ -77,7 +77,7 @@ import ballerinax/health.hl7v2;
 public type CTD record {
     *hl7v2:Segment;
     string name = CTD_SEGMENT_NAME;
-    CE ctd1 = {};
+    CE[] ctd1 = [{}];
     XPN[] ctd2 = [{}];
     XAD[] ctd3 = [{}];
     PL ctd4 = {};

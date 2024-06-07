@@ -59,7 +59,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: CE
+            dataType: CX
         },
         "stf3": {
             required: false,
@@ -107,13 +107,13 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: TN
+            dataType: XTN
         },
         "stf11": {
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: AD
+            dataType: XAD
         },
         "stf12": {
             required: false,
@@ -211,7 +211,7 @@ public type STF record {
     *hl7v2:Segment;
     string name = STF_SEGMENT_NAME;
     CE stf1 = {};
-    CE[] stf2 = [{}];
+    CX[] stf2 = [{}];
     XPN stf3 = {};
     ID[] stf4 = [""];
     IS stf5 = "";
@@ -219,8 +219,8 @@ public type STF record {
     ID stf7 = "";
     CE[] stf8 = [{}];
     CE[] stf9 = [{}];
-    TN[] stf10 = [""];
-    AD[] stf11 = [{}];
+    XTN[] stf10 = [{}];
+    XAD[] stf11 = [{}];
     CM_DIN[] stf12 = [{}];
     CM_DIN[] stf13 = [{}];
     CE[] stf14 = [{}];

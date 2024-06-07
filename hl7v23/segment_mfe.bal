@@ -49,7 +49,7 @@ import ballerinax/health.hl7v2;
             required: true,
             length: 1,
             maxReps: -1,
-            dataType: CE
+            dataType: varies
         }
     }
 }
@@ -59,7 +59,7 @@ public type MFE record {
     ID mfe1 = "";
     ST mfe2 = "";
     TS mfe3 = {};
-    CE[] mfe4 = [{}];
+    varies[] mfe4 = [{}];
 };
 
 public const MFE_SEGMENT_NAME = "MFE";

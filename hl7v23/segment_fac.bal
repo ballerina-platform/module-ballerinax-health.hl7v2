@@ -38,7 +38,7 @@ import ballerinax/health.hl7v2;
         "fac1": {
             required: true,
             length: 1,
-            maxReps: -1,
+            maxReps: 1,
             dataType: EI
         },
         "fac2": {
@@ -112,7 +112,7 @@ import ballerinax/health.hl7v2;
 public type FAC record {
     *hl7v2:Segment;
     string name = FAC_SEGMENT_NAME;
-    EI[] fac1 = [{}];
+    EI fac1 = {};
     ID fac2 = "";
     XAD fac3 = {};
     XTN fac4 = {};

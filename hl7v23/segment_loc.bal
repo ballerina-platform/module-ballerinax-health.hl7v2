@@ -77,7 +77,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: ID
+            dataType: IS
         }
     }
 }
@@ -91,7 +91,7 @@ public type LOC record {
     XAD loc5 = {};
     XTN[] loc6 = [{}];
     CE[] loc7 = [{}];
-    ID[] loc8 = [""];
+    IS[] loc8 = [""];
 };
 
 public const LOC_SEGMENT_NAME = "LOC";

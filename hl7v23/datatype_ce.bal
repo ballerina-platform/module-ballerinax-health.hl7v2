@@ -31,10 +31,10 @@ import ballerinax/health.hl7v2;
 }
 public type CE record {
     *hl7v2:CompositeType;
-    ID ce1 = "";
+    ST ce1 = "";
     ST ce2 = "";
     ST ce3 = "";
-    ID ce4 = "";
+    ST ce4 = "";
     ST ce5 = "";
     ST ce6 = "";
 };

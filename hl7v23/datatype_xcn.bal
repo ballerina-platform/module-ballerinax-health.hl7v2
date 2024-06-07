@@ -46,7 +46,7 @@ public type XCN record {
     ST xcn5 = "";
     ST xcn6 = "";
     ST xcn7 = "";
-    ID xcn8 = "";
+    IS xcn8 = "";
     HD xcn9 = {};
     ID xcn10 = "";
     ST xcn11 = "";

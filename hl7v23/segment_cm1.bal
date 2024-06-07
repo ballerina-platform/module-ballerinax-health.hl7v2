@@ -33,7 +33,7 @@ import ballerinax/health.hl7v2;
             dataType: SI
         },
         "cm12": {
-            required: false,
+            required: true,
             length: 1,
             maxReps: 1,
             dataType: CE

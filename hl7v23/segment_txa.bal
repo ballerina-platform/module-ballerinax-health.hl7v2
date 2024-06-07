@@ -145,7 +145,7 @@ import ballerinax/health.hl7v2;
         "txa17": {
             required: true,
             length: 1,
-            maxReps: -1,
+            maxReps: 1,
             dataType: ID
         },
         "txa18": {
@@ -205,7 +205,7 @@ public type TXA record {
     EI[] txa14 = [{}];
     EI txa15 = {};
     ST txa16 = "";
-    ID[] txa17 = [""];
+    ID txa17 = "";
     ID txa18 = "";
     ID txa19 = "";
     ID txa20 = "";

@@ -122,7 +122,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: CE
         },
         "ub114": {
             required: false,
@@ -146,7 +146,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: CE
         },
         "ub118": {
             required: false,
@@ -201,11 +201,11 @@ public type UB1 record {
     CM_UVC[] ub110 = [{}];
     NM ub111 = "";
     CE ub112 = {};
-    ID ub113 = "";
+    CE ub113 = {};
     DT ub114 = "";
     DT ub115 = "";
     CM_OCD[] ub116 = [{}];
-    ID ub117 = "";
+    CE ub117 = {};
     DT ub118 = "";
     DT ub119 = "";
     ST ub120 = "";

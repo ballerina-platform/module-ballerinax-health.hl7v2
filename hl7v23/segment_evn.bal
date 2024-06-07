@@ -30,13 +30,13 @@ import ballerinax/health.hl7v2;
     maxReps: 0,
     fields: {
         "evn1": {
-            required: true,
+            required: false,
             length: 1,
             maxReps: 1,
             dataType: ID
         },
         "evn2": {
-            required: false,
+            required: true,
             length: 1,
             maxReps: 1,
             dataType: TS
@@ -51,13 +51,13 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "evn5": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: CN
+            dataType: XCN
         },
         "evn6": {
             required: false,
@@ -73,8 +73,8 @@ public type EVN record {
     ID evn1 = "";
     TS evn2 = {};
     TS evn3 = {};
-    ID evn4 = "";
-    CN evn5 = {};
+    IS evn4 = "";
+    XCN evn5 = {};
     TS evn6 = {};
 };
 
