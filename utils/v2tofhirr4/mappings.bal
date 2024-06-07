@@ -223,7 +223,7 @@ public isolated function mshToMessageHeader(hl7v2commons:Msh msh) returns intern
 public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns international401:AllergyIntolerance {
 
     international401:AllergyIntoleranceReaction[] allergyIntoleranceReactions = [];
-    if al1.al15 is hl7v23:ST {
+    if al1.al15 is hl7v23:ST && al1 is hl7v23:AL1|hl7v231:AL1|hl7v24:AL1|hl7v25:AL1|hl7v251:AL1|hl7v26:AL1 {
         allergyIntoleranceReactions = [
             {
                 manifestation: (al1.al15 != "") ? [
@@ -237,13 +237,17 @@ public isolated function al1ToAllerygyIntolerance(hl7v2commons:Al1 al1) returns 
     } else {
         foreach var reaction in <anydata[]>al1.al15 {
             if reaction != "" {
+                string? al16 = ();
+                if al1 is hl7v23:AL1|hl7v231:AL1|hl7v24:AL1|hl7v25:AL1|hl7v251:AL1|hl7v26:AL1 {
+                    al16 = (al1.al16 != "") ? al1.al16.toString() : ();
+                }
                 international401:AllergyIntoleranceReaction allergyIntoleranceReaction = {
                     manifestation: [
                         {
                             text: <string?>reaction
                         }
                     ],
-                    onset: (al1.al16 != "") ? al1.al16 : ()
+                    onset: al16
                 };
                 allergyIntoleranceReactions.push(allergyIntoleranceReaction);
             }
@@ -391,7 +395,7 @@ public isolated function pidToPatient(hl7v2commons:Pid pid) returns internationa
         identifier: pidToSsnNumberIdentifier(pid.pid19),
         extension: (pid.pid23 != "") ? pidToBirthPlace(pid.pid23) : (),
         multipleBirthBoolean: (pid.pid24 != "") ? pidToMultipleBirthIndicator(pid.pid24) : (),
-        multipleBirthInteger: (pid.pid25 != -1.0) ? pidToBirthOrder(pid.pid25) : (),
+        multipleBirthInteger: (pid.pid25 != "-1.0") ? pidToBirthOrder(pid.pid25) : (),
         deceasedBoolean: (pid.pid30 != "") ? pidToPatientDeathIndicator(pid.pid30) : ()
     };
 
@@ -548,26 +552,36 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
     international401:EncounterParticipant[] participants = [];
 
     int i = 0;
-    while i < pv1.pv17.length() {
+    int len = 1; // in hl7v23 case
+    if pv1 is hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1|hl7v27:PV1|hl7v28:PV1 {
+        len = pv1.pv17.length();
+    }
+    while i < len {
         string system = "";
+        string xcn1 = "";
+        string xcn10 = "";
         if pv1 is hl7v27:PV1|hl7v28:PV1 {
             system = pv1.pv17[i].xcn8.cwe1;
+            xcn1 = pv1.pv17[i].xcn1;
+            xcn10 = pv1.pv17[i].xcn10;
         } else if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
             system = pv1.pv17[i].xcn8;
+            xcn1 = pv1.pv17[i].xcn1;
+            xcn10 = pv1.pv17[i].xcn10;
         }
 
         international401:EncounterParticipant encounterParticipant =
             {
-            individual: (pv1.pv17[i].xcn1 != "") ? {
-                    display: pv1.pv17[i].xcn1
+            individual: (xcn1 != "") ? {
+                    display: xcn1
                 } : (),
-            'type: (pv1.pv17[i].xcn10 != "") ? [
+            'type: (xcn10 != "") ? [
                     {
                         coding: [
                             {
-                                code: pv1.pv17[i].xcn10,
+                                code: xcn10,
                                 system: system != "" ? system : (),
-                                display: pv1.pv17[i].xcn10 != "" ? pv1.pv17[i].xcn10 : ()
+                                display: xcn10 != "" ? xcn10 : ()
                             }
                         ]
                     }
@@ -579,24 +593,34 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
         i = +1;
     }
     i = 0;
-    while i < pv1.pv18.length() {
+    int lenPv18 = 1; // in hl7v23 case
+    if pv1 is hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1|hl7v27:PV1|hl7v28:PV1 {
+        lenPv18 = pv1.pv18.length();
+    }
+    while i < lenPv18 {
         string system = "";
+        string xcn1 = "";
+        string xcn10 = "";
         if pv1 is hl7v27:PV1|hl7v28:PV1 {
             system = pv1.pv18[i].xcn8.cwe1;
+            xcn1 = pv1.pv18[i].xcn1;
+            xcn10 = pv1.pv18[i].xcn10;
         } else if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
             system = pv1.pv18[i].xcn8;
+            xcn1 = pv1.pv18[i].xcn1;
+            xcn10 = pv1.pv18[i].xcn10;
         }
         international401:EncounterParticipant encounterParticipant = {
-            individual: (pv1.pv18[i].xcn1 != "") ? {
-                    display: pv1.pv18[i].xcn1
+            individual: (xcn1 != "") ? {
+                    display: xcn1
                 } : (),
-            'type: (pv1.pv18[i].xcn10 != "") ? [
+            'type: (xcn10 != "") ? [
                     {
                         coding: [
                             {
-                                code: pv1.pv18[i].xcn10,
+                                code: xcn10,
                                 system: system != "" ? system : (),
-                                display: pv1.pv18[i].xcn10 != "" ? pv1.pv18[i].xcn10 : ()
+                                display: xcn10 != "" ? xcn10 : ()
                             }
                         ]
                     }
@@ -639,25 +663,37 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
     }
 
     i = 0;
-    while i < pv1.pv117.length() {
+    int lenPv17 = 1; // in hl7v23 case
+    if pv1 is hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1|hl7v27:PV1|hl7v28:PV1 {
+        lenPv18 = pv1.pv17.length();
+    }
+    while i < lenPv17 {
         string system = "";
-        string code = pv1.pv17[i].xcn10;
+        string code = "";
+        string xcn1 = "";
+        string xcn10 = "";
         if pv1 is hl7v27:PV1|hl7v28:PV1 {
             system = pv1.pv17[i].xcn8.cwe1;
+            code = pv1.pv17[i].xcn10;
+            xcn1 = pv1.pv17[i].xcn1;
+            xcn10 = pv1.pv17[i].xcn10;
         } else if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
             system = pv1.pv17[i].xcn8;
+            code = pv1.pv17[i].xcn10;
+            xcn1 = pv1.pv17[i].xcn1;
+            xcn10 = pv1.pv17[i].xcn10;
         }
         international401:EncounterParticipant encounterParticipant = {
-            individual: (pv1.pv117[i].xcn1 != "") ? {
-                    display: pv1.pv117[i].xcn1
+            individual: (xcn1 != "") ? {
+                    display: xcn1
                 } : (),
-            'type: (pv1.pv17[i].xcn10 != "") ? [
+            'type: (xcn10 != "") ? [
                     {
                         coding: [
                             {
                                 code: code != "" ? code : (),
                                 system: system != "" ? system : (),
-                                display: pv1.pv17[i].xcn10 != "" ? pv1.pv17[i].xcn10 : ()
+                                display: xcn10 != "" ? xcn10 : ()
                             }
                         ]
                     }
@@ -669,33 +705,13 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
         i = +1;
     }
 
-    if pv1 is hl7v23:PV1 {
-        international401:EncounterParticipant encounterParticipant = {
-            individual: (pv1.pv152.xcn1 != "") ? {
-                    display: pv1.pv152.xcn1
-                } : (),
-            'type: (pv1.pv152.xcn8 != "") ? [
-                    {
-                        coding: [
-                            {
-                                code: "PART",
-                                system: pv1.pv152.xcn8
-                            }
-                        ],
-                        text: "Participation"
-                    }
-                ] : ()
-        };
-        if encounterParticipant != {} {
-            participants.push(encounterParticipant);
-        }
-    } else if pv1 is hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
+    if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
         // Define pv1.pv152 hl7v27:PV1, hl7v28:PV1
         i = 0;
         while i < pv1.pv152.length() {
             international401:EncounterParticipant encounterParticipant = {
-                individual: (pv1.pv117[i].xcn1 != "") ? {
-                        display: pv1.pv117[i].xcn1
+                individual: (pv1.pv152[i].xcn1 != "") ? {
+                        display: pv1.pv152[i].xcn1
                     } : (),
                 'type: (pv1.pv152[i].xcn8 != "") ? [
                         {
@@ -1225,16 +1241,9 @@ public isolated function obrToDiagnosticReport(hl7v2commons:Obr obr) returns int
         diagnosticReport.effectivePeriod.end = tsToDateTime(obr.obr8);
         diagnosticReport.issued = tsToInstant(obr.obr22);
     }
-    if obr is hl7v23:OBR {
-        r4:Identifier eiToIdentifierResult = eiToIdentifier((<hl7v23:OBR>obr).obr2[0]);
-        if eiToIdentifierResult != {} {
-            diagnosticReport.subject.identifier = eiToIdentifierResult;
-        }
-    } else if obr is hl7v231:OBR|hl7v24:OBR|hl7v25:OBR|hl7v251:OBR|hl7v26:OBR|hl7v27:OBR|hl7v28:OBR {
-        r4:Identifier eiToIdentifierResult = eiToIdentifier((<hl7v231:OBR|hl7v24:OBR|hl7v25:OBR|hl7v251:OBR|hl7v26:OBR|hl7v27:OBR|hl7v28:OBR>obr).obr2);
-        if eiToIdentifierResult != {} {
-            diagnosticReport.subject.identifier = eiToIdentifierResult;
-        }
+    r4:Identifier eiToIdentifierResult = eiToIdentifier((<hl7v23:OBR|hl7v231:OBR|hl7v24:OBR|hl7v25:OBR|hl7v251:OBR|hl7v26:OBR|hl7v27:OBR|hl7v28:OBR>obr).obr2);
+    if eiToIdentifierResult != {} {
+        diagnosticReport.subject.identifier = eiToIdentifierResult;
     }
     return diagnosticReport;
 };
@@ -1277,27 +1286,14 @@ public function orcToDiagnosticReport(hl7v2commons:Orc orc) returns internationa
     r4:Identifier[] identifierList = [];
 
     r4:Identifier id1 = {};
-    if orc.orc2 is hl7v23:EI[] {
-        foreach var item in <hl7v23:EI[]>orc.orc2 {
-            r4:CodeableConcept tempCC = {coding: [eiToCoding(item)]};
-            identifierList.push({
-                'type: tempCC
-            });
-            r4:CodeableConcept cc1 = {coding: [eiToCoding(item)]};
-            id1 = {
-                'type: cc1
-            };
-        }
-    } else if orc.orc2 is hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI {
-        r4:CodeableConcept tempCC = {coding: [eiToCoding(<hl7v23:EI|hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI>orc.orc2)]};
-        identifierList.push({
-            'type: tempCC
-        });
-        r4:CodeableConcept cc1 = {coding: [eiToCoding(<hl7v23:EI|hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI>orc.orc2)]};
-        id1 = {
-            'type: cc1
-        };
-    }
+    r4:CodeableConcept tempCC = {coding: [eiToCoding(<hl7v23:EI|hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI>orc.orc2)]};
+    identifierList.push({
+        'type: tempCC
+    });
+    r4:CodeableConcept cc1 = {coding: [eiToCoding(<hl7v23:EI|hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI>orc.orc2)]};
+    id1 = {
+        'type: cc1
+    };
 
     r4:CodeableConcept cc2 = {coding: [eiToCoding(orc.orc3)]};
 
@@ -1351,30 +1347,15 @@ public isolated function orcToImmunization(hl7v2commons:Orc orc) returns interna
     r4:Identifier[] identifierList = [];
     r4:Identifier id1 = {};
 
-    if orc.orc2 is hl7v23:EI[] {
-        foreach var item in <hl7v23:EI[]>orc.orc2 {
-            r4:CodeableConcept tempCC = {coding: [eiToCoding(item)]};
+    r4:CodeableConcept tempCC = {coding: [eiToCoding(<hl7v23:EI|hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI>orc.orc2)]};
+    identifierList.push({
+        'type: tempCC
+    });
 
-            identifierList.push({
-                'type: tempCC
-            });
-
-            r4:CodeableConcept cc1 = {coding: [eiToCoding(item)]};
-            id1 = {
-                'type: cc1
-            };
-        }
-    } else if orc.orc2 is hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI {
-        r4:CodeableConcept tempCC = {coding: [eiToCoding(<hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI>orc.orc2)]};
-        identifierList.push({
-            'type: tempCC
-        });
-
-        r4:CodeableConcept cc1 = {coding: [eiToCoding(<hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI>orc.orc2)]};
-        id1 = {
-            'type: cc1
-        };
-    }
+    r4:CodeableConcept cc1 = {coding: [eiToCoding(<hl7v23:EI|hl7v231:EI|hl7v24:EI|hl7v25:EI|hl7v251:EI|hl7v26:EI|hl7v27:EI|hl7v28:EI>orc.orc2)]};
+    id1 = {
+        'type: cc1
+    };
 
     r4:CodeableConcept cc2 = {coding: [eiToCoding(orc.orc3)]};
 
