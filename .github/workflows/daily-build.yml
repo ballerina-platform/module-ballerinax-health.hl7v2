@@ -1,0 +1,46 @@
+# This workflow runs daily to build, test, and upload code coverage reports for Ballerina projects to Codecov.
+name: Daily build
+
+on:
+  schedule:
+    - cron:  '00 20 * * *'    # 01:30 in LK time (GMT+5:30)
+  workflow_dispatch:
+
+env:
+  BALLERINA_VERSION: 2201.9.0
+
+jobs:
+  build:
+    name: Build, Test, and Upload Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Ballerina
+        uses: ballerina-platform/setup-ballerina@v1.1.0
+        with:
+          version: $BALLERINA_VERSION
+
+      - name: Build and Test Ballerina Projects
+        run: |
+          # Find Ballerina Project Folders
+          BALLERINA_PROJECT_FOLDERS=$(find . -name "Ballerina.toml" -printf '%p\n' | sed 's/\/Ballerina.toml$//' | sort -u | tr '\n' ' ')
+
+          # Convert BALLERINA_PROJECT_FOLDERS to an array
+          read -r -a BALLERINA_PROJECTS <<<"${BALLERINA_PROJECT_FOLDERS}"
+
+          # Build and Generate Coverage Report With Ballerina
+          for folder in "${BALLERINA_PROJECTS[@]}"; do
+            pushd "$folder"
+            bal build
+            bal test --test-report --code-coverage --coverage-format=xml
+            popd
+          done
+
+      - name: Upload Coverage Reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true # Optional: Specify if the CI build should fail when Codecov fails.
