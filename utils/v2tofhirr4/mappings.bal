@@ -1,3 +1,4 @@
+import ballerina/http;
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -13,6 +14,7 @@
 import ballerina/log;
 import ballerinax/health.fhir.r4 as r4;
 import ballerinax/health.fhir.r4.international401;
+import ballerinax/health.fhir.r4.parser as fhirParser;
 import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.hl7v23;
 import ballerinax/health.hl7v231;
@@ -35,7 +37,7 @@ public isolated function stringToHl7(string msg) returns hl7:Message|error => ch
 # + hl7 - HL7 message as a string or an hl7v2:Message  
 # + customMapper - Custom mapper implementation
 # + return - FHIR Bundle as a json
-public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper? customMapper = ()) returns json|error {
+public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper? customMapper = (), V2ToFhirCustomServiceConfig? serviceconf = ()) returns json|error {
     hl7:Message hl7msg;
     if (hl7 is string) {
         hl7msg = check stringToHl7(hl7);
@@ -43,13 +45,13 @@ public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper?
         hl7msg = hl7;
     }
     if customMapper == () {
-        return transformToFhir(hl7msg, defaultMapper);
+        return transformToFhir(hl7msg, defaultMapper, serviceconf);
     }
     V2SegmentToFhirMapper mapper = {...defaultMapper};
     foreach string key in customMapper.keys() {
         mapper[key] = customMapper.get(key);
     }
-    return transformToFhir(hl7msg, mapper);
+    return transformToFhir(hl7msg, mapper, serviceconf);
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -62,7 +64,7 @@ public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper?
 # + segment - HL7 segment  
 # + customMapper - Custom mapper implementation
 # + return - FHIR Bundle
-public isolated function segmentToFhir(string segmentName, hl7:Segment segment, V2SegmentToFhirMapper? customMapper) returns r4:BundleEntry[]|error {
+public isolated function segmentToFhir(string segmentName, hl7:Segment segment, V2SegmentToFhirMapper? customMapper, V2ToFhirCustomServiceConfig? serviceconf) returns r4:BundleEntry[]|error {
     r4:BundleEntry[] entries = [];
     V2SegmentToFhirMapper impl;
     lock {
@@ -72,8 +74,12 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "NK1" => {
             Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
             if nk1ToPatient is Nk1ToPatient {
-                map<anydata> constructedResource = nk1ToPatient(check segment.ensureType(hl7v2commons:Nk1));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = nk1ToPatient(check segment.ensureType(hl7v2commons:Nk1));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -81,8 +87,12 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "PD1" => {
             Pd1ToPatient? pd1ToPatient = impl.pd1ToPatient;
             if pd1ToPatient is Pd1ToPatient {
-                map<anydata> constructedResource = pd1ToPatient(check segment.ensureType(hl7v2commons:Pd1));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = pd1ToPatient(check segment.ensureType(hl7v2commons:Pd1));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -90,8 +100,12 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "PID" => {
             PidToPatient? pidToPatient = impl.pidToPatient;
             if pidToPatient is PidToPatient {
-                map<anydata> constructedResource = pidToPatient(check segment.ensureType(hl7v2commons:Pid));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = pidToPatient(check segment.ensureType(hl7v2commons:Pid));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -99,15 +113,23 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "PV1" => {
             Pv1ToPatient? pv1ToPatientResult = impl.pv1ToPatient;
             if pv1ToPatientResult is Pv1ToPatient {
-                map<anydata> constructedResource = pv1ToPatientResult(check segment.ensureType(hl7v2commons:Pv1));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = pv1ToPatientResult(check segment.ensureType(hl7v2commons:Pv1));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
             Pv1ToEncounter? pv1ToEncounterResult = impl.pv1ToEncounter;
             if pv1ToEncounterResult is Pv1ToEncounter {
-                map<anydata> constructedResource = pv1ToEncounterResult(check segment.ensureType(hl7v2commons:Pv1));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = pv1ToEncounterResult(check segment.ensureType(hl7v2commons:Pv1));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -144,8 +166,12 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "AL1" => {
             Al1ToAllerygyIntolerance? al1ToAllerygyIntolerance = impl.al1ToAllerygyIntolerance;
             if al1ToAllerygyIntolerance is Al1ToAllerygyIntolerance {
-                map<anydata> constructedResource = al1ToAllerygyIntolerance(check segment.ensureType(hl7v2commons:Al1));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = al1ToAllerygyIntolerance(check segment.ensureType(hl7v2commons:Al1));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -153,8 +179,12 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "EVN" => {
             EvnToProvenance? evnToProvenance = impl.evnToProvenance;
             if evnToProvenance is EvnToProvenance {
-                map<anydata> constructedResource = evnToProvenance(check segment.ensureType(hl7v2commons:Evn));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = evnToProvenance(check segment.ensureType(hl7v2commons:Evn));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -162,8 +192,12 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "MSH" => {
             MshToMessageHeader? mshToMessageHeader = impl.mshToMessageHeader;
             if mshToMessageHeader is MshToMessageHeader {
-                map<anydata> constructedResource = mshToMessageHeader(check segment.ensureType(hl7v2commons:Msh));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = mshToMessageHeader(check segment.ensureType(hl7v2commons:Msh));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -171,8 +205,12 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "PV2" => {
             Pv2ToEncounter? pv2ToEncounter = impl.pv2ToEncounter;
             if pv2ToEncounter is Pv2ToEncounter {
-                map<anydata> constructedResource = pv2ToEncounter(check segment.ensureType(hl7v2commons:Pv2));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = pv2ToEncounter(check segment.ensureType(hl7v2commons:Pv2));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -180,8 +218,12 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "OBX" => {
             ObxToObservation? obxToObservation = impl.obxToObservation;
             if obxToObservation is ObxToObservation {
-                map<anydata> constructedResource = obxToObservation(check segment.ensureType(hl7v2commons:Obx));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = obxToObservation(check segment.ensureType(hl7v2commons:Obx));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -189,8 +231,12 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "ORC" => {
             OrcToImmunization? orcToImmunization = impl.orcToImmunization;
             if orcToImmunization is OrcToImmunization {
-                map<anydata> constructedResource = orcToImmunization(check segment.ensureType(hl7v2commons:Orc));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = orcToImmunization(check segment.ensureType(hl7v2commons:Orc));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -198,8 +244,12 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "OBR" => {
             ObrToDiagnosticReport? obrToDiagnosticReport = impl.obrToDiagnosticReport;
             if obrToDiagnosticReport is ObrToDiagnosticReport {
-                map<anydata> constructedResource = obrToDiagnosticReport(check segment.ensureType(hl7v2commons:Obr));
-                if constructedResource.keys().length() > 1 {
+                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = obrToDiagnosticReport(check segment.ensureType(hl7v2commons:Obr));
+                }
+                if constructedResource != {} && constructedResource.keys().length() > 1 {
                     entries.push({'resource: constructedResource});
                 }
             }
@@ -1391,3 +1441,25 @@ public isolated function orcToImmunization(hl7v2commons:Orc orc) returns interna
 
     return immunization;
 };
+
+isolated function getCustomSegmentToResourceMapping(V2ToFhirCustomServiceConfig? serviceconf, hl7:Segment segment) returns [boolean, anydata] {
+    boolean isOverrideResult;
+    if serviceconf != () && serviceconf.segmentToFhirEndpointConfigs.hasKey(segment.name) {
+        do {
+            http:Client serviceEp = check new (serviceconf.baseUrl);
+            string path = serviceconf.segmentToFhirEndpointConfigs.get(segment.name).url;
+            http:Response response = check serviceEp->post(path, segment);
+            anydata|r4:FHIRParseError parsedResponse = fhirParser:parse(check response.getJsonPayload());
+            isOverrideResult = serviceconf.segmentToFhirEndpointConfigs.get(segment.name).overrideResult;
+            if parsedResponse is map<anydata> {
+                return [isOverrideResult, parsedResponse];
+            } else if parsedResponse is r4:FHIRParseError {
+                log:printError(string `Error occurred while parsing the response to FHIR for the segment: 
+                    ${segment.name}`, parsedResponse);
+            }
+        } on fail var e {
+            log:printError("Error occurred while calling the service endpoint: ", e);
+        }
+    }
+    return [false, {}];
+}

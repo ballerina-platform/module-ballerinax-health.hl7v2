@@ -404,7 +404,7 @@ isolated function isTransactionalMessage(hl7:Message message) returns boolean {
         message.name.startsWith("SIU") || message.name.startsWith("MDM") || message.name.startsWith("RDE");
 }
 
-isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMapper) returns json|error {
+isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMapper, V2ToFhirCustomServiceConfig? serviceconf) returns json|error {
     r4:Bundle bundle = {'type: "message"};
     r4:BundleEntry[] entries = [];
     bundle.entry = entries;
@@ -419,14 +419,14 @@ isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? cu
         [key, segment] = <[string, anydata]>segmentField;
         do {
             if segment is hl7:Segment {
-                r4:BundleEntry[] bundleEntries = check segmentToFhir(segment.name, segment, customMapper);
+                r4:BundleEntry[] bundleEntries = check segmentToFhir(segment.name, segment, customMapper, serviceconf);
                 foreach r4:BundleEntry entry in bundleEntries {
                     entries.push(entry);
                 }
             }
             if segment is hl7:Segment[] {
                 foreach hl7:Segment segmentElem in segment {
-                    r4:BundleEntry[] bundleEntries = check segmentToFhir(segmentElem.name, segmentElem, customMapper);
+                    r4:BundleEntry[] bundleEntries = check segmentToFhir(segmentElem.name, segmentElem, customMapper, serviceconf);
                     foreach r4:BundleEntry entry in bundleEntries {
                         entries.push(entry);
                     }
@@ -438,7 +438,7 @@ isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? cu
                     anydata segmentComponent;
                     [_, segmentComponent] = <[string, anydata]>segmentComponentField;
                     if segmentComponent is hl7:Segment {
-                        r4:BundleEntry[] bundleEntries = check segmentToFhir(segmentComponent.name, segmentComponent, customMapper);
+                        r4:BundleEntry[] bundleEntries = check segmentToFhir(segmentComponent.name, segmentComponent, customMapper, serviceconf);
                         foreach r4:BundleEntry entry in bundleEntries {
                             entries.push(entry);
                         }
