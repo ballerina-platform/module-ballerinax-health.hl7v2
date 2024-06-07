@@ -114,13 +114,13 @@ import ballerinax/health.hl7v2;
         "pv17": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XCN
         },
         "pv18": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XCN
         },
         "pv19": {
@@ -133,7 +133,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv111": {
             required: false,
@@ -145,43 +145,43 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv113": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv114": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv115": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: IS
         },
         "pv116": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv117": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XCN
         },
         "pv118": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv119": {
             required: false,
@@ -199,25 +199,25 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv122": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv123": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv124": {
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: ID
+            dataType: IS
         },
         "pv125": {
             required: false,
@@ -241,13 +241,13 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv129": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv130": {
             required: false,
@@ -259,7 +259,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv132": {
             required: false,
@@ -277,7 +277,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv135": {
             required: false,
@@ -289,7 +289,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv137": {
             required: false,
@@ -301,13 +301,13 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv139": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv140": {
             required: false,
@@ -319,7 +319,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pv142": {
             required: false,
@@ -398,41 +398,41 @@ public type PV1 record {
     ID pv14 = "";
     CX pv15 = {};
     PL pv16 = {};
-    XCN pv17 = {};
-    XCN pv18 = {};
+    XCN[] pv17 = [{}];
+    XCN[] pv18 = [{}];
     XCN[] pv19 = [{}];
-    ID pv110 = "";
+    IS pv110 = "";
     PL pv111 = {};
-    ID pv112 = "";
-    ID pv113 = "";
-    ID pv114 = "";
-    IS pv115 = "";
-    ID pv116 = "";
-    XCN pv117 = {};
-    ID pv118 = "";
+    IS pv112 = "";
+    IS pv113 = "";
+    IS pv114 = "";
+    IS[] pv115 = [""];
+    IS pv116 = "";
+    XCN[] pv117 = [{}];
+    IS pv118 = "";
     CX pv119 = {};
     FC[] pv120 = [{}];
-    ID pv121 = "";
-    ID pv122 = "";
-    ID pv123 = "";
-    ID[] pv124 = [""];
+    IS pv121 = "";
+    IS pv122 = "";
+    IS pv123 = "";
+    IS[] pv124 = [""];
     DT[] pv125 = [""];
     NM[] pv126 = [""];
     NM[] pv127 = [""];
-    ID pv128 = "";
-    ID pv129 = "";
+    IS pv128 = "";
+    IS pv129 = "";
     DT pv130 = "";
-    ID pv131 = "";
+    IS pv131 = "";
     NM pv132 = "";
     NM pv133 = "";
-    ID pv134 = "";
+    IS pv134 = "";
     DT pv135 = "";
-    ID pv136 = "";
+    IS pv136 = "";
     CM_DLD pv137 = {};
-    ID pv138 = "";
-    ID pv139 = "";
+    IS pv138 = "";
+    IS pv139 = "";
     IS pv140 = "";
-    ID pv141 = "";
+    IS pv141 = "";
     PL pv142 = {};
     PL pv143 = {};
     TS pv144 = {};

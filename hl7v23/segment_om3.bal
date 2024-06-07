@@ -67,7 +67,7 @@ import ballerinax/health.hl7v2;
             dataType: CE
         },
         "om37": {
-            required: true,
+            required: false,
             length: 1,
             maxReps: 1,
             dataType: ID

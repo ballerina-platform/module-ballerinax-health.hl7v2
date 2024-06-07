@@ -75,7 +75,7 @@ import ballerinax/health.hl7v2;
         "obr2": {
             required: false,
             length: 1,
-            maxReps: -1,
+            maxReps: 1,
             dataType: EI
         },
         "obr3": {
@@ -223,9 +223,9 @@ import ballerinax/health.hl7v2;
             dataType: CM_PRL
         },
         "obr27": {
-            required: true,
+            required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: TQ
         },
         "obr28": {
@@ -330,7 +330,7 @@ public type OBR record {
     *hl7v2:Segment;
     string name = OBR_SEGMENT_NAME;
     SI obr1 = "";
-    EI[] obr2 = [{}];
+    EI obr2 = {};
     EI obr3 = {};
     CE obr4 = {};
     ID obr5 = "";
@@ -355,7 +355,7 @@ public type OBR record {
     ID obr24 = "";
     ID obr25 = "";
     CM_PRL obr26 = {};
-    TQ obr27 = {};
+    TQ[] obr27 = [{}];
     XCN[] obr28 = [{}];
     CM_EIP obr29 = {};
     ID obr30 = "";

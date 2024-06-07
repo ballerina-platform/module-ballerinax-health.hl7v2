@@ -38,7 +38,7 @@ import ballerinax/health.hl7v2;
         "pd11": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: IS
         },
         "pd12": {
@@ -112,7 +112,7 @@ import ballerinax/health.hl7v2;
 public type PD1 record {
     *hl7v2:Segment;
     string name = PD1_SEGMENT_NAME;
-    IS pd11 = "";
+    IS[] pd11 = [""];
     IS pd12 = "";
     XON[] pd13 = [{}];
     XCN[] pd14 = [{}];

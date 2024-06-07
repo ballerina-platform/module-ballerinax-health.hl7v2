@@ -27,7 +27,7 @@ import ballerinax/health.hl7v2;
     maxReps: 0,
     fields: {
         "css1": {
-            required: false,
+            required: true,
             length: 1,
             maxReps: 1,
             dataType: CE

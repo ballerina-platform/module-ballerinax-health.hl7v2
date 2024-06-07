@@ -141,7 +141,7 @@ import ballerinax/health.hl7v2;
         "nk114": {
             required: false,
             length: 1,
-            maxReps: -1,
+            maxReps: 1,
             dataType: IS
         },
         "nk115": {
@@ -159,19 +159,19 @@ import ballerinax/health.hl7v2;
         "nk117": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: IS
         },
         "nk118": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: IS
         },
         "nk119": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: IS
         },
         "nk120": {
@@ -231,7 +231,7 @@ import ballerinax/health.hl7v2;
         "nk129": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CE
         },
         "nk130": {
@@ -300,12 +300,12 @@ public type NK1 record {
     JCC nk111 = {};
     CX nk112 = {};
     XON[] nk113 = [{}];
-    IS[] nk114 = [""];
+    IS nk114 = "";
     IS nk115 = "";
     TS nk116 = {};
-    IS nk117 = "";
-    IS nk118 = "";
-    IS nk119 = "";
+    IS[] nk117 = [""];
+    IS[] nk118 = [""];
+    IS[] nk119 = [""];
     CE nk120 = {};
     IS nk121 = "";
     CE nk122 = {};
@@ -315,7 +315,7 @@ public type NK1 record {
     XPN nk126 = {};
     CE nk127 = {};
     IS nk128 = "";
-    CE nk129 = {};
+    CE[] nk129 = [{}];
     XPN[] nk130 = [{}];
     XTN[] nk131 = [{}];
     XAD[] nk132 = [{}];

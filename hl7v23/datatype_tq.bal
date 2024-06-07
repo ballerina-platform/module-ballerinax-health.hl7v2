@@ -36,7 +36,7 @@ import ballerinax/health.hl7v2;
 public type TQ record {
     *hl7v2:CompositeType;
     CQ tq1 = {};
-    CM_RI tq2 = {};
+    RI tq2 = {};
     ST tq3 = "";
     TS tq4 = {};
     TS tq5 = {};

@@ -131,7 +131,7 @@ import ballerinax/health.hl7v2;
             dataType: ST
         },
         "arq15": {
-            required: false,
+            required: true,
             length: 1,
             maxReps: 1,
             dataType: XCN
@@ -139,7 +139,7 @@ import ballerinax/health.hl7v2;
         "arq16": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: XTN
         },
         "arq17": {
@@ -204,7 +204,7 @@ public type ARQ record {
     RI arq13 = {};
     ST arq14 = "";
     XCN arq15 = {};
-    XTN arq16 = {};
+    XTN[] arq16 = [{}];
     XAD arq17 = {};
     PL arq18 = {};
     XCN arq19 = {};

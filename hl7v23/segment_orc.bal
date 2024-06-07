@@ -51,7 +51,7 @@ import ballerinax/health.hl7v2;
         "orc2": {
             required: false,
             length: 1,
-            maxReps: -1,
+            maxReps: 1,
             dataType: EI
         },
         "orc3": {
@@ -124,7 +124,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: TN
+            dataType: XTN
         },
         "orc15": {
             required: false,
@@ -162,7 +162,7 @@ public type ORC record {
     *hl7v2:Segment;
     string name = ORC_SEGMENT_NAME;
     ID orc1 = "";
-    EI[] orc2 = [{}];
+    EI orc2 = {};
     EI orc3 = {};
     EI orc4 = {};
     ID orc5 = "";
@@ -174,7 +174,7 @@ public type ORC record {
     XCN orc11 = {};
     XCN[] orc12 = [{}];
     PL orc13 = {};
-    TN[] orc14 = [""];
+    XTN[] orc14 = [{}];
     TS orc15 = {};
     CE orc16 = {};
     CE orc17 = {};
