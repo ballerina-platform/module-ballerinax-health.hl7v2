@@ -107,8 +107,12 @@ public isolated function xadToAddress(Xad xad) returns r4:Address? {
 };
 
 public isolated function xonToOrganization(Xon xon) returns international401:Organization {
+    string? xon3 = ();
+    if xon is hl7v23:XON|hl7v231:XON|hl7v24:XON|hl7v25:XON|hl7v251:XON|hl7v26:XON {
+        xon3 = (xon.xon3 != "") ? xon.xon3.toString() : ();
+    }
     r4:Identifier identifier = {
-        value: (xon.xon3 != "") ? xon.xon3.toString() : (),
+        value: xon3,
         'type: (xon.xon7 != "") ? {
                 coding: [
                     {
@@ -128,8 +132,12 @@ public isolated function xonToOrganization(Xon xon) returns international401:Org
 };
 
 public isolated function xonToReference(Xon xon) returns r4:Reference? {
+    string? xon3 = ();
+    if xon is hl7v23:XON|hl7v231:XON|hl7v24:XON|hl7v25:XON|hl7v251:XON|hl7v26:XON {
+        xon3 = (xon.xon3 != "") ? xon.xon3.toString() : ();
+    }
     r4:Identifier identifier = {
-        value: (xon.xon3 != "") ? xon.xon3.toString() : (),
+        value: xon3,
         'type: (xon.xon7 != "") ? {
                 coding: [
                     {
@@ -166,7 +174,7 @@ public isolated function xpnToHumanName(Xpn xpn) returns r4:HumanName {
     string[] suffix = [];
     if xpn is hl7v27:XPN|hl7v28:XPN {
         suffix = [xpn.xpn4, xpn.xpn14];
-    } else {
+    } else if xpn is hl7v23:XPN|hl7v231:XPN|hl7v24:XPN|hl7v25:XPN|hl7v251:XPN|hl7v26:XPN {
         suffix = [xpn.xpn4, xpn.xpn6];
     }
     if suffix[0] != "" && suffix[1] != "" {
@@ -187,10 +195,14 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint? {
     r4:ContactPoint contactPoint = {
         use: idToContactPointUse(xtn.xtn2),
         system: idToContactPointSystem(xtn.xtn3),
-        extension: xtn.xtn5 != -1.0 ? getStringExtension([xtn.xtn5.toString()]) : ()
+        extension: xtn.xtn5 != "-1.0" ? getStringExtension([xtn.xtn5.toString()]) : (),
+        value: ()
     };
-    if (xtn.xtn3 != "Internet" || xtn.xtn3 != "X.400") && xtn.xtn7 != "" {
-        contactPoint.value = xtn.xtn1;
+
+    if xtn is hl7v23:XTN|hl7v231:XTN|hl7v24:XTN|hl7v25:XTN|hl7v251:XTN {
+        if (xtn.xtn3 != "Internet" || xtn.xtn3 != "X.400") && xtn.xtn7 != "" {
+            contactPoint.value = xtn.xtn1;
+        }
     }
     if contactPoint.value == "" {
         return ();
@@ -280,10 +292,17 @@ public isolated function xcnToReference(Xcn xcn) returns r4:Reference {
     };
 };
 
-public isolated function xcnToReferenceWithType(Xcn xcn, string resourceType) returns r4:Reference {
-    return {
-        reference: (xcn.xcn1 != "") ? string `${resourceType}/${xcn.xcn1}` : ()
-    };
+public isolated function xcnToReferenceWithType(Xcn|Cn xcn, string resourceType) returns r4:Reference {
+    if xcn is Xcn {
+        return {
+            reference: (xcn.xcn1 != "") ? string `${resourceType}/${xcn.xcn1}` : ()
+        };
+    } else if xcn is Cn {
+        return {
+            reference: (xcn.cn1 != "") ? string `${resourceType}/${xcn.cn1}` : ()
+        };
+    }
+    return {};
 };
 
 public isolated function idToCoding(hl7v23:ID id) returns r4:Coding {
@@ -371,3 +390,5 @@ public type Ts hl7v23:TS|hl7v231:TS|hl7v24:TS|hl7v25:TS|hl7v251:TS;
 
 # Union type for IS data type for all supported hl7 versions.
 public type Is hl7v23:IS|hl7v24:IS|hl7v25:IS;
+
+public type Cn hl7v23:CN;
