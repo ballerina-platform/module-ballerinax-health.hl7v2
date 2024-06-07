@@ -48,7 +48,7 @@ import ballerinax/health.hl7v2;
         "ods4": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: ST
         }
     }
@@ -59,7 +59,7 @@ public type ODS record {
     ID ods1 = "";
     CE[] ods2 = [{}];
     CE[] ods3 = [{}];
-    ST ods4 = "";
+    ST[] ods4 = [""];
 };
 
 public const ODS_SEGMENT_NAME = "ODS";

@@ -129,13 +129,13 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: CN
+            dataType: XCN
         },
         "rxe14": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: CN
+            dataType: XCN
         },
         "rxe15": {
             required: false,
@@ -212,7 +212,7 @@ import ballerinax/health.hl7v2;
         "rxe27": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CE
         },
         "rxe28": {
@@ -250,8 +250,8 @@ public type RXE record {
     NM rxe10 = "";
     CE rxe11 = {};
     NM rxe12 = "";
-    CN rxe13 = {};
-    CN rxe14 = {};
+    XCN rxe13 = {};
+    XCN rxe14 = {};
     ST rxe15 = "";
     NM rxe16 = "";
     NM rxe17 = "";
@@ -264,7 +264,7 @@ public type RXE record {
     CE rxe24 = {};
     NM rxe25 = "";
     CE rxe26 = {};
-    CE rxe27 = {};
+    CE[] rxe27 = [{}];
     NM rxe28 = "";
     CE rxe29 = {};
     ID rxe30 = "";

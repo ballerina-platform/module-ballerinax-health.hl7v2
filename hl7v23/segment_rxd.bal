@@ -99,7 +99,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: CE
+            dataType: ST
         },
         "rxd10": {
             required: false,
@@ -170,7 +170,7 @@ import ballerinax/health.hl7v2;
         "rxd21": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CE
         },
         "rxd22": {
@@ -204,7 +204,7 @@ public type RXD record {
     CE rxd6 = {};
     ST rxd7 = "";
     NM rxd8 = "";
-    CE[] rxd9 = [{}];
+    ST[] rxd9 = [""];
     XCN rxd10 = {};
     ID rxd11 = "";
     CQ rxd12 = {};
@@ -216,7 +216,7 @@ public type RXD record {
     ST[] rxd18 = [""];
     TS[] rxd19 = [{}];
     CE[] rxd20 = [{}];
-    CE rxd21 = {};
+    CE[] rxd21 = [{}];
     NM rxd22 = "";
     CE rxd23 = {};
     ID rxd24 = "";

@@ -72,7 +72,7 @@ import ballerinax/health.hl7v2;
             required: true,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "pr17": {
             required: false,
@@ -138,7 +138,7 @@ public type PR1 record {
     CE pr13 = {};
     ST pr14 = "";
     TS pr15 = {};
-    ID pr16 = "";
+    IS pr16 = "";
     NM pr17 = "";
     XCN[] pr18 = [{}];
     IS pr19 = "";

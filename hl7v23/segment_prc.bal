@@ -48,10 +48,10 @@ import ballerinax/health.hl7v2;
             dataType: CE
         },
         "prc2": {
-            required: true,
+            required: false,
             length: 1,
             maxReps: -1,
-            dataType: EI
+            dataType: CE
         },
         "prc3": {
             required: false,
@@ -63,7 +63,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: ID
+            dataType: IS
         },
         "prc5": {
             required: false,
@@ -117,7 +117,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "prc14": {
             required: false,
@@ -147,7 +147,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         }
     }
 }
@@ -155,9 +155,9 @@ public type PRC record {
     *hl7v2:Segment;
     string name = PRC_SEGMENT_NAME;
     CE prc1 = {};
-    EI[] prc2 = [{}];
+    CE[] prc2 = [{}];
     CE[] prc3 = [{}];
-    ID[] prc4 = [""];
+    IS[] prc4 = [""];
     CP[] prc5 = [{}];
     ST[] prc6 = [""];
     NM prc7 = "";
@@ -166,12 +166,12 @@ public type PRC record {
     MO prc10 = {};
     TS prc11 = {};
     TS prc12 = {};
-    ID prc13 = "";
+    IS prc13 = "";
     CE[] prc14 = [{}];
     ID prc15 = "";
     ID prc16 = "";
     MO prc17 = {};
-    ID prc18 = "";
+    IS prc18 = "";
 };
 
 public const PRC_SEGMENT_NAME = "PRC";

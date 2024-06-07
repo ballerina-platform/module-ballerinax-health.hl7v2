@@ -104,7 +104,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: CE
+            dataType: TX
         },
         "om17": {
             required: false,
@@ -151,7 +151,7 @@ import ballerinax/health.hl7v2;
         "om114": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CE
         },
         "om115": {
@@ -170,13 +170,13 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: TN
+            dataType: XTN
         },
         "om118": {
-            required: false,
+            required: true,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "om119": {
             required: false,
@@ -236,19 +236,19 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: AD
+            dataType: XAD
         },
         "om129": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: TN
+            dataType: XTN
         },
         "om130": {
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "om131": {
             required: false,
@@ -278,7 +278,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ST
+            dataType: TX
         },
         "om136": {
             required: false,
@@ -362,7 +362,7 @@ public type OM1 record {
     ID[] om13 = [""];
     ID om14 = "";
     CE om15 = {};
-    CE om16 = {};
+    TX om16 = "";
     CE om17 = {};
     ST[] om18 = [""];
     ST om19 = "";
@@ -370,11 +370,11 @@ public type OM1 record {
     ST om111 = "";
     ID om112 = "";
     CE[] om113 = [{}];
-    CE om114 = {};
+    CE[] om114 = [{}];
     ID om115 = "";
     CE[] om116 = [{}];
-    TN om117 = "";
-    ID om118 = "";
+    XTN om117 = {};
+    IS om118 = "";
     CE om119 = {};
     ST om120 = "";
     TS om121 = {};
@@ -384,14 +384,14 @@ public type OM1 record {
     ID[] om125 = [""];
     ID om126 = "";
     CE[] om127 = [{}];
-    AD om128 = {};
-    TN om129 = "";
-    ID om130 = "";
+    XAD om128 = {};
+    XTN om129 = {};
+    IS om130 = "";
     CE om131 = {};
     TX om132 = "";
     CE om133 = {};
     CE[] om134 = [{}];
-    ST om135 = "";
+    TX om135 = "";
     CE om136 = {};
     TX om137 = "";
     CE om138 = {};

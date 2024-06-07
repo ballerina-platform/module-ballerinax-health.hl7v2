@@ -146,7 +146,7 @@ import ballerinax/health.hl7v2;
         "pid16": {
             required: false,
             length: 1,
-            maxReps: -1,
+            maxReps: 1,
             dataType: IS
         },
         "pid17": {
@@ -176,7 +176,7 @@ import ballerinax/health.hl7v2;
         "pid21": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: CX
         },
         "pid22": {
@@ -206,7 +206,7 @@ import ballerinax/health.hl7v2;
         "pid26": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: IS
         },
         "pid27": {
@@ -253,17 +253,17 @@ public type PID record {
     XTN[] pid13 = [{}];
     XTN[] pid14 = [{}];
     CE pid15 = {};
-    IS[] pid16 = [""];
+    IS pid16 = "";
     IS pid17 = "";
     CX pid18 = {};
     ST pid19 = "";
     DLN pid20 = {};
-    CX pid21 = {};
+    CX[] pid21 = [{}];
     IS pid22 = "";
     ST pid23 = "";
     ID pid24 = "";
     NM pid25 = "";
-    IS pid26 = "";
+    IS[] pid26 = [""];
     CE pid27 = {};
     CE pid28 = {};
     TS pid29 = {};

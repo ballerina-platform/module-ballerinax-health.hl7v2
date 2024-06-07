@@ -26,6 +26,7 @@ import ballerinax/health.hl7v2;
 # + nsc6 - New CPU
 # + nsc7 - New Fileserver
 # + nsc8 - New Application
+# + nsc9 - New Facility
 @hl7v2:SegmentDefinition {
     name: "NSC",
     required: false,
@@ -35,7 +36,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "nsc2": {
             required: false,
@@ -78,13 +79,19 @@ import ballerinax/health.hl7v2;
             length: 1,
             maxReps: 1,
             dataType: ST
+        },
+        "nsc9": {
+            required: false,
+            length: 1,
+            maxReps: 1,
+            dataType: ST
         }
     }
 }
 public type NSC record {
     *hl7v2:Segment;
     string name = NSC_SEGMENT_NAME;
-    ID nsc1 = "";
+    IS nsc1 = "";
     ST nsc2 = "";
     ST nsc3 = "";
     ST nsc4 = "";
@@ -92,6 +99,7 @@ public type NSC record {
     ST nsc6 = "";
     ST nsc7 = "";
     ST nsc8 = "";
+    ST nsc9 = "";
 };
 
 public const NSC_SEGMENT_NAME = "NSC";

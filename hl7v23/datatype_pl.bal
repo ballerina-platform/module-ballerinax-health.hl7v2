@@ -34,13 +34,13 @@ import ballerinax/health.hl7v2;
 }
 public type PL record {
     *hl7v2:CompositeType;
-    ID pl1 = "";
+    IS pl1 = "";
     IS pl2 = "";
     IS pl3 = "";
     HD pl4 = {};
     IS pl5 = "";
     IS pl6 = "";
     IS pl7 = "";
-    ST pl8 = "";
+    IS pl8 = "";
     ST pl9 = "";
 };

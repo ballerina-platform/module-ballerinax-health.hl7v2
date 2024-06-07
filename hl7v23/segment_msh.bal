@@ -147,7 +147,7 @@ import ballerinax/health.hl7v2;
         "msh18": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: ID
         },
         "msh19": {
@@ -178,7 +178,7 @@ public type MSH record {
     ID msh15 = "";
     ID msh16 = "";
     ID msh17 = "";
-    ID msh18 = "";
+    ID[] msh18 = [""];
     CE msh19 = {};
 };
 

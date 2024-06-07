@@ -109,7 +109,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
         'order: [
             {
                 orc: {
-                    orc2: [{ei1: "23121A"}]
+                    orc2: {ei1: "23121A"}
                 }
             }
         ]

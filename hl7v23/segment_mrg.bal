@@ -70,7 +70,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: CX
+            dataType: XPN
         }
     }
 }
@@ -83,7 +83,7 @@ public type MRG record {
     CX mrg4 = {};
     CX mrg5 = {};
     CX mrg6 = {};
-    CX mrg7 = {};
+    XPN mrg7 = {};
 };
 
 public const MRG_SEGMENT_NAME = "MRG";

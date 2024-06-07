@@ -39,7 +39,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "al13": {
             required: true,
@@ -51,7 +51,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: 1,
-            dataType: ID
+            dataType: IS
         },
         "al15": {
             required: false,
@@ -71,9 +71,9 @@ public type AL1 record {
     *hl7v2:Segment;
     string name = AL1_SEGMENT_NAME;
     SI al11 = "";
-    ID al12 = "";
+    IS al12 = "";
     CE al13 = {};
-    ID al14 = "";
+    IS al14 = "";
     ST al15 = "";
     DT al16 = "";
 };

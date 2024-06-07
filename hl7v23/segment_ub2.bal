@@ -56,7 +56,7 @@ import ballerinax/health.hl7v2;
             required: false,
             length: 1,
             maxReps: -1,
-            dataType: ID
+            dataType: IS
         },
         "ub24": {
             required: false,
@@ -149,7 +149,7 @@ public type UB2 record {
     string name = UB2_SEGMENT_NAME;
     SI ub21 = "";
     ST ub22 = "";
-    ID[] ub23 = [""];
+    IS[] ub23 = [""];
     ST ub24 = "";
     ST ub25 = "";
     CM_UVC[] ub26 = [{}];

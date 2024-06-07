@@ -112,7 +112,7 @@ import ballerinax/health.hl7v2;
         "om413": {
             required: false,
             length: 1,
-            maxReps: 1,
+            maxReps: -1,
             dataType: ID
         },
         "om414": {
@@ -138,7 +138,7 @@ public type OM4 record {
     CQ om410 = {};
     CQ om411 = {};
     TX om412 = "";
-    ID om413 = "";
+    ID[] om413 = [""];
     CQ om414 = {};
 };
 
