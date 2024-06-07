@@ -292,17 +292,10 @@ public isolated function xcnToReference(Xcn xcn) returns r4:Reference {
     };
 };
 
-public isolated function xcnToReferenceWithType(Xcn|Cn xcn, string resourceType) returns r4:Reference {
-    if xcn is Xcn {
-        return {
-            reference: (xcn.xcn1 != "") ? string `${resourceType}/${xcn.xcn1}` : ()
-        };
-    } else if xcn is Cn {
-        return {
-            reference: (xcn.cn1 != "") ? string `${resourceType}/${xcn.cn1}` : ()
-        };
-    }
-    return {};
+public isolated function xcnToReferenceWithType(Xcn xcn, string resourceType) returns r4:Reference {
+    return {
+        reference: (xcn.xcn1 != "") ? string `${resourceType}/${xcn.xcn1}` : ()
+    };
 };
 
 public isolated function idToCoding(hl7v23:ID id) returns r4:Coding {
@@ -390,5 +383,3 @@ public type Ts hl7v23:TS|hl7v231:TS|hl7v24:TS|hl7v25:TS|hl7v251:TS;
 
 # Union type for IS data type for all supported hl7 versions.
 public type Is hl7v23:IS|hl7v24:IS|hl7v25:IS;
-
-public type Cn hl7v23:CN;

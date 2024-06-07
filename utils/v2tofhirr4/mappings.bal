@@ -391,7 +391,7 @@ public isolated function pidToPatient(hl7v2commons:Pid pid) returns internationa
         address: pidToAddress(pid.pid12, pid.pid11),
         telecom: pidToPhoneNumber(pid.pid13, pid.pid14),
         communication: pidToPrimaryLanguage(pid.pid15),
-        maritalStatus: pidToMaritalStatus(<hl7v2commons:Pid16>pid.pid16),
+        maritalStatus: pidToMaritalStatus(pid.pid16),
         identifier: pidToSsnNumberIdentifier(pid.pid19),
         extension: (pid.pid23 != "") ? pidToBirthPlace(pid.pid23) : (),
         multipleBirthBoolean: (pid.pid24 != "") ? pidToMultipleBirthIndicator(pid.pid24) : (),
@@ -705,26 +705,6 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
         i = +1;
     }
 
-    // if pv1 is hl7v23:PV1 {
-    //     international401:EncounterParticipant encounterParticipant = {
-    //         individual: (pv1.pv152.xcn1 != "") ? {
-    //                 display: pv1.pv152.xcn1
-    //             } : (),
-    //         'type: (pv1.pv152.xcn8 != "") ? [
-    //                 {
-    //                     coding: [
-    //                         {
-    //                             code: "PART",
-    //                             system: pv1.pv152.xcn8
-    //                         }
-    //                     ],
-    //                     text: "Participation"
-    //                 }
-    //             ] : ()
-    //     };
-    //     if encounterParticipant != {} {
-    //         participants.push(encounterParticipant);
-    //     }
     if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
         // Define pv1.pv152 hl7v27:PV1, hl7v28:PV1
         i = 0;
