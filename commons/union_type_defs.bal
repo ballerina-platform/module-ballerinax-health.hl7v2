@@ -23,9 +23,8 @@ import ballerinax/health.hl7v26;
 import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 
-
-### Union types for holding hl7 segments for supported hl7 versions. ####
-#########################################################################
+# ## Union types for holding hl7 segments for supported hl7 versions. ####
+# ########################################################################
 
 # Union type for holding message header segment for all supported hl7 versions.
 public type Msh hl7v23:MSH|hl7v231:MSH|hl7v24:MSH|hl7v25:MSH|hl7v251:MSH|hl7v26:MSH|hl7v27:MSH|hl7v28:MSH;
@@ -357,8 +356,8 @@ public type Rxe hl7v23:RXE|hl7v231:RXE|hl7v24:RXE|hl7v25:RXE|hl7v251:RXE|hl7v26:
 # Union type for holding RXR segment for all supported hl7 versions.
 public type Rxr hl7v23:RXR|hl7v231:RXR|hl7v24:RXR|hl7v25:RXR|hl7v251:RXR|hl7v26:RXR|hl7v27:RXR|hl7v28:RXR;
 
-### Union types defined for data types for supported hl7 versions. ####
-#######################################################################
+# ## Union types defined for data types for supported hl7 versions. ####
+# ######################################################################
 
 # Union type for holding patient name for all supported hl7 versions.
 public type Pid5 hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:XPN[]|hl7v251:XPN[]|hl7v26:XPN[]|hl7v27:XPN[]|hl7v28:XPN[];
@@ -379,7 +378,7 @@ public type Pid14 hl7v23:XTN[]|hl7v231:XTN[]|hl7v24:XTN[]|hl7v25:XTN[]|hl7v251:X
 public type Pid15 hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE;
 
 # Union type for holding patient marital status for all supported hl7 versions.
-public type Pid16 string|hl7v23:CE|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE;
+public type Pid16 hl7v23:IS|hl7v231:CE|hl7v24:CE|hl7v25:CE|hl7v251:CE|hl7v26:CWE;
 
 # Union type for patient primary facility for all supported hl7 versions.
 public type Pd13 hl7v23:XON[]|hl7v231:XON[]|hl7v24:XON[]|hl7v25:XON[]|hl7v251:XON[]|hl7v26:XON[]|hl7v27:XON[];
