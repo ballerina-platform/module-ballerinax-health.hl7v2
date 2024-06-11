@@ -1,4 +1,3 @@
-import ballerina/http;
 // Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -14,7 +13,6 @@ import ballerina/http;
 import ballerina/log;
 import ballerinax/health.fhir.r4 as r4;
 import ballerinax/health.fhir.r4.international401;
-import ballerinax/health.fhir.r4.parser as fhirParser;
 import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.hl7v23;
 import ballerinax/health.hl7v231;
@@ -35,9 +33,10 @@ public isolated function stringToHl7(string msg) returns hl7:Message|error => ch
 # Transform an HL7 message to FHIR.
 #
 # + hl7 - HL7 message as a string or an hl7v2:Message  
-# + customMapper - Custom mapper implementation
+# + customMapper - Custom mapper implementation  
+# + mapperServiceConf - Custom mapping service configuration
 # + return - FHIR Bundle as a json
-public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper? customMapper = (), V2ToFhirCustomServiceConfig? serviceconf = ()) returns json|error {
+public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper? customMapper = (), V2ToFhirCustomMapperServiceConfig? mapperServiceConf = ()) returns json|error {
     hl7:Message hl7msg;
     if (hl7 is string) {
         hl7msg = check stringToHl7(hl7);
@@ -45,13 +44,13 @@ public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper?
         hl7msg = hl7;
     }
     if customMapper == () {
-        return transformToFhir(hl7msg, defaultMapper, serviceconf);
+        return transformToFhir(hl7msg, defaultMapper, mapperServiceConf);
     }
     V2SegmentToFhirMapper mapper = {...defaultMapper};
     foreach string key in customMapper.keys() {
         mapper[key] = customMapper.get(key);
     }
-    return transformToFhir(hl7msg, mapper, serviceconf);
+    return transformToFhir(hl7msg, mapper, mapperServiceConf);
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -62,9 +61,10 @@ public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper?
 #
 # + segmentName - Name of the HL7 segment  
 # + segment - HL7 segment  
-# + customMapper - Custom mapper implementation
+# + customMapper - Custom mapper implementation  
+# + serviceconf - Custom mapping service configuration
 # + return - FHIR Bundle
-public isolated function segmentToFhir(string segmentName, hl7:Segment segment, V2SegmentToFhirMapper? customMapper, V2ToFhirCustomServiceConfig? serviceconf) returns r4:BundleEntry[]|error {
+public isolated function segmentToFhir(string segmentName, hl7:Segment segment, V2SegmentToFhirMapper? customMapper, V2ToFhirCustomMapperServiceConfig? serviceconf) returns r4:BundleEntry[]|error {
     r4:BundleEntry[] entries = [];
     V2SegmentToFhirMapper impl;
     lock {
@@ -74,184 +74,171 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "NK1" => {
             Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
             if nk1ToPatient is Nk1ToPatient {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 if customMappingResponse[0] {
                     constructedResource = nk1ToPatient(check segment.ensureType(hl7v2commons:Nk1));
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
-                }
+                return populateBundleEntries(constructedResource);
             }
         }
         "PD1" => {
             Pd1ToPatient? pd1ToPatient = impl.pd1ToPatient;
             if pd1ToPatient is Pd1ToPatient {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 if customMappingResponse[0] {
                     constructedResource = pd1ToPatient(check segment.ensureType(hl7v2commons:Pd1));
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
-                }
+                return populateBundleEntries(constructedResource);
             }
         }
         "PID" => {
             PidToPatient? pidToPatient = impl.pidToPatient;
             if pidToPatient is PidToPatient {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 if customMappingResponse[0] {
                     constructedResource = pidToPatient(check segment.ensureType(hl7v2commons:Pid));
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
-                }
+                return populateBundleEntries(constructedResource);
             }
         }
         "PV1" => {
-            Pv1ToPatient? pv1ToPatientResult = impl.pv1ToPatient;
-            if pv1ToPatientResult is Pv1ToPatient {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
-                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
-                if customMappingResponse[0] {
-                    constructedResource = pv1ToPatientResult(check segment.ensureType(hl7v2commons:Pv1));
+            [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+            if customMappingResponse[0] {
+                Pv1ToPatient? pv1ToPatientResult = impl.pv1ToPatient;
+                if pv1ToPatientResult is Pv1ToPatient {
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToPatientResult(check segment.ensureType(hl7v2commons:Pv1)));
+                    entries.push(...bundleEntriesResult);
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
-                }
-            }
-            Pv1ToEncounter? pv1ToEncounterResult = impl.pv1ToEncounter;
-            if pv1ToEncounterResult is Pv1ToEncounter {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
-                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
-                if customMappingResponse[0] {
-                    constructedResource = pv1ToEncounterResult(check segment.ensureType(hl7v2commons:Pv1));
-                }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
+                Pv1ToEncounter? pv1ToEncounterResult = impl.pv1ToEncounter;
+                if pv1ToEncounterResult is Pv1ToEncounter {
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToEncounterResult(check segment.ensureType(hl7v2commons:Pv1)));
+                    entries.push(...bundleEntriesResult);
                 }
             }
         }
         "DG1" => {
-            Dg1ToCondition? dg1ToCondition = impl.dg1ToCondition;
-            string? conditionId = ();
-            string? patientId = ();
-            if dg1ToCondition is Dg1ToCondition {
-                map<anydata> constructedResource = dg1ToCondition(check segment.ensureType(hl7v2commons:Dg1));
-                if constructedResource["id"] != () {
-                    conditionId = <string?>constructedResource["id"];
-                    entries.push({'resource: constructedResource});
+            [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+            if customMappingResponse[0] {
+                Dg1ToCondition? dg1ToCondition = impl.dg1ToCondition;
+                string? conditionId = ();
+                string? patientId = ();
+                if dg1ToCondition is Dg1ToCondition {
+                    map<anydata> constructedResource = dg1ToCondition(check segment.ensureType(hl7v2commons:Dg1));
+                    if constructedResource["id"] != () {
+                        conditionId = <string?>constructedResource["id"];
+                        entries.push({'resource: constructedResource});
+                    }
                 }
-            }
-            Dg1ToEncounter? dg1ToEncounter = impl.dg1ToEncounter;
-            if dg1ToEncounter is Dg1ToEncounter {
-                r4:BundleEntry bundleEntry = entries[entries.length() - 1];
-                if bundleEntry?.'resource is international401:Condition {
-                    map<anydata> constructedResource = dg1ToEncounter(check segment.ensureType(hl7v2commons:Dg1), conditionId);
+                Dg1ToEncounter? dg1ToEncounter = impl.dg1ToEncounter;
+                if dg1ToEncounter is Dg1ToEncounter {
+                    r4:BundleEntry bundleEntry = entries[entries.length() - 1];
+                    if bundleEntry?.'resource is international401:Condition {
+                        map<anydata> constructedResource = dg1ToEncounter(check segment.ensureType(hl7v2commons:Dg1), conditionId);
+                        if constructedResource["id"] != () {
+                            entries.push({'resource: constructedResource});
+                        }
+                    }
+                }
+                Dg1ToEpisodeOfCare? dg1ToEpisodeOfCare = impl.dg1ToEpisodeOfCare;
+                if dg1ToEpisodeOfCare is Dg1ToEpisodeOfCare {
+                    map<anydata> constructedResource = dg1ToEpisodeOfCare(check segment.ensureType(hl7v2commons:Dg1), conditionId, patientId);
                     if constructedResource["id"] != () {
                         entries.push({'resource: constructedResource});
                     }
                 }
-            }
-            Dg1ToEpisodeOfCare? dg1ToEpisodeOfCare = impl.dg1ToEpisodeOfCare;
-            if dg1ToEpisodeOfCare is Dg1ToEpisodeOfCare {
-                map<anydata> constructedResource = dg1ToEpisodeOfCare(check segment.ensureType(hl7v2commons:Dg1), conditionId, patientId);
-                if constructedResource["id"] != () {
-                    entries.push({'resource: constructedResource});
-                }
+            } else {
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                return populateBundleEntries(constructedResource);
             }
         }
         "AL1" => {
             Al1ToAllerygyIntolerance? al1ToAllerygyIntolerance = impl.al1ToAllerygyIntolerance;
             if al1ToAllerygyIntolerance is Al1ToAllerygyIntolerance {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 if customMappingResponse[0] {
                     constructedResource = al1ToAllerygyIntolerance(check segment.ensureType(hl7v2commons:Al1));
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
-                }
+                return populateBundleEntries(constructedResource);
             }
         }
         "EVN" => {
             EvnToProvenance? evnToProvenance = impl.evnToProvenance;
             if evnToProvenance is EvnToProvenance {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 if customMappingResponse[0] {
                     constructedResource = evnToProvenance(check segment.ensureType(hl7v2commons:Evn));
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
-                }
+                return populateBundleEntries(constructedResource);
             }
         }
         "MSH" => {
             MshToMessageHeader? mshToMessageHeader = impl.mshToMessageHeader;
             if mshToMessageHeader is MshToMessageHeader {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 if customMappingResponse[0] {
                     constructedResource = mshToMessageHeader(check segment.ensureType(hl7v2commons:Msh));
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
-                }
+                return populateBundleEntries(constructedResource);
             }
         }
         "PV2" => {
             Pv2ToEncounter? pv2ToEncounter = impl.pv2ToEncounter;
             if pv2ToEncounter is Pv2ToEncounter {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 if customMappingResponse[0] {
                     constructedResource = pv2ToEncounter(check segment.ensureType(hl7v2commons:Pv2));
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
-                }
+                return populateBundleEntries(constructedResource);
             }
         }
         "OBX" => {
             ObxToObservation? obxToObservation = impl.obxToObservation;
             if obxToObservation is ObxToObservation {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 if customMappingResponse[0] {
                     constructedResource = obxToObservation(check segment.ensureType(hl7v2commons:Obx));
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
-                }
+                return populateBundleEntries(constructedResource);
             }
         }
         "ORC" => {
             OrcToImmunization? orcToImmunization = impl.orcToImmunization;
             if orcToImmunization is OrcToImmunization {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 if customMappingResponse[0] {
                     constructedResource = orcToImmunization(check segment.ensureType(hl7v2commons:Orc));
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
-                }
+                return populateBundleEntries(constructedResource);
             }
         }
         "OBR" => {
             ObrToDiagnosticReport? obrToDiagnosticReport = impl.obrToDiagnosticReport;
             if obrToDiagnosticReport is ObrToDiagnosticReport {
-                [boolean, anydata] customMappingResponse = getCustomSegmentToResourceMapping(serviceconf, segment);
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 if customMappingResponse[0] {
                     constructedResource = obrToDiagnosticReport(check segment.ensureType(hl7v2commons:Obr));
                 }
-                if constructedResource != {} && constructedResource.keys().length() > 1 {
-                    entries.push({'resource: constructedResource});
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        _ => {
+            if segmentName.length() == 3 {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                if customMappingResponse[0] {
+                    return error(string `Default mappings are not supported for segment: ${segmentName}`);
                 }
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                return populateBundleEntries(constructedResource);
             }
         }
     }
@@ -1441,25 +1428,3 @@ public isolated function orcToImmunization(hl7v2commons:Orc orc) returns interna
 
     return immunization;
 };
-
-isolated function getCustomSegmentToResourceMapping(V2ToFhirCustomServiceConfig? serviceconf, hl7:Segment segment) returns [boolean, anydata] {
-    boolean isOverrideResult;
-    if serviceconf != () && serviceconf.segmentToFhirEndpointConfigs.hasKey(segment.name) {
-        do {
-            http:Client serviceEp = check new (serviceconf.baseUrl);
-            string path = serviceconf.segmentToFhirEndpointConfigs.get(segment.name).url;
-            http:Response response = check serviceEp->post(path, segment);
-            anydata|r4:FHIRParseError parsedResponse = fhirParser:parse(check response.getJsonPayload());
-            isOverrideResult = serviceconf.segmentToFhirEndpointConfigs.get(segment.name).overrideResult;
-            if parsedResponse is map<anydata> {
-                return [isOverrideResult, parsedResponse];
-            } else if parsedResponse is r4:FHIRParseError {
-                log:printError(string `Error occurred while parsing the response to FHIR for the segment: 
-                    ${segment.name}`, parsedResponse);
-            }
-        } on fail var e {
-            log:printError("Error occurred while calling the service endpoint: ", e);
-        }
-    }
-    return [false, {}];
-}
