@@ -10,9 +10,13 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
+import ballerina/http;
 import ballerina/log;
+import ballerina/uuid;
 import ballerinax/health.fhir.r4 as r4;
 import ballerinax/health.fhir.r4.international401;
+import ballerinax/health.fhir.r4.parser as fhirParser;
 import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.hl7v23;
 import ballerinax/health.hl7v231;
@@ -23,7 +27,6 @@ import ballerinax/health.hl7v26;
 import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 import ballerinax/health.hl7v2commons;
-import ballerina/uuid;
 
 public isolated function pidToAdministrativeSex(string pid8) returns international401:PatientGender? {
     if pid8 == "" {
@@ -404,7 +407,7 @@ isolated function isTransactionalMessage(hl7:Message message) returns boolean {
         message.name.startsWith("SIU") || message.name.startsWith("MDM") || message.name.startsWith("RDE");
 }
 
-isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMapper) returns json|error {
+isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMapper, V2ToFhirCustomMapperServiceConfig? mapperServiceConf) returns json|error {
     r4:Bundle bundle = {'type: "message"};
     r4:BundleEntry[] entries = [];
     bundle.entry = entries;
@@ -419,14 +422,14 @@ isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? cu
         [key, segment] = <[string, anydata]>segmentField;
         do {
             if segment is hl7:Segment {
-                r4:BundleEntry[] bundleEntries = check segmentToFhir(segment.name, segment, customMapper);
+                r4:BundleEntry[] bundleEntries = check segmentToFhir(segment.name, segment, customMapper, mapperServiceConf);
                 foreach r4:BundleEntry entry in bundleEntries {
                     entries.push(entry);
                 }
             }
             if segment is hl7:Segment[] {
                 foreach hl7:Segment segmentElem in segment {
-                    r4:BundleEntry[] bundleEntries = check segmentToFhir(segmentElem.name, segmentElem, customMapper);
+                    r4:BundleEntry[] bundleEntries = check segmentToFhir(segmentElem.name, segmentElem, customMapper, mapperServiceConf);
                     foreach r4:BundleEntry entry in bundleEntries {
                         entries.push(entry);
                     }
@@ -438,7 +441,7 @@ isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? cu
                     anydata segmentComponent;
                     [_, segmentComponent] = <[string, anydata]>segmentComponentField;
                     if segmentComponent is hl7:Segment {
-                        r4:BundleEntry[] bundleEntries = check segmentToFhir(segmentComponent.name, segmentComponent, customMapper);
+                        r4:BundleEntry[] bundleEntries = check segmentToFhir(segmentComponent.name, segmentComponent, customMapper, mapperServiceConf);
                         foreach r4:BundleEntry entry in bundleEntries {
                             entries.push(entry);
                         }
@@ -455,7 +458,6 @@ isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? cu
     }
     return getOperationOutcome(string `Unsupported message: ${message.name}`);
 }
-
 
 public isolated function generateFhirResourceId() returns string {
     // Generate a version 4 (random) UUID
@@ -480,4 +482,48 @@ isolated function getEncounterLocationStatus(string hl7LocationStatus) returns i
             return ();
         }
     }
+}
+
+# This function is used to get the custom segment to resource mapping from invoking provided service endpoints.
+#
+# + serviceconf - external service configuration
+# + segment - segment to be mapped
+# + return - returns a tuple with a boolean flag to use default mapping and parsed response
+isolated function getCustomSegmentToResourceMapping(V2ToFhirCustomMapperServiceConfig? serviceconf, hl7:Segment segment) returns [boolean, anydata]|error {
+    if serviceconf != () && serviceconf.segmentMappings.hasKey(segment.name) {
+        do {
+            log:printDebug(string `Before calling the service endpoint custom segment to resource mapping: ${serviceconf.baseUrl}`);
+            http:Client serviceEp = check new (serviceconf.baseUrl);
+            string path = serviceconf.segmentMappings.get(segment.name);
+            http:Response response = check serviceEp->post(path, segment);
+            json responsePayload = check response.getJsonPayload();
+            log:printDebug(string `After calling the service endpoint custom segment to resource mapping: ${responsePayload.toJsonString()}`);
+            anydata|r4:FHIRParseError parsedResponse = fhirParser:parse(check response.getJsonPayload());
+            if parsedResponse is r4:FHIRError {
+                return parsedResponse;
+            }
+            return [false, parsedResponse];
+        } on fail var e {
+            return error(string `Error occurred while calling or parsing response from the service endpoint: ${serviceconf.baseUrl}`, e);
+        }
+    }
+    return [true, {}];
+}
+
+# This function is used to populate the bundle entries with the given FHIR resource.
+#
+# + constructedResource - constructed FHIR resource
+# + return - returns the populated bundle entries
+isolated function populateBundleEntries(map<anydata> constructedResource) returns r4:BundleEntry[] {
+    r4:BundleEntry[] entries = [];
+    if constructedResource != {} && constructedResource.keys().length() > 1 {
+        if constructedResource is r4:Bundle {
+            r4:BundleEntry[]? entryArr = constructedResource.entry;
+            if entryArr is r4:BundleEntry[] {
+                return entryArr;
+            }
+        }
+        entries.push({'resource: constructedResource});
+    }
+    return entries;
 }
