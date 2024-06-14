@@ -11,6 +11,13 @@ on:
         - DEV
         - PROD
         required: true
+      ballerina_version:
+        description: Ballerina Version
+        type: choice
+        options:
+        - 2201.9.0
+        - 2201.8.5
+        required: true
 
 jobs:
   build:
@@ -19,3 +26,4 @@ jobs:
      with:
       working_dir: ./hl7v24
       bal_central_environment: ${{ inputs.bal_central_environment }}
+      ballerina_version: ${{ inputs.ballerina_version }}
