@@ -419,7 +419,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2.utils.v2tofhirr4"
-version = "2.2.3"
+version = "2.2.4"
 dependencies = [
 	{org = "ballerina", name = "http"},
 	{org = "ballerina", name = "lang.array"},
