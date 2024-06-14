@@ -405,9 +405,10 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2"
-version = "2.2.0"
+version = "2.1.0"
 dependencies = [
 	{org = "ballerina", name = "log"},
+	{org = "ballerina", name = "regex"},
 	{org = "ballerina", name = "tcp"},
 	{org = "ballerina", name = "time"}
 ]
@@ -418,7 +419,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2.utils.v2tofhirr4"
-version = "2.2.4"
+version = "2.2.3"
 dependencies = [
 	{org = "ballerina", name = "http"},
 	{org = "ballerina", name = "lang.array"},
