@@ -14,8 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import health.hl7v2;
-
 import ballerina/http;
 import ballerina/lang.runtime;
 import ballerina/test;
@@ -48,7 +46,7 @@ function cleanUp() returns error? {
 @test:Config {}
 function hlStringMessageParseTest() {
     hl7:Message|error parsedMsg = stringToHl7(msg);
-    if parsedMsg is hl7v2:Message {
+    if parsedMsg is hl7:Message {
         test:assertEquals(parsedMsg.name, "ADT_A01", "Parsing issue occurred with the message");
     } else {
         test:assertFail("Parsing failed.");
