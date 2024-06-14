@@ -742,7 +742,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
         i = +1;
     }
 
-    if pv1 is hl7v23:PV1|hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
+    if pv1 is hl7v231:PV1|hl7v24:PV1|hl7v25:PV1|hl7v251:PV1|hl7v26:PV1 {
         // Define pv1.pv152 hl7v27:PV1, hl7v28:PV1
         i = 0;
         while i < pv1.pv152.length() {
@@ -1278,7 +1278,7 @@ public isolated function obrToDiagnosticReport(hl7v2commons:Obr obr) returns int
         diagnosticReport.effectivePeriod.end = tsToDateTime(obr.obr8);
         diagnosticReport.issued = tsToInstant(obr.obr22);
     }
-    r4:Identifier eiToIdentifierResult = eiToIdentifier((<hl7v23:OBR|hl7v231:OBR|hl7v24:OBR|hl7v25:OBR|hl7v251:OBR|hl7v26:OBR|hl7v27:OBR|hl7v28:OBR>obr).obr2);
+    r4:Identifier eiToIdentifierResult = eiToIdentifier((<hl7v231:OBR|hl7v24:OBR|hl7v25:OBR|hl7v251:OBR|hl7v26:OBR|hl7v27:OBR|hl7v28:OBR>obr).obr2);
     if eiToIdentifierResult != {} {
         diagnosticReport.subject.identifier = eiToIdentifierResult;
     }

@@ -8,3 +8,72 @@ org = "ballerinax"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
 version = "2.2.4"
 
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v2"
+version = "2.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v23"
+version = "2.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v231"
+version = "2.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v24"
+version = "2.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v25"
+version = "2.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v251"
+version = "2.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v26"
+version = "2.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v27"
+version = "2.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v271"
+version = "2.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v28"
+version = "2.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.fhir.r4"
+version = "4.2.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.hl7v2commons"
+version = "1.1.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.fhir.r4.international401"
+version = "1.2.0"
+
+[[dependency]]
+org = "ballerinax"
+name = "health.fhir.r4.parser"
+version = "4.1.1"
