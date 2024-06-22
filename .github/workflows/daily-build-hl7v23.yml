@@ -1,0 +1,14 @@
+name: daily-build-hl7v23
+
+on:
+  schedule:
+    - cron: '10 20 * * *'    # 01:40 in LK time (GMT+5:30)
+  workflow_dispatch:
+
+jobs:
+  build:
+     uses: ./.github/workflows/daily-build-executor.yml
+     secrets: inherit
+     with:
+      working_dir: hl7v23
+      
