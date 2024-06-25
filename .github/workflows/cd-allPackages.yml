@@ -1,4 +1,4 @@
-name: CD - All Packages
+name: CD - All Packages.
 
 on:
   workflow_dispatch:
