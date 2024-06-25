@@ -1,0 +1,147 @@
+name: CD - All Packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      bal_central_environment:
+        description: Ballerina Central Environment
+        type: choice
+        options:
+        - STAGE
+        - DEV
+        - PROD
+        required: true
+      package_name:
+        description: CD Package
+        type: choice
+        options:
+        - ALL
+        - BASE
+        - COMMONS
+        - HL7V23
+        - HL7V24
+        - HL7V25
+        - HL7V26
+        - HL7V27
+        - HL7V28
+        - HL7V231
+        - HL7V251
+        - HL7V271
+        - V2TOFHIRR4
+        required: false
+      ballerina_version:
+        description: Ballerina Version
+        type: choice
+        options:
+        - 2201.9.0
+        - 2201.8.5
+        required: true
+
+jobs:
+    build_cd-base:
+        if: github.event.inputs.package_name == 'BASE' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./base
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v2commons:
+        if: github.event.inputs.package_name == 'COMMONS' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./commons
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v23:
+        if: github.event.inputs.package_name == 'HL7V23' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./hl7v23
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v24:
+        if: github.event.inputs.package_name == 'HL7V24' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./hl7v24
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v25:
+        if: github.event.inputs.package_name == 'HL7V25' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./hl7v25
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v26:
+        if: github.event.inputs.package_name == 'HL7V26' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./hl7v26
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v27:
+        if: github.event.inputs.package_name == 'HL7V27' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./hl7v27
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v28:
+        if: github.event.inputs.package_name == 'HL7V28' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./hl7v28
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v231:
+        if: github.event.inputs.package_name == 'HL7V231' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./hl7v231
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v251:
+        if: github.event.inputs.package_name == 'HL7V251' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./hl7v251
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v271:
+        if: github.event.inputs.package_name == 'HL7V271' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./hl7v271
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-v2tofhirr4:
+        if: github.event.inputs.package_name == 'V2TOFHIRR4' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./utils/v2tofhirr4
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
