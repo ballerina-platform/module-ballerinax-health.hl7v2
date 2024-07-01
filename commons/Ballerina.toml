@@ -4,7 +4,7 @@ name = "health.hl7v2commons"
 version = "1.1.2"
 authors = ["WSO2 Healthcare"]
 keywords = ["Healthcare", "HL7", "Commons"]
-distribution = "2201.9.0"
+distribution = "2201.8.5"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
 
 [build-options]
