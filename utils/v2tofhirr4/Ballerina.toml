@@ -6,4 +6,4 @@ keywords = ["Healthcare", "HL7", "FHIR"]
 name = "health.hl7v2.utils.v2tofhirr4"
 org = "ballerinax"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
-version = "2.2.4"
+version = "3.0.1"
