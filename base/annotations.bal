@@ -57,11 +57,13 @@ public type Hl7SegmentComponentDefinitionRecord record {
 
 # Annotation fields for HL7 message definition.
 #
-# + segments - segment map of the HL7 message
-# + groups - group map
+# + segments - segment map of the HL7 message  
+# + groups - group map  
+# + orderedSegments - segment map with the order of the segments
 public type Hl7MessageDefinitionRecord record {
     map<Hl7SegmentDefinitionRecord> segments;
     map<Hl7SegmentComponentDefinitionRecord> groups?;
+    map<Hl7SegmentDefinitionRecord[]> orderedSegments?;
 };
 
 # Annotation type for HL7 data type definition.
