@@ -26,6 +26,19 @@ public const RQI_I01_MESSAGE_TYPE = "RQI_I01";
 # + provider - RQI_I01_PROVIDER Segment Group
 # + guarantor_insurance - RQI_I01_GUARANTOR_INSURANCE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "CTD": [{name: "CTD", maxReps: -1, required: false, segmentComponentName: "RQI_I01_PROVIDER"}],
+        "PRD": [{name: "PRD", maxReps: 1, required: false, segmentComponentName: "RQI_I01_PROVIDER"}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false}],
+        "GT1": [{name: "GT1", maxReps: -1, required: false, segmentComponentName: "RQI_I01_GUARANTOR_INSURANCE"}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "RQI_I01_GUARANTOR_INSURANCE.RQI_I01_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "RQI_I01_GUARANTOR_INSURANCE.RQI_I01_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "RQI_I01_GUARANTOR_INSURANCE.RQI_I01_INSURANCE"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
@@ -48,16 +61,20 @@ public const RQI_I01_MESSAGE_TYPE = "RQI_I01";
                 "GT1": {name: "GT1", maxReps: -1, required: false, segmentType: typeof GT1},
                 "RQI_I01_INSURANCE": {name: "RQI_I01_INSURANCE", maxReps: -1, required: true, segmentType: typeof RQI_I01_INSURANCE}
             }
-        }
+        },
+        "RQI_I01_GUARANTOR_INSURANCE.RQI_I01_INSURANCE": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type RQI_I01 record {
     *hl7v2:Message;
     string name = RQI_I01_MESSAGE_TYPE;
     MSH msh;
+    RQI_I01_PROVIDER[] provider = [{prd:{}}];
     PID pid;
     NK1[] nk1 = [];
-    NTE[] nte = [];
-    RQI_I01_PROVIDER[] provider = [{prd:{}}];
     RQI_I01_GUARANTOR_INSURANCE[] guarantor_insurance = [{}];
+    NTE[] nte = [];
 };

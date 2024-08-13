@@ -26,6 +26,16 @@ public const RPL_I02_MESSAGE_TYPE = "RPL_I02";
 # + dsc - DSC Segment
 # + provider - RPL_I02_PROVIDER Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "CTD": [{name: "CTD", maxReps: -1, required: false, segmentComponentName: "RPL_I02_PROVIDER"}],
+        "PRD": [{name: "PRD", maxReps: 1, required: false, segmentComponentName: "RPL_I02_PROVIDER"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}],
+        "DSP": [{name: "DSP", maxReps: -1, required: false}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -49,8 +59,8 @@ public type RPL_I02 record {
     string name = RPL_I02_MESSAGE_TYPE;
     MSH msh;
     MSA msa;
+    RPL_I02_PROVIDER[] provider = [{prd:{}}];
     NTE[] nte = [];
     DSP[] dsp = [];
     DSC dsc?;
-    RPL_I02_PROVIDER[] provider = [{prd:{}}];
 };

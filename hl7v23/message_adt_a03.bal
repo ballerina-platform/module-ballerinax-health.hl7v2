@@ -31,6 +31,21 @@ public const ADT_A03_MESSAGE_TYPE = "ADT_A03";
 # + obx - OBX Segment
 # + procedure - ADT_A03_PROCEDURE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false}],
+        "DB1": [{name: "DB1", maxReps: -1, required: false}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false}],
+        "DRG": [{name: "DRG", maxReps: 1, required: false}],
+        "PR1": [{name: "PR1", maxReps: 1, required: false, segmentComponentName: "ADT_A03_PROCEDURE"}],
+        "ROL": [{name: "ROL", maxReps: -1, required: false, segmentComponentName: "ADT_A03_PROCEDURE"}],
+        "OBX": [{name: "OBX", maxReps: -1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
@@ -66,6 +81,6 @@ public type ADT_A03 record {
     DB1[] db1 = [];
     DG1[] dg1 = [];
     DRG drg?;
-    OBX[] obx = [];
     ADT_A03_PROCEDURE[] procedure = [{pr1:{}}];
+    OBX[] obx = [];
 };

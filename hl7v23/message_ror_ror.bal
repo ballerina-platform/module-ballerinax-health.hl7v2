@@ -25,6 +25,21 @@ public const ROR_ROR_MESSAGE_TYPE = "ROR_ROR";
 # + dsc - DSC Segment
 # + definition - ROR_ROR_DEFINITION Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false, segmentComponentName: "ROR_ROR_DEFINITION"}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false, segmentComponentName: "ROR_ROR_DEFINITION"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_ORDER"}],
+        "RXO": [{name: "RXO", maxReps: 1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_ORDER"}],
+        "RXC": [{name: "RXC", maxReps: -1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_ORDER"}],
+        "RXR": [{name: "RXR", maxReps: -1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_ORDER"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_PATIENT"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_PATIENT"}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -41,7 +56,15 @@ public const ROR_ROR_MESSAGE_TYPE = "ROR_ROR";
                 "ROR_ROR_PATIENT": {name: "ROR_ROR_PATIENT", maxReps: 1, required: false, segmentType: typeof ROR_ROR_PATIENT},
                 "ROR_ROR_ORDER": {name: "ROR_ROR_ORDER", maxReps: -1, required: true, segmentType: typeof ROR_ROR_ORDER}
             }
-        }
+        },
+        "ROR_ROR_DEFINITION.ROR_ROR_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "ROR_ROR_DEFINITION.ROR_ROR_ORDER": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type ROR_ROR record {
@@ -50,6 +73,6 @@ public type ROR_ROR record {
     MSH msh;
     MSA msa;
     ERR err?;
-    DSC dsc?;
     ROR_ROR_DEFINITION[] definition = [{qrd:{}}];
+    DSC dsc?;
 };

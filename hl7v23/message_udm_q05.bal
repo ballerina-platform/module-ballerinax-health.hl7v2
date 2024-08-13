@@ -25,6 +25,14 @@ public const UDM_Q05_MESSAGE_TYPE = "UDM_Q05";
 # + dsp - DSP Segment
 # + dsc - DSC Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "URD": [{name: "URD", maxReps: 1, required: false}],
+        "URS": [{name: "URS", maxReps: 1, required: false}],
+        "DSP": [{name: "DSP", maxReps: -1, required: false}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "URD": {name: "URD", maxReps: 1, required: true, segmentType: URD},

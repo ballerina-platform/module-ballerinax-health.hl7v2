@@ -26,6 +26,15 @@ public const ADT_A50_MESSAGE_TYPE = "ADT_A50";
 # + mrg - MRG Segment
 # + pv1 - PV1 Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false}],
+        "MRG": [{name: "MRG", maxReps: 1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},

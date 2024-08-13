@@ -25,6 +25,17 @@ public const ORN_O02_MESSAGE_TYPE = "ORN_O02";
 # + nte - NTE Segment
 # + response - ORN_O02_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORN_O02_RESPONSE.ORN_O02_PATIENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORN_O02_RESPONSE.ORN_O02_ORDER"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "ORN_O02_RESPONSE.ORN_O02_PATIENT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "ORN_O02_RESPONSE.ORN_O02_ORDER"}],
+        "RQ1": [{name: "RQ1", maxReps: 1, required: false, segmentComponentName: "ORN_O02_RESPONSE.ORN_O02_ORDER"}],
+        "RQD": [{name: "RQD", maxReps: 1, required: false, segmentComponentName: "ORN_O02_RESPONSE.ORN_O02_ORDER"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -39,7 +50,15 @@ public const ORN_O02_MESSAGE_TYPE = "ORN_O02";
                 "ORN_O02_PATIENT": {name: "ORN_O02_PATIENT", maxReps: 1, required: false, segmentType: typeof ORN_O02_PATIENT},
                 "ORN_O02_ORDER": {name: "ORN_O02_ORDER", maxReps: -1, required: true, segmentType: typeof ORN_O02_ORDER}
             }
-        }
+        },
+        "ORN_O02_RESPONSE.ORN_O02_ORDER": {
+		   maxReps: -1,
+		   required: false
+		},
+        "ORN_O02_RESPONSE.ORN_O02_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type ORN_O02 record {

@@ -23,6 +23,15 @@ public const MFN_M07_MESSAGE_TYPE = "MFN_M07";
 # + mfi - MFI Segment
 # + mf_clin_study - MFN_M07_MF_CLIN_STUDY Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MFI": [{name: "MFI", maxReps: 1, required: false}],
+        "CM0": [{name: "CM0", maxReps: 1, required: false, segmentComponentName: "MFN_M07_MF_CLIN_STUDY"}],
+        "MFE": [{name: "MFE", maxReps: 1, required: false, segmentComponentName: "MFN_M07_MF_CLIN_STUDY"}],
+        "CM1": [{name: "CM1", maxReps: 1, required: false, segmentComponentName: "MFN_M07_MF_CLIN_STUDY.MFN_M07_MF_PHASE_SCHED_DETAIL"}],
+        "CM2": [{name: "CM2", maxReps: -1, required: false, segmentComponentName: "MFN_M07_MF_CLIN_STUDY.MFN_M07_MF_PHASE_SCHED_DETAIL"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
@@ -36,7 +45,11 @@ public const MFN_M07_MESSAGE_TYPE = "MFN_M07";
                 "CM0": {name: "CM0", maxReps: 1, required: true, segmentType: typeof CM0},
                 "MFN_M07_MF_PHASE_SCHED_DETAIL": {name: "MFN_M07_MF_PHASE_SCHED_DETAIL", maxReps: -1, required: false, segmentType: typeof MFN_M07_MF_PHASE_SCHED_DETAIL}
             }
-        }
+        },
+        "MFN_M07_MF_CLIN_STUDY.MFN_M07_MF_PHASE_SCHED_DETAIL": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type MFN_M07 record {

@@ -25,6 +25,22 @@ public const RGR_RGR_MESSAGE_TYPE = "RGR_RGR";
 # + dsc - DSC Segment
 # + definition - RGR_RGR_DEFINITION Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "RXG": [{name: "RXG", maxReps: -1, required: false, segmentComponentName: "RGR_RGR_DEFINITION.RGR_RGR_ORDER"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "RGR_RGR_DEFINITION.RGR_RGR_ORDER"}],
+        "RXC": [{name: "RXC", maxReps: -1, required: false, segmentComponentName: "RGR_RGR_DEFINITION.RGR_RGR_ORDER"}, {name: "RXC", maxReps: -1, required: false, segmentComponentName: "RGR_RGR_DEFINITION.RGR_RGR_ORDER.RGR_RGR_ENCODING"}],
+        "RXR": [{name: "RXR", maxReps: -1, required: false, segmentComponentName: "RGR_RGR_DEFINITION.RGR_RGR_ORDER"}, {name: "RXR", maxReps: -1, required: false, segmentComponentName: "RGR_RGR_DEFINITION.RGR_RGR_ORDER.RGR_RGR_ENCODING"}],
+        "RXE": [{name: "RXE", maxReps: 1, required: false, segmentComponentName: "RGR_RGR_DEFINITION.RGR_RGR_ORDER.RGR_RGR_ENCODING"}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false, segmentComponentName: "RGR_RGR_DEFINITION"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "RGR_RGR_DEFINITION.RGR_RGR_PATIENT"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "RGR_RGR_DEFINITION.RGR_RGR_PATIENT"}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false, segmentComponentName: "RGR_RGR_DEFINITION"}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -41,7 +57,19 @@ public const RGR_RGR_MESSAGE_TYPE = "RGR_RGR";
                 "RGR_RGR_PATIENT": {name: "RGR_RGR_PATIENT", maxReps: 1, required: false, segmentType: typeof RGR_RGR_PATIENT},
                 "RGR_RGR_ORDER": {name: "RGR_RGR_ORDER", maxReps: -1, required: true, segmentType: typeof RGR_RGR_ORDER}
             }
-        }
+        },
+        "RGR_RGR_DEFINITION.RGR_RGR_ORDER": {
+		   maxReps: -1,
+		   required: false
+		},
+        "RGR_RGR_DEFINITION.RGR_RGR_ORDER.RGR_RGR_ENCODING": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RGR_RGR_DEFINITION.RGR_RGR_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type RGR_RGR record {
@@ -50,6 +78,6 @@ public type RGR_RGR record {
     MSH msh;
     MSA msa;
     ERR err?;
-    DSC dsc?;
     RGR_RGR_DEFINITION[] definition = [{qrd:{}}];
+    DSC dsc?;
 };

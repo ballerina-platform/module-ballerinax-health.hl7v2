@@ -25,6 +25,22 @@ public const RDR_RDR_MESSAGE_TYPE = "RDR_RDR";
 # + dsc - DSC Segment
 # + definition - RDR_RDR_DEFINITION Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false, segmentComponentName: "RDR_RDR_DEFINITION"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "RDR_RDR_DEFINITION.RDR_RDR_PATIENT"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "RDR_RDR_DEFINITION.RDR_RDR_PATIENT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "RDR_RDR_DEFINITION.RDR_RDR_ORDER"}],
+        "RXC": [{name: "RXC", maxReps: -1, required: false, segmentComponentName: "RDR_RDR_DEFINITION.RDR_RDR_ORDER.RDR_RDR_ENCODING"}, {name: "RXC", maxReps: -1, required: false, segmentComponentName: "RDR_RDR_DEFINITION.RDR_RDR_ORDER.RDR_RDR_DISPENSE"}],
+        "RXR": [{name: "RXR", maxReps: 1, required: false, segmentComponentName: "RDR_RDR_DEFINITION.RDR_RDR_ORDER.RDR_RDR_ENCODING"}, {name: "RXR", maxReps: -1, required: false, segmentComponentName: "RDR_RDR_DEFINITION.RDR_RDR_ORDER.RDR_RDR_DISPENSE"}],
+        "RXE": [{name: "RXE", maxReps: 1, required: false, segmentComponentName: "RDR_RDR_DEFINITION.RDR_RDR_ORDER.RDR_RDR_ENCODING"}],
+        "RXD": [{name: "RXD", maxReps: 1, required: false, segmentComponentName: "RDR_RDR_DEFINITION.RDR_RDR_ORDER.RDR_RDR_DISPENSE"}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false, segmentComponentName: "RDR_RDR_DEFINITION"}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -41,7 +57,23 @@ public const RDR_RDR_MESSAGE_TYPE = "RDR_RDR";
                 "RDR_RDR_PATIENT": {name: "RDR_RDR_PATIENT", maxReps: 1, required: false, segmentType: typeof RDR_RDR_PATIENT},
                 "RDR_RDR_ORDER": {name: "RDR_RDR_ORDER", maxReps: -1, required: true, segmentType: typeof RDR_RDR_ORDER}
             }
-        }
+        },
+        "RDR_RDR_DEFINITION.RDR_RDR_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RDR_RDR_DEFINITION.RDR_RDR_ORDER": {
+		   maxReps: -1,
+		   required: false
+		},
+        "RDR_RDR_DEFINITION.RDR_RDR_ORDER.RDR_RDR_ENCODING": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RDR_RDR_DEFINITION.RDR_RDR_ORDER.RDR_RDR_DISPENSE": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type RDR_RDR record {
@@ -50,6 +82,6 @@ public type RDR_RDR record {
     MSH msh;
     MSA msa;
     ERR err?;
-    DSC dsc?;
     RDR_RDR_DEFINITION[] definition = [{qrd:{}}];
+    DSC dsc?;
 };

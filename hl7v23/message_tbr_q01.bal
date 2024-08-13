@@ -27,6 +27,16 @@ public const TBR_Q01_MESSAGE_TYPE = "TBR_Q01";
 # + rdt - RDT Segment
 # + dsc - DSC Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "QAK": [{name: "QAK", maxReps: 1, required: false}],
+        "RDF": [{name: "RDF", maxReps: 1, required: false}],
+        "RDT": [{name: "RDT", maxReps: -1, required: false}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},

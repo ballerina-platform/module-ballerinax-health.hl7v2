@@ -32,6 +32,22 @@ public const RCL_I06_MESSAGE_TYPE = "RCL_I06";
 # + dsc - DSC Segment
 # + provider - RCL_I06_PROVIDER Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}],
+        "CTD": [{name: "CTD", maxReps: -1, required: false, segmentComponentName: "RCL_I06_PROVIDER"}],
+        "PRD": [{name: "PRD", maxReps: 1, required: false, segmentComponentName: "RCL_I06_PROVIDER"}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false}],
+        "DRG": [{name: "DRG", maxReps: -1, required: false}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}],
+        "DSP": [{name: "DSP", maxReps: -1, required: false}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -63,6 +79,7 @@ public type RCL_I06 record {
     MSA msa;
     QRD qrd;
     QRF qrf?;
+    RCL_I06_PROVIDER[] provider = [{prd:{}}];
     PID pid;
     DG1[] dg1 = [];
     DRG[] drg = [];
@@ -70,5 +87,4 @@ public type RCL_I06 record {
     NTE[] nte = [];
     DSP[] dsp = [];
     DSC dsc?;
-    RCL_I06_PROVIDER[] provider = [{prd:{}}];
 };

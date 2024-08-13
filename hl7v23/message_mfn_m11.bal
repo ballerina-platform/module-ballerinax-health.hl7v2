@@ -23,6 +23,15 @@ public const MFN_M11_MESSAGE_TYPE = "MFN_M11";
 # + mfi - MFI Segment
 # + mf_test_calculated - MFN_M11_MF_TEST_CALCULATED Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MFI": [{name: "MFI", maxReps: 1, required: false}],
+        "OM1": [{name: "OM1", maxReps: 1, required: false, segmentComponentName: "MFN_M11_MF_TEST_CALCULATED"}],
+        "MFE": [{name: "MFE", maxReps: 1, required: false, segmentComponentName: "MFN_M11_MF_TEST_CALCULATED"}],
+        "OM2": [{name: "OM2", maxReps: 1, required: false, segmentComponentName: "MFN_M11_MF_TEST_CALCULATED.MFN_M11_MF_TEST_CALC_DETAIL"}],
+        "OM6": [{name: "OM6", maxReps: 1, required: false, segmentComponentName: "MFN_M11_MF_TEST_CALCULATED.MFN_M11_MF_TEST_CALC_DETAIL"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
@@ -36,7 +45,11 @@ public const MFN_M11_MESSAGE_TYPE = "MFN_M11";
                 "OM1": {name: "OM1", maxReps: 1, required: true, segmentType: typeof OM1},
                 "MFN_M11_MF_TEST_CALC_DETAIL": {name: "MFN_M11_MF_TEST_CALC_DETAIL", maxReps: 1, required: false, segmentType: typeof MFN_M11_MF_TEST_CALC_DETAIL}
             }
-        }
+        },
+        "MFN_M11_MF_TEST_CALCULATED.MFN_M11_MF_TEST_CALC_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type MFN_M11 record {

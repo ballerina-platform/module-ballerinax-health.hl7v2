@@ -24,6 +24,24 @@ public const RAS_O01_MESSAGE_TYPE = "RAS_O01";
 # + patient - RAS_O01_PATIENT Segment Group
 # + order - RAS_O01_ORDER Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RAS_O01_PATIENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RAS_O01_ORDER.RAS_O01_ORDER_DETAIL.RAS_O01_ORDER_DETAIL_SUPPLEMENT.RAS_O01_COMPONENTS"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RAS_O01_ORDER.RAS_O01_ORDER_DETAIL.RAS_O01_ORDER_DETAIL_SUPPLEMENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RAS_O01_ORDER.RAS_O01_OBSERVATION"}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false, segmentComponentName: "RAS_O01_PATIENT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "RAS_O01_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "RAS_O01_PATIENT.RAS_O01_PATIENT_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "RAS_O01_PATIENT.RAS_O01_PATIENT_VISIT"}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false, segmentComponentName: "RAS_O01_PATIENT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "RAS_O01_ORDER"}],
+        "RXO": [{name: "RXO", maxReps: 1, required: false, segmentComponentName: "RAS_O01_ORDER.RAS_O01_ORDER_DETAIL"}],
+        "RXC": [{name: "RXC", maxReps: -1, required: false, segmentComponentName: "RAS_O01_ORDER.RAS_O01_ORDER_DETAIL.RAS_O01_ORDER_DETAIL_SUPPLEMENT.RAS_O01_COMPONENTS"}, {name: "RXC", maxReps: -1, required: false, segmentComponentName: "RAS_O01_ORDER.RAS_O01_ENCODING"}],
+        "RXR": [{name: "RXR", maxReps: -1, required: false, segmentComponentName: "RAS_O01_ORDER.RAS_O01_ORDER_DETAIL.RAS_O01_ORDER_DETAIL_SUPPLEMENT"}, {name: "RXR", maxReps: -1, required: false, segmentComponentName: "RAS_O01_ORDER.RAS_O01_ENCODING"}, {name: "RXR", maxReps: 1, required: false, segmentComponentName: "RAS_O01_ORDER"}],
+        "RXE": [{name: "RXE", maxReps: 1, required: false, segmentComponentName: "RAS_O01_ORDER.RAS_O01_ENCODING"}],
+        "CTI": [{name: "CTI", maxReps: -1, required: false, segmentComponentName: "RAS_O01_ORDER"}],
+        "RXA": [{name: "RXA", maxReps: -1, required: false, segmentComponentName: "RAS_O01_ORDER"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "RAS_O01_ORDER.RAS_O01_OBSERVATION"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
@@ -52,7 +70,31 @@ public const RAS_O01_MESSAGE_TYPE = "RAS_O01";
                 "RAS_O01_OBSERVATION": {name: "RAS_O01_OBSERVATION", maxReps: -1, required: false, segmentType: typeof RAS_O01_OBSERVATION},
                 "CTI": {name: "CTI", maxReps: -1, required: false, segmentType: typeof CTI}
             }
-        }
+        },
+        "RAS_O01_ORDER.RAS_O01_ORDER_DETAIL.RAS_O01_ORDER_DETAIL_SUPPLEMENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RAS_O01_ORDER.RAS_O01_ORDER_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RAS_O01_ORDER.RAS_O01_ORDER_DETAIL.RAS_O01_ORDER_DETAIL_SUPPLEMENT.RAS_O01_COMPONENTS": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RAS_O01_ORDER.RAS_O01_ENCODING": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RAS_O01_PATIENT.RAS_O01_PATIENT_VISIT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RAS_O01_ORDER.RAS_O01_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type RAS_O01 record {

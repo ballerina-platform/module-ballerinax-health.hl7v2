@@ -25,6 +25,21 @@ public const SQM_S25_MESSAGE_TYPE = "SQM_S25";
 # + dsc - DSC Segment
 # + request - SQM_S25_REQUEST Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}],
+        "ARQ": [{name: "ARQ", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST"}],
+        "APR": [{name: "APR", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST"}, {name: "APR", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_LOCATION_RESOURCE"}, {name: "APR", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_GENERAL_RESOURCE"}, {name: "APR", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_SERVICE"}, {name: "APR", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_PERSONNEL_RESOURCE"}],
+        "AIL": [{name: "AIL", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_LOCATION_RESOURCE"}],
+        "AIG": [{name: "AIG", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_GENERAL_RESOURCE"}],
+        "AIS": [{name: "AIS", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_SERVICE"}],
+        "RGS": [{name: "RGS", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST.SQM_S25_RESOURCES"}],
+        "AIP": [{name: "AIP", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_PERSONNEL_RESOURCE"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "SQM_S25_REQUEST"}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
@@ -41,7 +56,27 @@ public const SQM_S25_MESSAGE_TYPE = "SQM_S25";
                 "PID": {name: "PID", maxReps: 1, required: false, segmentType: typeof PID},
                 "SQM_S25_RESOURCES": {name: "SQM_S25_RESOURCES", maxReps: -1, required: true, segmentType: typeof SQM_S25_RESOURCES}
             }
-        }
+        },
+        "SQM_S25_REQUEST.SQM_S25_RESOURCES": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_GENERAL_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_PERSONNEL_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_SERVICE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SQM_S25_REQUEST.SQM_S25_RESOURCES.SQM_S25_LOCATION_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type SQM_S25 record {
@@ -50,6 +85,6 @@ public type SQM_S25 record {
     MSH msh;
     QRD qrd;
     QRF qrf?;
-    DSC dsc?;
     SQM_S25_REQUEST[] request = [{arq:{}}];
+    DSC dsc?;
 };

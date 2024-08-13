@@ -26,6 +26,23 @@ public const SRM_S01_MESSAGE_TYPE = "SRM_S01";
 # + patient - SRM_S01_PATIENT Segment Group
 # + resources - SRM_S01_RESOURCES Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "ARQ": [{name: "ARQ", maxReps: 1, required: false}],
+        "APR": [{name: "APR", maxReps: 1, required: false}, {name: "APR", maxReps: 1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_GENERAL_RESOURCE"}, {name: "APR", maxReps: 1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_SERVICE"}, {name: "APR", maxReps: 1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_PERSONNEL_RESOURCE"}, {name: "APR", maxReps: 1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_LOCATION_RESOURCE"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_GENERAL_RESOURCE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_SERVICE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_PERSONNEL_RESOURCE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_LOCATION_RESOURCE"}],
+        "OBX": [{name: "OBX", maxReps: -1, required: false, segmentComponentName: "SRM_S01_PATIENT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "SRM_S01_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "SRM_S01_PATIENT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "SRM_S01_PATIENT"}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false, segmentComponentName: "SRM_S01_PATIENT"}],
+        "AIG": [{name: "AIG", maxReps: 1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_GENERAL_RESOURCE"}],
+        "AIS": [{name: "AIS", maxReps: 1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_SERVICE"}],
+        "AIP": [{name: "AIP", maxReps: 1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_PERSONNEL_RESOURCE"}],
+        "AIL": [{name: "AIL", maxReps: 1, required: false, segmentComponentName: "SRM_S01_RESOURCES.SRM_S01_LOCATION_RESOURCE"}],
+        "RGS": [{name: "RGS", maxReps: 1, required: false, segmentComponentName: "SRM_S01_RESOURCES"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "ARQ": {name: "ARQ", maxReps: 1, required: true, segmentType: ARQ},
@@ -54,7 +71,23 @@ public const SRM_S01_MESSAGE_TYPE = "SRM_S01";
                 "SRM_S01_LOCATION_RESOURCE": {name: "SRM_S01_LOCATION_RESOURCE", maxReps: -1, required: false, segmentType: typeof SRM_S01_LOCATION_RESOURCE},
                 "SRM_S01_PERSONNEL_RESOURCE": {name: "SRM_S01_PERSONNEL_RESOURCE", maxReps: -1, required: false, segmentType: typeof SRM_S01_PERSONNEL_RESOURCE}
             }
-        }
+        },
+        "SRM_S01_RESOURCES.SRM_S01_LOCATION_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SRM_S01_RESOURCES.SRM_S01_SERVICE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SRM_S01_RESOURCES.SRM_S01_PERSONNEL_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SRM_S01_RESOURCES.SRM_S01_GENERAL_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type SRM_S01 record {

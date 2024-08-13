@@ -54,6 +54,6 @@ public type DOC_T12 record {
     MSA msa;
     ERR err?;
     QRD qrd;
-    DSC dsc?;
     DOC_T12_RESULT[] result = [{pid:{}, pv1:{}, txa:{}}];
+    DSC dsc?;
 };

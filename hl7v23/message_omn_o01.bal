@@ -24,6 +24,25 @@ public const OMN_O01_MESSAGE_TYPE = "OMN_O01";
 # + patient - OMN_O01_PATIENT Segment Group
 # + order - OMN_O01_ORDER Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OMN_O01_PATIENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OMN_O01_ORDER.OMN_O01_ORDER_DETAIL.OMN_O01_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OMN_O01_ORDER.OMN_O01_ORDER_DETAIL"}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "OMN_O01_PATIENT.OMN_O01_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "OMN_O01_PATIENT.OMN_O01_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "OMN_O01_PATIENT.OMN_O01_INSURANCE"}],
+        "GT1": [{name: "GT1", maxReps: 1, required: false, segmentComponentName: "OMN_O01_PATIENT"}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false, segmentComponentName: "OMN_O01_PATIENT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "OMN_O01_PATIENT"}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false, segmentComponentName: "OMN_O01_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "OMN_O01_PATIENT.OMN_O01_PATIENT_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "OMN_O01_PATIENT.OMN_O01_PATIENT_VISIT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "OMN_O01_ORDER"}],
+        "RQ1": [{name: "RQ1", maxReps: 1, required: false, segmentComponentName: "OMN_O01_ORDER.OMN_O01_ORDER_DETAIL"}],
+        "RQD": [{name: "RQD", maxReps: 1, required: false, segmentComponentName: "OMN_O01_ORDER.OMN_O01_ORDER_DETAIL"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "OMN_O01_ORDER.OMN_O01_ORDER_DETAIL.OMN_O01_OBSERVATION"}],
+        "BLG": [{name: "BLG", maxReps: 1, required: false, segmentComponentName: "OMN_O01_ORDER"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
@@ -50,7 +69,23 @@ public const OMN_O01_MESSAGE_TYPE = "OMN_O01";
                 "OMN_O01_ORDER_DETAIL": {name: "OMN_O01_ORDER_DETAIL", maxReps: 1, required: false, segmentType: typeof OMN_O01_ORDER_DETAIL},
                 "BLG": {name: "BLG", maxReps: 1, required: false, segmentType: typeof BLG}
             }
-        }
+        },
+        "OMN_O01_ORDER.OMN_O01_ORDER_DETAIL.OMN_O01_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "OMN_O01_PATIENT.OMN_O01_PATIENT_VISIT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "OMN_O01_PATIENT.OMN_O01_INSURANCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "OMN_O01_ORDER.OMN_O01_ORDER_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type OMN_O01 record {

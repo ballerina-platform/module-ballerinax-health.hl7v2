@@ -23,6 +23,12 @@ public const VXQ_V01_MESSAGE_TYPE = "VXQ_V01";
 # + qrd - QRD Segment
 # + qrf - QRF Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},

@@ -34,6 +34,27 @@ public const DFT_P03_MESSAGE_TYPE = "DFT_P03";
 # + financial - DFT_P03_FINANCIAL Segment Group
 # + insurance - DFT_P03_INSURANCE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false}],
+        "DB1": [{name: "DB1", maxReps: -1, required: false}],
+        "OBX": [{name: "OBX", maxReps: -1, required: false}],
+        "FT1": [{name: "FT1", maxReps: 1, required: false, segmentComponentName: "DFT_P03_FINANCIAL"}],
+        "PR1": [{name: "PR1", maxReps: 1, required: false, segmentComponentName: "DFT_P03_FINANCIAL.DFT_P03_FINANCIAL_PROCEDURE"}],
+        "ROL": [{name: "ROL", maxReps: -1, required: false, segmentComponentName: "DFT_P03_FINANCIAL.DFT_P03_FINANCIAL_PROCEDURE"}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false}],
+        "DRG": [{name: "DRG", maxReps: 1, required: false}],
+        "GT1": [{name: "GT1", maxReps: -1, required: false}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "DFT_P03_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "DFT_P03_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "DFT_P03_INSURANCE"}],
+        "ACC": [{name: "ACC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
@@ -65,7 +86,11 @@ public const DFT_P03_MESSAGE_TYPE = "DFT_P03";
                 "IN2": {name: "IN2", maxReps: 1, required: false, segmentType: typeof IN2},
                 "IN3": {name: "IN3", maxReps: 1, required: false, segmentType: typeof IN3}
             }
-        }
+        },
+        "DFT_P03_FINANCIAL.DFT_P03_FINANCIAL_PROCEDURE": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type DFT_P03 record {
@@ -79,10 +104,10 @@ public type DFT_P03 record {
     PV2 pv2?;
     DB1[] db1 = [];
     OBX[] obx = [];
+    DFT_P03_FINANCIAL[] financial = [{ft1:{}}];
     DG1[] dg1 = [];
     DRG drg?;
     GT1[] gt1 = [];
-    ACC acc?;
-    DFT_P03_FINANCIAL[] financial = [{ft1:{}}];
     DFT_P03_INSURANCE[] insurance = [{in1:{}}];
+    ACC acc?;
 };

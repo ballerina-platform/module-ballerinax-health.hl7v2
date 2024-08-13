@@ -22,6 +22,23 @@ public const CSU_C09_MESSAGE_TYPE = "CSU_C09";
 # + msh - MSH Segment
 # + patient - CSU_C09_PATIENT Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "CSR": [{name: "CSR", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT"}],
+        "CSS": [{name: "CSS", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE.CSU_C09_STUDY_OBSERVATION"}, {name: "ORC", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE.CSU_C09_STUDY_PHARM"}],
+        "OBX": [{name: "OBX", maxReps: -1, required: false, segmentComponentName: "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE.CSU_C09_STUDY_OBSERVATION"}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE.CSU_C09_STUDY_OBSERVATION"}],
+        "RXA": [{name: "RXA", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE.CSU_C09_STUDY_PHARM.CSU_C09_RX_ADMIN"}],
+        "RXR": [{name: "RXR", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE.CSU_C09_STUDY_PHARM.CSU_C09_RX_ADMIN"}],
+        "CSP": [{name: "CSP", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT.CSU_C09_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT.CSU_C09_VISIT"}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false, segmentComponentName: "CSU_C09_PATIENT"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "CSU_C09_PATIENT"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH}
     }
@@ -37,7 +54,31 @@ public const CSU_C09_MESSAGE_TYPE = "CSU_C09";
                 "CSR": {name: "CSR", maxReps: 1, required: true, segmentType: typeof CSR},
                 "CSU_C09_STUDY_PHASE": {name: "CSU_C09_STUDY_PHASE", maxReps: -1, required: true, segmentType: typeof CSU_C09_STUDY_PHASE}
             }
-        }
+        },
+        "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE.CSU_C09_STUDY_PHARM.CSU_C09_RX_ADMIN": {
+		   maxReps: -1,
+		   required: false
+		},
+        "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "CSU_C09_PATIENT.CSU_C09_VISIT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE.CSU_C09_STUDY_PHARM": {
+		   maxReps: -1,
+		   required: false
+		},
+        "CSU_C09_PATIENT.CSU_C09_STUDY_PHASE.CSU_C09_STUDY_SCHEDULE.CSU_C09_STUDY_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type CSU_C09 record {

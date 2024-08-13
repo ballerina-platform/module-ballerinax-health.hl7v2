@@ -27,6 +27,27 @@ public const PEX_P07_MESSAGE_TYPE = "PEX_P07";
 # + visit - PEX_P07_VISIT Segment Group
 # + experience - PEX_P07_EXPERIENCE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "PEX_P07_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "PEX_P07_VISIT"}],
+        "PRB": [{name: "PRB", maxReps: -1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE"}, {name: "PRB", maxReps: -1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_ASSOCIATED_PERSON"}],
+        "OBX": [{name: "OBX", maxReps: -1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE"}, {name: "OBX", maxReps: -1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_ASSOCIATED_PERSON"}],
+        "RXR": [{name: "RXR", maxReps: -1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_RX_ORDER"}, {name: "RXR", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_ASSOCIATED_PERSON.PEX_P07_ASSOCIATED_RX_ADMIN"}, {name: "RXR", maxReps: -1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_ASSOCIATED_PERSON.PEX_P07_ASSOCIATED_RX_ORDER"}, {name: "RXR", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_RX_ADMINISTRATION"}],
+        "RXE": [{name: "RXE", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_RX_ORDER"}, {name: "RXE", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_ASSOCIATED_PERSON.PEX_P07_ASSOCIATED_RX_ORDER"}],
+        "NK1": [{name: "NK1", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_ASSOCIATED_PERSON"}],
+        "RXA": [{name: "RXA", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_ASSOCIATED_PERSON.PEX_P07_ASSOCIATED_RX_ADMIN"}, {name: "RXA", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_RX_ADMINISTRATION"}],
+        "CSP": [{name: "CSP", maxReps: -1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_STUDY"}],
+        "CSR": [{name: "CSR", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_STUDY"}],
+        "PCR": [{name: "PCR", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE"}],
+        "PEO": [{name: "PEO", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION"}],
+        "PES": [{name: "PES", maxReps: 1, required: false, segmentComponentName: "PEX_P07_EXPERIENCE"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
@@ -50,7 +71,39 @@ public const PEX_P07_MESSAGE_TYPE = "PEX_P07";
                 "PES": {name: "PES", maxReps: 1, required: true, segmentType: typeof PES},
                 "PEX_P07_PEX_OBSERVATION": {name: "PEX_P07_PEX_OBSERVATION", maxReps: -1, required: true, segmentType: typeof PEX_P07_PEX_OBSERVATION}
             }
-        }
+        },
+        "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_ASSOCIATED_PERSON.PEX_P07_ASSOCIATED_RX_ORDER": {
+		   maxReps: 1,
+		   required: false
+		},
+        "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_STUDY": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_ASSOCIATED_PERSON": {
+		   maxReps: 1,
+		   required: false
+		},
+        "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_ASSOCIATED_PERSON.PEX_P07_ASSOCIATED_RX_ADMIN": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_RX_ADMINISTRATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PEX_P07_EXPERIENCE.PEX_P07_PEX_OBSERVATION.PEX_P07_PEX_CAUSE.PEX_P07_RX_ORDER": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type PEX_P07 record {

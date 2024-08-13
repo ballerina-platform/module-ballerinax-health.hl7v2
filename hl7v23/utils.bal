@@ -1747,6 +1747,10 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_choice:{}};
             return messageInstance;
         }
+        "ORM_O01_ORDER_DETAIL_SEGMENT" => {
+            ORM_O01_ORDER_DETAIL_SEGMENT messageInstance = {};
+            return messageInstance;
+        }
         "SIU_S12_GENERAL_RESOURCE" => {
             SIU_S12_GENERAL_RESOURCE messageInstance = {aig:{}};
             return messageInstance;

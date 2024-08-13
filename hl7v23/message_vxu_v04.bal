@@ -27,6 +27,23 @@ public const VXU_V04_MESSAGE_TYPE = "VXU_V04";
 # + insurance - VXU_V04_INSURANCE Segment Group
 # + order - VXU_V04_ORDER Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "VXU_V04_PATIENT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "VXU_V04_PATIENT"}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "VXU_V04_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "VXU_V04_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "VXU_V04_INSURANCE"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "VXU_V04_ORDER"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "VXU_V04_ORDER.VXU_V04_OBSERVATION"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "VXU_V04_ORDER.VXU_V04_OBSERVATION"}],
+        "RXA": [{name: "RXA", maxReps: 1, required: false, segmentComponentName: "VXU_V04_ORDER"}],
+        "RXR": [{name: "RXR", maxReps: 1, required: false, segmentComponentName: "VXU_V04_ORDER"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
@@ -60,7 +77,11 @@ public const VXU_V04_MESSAGE_TYPE = "VXU_V04";
                 "RXR": {name: "RXR", maxReps: 1, required: false, segmentType: typeof RXR},
                 "VXU_V04_OBSERVATION": {name: "VXU_V04_OBSERVATION", maxReps: -1, required: false, segmentType: typeof VXU_V04_OBSERVATION}
             }
-        }
+        },
+        "VXU_V04_ORDER.VXU_V04_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type VXU_V04 record {

@@ -30,6 +30,26 @@ public const VXR_V03_MESSAGE_TYPE = "VXR_V03";
 # + insurance - VXR_V03_INSURANCE Segment Group
 # + order - VXR_V03_ORDER Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "VXR_V03_PATIENT_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "VXR_V03_PATIENT_VISIT"}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "VXR_V03_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "VXR_V03_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "VXR_V03_INSURANCE"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "VXR_V03_ORDER"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "VXR_V03_ORDER.VXR_V03_OBSERVATION"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "VXR_V03_ORDER.VXR_V03_OBSERVATION"}],
+        "RXA": [{name: "RXA", maxReps: 1, required: false, segmentComponentName: "VXR_V03_ORDER"}],
+        "RXR": [{name: "RXR", maxReps: 1, required: false, segmentComponentName: "VXR_V03_ORDER"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -66,7 +86,11 @@ public const VXR_V03_MESSAGE_TYPE = "VXR_V03";
                 "RXR": {name: "RXR", maxReps: 1, required: false, segmentType: typeof RXR},
                 "VXR_V03_OBSERVATION": {name: "VXR_V03_OBSERVATION", maxReps: -1, required: false, segmentType: typeof VXR_V03_OBSERVATION}
             }
-        }
+        },
+        "VXR_V03_ORDER.VXR_V03_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type VXR_V03 record {

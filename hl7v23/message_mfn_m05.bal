@@ -23,6 +23,17 @@ public const MFN_M05_MESSAGE_TYPE = "MFN_M05";
 # + mfi - MFI Segment
 # + mf_location - MFN_M05_MF_LOCATION Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MFI": [{name: "MFI", maxReps: 1, required: false}],
+        "LCH": [{name: "LCH", maxReps: -1, required: false, segmentComponentName: "MFN_M05_MF_LOCATION"}, {name: "LCH", maxReps: -1, required: false, segmentComponentName: "MFN_M05_MF_LOCATION.MFN_M05_MF_LOC_DEPT"}],
+        "LOC": [{name: "LOC", maxReps: 1, required: false, segmentComponentName: "MFN_M05_MF_LOCATION"}],
+        "LRL": [{name: "LRL", maxReps: -1, required: false, segmentComponentName: "MFN_M05_MF_LOCATION"}],
+        "LDP": [{name: "LDP", maxReps: 1, required: false, segmentComponentName: "MFN_M05_MF_LOCATION.MFN_M05_MF_LOC_DEPT"}],
+        "LCC": [{name: "LCC", maxReps: -1, required: false, segmentComponentName: "MFN_M05_MF_LOCATION.MFN_M05_MF_LOC_DEPT"}],
+        "MFE": [{name: "MFE", maxReps: 1, required: false, segmentComponentName: "MFN_M05_MF_LOCATION"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
@@ -38,7 +49,11 @@ public const MFN_M05_MESSAGE_TYPE = "MFN_M05";
                 "LRL": {name: "LRL", maxReps: -1, required: false, segmentType: typeof LRL},
                 "MFN_M05_MF_LOC_DEPT": {name: "MFN_M05_MF_LOC_DEPT", maxReps: -1, required: true, segmentType: typeof MFN_M05_MF_LOC_DEPT}
             }
-        }
+        },
+        "MFN_M05_MF_LOCATION.MFN_M05_MF_LOC_DEPT": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type MFN_M05 record {

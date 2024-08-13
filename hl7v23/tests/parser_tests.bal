@@ -145,3 +145,21 @@ function testInvalidField() {
         test:assertFail("Parsing failed");
     }
 }
+
+@test:Config {}
+function testSegmentGroupsParsing() returns error? {
+    string[] segmentsArr = [
+        string `MSH|^~\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACITILITY|20240718115723||ORM^O01|12345|P|2.3||||AL||8859/1`,
+        string `PV1|1||2039^Room 3^Bed 4^IMW||||||||||||||||||||||||||||||||||||9876^InternalMedicalWard|||||||||||1.2345.777.888`,
+        string `PV2|1|||||||||||||||||1011|`,
+        string `PID|1|040404-0404^^^^SSN|||Lastname^Givenname^Middlename`,
+        string `ORC|NW|20240718-1^FOO|||||^^^^^A||202407181157|||030303-0303^Smith^John^^^^^^^^^^SSN~987654^Smith^John^^^^^^^^^^SV`,
+        string `OBR|1|20240718-1^FOO||4520^P-INR^LAB-KL-98|||202407201257||||L||info to sample taking||||||||||||||^^^^^A|||PORT`,
+        string `NTE|1||Additional info to laboratory|`
+    ];
+
+    string hl7MsgStr = string:'join("\r", ...segmentsArr);
+    hl7:Message parsedMsg = check hl7:parse(hl7MsgStr);
+    ORM_O01 inOrm = check parsedMsg.ensureType(ORM_O01);
+    test:assertTrue(inOrm.patient[0].orm_o01_patient_visit?.pv1?.pv11 == "1", "Segment groups parsing failed");
+}

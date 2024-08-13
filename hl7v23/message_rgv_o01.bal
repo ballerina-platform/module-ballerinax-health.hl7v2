@@ -24,6 +24,22 @@ public const RGV_O01_MESSAGE_TYPE = "RGV_O01";
 # + patient - RGV_O01_PATIENT Segment Group
 # + order - RGV_O01_ORDER Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RGV_O01_PATIENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_ORDER_DETAIL.RGV_O01_ORDER_DETAIL_SUPPLEMENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_ORDER_DETAIL.RGV_O01_ORDER_DETAIL_SUPPLEMENT.RGV_O01_COMPONENTS"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_GIVE.RGV_O01_OBSERVATION"}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false, segmentComponentName: "RGV_O01_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "RGV_O01_PATIENT.RGV_O01_PATIENT_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "RGV_O01_PATIENT.RGV_O01_PATIENT_VISIT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "RGV_O01_PATIENT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "RGV_O01_ORDER"}],
+        "RXO": [{name: "RXO", maxReps: 1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_ORDER_DETAIL"}],
+        "RXR": [{name: "RXR", maxReps: -1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_ORDER_DETAIL.RGV_O01_ORDER_DETAIL_SUPPLEMENT"}, {name: "RXR", maxReps: -1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_ENCODING"}, {name: "RXR", maxReps: -1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_GIVE"}],
+        "RXC": [{name: "RXC", maxReps: -1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_ORDER_DETAIL.RGV_O01_ORDER_DETAIL_SUPPLEMENT.RGV_O01_COMPONENTS"}, {name: "RXC", maxReps: -1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_ENCODING"}, {name: "RXC", maxReps: -1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_GIVE"}],
+        "RXE": [{name: "RXE", maxReps: 1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_ENCODING"}],
+        "RXG": [{name: "RXG", maxReps: 1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_GIVE"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "RGV_O01_ORDER.RGV_O01_GIVE.RGV_O01_OBSERVATION"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
@@ -48,7 +64,35 @@ public const RGV_O01_MESSAGE_TYPE = "RGV_O01";
                 "RGV_O01_ENCODING": {name: "RGV_O01_ENCODING", maxReps: 1, required: false, segmentType: typeof RGV_O01_ENCODING},
                 "RGV_O01_GIVE": {name: "RGV_O01_GIVE", maxReps: -1, required: true, segmentType: typeof RGV_O01_GIVE}
             }
-        }
+        },
+        "RGV_O01_PATIENT.RGV_O01_PATIENT_VISIT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RGV_O01_ORDER.RGV_O01_ORDER_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RGV_O01_ORDER.RGV_O01_ENCODING": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RGV_O01_ORDER.RGV_O01_GIVE.RGV_O01_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "RGV_O01_ORDER.RGV_O01_GIVE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "RGV_O01_ORDER.RGV_O01_ORDER_DETAIL.RGV_O01_ORDER_DETAIL_SUPPLEMENT.RGV_O01_COMPONENTS": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RGV_O01_ORDER.RGV_O01_ORDER_DETAIL.RGV_O01_ORDER_DETAIL_SUPPLEMENT": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type RGV_O01 record {

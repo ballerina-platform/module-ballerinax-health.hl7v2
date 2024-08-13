@@ -23,6 +23,20 @@ public const ORU_R01_MESSAGE_TYPE = "ORU_R01";
 # + dsc - DSC Segment
 # + response - ORU_R01_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_ORDER_OBSERVATION"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_ORDER_OBSERVATION.ORU_R01_OBSERVATION"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_ORDER_OBSERVATION.ORU_R01_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_ORDER_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_PATIENT"}],
+        "CTI": [{name: "CTI", maxReps: -1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_ORDER_OBSERVATION"}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_ORDER_OBSERVATION"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_PATIENT.ORU_R01_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_PATIENT.ORU_R01_VISIT"}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false, segmentComponentName: "ORU_R01_RESPONSE.ORU_R01_PATIENT"}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
@@ -35,13 +49,29 @@ public const ORU_R01_MESSAGE_TYPE = "ORU_R01";
                 "ORU_R01_PATIENT": {name: "ORU_R01_PATIENT", maxReps: 1, required: false, segmentType: typeof ORU_R01_PATIENT},
                 "ORU_R01_ORDER_OBSERVATION": {name: "ORU_R01_ORDER_OBSERVATION", maxReps: -1, required: true, segmentType: typeof ORU_R01_ORDER_OBSERVATION}
             }
-        }
+        },
+        "ORU_R01_RESPONSE.ORU_R01_ORDER_OBSERVATION.ORU_R01_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "ORU_R01_RESPONSE.ORU_R01_ORDER_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "ORU_R01_RESPONSE.ORU_R01_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "ORU_R01_RESPONSE.ORU_R01_PATIENT.ORU_R01_VISIT": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type ORU_R01 record {
     *hl7v2:Message;
     string name = ORU_R01_MESSAGE_TYPE;
     MSH msh;
-    DSC dsc?;
     ORU_R01_RESPONSE[] response = [{}];
+    DSC dsc?;
 };

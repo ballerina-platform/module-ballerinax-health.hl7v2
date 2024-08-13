@@ -27,6 +27,35 @@ public const ARD_A19_MESSAGE_TYPE = "ARD_A19";
 # + dsc - DSC Segment
 # + query_response - ARD_A19_QUERY_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}],
+        "ACC": [{name: "ACC", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "OBX": [{name: "OBX", maxReps: -1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "UB2": [{name: "UB2", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "GT1": [{name: "GT1", maxReps: -1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "UB1": [{name: "UB1", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "PR1": [{name: "PR1", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE.ARD_A19_PROCEDURE"}],
+        "ROL": [{name: "ROL", maxReps: -1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE.ARD_A19_PROCEDURE"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE.ARD_A19_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE.ARD_A19_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE.ARD_A19_INSURANCE"}],
+        "DB1": [{name: "DB1", maxReps: -1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "DRG": [{name: "DRG", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false, segmentComponentName: "ARD_A19_QUERY_RESPONSE"}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -58,7 +87,15 @@ public const ARD_A19_MESSAGE_TYPE = "ARD_A19";
                 "UB1": {name: "UB1", maxReps: 1, required: false, segmentType: typeof UB1},
                 "UB2": {name: "UB2", maxReps: 1, required: false, segmentType: typeof UB2}
             }
-        }
+        },
+         "ARD_A19_QUERY_RESPONSE.ARD_A19_INSURANCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "ARD_A19_QUERY_RESPONSE.ARD_A19_PROCEDURE": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type ARD_A19 record {
@@ -69,6 +106,6 @@ public type ARD_A19 record {
     ERR err?;
     QRD qrd;
     QRF qrf?;
-    DSC dsc?;
     ARD_A19_QUERY_RESPONSE[] query_response = [{pid:{}, pv1:{}}];
+    DSC dsc?;
 };

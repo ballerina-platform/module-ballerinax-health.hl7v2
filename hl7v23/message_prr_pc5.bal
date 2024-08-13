@@ -25,6 +25,24 @@ public const PRR_PC5_MESSAGE_TYPE = "PRR_PC5";
 # + qrd - QRD Segment
 # + patient - PRR_PC5_PATIENT Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PATIENT_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PATIENT_VISIT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT"}],
+        "PRB": [{name: "PRB", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM"}],
+        "ROL": [{name: "ROL", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_PROBLEM_ROLE"}, {name: "ROL", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_GOAL.PRR_PC5_GOAL_ROLE"}],
+        "PTH": [{name: "PTH", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_PROBLEM_PATHWAY"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_GOAL.PRR_PC5_GOAL_OBSERVATION"}, {name: "OBX", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_ORDER.PRR_PC5_ORDER_DETAIL.PRR_PC5_ORDER_OBSERVATION"}, {name: "OBX", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_PROBLEM_OBSERVATION"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_GOAL.PRR_PC5_GOAL_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_GOAL"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_ORDER.PRR_PC5_ORDER_DETAIL.PRR_PC5_ORDER_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_ORDER.PRR_PC5_ORDER_DETAIL"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_PROBLEM_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM"}],
+        "GOL": [{name: "GOL", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_GOAL"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_ORDER"}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_ORDER.PRR_PC5_ORDER_DETAIL"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -40,7 +58,51 @@ public const PRR_PC5_MESSAGE_TYPE = "PRR_PC5";
                 "PRR_PC5_PATIENT_VISIT": {name: "PRR_PC5_PATIENT_VISIT", maxReps: 1, required: false, segmentType: typeof PRR_PC5_PATIENT_VISIT},
                 "PRR_PC5_PROBLEM": {name: "PRR_PC5_PROBLEM", maxReps: -1, required: true, segmentType: typeof PRR_PC5_PROBLEM}
             }
-        }
+        },
+        "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_ORDER.PRR_PC5_ORDER_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		},
+        "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_PROBLEM_ROLE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_GOAL.PRR_PC5_GOAL_ROLE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PRR_PC5_PATIENT.PRR_PC5_PROBLEM": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_PROBLEM_PATHWAY": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PRR_PC5_PATIENT.PRR_PC5_PATIENT_VISIT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_ORDER.PRR_PC5_ORDER_DETAIL.PRR_PC5_ORDER_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_ORDER": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_PROBLEM_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_GOAL.PRR_PC5_GOAL_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PRR_PC5_PATIENT.PRR_PC5_PROBLEM.PRR_PC5_GOAL": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type PRR_PC5 record {

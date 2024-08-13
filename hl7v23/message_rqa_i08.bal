@@ -35,6 +35,30 @@ public const RQA_I08_MESSAGE_TYPE = "RQA_I08";
 # + observation - RQA_I08_OBSERVATION Segment Group
 # + visit - RQA_I08_VISIT Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "RF1": [{name: "RF1", maxReps: 1, required: false}],
+        "AUT": [{name: "AUT", maxReps: 1, required: false, segmentComponentName: "RQA_I08_AUTHORIZATION"}, {name: "AUT", maxReps: 1, required: false, segmentComponentName: "RQA_I08_PROCEDURE.RQA_I08_AUTCTD_SUPPGRP2"}],
+        "CTD": [{name: "CTD", maxReps: 1, required: false, segmentComponentName: "RQA_I08_AUTHORIZATION"}, {name: "CTD", maxReps: -1, required: false, segmentComponentName: "RQA_I08_PROVIDER"}, {name: "CTD", maxReps: 1, required: false, segmentComponentName: "RQA_I08_PROCEDURE.RQA_I08_AUTCTD_SUPPGRP2"}],
+        "PRD": [{name: "PRD", maxReps: 1, required: false, segmentComponentName: "RQA_I08_PROVIDER"}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false}],
+        "GT1": [{name: "GT1", maxReps: -1, required: false, segmentComponentName: "RQA_I08_GUARANTOR_INSURANCE"}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "RQA_I08_GUARANTOR_INSURANCE.RQA_I08_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "RQA_I08_GUARANTOR_INSURANCE.RQA_I08_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "RQA_I08_GUARANTOR_INSURANCE.RQA_I08_INSURANCE"}],
+        "ACC": [{name: "ACC", maxReps: 1, required: false}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false}],
+        "DRG": [{name: "DRG", maxReps: -1, required: false}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false}],
+        "PR1": [{name: "PR1", maxReps: 1, required: false, segmentComponentName: "RQA_I08_PROCEDURE"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "RQA_I08_OBSERVATION.RQA_I08_RESULTS"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "RQA_I08_OBSERVATION"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "RQA_I08_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "RQA_I08_VISIT"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "RF1": {name: "RF1", maxReps: 1, required: false, segmentType: RF1},
@@ -95,7 +119,19 @@ public const RQA_I08_MESSAGE_TYPE = "RQA_I08";
                 "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
                 "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2}
             }
-        }
+        },
+        "RQA_I08_OBSERVATION.RQA_I08_RESULTS": {
+		   maxReps: -1,
+		   required: false
+		},
+        "RQA_I08_PROCEDURE.RQA_I08_AUTCTD_SUPPGRP2": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RQA_I08_GUARANTOR_INSURANCE.RQA_I08_INSURANCE": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type RQA_I08 record {
@@ -103,17 +139,17 @@ public type RQA_I08 record {
     string name = RQA_I08_MESSAGE_TYPE;
     MSH msh;
     RF1 rf1?;
+    RQA_I08_AUTHORIZATION[] authorization = [{aut:{}}];
+    RQA_I08_PROVIDER[] provider = [{prd:{}}];
     PID pid;
     NK1[] nk1 = [];
+    RQA_I08_GUARANTOR_INSURANCE[] guarantor_insurance = [{}];
     ACC acc?;
     DG1[] dg1 = [];
     DRG[] drg = [];
     AL1[] al1 = [];
-    NTE[] nte = [];
-    RQA_I08_AUTHORIZATION[] authorization = [{aut:{}}];
-    RQA_I08_PROVIDER[] provider = [{prd:{}}];
-    RQA_I08_GUARANTOR_INSURANCE[] guarantor_insurance = [{}];
     RQA_I08_PROCEDURE[] procedure = [{pr1:{}}];
     RQA_I08_OBSERVATION[] observation = [{obr:{}}];
     RQA_I08_VISIT[] visit = [{pv1:{}}];
+    NTE[] nte = [];
 };

@@ -23,6 +23,14 @@ public const MFN_M02_MESSAGE_TYPE = "MFN_M02";
 # + mfi - MFI Segment
 # + mf_staff - MFN_M02_MF_STAFF Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MFI": [{name: "MFI", maxReps: 1, required: false}],
+        "STF": [{name: "STF", maxReps: 1, required: false, segmentComponentName: "MFN_M02_MF_STAFF"}],
+        "MFE": [{name: "MFE", maxReps: 1, required: false, segmentComponentName: "MFN_M02_MF_STAFF"}],
+        "PRA": [{name: "PRA", maxReps: 1, required: false, segmentComponentName: "MFN_M02_MF_STAFF"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
