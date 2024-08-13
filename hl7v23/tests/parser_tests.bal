@@ -161,5 +161,6 @@ function testSegmentGroupsParsing() returns error? {
     string hl7MsgStr = string:'join("\r", ...segmentsArr);
     hl7:Message parsedMsg = check hl7:parse(hl7MsgStr);
     ORM_O01 inOrm = check parsedMsg.ensureType(ORM_O01);
+    test:assertTrue(inOrm.'order[0].orm_o01_order_detail?.orm_o01_order_detail_segment?.obr?.obr1 == "1", "Segment groups parsing failed");
     test:assertTrue(inOrm.patient[0].orm_o01_patient_visit?.pv1?.pv11 == "1", "Segment groups parsing failed");
 }

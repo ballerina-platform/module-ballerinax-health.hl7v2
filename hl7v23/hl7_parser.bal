@@ -294,7 +294,8 @@ class HL7Parser {
                         hl7v2:SegmentComponent[] segmentGroupArr = <hl7v2:SegmentComponent[]>current[currentSegmentGroupName];
                         current = <map<anydata>>segmentGroupArr[segmentGroupArr.length() - 1];
                     } else {
-                        //todo: need to handle creating segment group(s) if not available
+                        current[currentSegmentGroupName] = segmentComponent;
+                        current = <map<anydata>>current[currentSegmentGroupName];
                     }
                 }
             }
