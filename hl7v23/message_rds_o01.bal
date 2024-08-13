@@ -24,6 +24,23 @@ public const RDS_O01_MESSAGE_TYPE = "RDS_O01";
 # + patient - RDS_O01_PATIENT Segment Group
 # + order - RDS_O01_ORDER Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RDS_O01_PATIENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RDS_O01_ORDER.RDS_O01_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RDS_O01_ORDER.RDS_O01_ORDER_DETAIL.RDS_O01_ORDER_DETAIL_SUPPLEMENT.RDS_O01_COMPONENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RDS_O01_ORDER.RDS_O01_ORDER_DETAIL.RDS_O01_ORDER_DETAIL_SUPPLEMENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "RDS_O01_PATIENT.RDS_O01_PATIENT_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "RDS_O01_PATIENT.RDS_O01_PATIENT_VISIT"}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false, segmentComponentName: "RDS_O01_PATIENT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "RDS_O01_PATIENT"}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false, segmentComponentName: "RDS_O01_PATIENT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "RDS_O01_ORDER"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "RDS_O01_ORDER.RDS_O01_OBSERVATION"}],
+        "RXC": [{name: "RXC", maxReps: -1, required: false, segmentComponentName: "RDS_O01_ORDER.RDS_O01_ENCODING"}, {name: "RXC", maxReps: -1, required: false, segmentComponentName: "RDS_O01_ORDER.RDS_O01_ORDER_DETAIL.RDS_O01_ORDER_DETAIL_SUPPLEMENT.RDS_O01_COMPONENT"}, {name: "RXC", maxReps: -1, required: false, segmentComponentName: "RDS_O01_ORDER"}],
+        "RXR": [{name: "RXR", maxReps: -1, required: false, segmentComponentName: "RDS_O01_ORDER.RDS_O01_ENCODING"}, {name: "RXR", maxReps: -1, required: false, segmentComponentName: "RDS_O01_ORDER.RDS_O01_ORDER_DETAIL.RDS_O01_ORDER_DETAIL_SUPPLEMENT"}, {name: "RXR", maxReps: -1, required: false, segmentComponentName: "RDS_O01_ORDER"}],
+        "RXE": [{name: "RXE", maxReps: 1, required: false, segmentComponentName: "RDS_O01_ORDER.RDS_O01_ENCODING"}],
+        "RXO": [{name: "RXO", maxReps: 1, required: false, segmentComponentName: "RDS_O01_ORDER.RDS_O01_ORDER_DETAIL"}],
+        "RXD": [{name: "RXD", maxReps: 1, required: false, segmentComponentName: "RDS_O01_ORDER"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
@@ -52,7 +69,31 @@ public const RDS_O01_MESSAGE_TYPE = "RDS_O01";
                 "RXC": {name: "RXC", maxReps: -1, required: false, segmentType: typeof RXC},
                 "RDS_O01_OBSERVATION": {name: "RDS_O01_OBSERVATION", maxReps: -1, required: true, segmentType: typeof RDS_O01_OBSERVATION}
             }
-        }
+        },
+        "RDS_O01_PATIENT.RDS_O01_PATIENT_VISIT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RDS_O01_ORDER.RDS_O01_ORDER_DETAIL.RDS_O01_ORDER_DETAIL_SUPPLEMENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RDS_O01_ORDER.RDS_O01_ENCODING": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RDS_O01_ORDER.RDS_O01_ORDER_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RDS_O01_ORDER.RDS_O01_ORDER_DETAIL.RDS_O01_ORDER_DETAIL_SUPPLEMENT.RDS_O01_COMPONENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RDS_O01_ORDER.RDS_O01_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type RDS_O01 record {

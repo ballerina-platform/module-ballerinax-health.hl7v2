@@ -25,6 +25,22 @@ public const SIU_S12_MESSAGE_TYPE = "SIU_S12";
 # + patient - SIU_S12_PATIENT Segment Group
 # + resources - SIU_S12_RESOURCES Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "SCH": [{name: "SCH", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SIU_S12_RESOURCES.SIU_S12_PERSONNEL_RESOURCE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SIU_S12_RESOURCES.SIU_S12_SERVICE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SIU_S12_RESOURCES.SIU_S12_GENERAL_RESOURCE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SIU_S12_RESOURCES.SIU_S12_LOCATION_RESOURCE"}],
+        "OBX": [{name: "OBX", maxReps: -1, required: false, segmentComponentName: "SIU_S12_PATIENT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "SIU_S12_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "SIU_S12_PATIENT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "SIU_S12_PATIENT"}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false, segmentComponentName: "SIU_S12_PATIENT"}],
+        "AIP": [{name: "AIP", maxReps: 1, required: false, segmentComponentName: "SIU_S12_RESOURCES.SIU_S12_PERSONNEL_RESOURCE"}],
+        "AIS": [{name: "AIS", maxReps: 1, required: false, segmentComponentName: "SIU_S12_RESOURCES.SIU_S12_SERVICE"}],
+        "AIG": [{name: "AIG", maxReps: 1, required: false, segmentComponentName: "SIU_S12_RESOURCES.SIU_S12_GENERAL_RESOURCE"}],
+        "RGS": [{name: "RGS", maxReps: 1, required: false, segmentComponentName: "SIU_S12_RESOURCES"}],
+        "AIL": [{name: "AIL", maxReps: 1, required: false, segmentComponentName: "SIU_S12_RESOURCES.SIU_S12_LOCATION_RESOURCE"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SCH": {name: "SCH", maxReps: 1, required: true, segmentType: SCH},
@@ -52,7 +68,23 @@ public const SIU_S12_MESSAGE_TYPE = "SIU_S12";
                 "SIU_S12_LOCATION_RESOURCE": {name: "SIU_S12_LOCATION_RESOURCE", maxReps: -1, required: false, segmentType: typeof SIU_S12_LOCATION_RESOURCE},
                 "SIU_S12_PERSONNEL_RESOURCE": {name: "SIU_S12_PERSONNEL_RESOURCE", maxReps: -1, required: false, segmentType: typeof SIU_S12_PERSONNEL_RESOURCE}
             }
-        }
+        },
+        "SIU_S12_RESOURCES.SIU_S12_GENERAL_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SIU_S12_RESOURCES.SIU_S12_PERSONNEL_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SIU_S12_RESOURCES.SIU_S12_LOCATION_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SIU_S12_RESOURCES.SIU_S12_SERVICE": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type SIU_S12 record {

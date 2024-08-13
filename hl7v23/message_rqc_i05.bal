@@ -28,6 +28,18 @@ public const RQC_I05_MESSAGE_TYPE = "RQC_I05";
 # + nte - NTE Segment
 # + provider - RQC_I05_PROVIDER Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}],
+        "CTD": [{name: "CTD", maxReps: -1, required: false, segmentComponentName: "RQC_I05_PROVIDER"}],
+        "PRD": [{name: "PRD", maxReps: 1, required: false, segmentComponentName: "RQC_I05_PROVIDER"}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false}],
+        "GT1": [{name: "GT1", maxReps: -1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
@@ -54,9 +66,9 @@ public type RQC_I05 record {
     MSH msh;
     QRD qrd;
     QRF qrf?;
+    RQC_I05_PROVIDER[] provider = [{prd:{}}];
     PID pid;
     NK1[] nk1 = [];
     GT1[] gt1 = [];
     NTE[] nte = [];
-    RQC_I05_PROVIDER[] provider = [{prd:{}}];
 };

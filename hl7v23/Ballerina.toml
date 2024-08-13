@@ -6,4 +6,3 @@ authors=["Ballerina"]
 keywords=["Healthcare", "HL7", "HL7v2.3"]
 distribution = "2201.8.5"
 repository="https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
-

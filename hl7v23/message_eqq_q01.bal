@@ -23,6 +23,12 @@ public const EQQ_Q01_MESSAGE_TYPE = "EQQ_Q01";
 # + eql - EQL Segment
 # + dsc - DSC Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EQL": [{name: "EQL", maxReps: 1, required: false}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EQL": {name: "EQL", maxReps: 1, required: true, segmentType: EQL},

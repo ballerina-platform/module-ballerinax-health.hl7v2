@@ -24,6 +24,21 @@ public const PGL_PC6_MESSAGE_TYPE = "PGL_PC6";
 # + patient_visit - PGL_PC6_PATIENT_VISIT Segment Group
 # + goal - PGL_PC6_GOAL Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_PATIENT_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_PATIENT_VISIT"}],
+        "ROL": [{name: "ROL", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_GOAL_ROLE"}, {name: "ROL", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_PROBLEM.PGL_PC6_PROBLEM_ROLE"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_ORDER.PGL_PC6_ORDER_DETAIL.PGL_PC6_ORDER_OBSERVATION"}, {name: "OBX", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_OBSERVATION"}, {name: "OBX", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_PROBLEM.PGL_PC6_PROBLEM_OBSERVATION"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_ORDER.PGL_PC6_ORDER_DETAIL.PGL_PC6_ORDER_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_ORDER.PGL_PC6_ORDER_DETAIL"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PGL_PC6_GOAL"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_PROBLEM.PGL_PC6_PROBLEM_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_PROBLEM"}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_ORDER.PGL_PC6_ORDER_DETAIL"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_ORDER"}],
+        "GOL": [{name: "GOL", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_GOAL"}],
+        "PTH": [{name: "PTH", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_PATHWAY"}],
+        "PRB": [{name: "PRB", maxReps: 1, required: false, segmentComponentName: "PGL_PC6_GOAL.PGL_PC6_PROBLEM"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID}
@@ -50,7 +65,43 @@ public const PGL_PC6_MESSAGE_TYPE = "PGL_PC6";
                 "PGL_PC6_PROBLEM": {name: "PGL_PC6_PROBLEM", maxReps: -1, required: false, segmentType: typeof PGL_PC6_PROBLEM},
                 "PGL_PC6_ORDER": {name: "PGL_PC6_ORDER", maxReps: -1, required: false, segmentType: typeof PGL_PC6_ORDER}
             }
-        }
+        },
+        "PGL_PC6_GOAL.PGL_PC6_PROBLEM": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PGL_PC6_GOAL.PGL_PC6_ORDER.PGL_PC6_ORDER_DETAIL.PGL_PC6_ORDER_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PGL_PC6_GOAL.PGL_PC6_PROBLEM.PGL_PC6_PROBLEM_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PGL_PC6_GOAL.PGL_PC6_ORDER.PGL_PC6_ORDER_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		},
+        "PGL_PC6_GOAL.PGL_PC6_GOAL_ROLE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PGL_PC6_GOAL.PGL_PC6_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PGL_PC6_GOAL.PGL_PC6_PATHWAY": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PGL_PC6_GOAL.PGL_PC6_PROBLEM.PGL_PC6_PROBLEM_ROLE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PGL_PC6_GOAL.PGL_PC6_ORDER": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type PGL_PC6 record {

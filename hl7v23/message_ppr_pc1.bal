@@ -24,6 +24,21 @@ public const PPR_PC1_MESSAGE_TYPE = "PPR_PC1";
 # + patient_visit - PPR_PC1_PATIENT_VISIT Segment Group
 # + problem - PPR_PC1_PROBLEM Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PATIENT_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PATIENT_VISIT"}],
+        "PRB": [{name: "PRB", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PROBLEM"}],
+        "ROL": [{name: "ROL", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_PROBLEM_ROLE"}, {name: "ROL", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_GOAL.PPR_PC1_GOAL_ROLE"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_ORDER"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_ORDER.PPR_PC1_ORDER_DETAIL.PPR_PC1_ORDER_OBSERVATION"}, {name: "OBX", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_PROBLEM_OBSERVATION"}, {name: "OBX", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_GOAL.PPR_PC1_GOAL_OBSERVATION"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_ORDER.PPR_PC1_ORDER_DETAIL.PPR_PC1_ORDER_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_ORDER.PPR_PC1_ORDER_DETAIL"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_PROBLEM_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_GOAL.PPR_PC1_GOAL_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_GOAL"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPR_PC1_PROBLEM"}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_ORDER.PPR_PC1_ORDER_DETAIL"}],
+        "GOL": [{name: "GOL", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_GOAL"}],
+        "PTH": [{name: "PTH", maxReps: 1, required: false, segmentComponentName: "PPR_PC1_PROBLEM.PPR_PC1_PATHWAY"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID}
@@ -50,7 +65,43 @@ public const PPR_PC1_MESSAGE_TYPE = "PPR_PC1";
                 "PPR_PC1_GOAL": {name: "PPR_PC1_GOAL", maxReps: -1, required: false, segmentType: typeof PPR_PC1_GOAL},
                 "PPR_PC1_ORDER": {name: "PPR_PC1_ORDER", maxReps: -1, required: false, segmentType: typeof PPR_PC1_ORDER}
             }
-        }
+        },
+        "PPR_PC1_PROBLEM.PPR_PC1_ORDER": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPR_PC1_PROBLEM.PPR_PC1_GOAL": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPR_PC1_PROBLEM.PPR_PC1_ORDER.PPR_PC1_ORDER_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		},
+        "PPR_PC1_PROBLEM.PPR_PC1_GOAL.PPR_PC1_GOAL_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPR_PC1_PROBLEM.PPR_PC1_PROBLEM_ROLE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPR_PC1_PROBLEM.PPR_PC1_GOAL.PPR_PC1_GOAL_ROLE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPR_PC1_PROBLEM.PPR_PC1_PATHWAY": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPR_PC1_PROBLEM.PPR_PC1_PROBLEM_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPR_PC1_PROBLEM.PPR_PC1_ORDER.PPR_PC1_ORDER_DETAIL.PPR_PC1_ORDER_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type PPR_PC1 record {

@@ -23,6 +23,16 @@ public const MFN_M08_MESSAGE_TYPE = "MFN_M08";
 # + mfi - MFI Segment
 # + mf_test_numeric - MFN_M08_MF_TEST_NUMERIC Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MFI": [{name: "MFI", maxReps: 1, required: false}],
+        "OM1": [{name: "OM1", maxReps: 1, required: false, segmentComponentName: "MFN_M08_MF_TEST_NUMERIC"}],
+        "OM3": [{name: "OM3", maxReps: 1, required: false, segmentComponentName: "MFN_M08_MF_TEST_NUMERIC.MFN_M08_MF_NUMERIC_OBSERVATION"}],
+        "OM2": [{name: "OM2", maxReps: 1, required: false, segmentComponentName: "MFN_M08_MF_TEST_NUMERIC.MFN_M08_MF_NUMERIC_OBSERVATION"}],
+        "OM4": [{name: "OM4", maxReps: 1, required: false, segmentComponentName: "MFN_M08_MF_TEST_NUMERIC.MFN_M08_MF_NUMERIC_OBSERVATION"}],
+        "MFE": [{name: "MFE", maxReps: 1, required: false, segmentComponentName: "MFN_M08_MF_TEST_NUMERIC"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
@@ -36,7 +46,11 @@ public const MFN_M08_MESSAGE_TYPE = "MFN_M08";
                 "OM1": {name: "OM1", maxReps: 1, required: true, segmentType: typeof OM1},
                 "MFN_M08_MF_NUMERIC_OBSERVATION": {name: "MFN_M08_MF_NUMERIC_OBSERVATION", maxReps: 1, required: false, segmentType: typeof MFN_M08_MF_NUMERIC_OBSERVATION}
             }
-        }
+        },
+        "MFN_M08_MF_TEST_NUMERIC.MFN_M08_MF_NUMERIC_OBSERVATION": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type MFN_M08 record {

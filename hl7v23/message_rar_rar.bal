@@ -25,6 +25,22 @@ public const RAR_RAR_MESSAGE_TYPE = "RAR_RAR";
 # + dsc - DSC Segment
 # + definition - RAR_RAR_DEFINITION Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false, segmentComponentName: "RAR_RAR_DEFINITION"}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false, segmentComponentName: "RAR_RAR_DEFINITION"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "RAR_RAR_DEFINITION.RAR_RAR_PATIENT"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "RAR_RAR_DEFINITION.RAR_RAR_PATIENT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "RAR_RAR_DEFINITION.RAR_RAR_ORDER"}],
+        "RXC": [{name: "RXC", maxReps: -1, required: false, segmentComponentName: "RAR_RAR_DEFINITION.RAR_RAR_ORDER.RAR_RAR_ENCODING"}],
+        "RXR": [{name: "RXR", maxReps: -1, required: false, segmentComponentName: "RAR_RAR_DEFINITION.RAR_RAR_ORDER.RAR_RAR_ENCODING"}],
+        "RXE": [{name: "RXE", maxReps: 1, required: false, segmentComponentName: "RAR_RAR_DEFINITION.RAR_RAR_ORDER.RAR_RAR_ENCODING"}],
+        "RXA": [{name: "RXA", maxReps: -1, required: false, segmentComponentName: "RAR_RAR_DEFINITION.RAR_RAR_ORDER"}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -41,7 +57,19 @@ public const RAR_RAR_MESSAGE_TYPE = "RAR_RAR";
                 "RAR_RAR_PATIENT": {name: "RAR_RAR_PATIENT", maxReps: 1, required: false, segmentType: typeof RAR_RAR_PATIENT},
                 "RAR_RAR_ORDER": {name: "RAR_RAR_ORDER", maxReps: -1, required: true, segmentType: typeof RAR_RAR_ORDER}
             }
-        }
+        },
+        "RAR_RAR_DEFINITION.RAR_RAR_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RAR_RAR_DEFINITION.RAR_RAR_ORDER": {
+		   maxReps: -1,
+		   required: false
+		},
+        "RAR_RAR_DEFINITION.RAR_RAR_ORDER.RAR_RAR_ENCODING": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type RAR_RAR record {
@@ -50,6 +78,6 @@ public type RAR_RAR record {
     MSH msh;
     MSA msa;
     ERR err?;
-    DSC dsc?;
     RAR_RAR_DEFINITION[] definition = [{qrd:{}}];
+    DSC dsc?;
 };

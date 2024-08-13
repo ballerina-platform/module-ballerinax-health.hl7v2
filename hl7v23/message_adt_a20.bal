@@ -23,6 +23,12 @@ public const ADT_A20_MESSAGE_TYPE = "ADT_A20";
 # + evn - EVN Segment
 # + npu - NPU Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "NPU": [{name: "NPU", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},

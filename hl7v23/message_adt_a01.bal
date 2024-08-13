@@ -38,6 +38,29 @@ public const ADT_A01_MESSAGE_TYPE = "ADT_A01";
 # + procedure - ADT_A01_PROCEDURE Segment Group
 # + insurance - ADT_A01_INSURANCE Segment Group
 @hl7v2:MessageDefinition {
+        orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false}],
+        "DB1": [{name: "DB1", maxReps: -1, required: false}],
+        "OBX": [{name: "OBX", maxReps: -1, required: false}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false}],
+        "DRG": [{name: "DRG", maxReps: 1, required: false}],
+        "PR1": [{name: "PR1", maxReps: 1, required: false, segmentComponentName: "ADT_A01_PROCEDURE"}],
+        "ROL": [{name: "ROL", maxReps: -1, required: false, segmentComponentName: "ADT_A01_PROCEDURE"}],
+        "GT1": [{name: "GT1", maxReps: -1, required: false}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "ADT_A01_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "ADT_A01_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "ADT_A01_INSURANCE"}],
+        "ACC": [{name: "ACC", maxReps: 1, required: false}],
+        "UB1": [{name: "UB1", maxReps: 1, required: false}],
+        "UB2": [{name: "UB2", maxReps: 1, required: false}]
+    },
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
@@ -91,10 +114,10 @@ public type ADT_A01 record {
     AL1[] al1 = [];
     DG1[] dg1 = [];
     DRG drg?;
+    ADT_A01_PROCEDURE[] procedure = [{pr1:{}}];
     GT1[] gt1 = [];
+    ADT_A01_INSURANCE[] insurance = [{in1:{}}];
     ACC acc?;
     UB1 ub1?;
     UB2 ub2?;
-    ADT_A01_PROCEDURE[] procedure = [{pr1:{}}];
-    ADT_A01_INSURANCE[] insurance = [{in1:{}}];
 };

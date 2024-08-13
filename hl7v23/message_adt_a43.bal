@@ -23,6 +23,14 @@ public const ADT_A43_MESSAGE_TYPE = "ADT_A43";
 # + evn - EVN Segment
 # + patient - ADT_A43_PATIENT Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "MRG": [{name: "MRG", maxReps: 1, required: false, segmentComponentName: "ADT_A43_PATIENT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "ADT_A43_PATIENT"}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false, segmentComponentName: "ADT_A43_PATIENT"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN}

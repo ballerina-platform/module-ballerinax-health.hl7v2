@@ -34,6 +34,26 @@ public const RRI_I12_MESSAGE_TYPE = "RRI_I12";
 # + results - RRI_I12_RESULTS Segment Group
 # + visit - RRI_I12_VISIT Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "RF1": [{name: "RF1", maxReps: 1, required: false}],
+        "AUT": [{name: "AUT", maxReps: 1, required: false, segmentComponentName: "RRI_I12_AUTHORIZATION"}, {name: "AUT", maxReps: 1, required: false, segmentComponentName: "RRI_I12_PROCEDURE.RRI_I12_AUTCTD_SUPPGRP2"}],
+        "CTD": [{name: "CTD", maxReps: 1, required: false, segmentComponentName: "RRI_I12_AUTHORIZATION"}, {name: "CTD", maxReps: -1, required: false, segmentComponentName: "RRI_I12_PROVIDER"}, {name: "CTD", maxReps: 1, required: false, segmentComponentName: "RRI_I12_PROCEDURE.RRI_I12_AUTCTD_SUPPGRP2"}],
+        "PRD": [{name: "PRD", maxReps: 1, required: false, segmentComponentName: "RRI_I12_PROVIDER"}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "ACC": [{name: "ACC", maxReps: 1, required: false}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false}],
+        "DRG": [{name: "DRG", maxReps: -1, required: false}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false}],
+        "PR1": [{name: "PR1", maxReps: 1, required: false, segmentComponentName: "RRI_I12_PROCEDURE"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "RRI_I12_RESULTS.RRI_I12_OBSERVATION"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "RRI_I12_RESULTS"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "RRI_I12_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "RRI_I12_VISIT"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
@@ -86,7 +106,15 @@ public const RRI_I12_MESSAGE_TYPE = "RRI_I12";
                 "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
                 "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2}
             }
-        }
+        },
+        "RRI_I12_PROCEDURE.RRI_I12_AUTCTD_SUPPGRP2": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RRI_I12_RESULTS.RRI_I12_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type RRI_I12 record {
@@ -95,15 +123,15 @@ public type RRI_I12 record {
     MSH msh;
     MSA msa?;
     RF1 rf1?;
+    RRI_I12_AUTHORIZATION[] authorization = [{aut:{}}];
+    RRI_I12_PROVIDER[] provider = [{prd:{}}];
     PID pid;
     ACC acc?;
     DG1[] dg1 = [];
     DRG[] drg = [];
     AL1[] al1 = [];
-    NTE[] nte = [];
-    RRI_I12_AUTHORIZATION[] authorization = [{aut:{}}];
-    RRI_I12_PROVIDER[] provider = [{prd:{}}];
     RRI_I12_PROCEDURE[] procedure = [{pr1:{}}];
     RRI_I12_RESULTS[] results = [{obr:{}}];
     RRI_I12_VISIT[] visit = [{pv1:{}}];
+    NTE[] nte = [];
 };

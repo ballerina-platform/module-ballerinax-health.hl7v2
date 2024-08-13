@@ -26,6 +26,15 @@ public const ADT_A24_MESSAGE_TYPE = "ADT_A24";
 # + pv1 - PV1 Segment
 # + db1 - DB1 Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false}],
+        "DB1": [{name: "DB1", maxReps: -1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},

@@ -23,6 +23,14 @@ public const MFN_M06_MESSAGE_TYPE = "MFN_M06";
 # + mfi - MFI Segment
 # + mf_cdm - MFN_M06_MF_CDM Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MFI": [{name: "MFI", maxReps: 1, required: false}],
+        "PRC": [{name: "PRC", maxReps: -1, required: false, segmentComponentName: "MFN_M06_MF_CDM"}],
+        "MFE": [{name: "MFE", maxReps: 1, required: false, segmentComponentName: "MFN_M06_MF_CDM"}],
+        "CDM": [{name: "CDM", maxReps: 1, required: false, segmentComponentName: "MFN_M06_MF_CDM"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}

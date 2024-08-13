@@ -25,6 +25,18 @@ public const RRO_O02_MESSAGE_TYPE = "RRO_O02";
 # + nte - NTE Segment
 # + response - RRO_O02_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RRO_O02_RESPONSE.RRO_O02_PATIENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "RRO_O02_RESPONSE.RRO_O02_ORDER.RRO_O02_ORDER_DETAIL"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "RRO_O02_RESPONSE.RRO_O02_PATIENT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "RRO_O02_RESPONSE.RRO_O02_ORDER"}],
+        "RXO": [{name: "RXO", maxReps: 1, required: false, segmentComponentName: "RRO_O02_RESPONSE.RRO_O02_ORDER.RRO_O02_ORDER_DETAIL"}],
+        "RXC": [{name: "RXC", maxReps: -1, required: false, segmentComponentName: "RRO_O02_RESPONSE.RRO_O02_ORDER.RRO_O02_ORDER_DETAIL"}],
+        "RXR": [{name: "RXR", maxReps: -1, required: false, segmentComponentName: "RRO_O02_RESPONSE.RRO_O02_ORDER.RRO_O02_ORDER_DETAIL"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -39,7 +51,19 @@ public const RRO_O02_MESSAGE_TYPE = "RRO_O02";
                 "RRO_O02_PATIENT": {name: "RRO_O02_PATIENT", maxReps: 1, required: false, segmentType: typeof RRO_O02_PATIENT},
                 "RRO_O02_ORDER": {name: "RRO_O02_ORDER", maxReps: -1, required: true, segmentType: typeof RRO_O02_ORDER}
             }
-        }
+        },
+        "RRO_O02_RESPONSE.RRO_O02_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "RRO_O02_RESPONSE.RRO_O02_ORDER": {
+		   maxReps: -1,
+		   required: false
+		},
+        "RRO_O02_RESPONSE.RRO_O02_ORDER.RRO_O02_ORDER_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type RRO_O02 record {

@@ -24,6 +24,13 @@ public const VQQ_Q01_MESSAGE_TYPE = "VQQ_Q01";
 # + rdf - RDF Segment
 # + dsc - DSC Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "VTQ": [{name: "VTQ", maxReps: 1, required: false}],
+        "RDF": [{name: "RDF", maxReps: 1, required: false}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "VTQ": {name: "VTQ", maxReps: 1, required: true, segmentType: VTQ},

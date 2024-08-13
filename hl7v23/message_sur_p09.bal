@@ -22,6 +22,14 @@ public const SUR_P09_MESSAGE_TYPE = "SUR_P09";
 # + msh - MSH Segment
 # + facility - SUR_P09_FACILITY Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "PSH": [{name: "PSH", maxReps: 1, required: false, segmentComponentName: "SUR_P09_FACILITY"}, {name: "PSH", maxReps: 1, required: false, segmentComponentName: "SUR_P09_FACILITY.SUR_P09_PRODUCT"}],
+        "FAC": [{name: "FAC", maxReps: 1, required: false, segmentComponentName: "SUR_P09_FACILITY.SUR_P09_FACILITY_DETAIL"}, {name: "FAC", maxReps: 1, required: false, segmentComponentName: "SUR_P09_FACILITY"}],
+        "PDC": [{name: "PDC", maxReps: 1, required: false, segmentComponentName: "SUR_P09_FACILITY.SUR_P09_FACILITY_DETAIL"}, {name: "PDC", maxReps: 1, required: false, segmentComponentName: "SUR_P09_FACILITY.SUR_P09_PRODUCT"}],
+        "NTE": [{name: "NTE", maxReps: 1, required: false, segmentComponentName: "SUR_P09_FACILITY.SUR_P09_FACILITY_DETAIL"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH}
     }
@@ -35,7 +43,15 @@ public const SUR_P09_MESSAGE_TYPE = "SUR_P09";
                 "PSH": {name: "PSH", maxReps: 1, required: true, segmentType: typeof PSH},
                 "SUR_P09_FACILITY_DETAIL": {name: "SUR_P09_FACILITY_DETAIL", maxReps: -1, required: true, segmentType: typeof SUR_P09_FACILITY_DETAIL}
             }
-        }
+        }, 
+        "SUR_P09_FACILITY.SUR_P09_FACILITY_DETAIL": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SUR_P09_FACILITY.SUR_P09_PRODUCT": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type SUR_P09 record {

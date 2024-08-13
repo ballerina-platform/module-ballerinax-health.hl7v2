@@ -25,6 +25,24 @@ public const PPT_PCL_MESSAGE_TYPE = "PPT_PCL";
 # + qrd - QRD Segment
 # + patient - PPT_PCL_PATIENT Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATIENT_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATIENT_VISIT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT"}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_ORDER.PPT_PCL_ORDER_DETAIL"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_ORDER.PPT_PCL_ORDER_DETAIL"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_ORDER.PPT_PCL_ORDER_DETAIL.PPT_PCL_ORDER_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_PROBLEM.PPT_PCL_PROBLEM_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_PROBLEM"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_GOAL_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_ORDER.PPT_PCL_ORDER_DETAIL.PPT_PCL_ORDER_OBSERVATION"}, {name: "OBX", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_PROBLEM.PPT_PCL_PROBLEM_OBSERVATION"}, {name: "OBX", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_GOAL_OBSERVATION"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_ORDER"}],
+        "GOL": [{name: "GOL", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL"}],
+        "PRB": [{name: "PRB", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_PROBLEM"}],
+        "ROL": [{name: "ROL", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_PROBLEM.PPT_PCL_PROBLEM_ROLE"}, {name: "ROL", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_GOAL_ROLE"}, {name: "ROL", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_PATHWAY_ROLE"}],
+        "PTH": [{name: "PTH", maxReps: 1, required: false, segmentComponentName: "PPT_PCL_PATIENT.PPT_PCL_PATHWAY"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -40,7 +58,55 @@ public const PPT_PCL_MESSAGE_TYPE = "PPT_PCL";
                 "PPT_PCL_PATIENT_VISIT": {name: "PPT_PCL_PATIENT_VISIT", maxReps: 1, required: false, segmentType: typeof PPT_PCL_PATIENT_VISIT},
                 "PPT_PCL_PATHWAY": {name: "PPT_PCL_PATHWAY", maxReps: -1, required: true, segmentType: typeof PPT_PCL_PATHWAY}
             }
-        }
+        },
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_ORDER": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_PROBLEM.PPT_PCL_PROBLEM_ROLE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_ORDER.PPT_PCL_ORDER_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_PROBLEM": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_ORDER.PPT_PCL_ORDER_DETAIL.PPT_PCL_ORDER_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_PATHWAY_ROLE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_GOAL_ROLE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATIENT_VISIT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_GOAL_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "PPT_PCL_PATIENT.PPT_PCL_PATHWAY.PPT_PCL_GOAL.PPT_PCL_PROBLEM.PPT_PCL_PROBLEM_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type PPT_PCL record {

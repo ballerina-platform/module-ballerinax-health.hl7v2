@@ -26,6 +26,25 @@ public const SQR_S25_MESSAGE_TYPE = "SQR_S25";
 # + dsc - DSC Segment
 # + schedule - SQR_S25_SCHEDULE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "QAK": [{name: "QAK", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_PATIENT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_PATIENT"}],
+        "DG1": [{name: "DG1", maxReps: 1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_PATIENT"}],
+        "SCH": [{name: "SCH", maxReps: 1, required: false, segmentComponentName: "SQR_S25_SCHEDULE"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "SQR_S25_SCHEDULE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_SERVICE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_PERSONNEL_RESOURCE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_GENERAL_RESOURCE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_LOCATION_RESOURCE"}],
+        "AIS": [{name: "AIS", maxReps: 1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_SERVICE"}],
+        "AIP": [{name: "AIP", maxReps: 1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_PERSONNEL_RESOURCE"}],
+        "AIG": [{name: "AIG", maxReps: 1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_GENERAL_RESOURCE"}],
+        "RGS": [{name: "RGS", maxReps: 1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_RESOURCES"}],
+        "AIL": [{name: "AIL", maxReps: 1, required: false, segmentComponentName: "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_LOCATION_RESOURCE"}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -43,7 +62,31 @@ public const SQR_S25_MESSAGE_TYPE = "SQR_S25";
                 "SQR_S25_PATIENT": {name: "SQR_S25_PATIENT", maxReps: 1, required: false, segmentType: typeof SQR_S25_PATIENT},
                 "SQR_S25_RESOURCES": {name: "SQR_S25_RESOURCES", maxReps: -1, required: true, segmentType: typeof SQR_S25_RESOURCES}
             }
-        }
+        },
+        "SQR_S25_SCHEDULE.SQR_S25_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_GENERAL_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_LOCATION_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_SERVICE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SQR_S25_SCHEDULE.SQR_S25_RESOURCES.SQR_S25_PERSONNEL_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SQR_S25_SCHEDULE.SQR_S25_RESOURCES": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type SQR_S25 record {
@@ -53,6 +96,6 @@ public type SQR_S25 record {
     MSA msa;
     ERR err?;
     QAK qak;
-    DSC dsc?;
     SQR_S25_SCHEDULE[] schedule = [{sch:{}}];
+    DSC dsc?;
 };

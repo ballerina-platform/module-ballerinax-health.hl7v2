@@ -36,6 +36,30 @@ public const REF_I12_MESSAGE_TYPE = "REF_I12";
 # + results - REF_I12_RESULTS Segment Group
 # + visit - REF_I12_VISIT Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "RF1": [{name: "RF1", maxReps: 1, required: false}],
+        "AUT": [{name: "AUT", maxReps: 1, required: false, segmentComponentName: "REF_I12_AUTHORIZATION"}, {name: "AUT", maxReps: 1, required: false, segmentComponentName: "REF_I12_PROCEDURE.REF_I12_AUTCTD_SUPPGRP2"}],
+        "CTD": [{name: "CTD", maxReps: 1, required: false, segmentComponentName: "REF_I12_AUTHORIZATION"}, {name: "CTD", maxReps: -1, required: false, segmentComponentName: "REF_I12_PROVIDER"}, {name: "CTD", maxReps: 1, required: false, segmentComponentName: "REF_I12_PROCEDURE.REF_I12_AUTCTD_SUPPGRP2"}],
+        "PRD": [{name: "PRD", maxReps: 1, required: false, segmentComponentName: "REF_I12_PROVIDER"}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false}],
+        "GT1": [{name: "GT1", maxReps: -1, required: false}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "REF_I12_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "REF_I12_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "REF_I12_INSURANCE"}],
+        "ACC": [{name: "ACC", maxReps: 1, required: false}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false}],
+        "DRG": [{name: "DRG", maxReps: -1, required: false}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false}],
+        "PR1": [{name: "PR1", maxReps: 1, required: false, segmentComponentName: "REF_I12_PROCEDURE"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "REF_I12_RESULTS.REF_I12_OBSERVATION"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "REF_I12_RESULTS"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "REF_I12_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "REF_I12_VISIT"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "RF1": {name: "RF1", maxReps: 1, required: false, segmentType: RF1},
@@ -98,7 +122,15 @@ public const REF_I12_MESSAGE_TYPE = "REF_I12";
                 "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
                 "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2}
             }
-        }
+        },
+        "REF_I12_PROCEDURE.REF_I12_AUTCTD_SUPPGRP2": {
+		   maxReps: 1,
+		   required: false
+		},
+        "REF_I12_RESULTS.REF_I12_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type REF_I12 record {
@@ -106,18 +138,18 @@ public type REF_I12 record {
     string name = REF_I12_MESSAGE_TYPE;
     MSH msh;
     RF1 rf1?;
+    REF_I12_AUTHORIZATION[] authorization = [{aut:{}}];
+    REF_I12_PROVIDER[] provider = [{prd:{}}];
     PID pid;
     NK1[] nk1 = [];
     GT1[] gt1 = [];
+    REF_I12_INSURANCE[] insurance = [{in1:{}}];
     ACC acc?;
     DG1[] dg1 = [];
     DRG[] drg = [];
     AL1[] al1 = [];
-    NTE[] nte = [];
-    REF_I12_AUTHORIZATION[] authorization = [{aut:{}}];
-    REF_I12_PROVIDER[] provider = [{prd:{}}];
-    REF_I12_INSURANCE[] insurance = [{in1:{}}];
     REF_I12_PROCEDURE[] procedure = [{pr1:{}}];
     REF_I12_RESULTS[] results = [{obr:{}}];
     REF_I12_VISIT[] visit = [{pv1:{}}];
+    NTE[] nte = [];
 };

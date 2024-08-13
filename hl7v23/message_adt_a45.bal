@@ -25,6 +25,15 @@ public const ADT_A45_MESSAGE_TYPE = "ADT_A45";
 # + pd1 - PD1 Segment
 # + merge_info - ADT_A45_MERGE_INFO Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false}],
+        "MRG": [{name: "MRG", maxReps: 1, required: false, segmentComponentName: "ADT_A45_MERGE_INFO"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "ADT_A45_MERGE_INFO"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},

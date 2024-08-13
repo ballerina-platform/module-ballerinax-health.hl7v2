@@ -45,6 +45,7 @@ class HL7Parser {
         }
         string message = messageStr.substring(1, messageStr.length() - 1);
         hl7v2:Message? messageResult = ();
+        string msgType = "";
         string[] segments = re `\r`.split(message);
         if segments.length() == 0 {
             log:printError(string `There should be at least 1 segment for the HL7 message: ${message}`);
@@ -52,6 +53,7 @@ class HL7Parser {
                 message = "There should be at least 1 segment for the HL7 message:" + message);
         } else {
             string delimeter = self.encodingCharacters.getFieldSeparator();
+            map<int> segmentPositions = {};
             foreach int i in 0 ..< segments.length() {
                 string segmentName = "";
                 if segments[i] != "" && segments[i].length() >= 3 {
@@ -85,6 +87,7 @@ class HL7Parser {
                                     messageResult = getMessage(hl7MessageType);
                                 }
                                 if messageResult is hl7v2:Message {
+                                    msgType = messageResult.name;
                                     map<anydata> messageFields = messageResult;
                                     messageFields[segmentName.toLowerAscii()] = segment;
                                 }
@@ -99,40 +102,67 @@ class HL7Parser {
                             if msgDef is hl7v2:Hl7MessageDefinitionRecord {
                                 map<hl7v2:Hl7SegmentDefinitionRecord> segmentDefs = msgDef.segments;
                                 map<hl7v2:Hl7SegmentComponentDefinitionRecord>? groups = msgDef.groups;
-
-                                if segmentDefs.hasKey(segmentName) {
-                                    hl7v2:Hl7SegmentDefinitionRecord segmentDef = segmentDefs.get(segmentName);
-                                    int? maxReps = segmentDef.maxReps;
-                                    string? segmentComponentName = segmentDef.segmentComponentName;
-                                    if maxReps is int {
+                                map<hl7v2:Hl7SegmentDefinitionRecord[]>? orderedSegments = msgDef.orderedSegments;
+                                if orderedSegments is map<hl7v2:Hl7SegmentDefinitionRecord[]> {
+                                    if segmentPositions.hasKey(segmentName) {
+                                        if segmentDefs.get(segmentName).maxReps !== 1 {
+                                            segmentPositions[segmentName] = segmentPositions.get(segmentName) + 1;
+                                        }
+                                    } else {
+                                        segmentPositions[segmentName] = 0;
+                                    }
+                                    int pos = segmentPositions.get(segmentName);
+                                    if orderedSegments.hasKey(segmentName) {
+                                        hl7v2:Hl7SegmentDefinitionRecord[] segmentDefArr = orderedSegments.get(segmentName);
+                                        hl7v2:Hl7SegmentDefinitionRecord segmentDef = segmentDefArr[pos];
+                                        int? maxReps = segmentDef.maxReps;
+                                        string segmentComponentName = "";
+                                        string[] parentSegmentGroups = [];
+                                        if segmentDef.segmentComponentName is string {
+                                            segmentComponentName = <string>segmentDef.segmentComponentName;
+                                            if segmentComponentName.indexOf(".") > 0 {
+                                                string:RegExp dotSeperator = re `\.`;
+                                                parentSegmentGroups = dotSeperator.split(segmentComponentName.substring(0, <int>segmentComponentName.lastIndexOf(".")));
+                                                segmentComponentName = segmentComponentName.substring(<int>segmentComponentName.lastIndexOf(".") + 1);
+                                            }
+                                        }
                                         if maxReps == 1 {
-                                            if segmentComponentName is string {
+                                            if segmentComponentName != "" {
+                                                string segmentGroupName;
+                                                if parentSegmentGroups.length() > 0 {
+                                                    segmentGroupName = segmentComponentName.toLowerAscii();
+                                                } else {
+                                                    segmentGroupName = segmentComponentName.substring(segmentComponentName.indexOf(msgType) + msgType.length() + 1 ?: 0).toLowerAscii();
+                                                }
                                                 if groups is map<hl7v2:Hl7SegmentComponentDefinitionRecord> {
                                                     hl7v2:Hl7SegmentComponentDefinitionRecord segmentComponentDef =
-                                                                                                groups.get(segmentComponentName);
+                                                                                                groups.get(<string>segmentDef.segmentComponentName);
                                                     int? componentMaxReps = segmentComponentDef.maxReps;
 
                                                     if componentMaxReps is int {
                                                         hl7v2:SegmentComponent? segmentComponent = getSegmentComponent(segmentComponentName);
                                                         if segmentComponent is hl7v2:SegmentComponent {
                                                             if componentMaxReps == -1 {
+                                                                map<anydata> childSegmentGroup = <map<anydata>>self.processChildSegmentGroups(messageFields, parentSegmentGroups, msgType);
                                                                 hl7v2:SegmentComponent[] segmentComponentArr = <hl7v2:SegmentComponent[]>
-                                                                    (messageFields[segmentComponentName.toLowerAscii()]);
+                                                                    (childSegmentGroup[segmentGroupName]);
                                                                 if segmentComponentArr.length() == 0 {
                                                                     map<anydata> segmentComponentFields = segmentComponent;
                                                                     segmentComponentFields[segmentName.toLowerAscii()] = segment;
                                                                     (<hl7v2:SegmentComponent[]>segmentComponentArr).push(segmentComponent);
                                                                 } else {
                                                                     hl7v2:SegmentComponent lastSegmentComponent = segmentComponentArr[segmentComponentArr.length() - 1];
-                                                                    if lastSegmentComponent.hasKey(segmentName.toLowerAscii()) {
-                                                                        map<anydata> segmentComponentFields = segmentComponent;
-                                                                        segmentComponentFields[segmentName.toLowerAscii()] = segment;
-                                                                    } else {
-                                                                        lastSegmentComponent[segmentName.toLowerAscii()] = segment;
-                                                                    }
+                                                                    lastSegmentComponent[segmentName.toLowerAscii()] = segment;
                                                                 }
                                                             } else if componentMaxReps == 1 {
-                                                                messageFields[segmentComponentName.toLowerAscii()] = segmentComponent;
+                                                                map<anydata> processChildSegmentGroupsResult = <map<anydata>>self.processChildSegmentGroups(messageFields, parentSegmentGroups, msgType);
+                                                                if processChildSegmentGroupsResult[segmentGroupName] is hl7v2:SegmentComponent {
+                                                                    hl7v2:SegmentComponent current = <hl7v2:SegmentComponent>processChildSegmentGroupsResult[segmentGroupName];
+                                                                    current[segmentName.toLowerAscii()] = segment;
+                                                                } else {
+                                                                    segmentComponent[segmentName.toLowerAscii()] = segment;
+                                                                    processChildSegmentGroupsResult[segmentGroupName] = segmentComponent;
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -141,17 +171,23 @@ class HL7Parser {
                                                 messageFields[segmentName.toLowerAscii()] = segment;
                                             }
                                         } else if maxReps == -1 {
-                                            if segmentComponentName is string {
+                                            if segmentComponentName != "" {
+                                                string segmentGroupName;
+                                                if parentSegmentGroups.length() > 0 {
+                                                    segmentGroupName = segmentComponentName.toLowerAscii();
+                                                } else {
+                                                    segmentGroupName = segmentComponentName.substring(segmentComponentName.indexOf(msgType) + msgType.length() + 1 ?: 0).toLowerAscii();
+                                                }
                                                 if groups is map<hl7v2:Hl7SegmentComponentDefinitionRecord> {
                                                     hl7v2:Hl7SegmentComponentDefinitionRecord segmentComponentDef =
-                                                                                                groups.get(segmentComponentName);
+                                                                                                groups.get(<string>segmentDef.segmentComponentName);
                                                     int? componentMaxReps = segmentComponentDef.maxReps;
                                                     if componentMaxReps is int {
                                                         hl7v2:SegmentComponent? segmentComponent = getSegmentComponent(segmentComponentName);
                                                         if segmentComponent is hl7v2:SegmentComponent {
                                                             if componentMaxReps == -1 {
                                                                 hl7v2:SegmentComponent[] segmentComponentArr = <hl7v2:SegmentComponent[]>
-                                                                    (messageFields[segmentComponentName.toLowerAscii()]);
+                                                                    (messageFields[segmentGroupName]);
                                                                 if segmentComponentArr.length() == 0 {
                                                                     map<anydata> segmentComponentFields = segmentComponent;
                                                                     hl7v2:Segment[] innerSegmentsArr =
@@ -171,7 +207,13 @@ class HL7Parser {
                                                                     }
                                                                 }
                                                             } else if componentMaxReps == 1 {
-                                                                messageFields[segmentComponentName.toLowerAscii()] = segmentComponent;
+                                                                if messageFields[segmentGroupName] is hl7v2:SegmentComponent {
+                                                                    hl7v2:SegmentComponent current = <hl7v2:SegmentComponent>messageFields[segmentGroupName];
+                                                                    current[segmentName.toLowerAscii()] = segment;
+                                                                } else {
+                                                                    segmentComponent[segmentName.toLowerAscii()] = segment;
+                                                                    messageFields[segmentGroupName] = segmentComponent;
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -188,23 +230,24 @@ class HL7Parser {
                                                 }
                                             }
                                         }
+                                    } else {
+                                        //considering custom segments to be added to the message
+                                        anydata segmentResult = messageFields[segmentName.toLowerAscii()];
+                                        if segmentResult is () {
+                                            hl7v2:Segment[] segmentArr = [];
+                                            segmentArr.push(segment);
+                                            messageFields[segmentName.toLowerAscii()] = segmentArr;
+                                        } else if segmentResult is hl7v2:Segment[] {
+                                            hl7v2:Segment[] segmentArr = <hl7v2:Segment[]>(messageFields[segmentName.toLowerAscii()]);
+                                            segmentArr.push(segment);
+                                        } else if segmentResult is hl7v2:Segment {
+                                            hl7v2:Segment[] segmentArr = [];
+                                            segmentArr.push(<hl7v2:Segment>segmentResult);
+                                            segmentArr.push(segment);
+                                            messageFields[segmentName.toLowerAscii()] = segmentArr;
+                                        }
                                     }
-                                } else {
-                                    //considering custom segments to be added to the message
-                                    anydata segmentResult = messageFields[segmentName.toLowerAscii()];
-                                    if segmentResult is () {
-                                        hl7v2:Segment[] segmentArr = [];
-                                        segmentArr.push(segment);
-                                        messageFields[segmentName.toLowerAscii()] = segmentArr;
-                                    } else if segmentResult is hl7v2:Segment[] {
-                                        hl7v2:Segment[] segmentArr = <hl7v2:Segment[]>(messageFields[segmentName.toLowerAscii()]);
-                                        segmentArr.push(segment);
-                                    } else if segmentResult is hl7v2:Segment {
-                                        hl7v2:Segment[] segmentArr = [];
-                                        segmentArr.push(<hl7v2:Segment>segmentResult);
-                                        segmentArr.push(segment);
-                                        messageFields[segmentName.toLowerAscii()] = segmentArr;
-                                    }
+
                                 }
                             }
                         }
@@ -220,6 +263,46 @@ class HL7Parser {
         return messageResult;
     }
 
+    # Traverse through the segment groups and return the immediate parent segment group.
+    # + messageFields - Message fieldsof the parsed HL7 message
+    # + parentSegmentGroups - Parent segment group names
+    # + msgType - HL7 Message type
+    # + return - Immediate parent segment group
+    private isolated function processChildSegmentGroups(map<anydata> messageFields, string[] parentSegmentGroups, string msgType) returns anydata {
+        map<anydata> current = messageFields;
+        int pos = 0;
+        string currentSegmentGroupName = "";
+        foreach var parentSegmentGroup in parentSegmentGroups {
+            if pos == 0 {
+                currentSegmentGroupName = parentSegmentGroup.substring(parentSegmentGroup.indexOf(msgType) + msgType.length() + 1 ?: 0).toLowerAscii();
+            } else {
+                currentSegmentGroupName = parentSegmentGroup.toLowerAscii();
+            }
+            if current.hasKey(currentSegmentGroupName) {
+                if current[currentSegmentGroupName] is hl7v2:SegmentComponent {
+                    current = <map<anydata>>current[currentSegmentGroupName];
+                } else if current[currentSegmentGroupName] is hl7v2:SegmentComponent[] {
+                    hl7v2:SegmentComponent[] segmentGroupArr = <hl7v2:SegmentComponent[]>current[currentSegmentGroupName];
+                    current = <map<anydata>>segmentGroupArr[segmentGroupArr.length() - 1];
+                }
+            } else {
+                hl7v2:SegmentComponent? segmentComponent = getSegmentComponent(parentSegmentGroup);
+                if segmentComponent is hl7v2:SegmentComponent {
+                    if current[currentSegmentGroupName] is hl7v2:SegmentComponent {
+                        current = <map<anydata>>current[currentSegmentGroupName];
+                    } else if current[currentSegmentGroupName] is hl7v2:SegmentComponent[] {
+                        hl7v2:SegmentComponent[] segmentGroupArr = <hl7v2:SegmentComponent[]>current[currentSegmentGroupName];
+                        current = <map<anydata>>segmentGroupArr[segmentGroupArr.length() - 1];
+                    } else {
+                        //todo: need to handle creating segment group(s) if not available
+                    }
+                }
+            }
+            pos += 1;
+        }
+        return current;
+    }
+
     # Parse the segment content and populate the segment model.
     #
     # + segment - Segment model
@@ -233,9 +316,9 @@ class HL7Parser {
         boolean isMSHSegment = isMshSegment(segment.name);
         int fieldNum;
         string[] fieldsEmptyLastElement = re `${self.encodingCharacters.getFieldSeparatorWithEscapeChars()}`.split(segmentContent);
-        string[] fields = EMPTY_STRING == fieldsEmptyLastElement[fieldsEmptyLastElement.length() - 1] 
-                ? fieldsEmptyLastElement.slice(0, fieldsEmptyLastElement.length() - 1) 
-                : fieldsEmptyLastElement;
+        string[] fields = EMPTY_STRING == fieldsEmptyLastElement[fieldsEmptyLastElement.length() - 1]
+            ? fieldsEmptyLastElement.slice(0, fieldsEmptyLastElement.length() - 1)
+            : fieldsEmptyLastElement;
         foreach int i in 0 ..< fields.length() {
             string[] repetitions = re `${self.encodingCharacters.getRepetitionSeperator()}`.split(fields[i]);
             boolean isMSH2 = isDelimeterDefinedSegment(segment.name) && (i + fieldOffset == 2);
@@ -361,7 +444,7 @@ class HL7Parser {
     }
 
     # Encode the HL7 segment group model and return the encoded segment group string.
-    # 
+    #
     # + segment - HL7 segment group model
     # + return - Encoded segment group string
     private isolated function encodeSegmentGroup(hl7v2:SegmentComponent segment) returns string {
@@ -420,12 +503,12 @@ class HL7Parser {
                 if val is anydata[] {
                     foreach var dataType in val {
                         string encodedTypeStr = stripExtraDelimeters(self.encodeType(dataType, self.encodingCharacters.getComponentSeparator(), ""),
-                        self.encodingCharacters.getComponentSeparator());
+                                self.encodingCharacters.getComponentSeparator());
                         encodedString = string:concat(encodedString, self.encodingCharacters.getFieldSeparator(), encodedTypeStr);
                     }
                 } else {
                     string encodedTypeStr = stripExtraDelimeters(self.encodeType(val, self.encodingCharacters.getComponentSeparator(), ""),
-                        self.encodingCharacters.getComponentSeparator());
+                            self.encodingCharacters.getComponentSeparator());
                     encodedString = string:concat(encodedString, self.encodingCharacters.getFieldSeparator(), encodedTypeStr);
                 }
             }

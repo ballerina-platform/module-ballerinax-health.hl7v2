@@ -23,6 +23,12 @@ public const RQQ_Q01_MESSAGE_TYPE = "RQQ_Q01";
 # + erq - ERQ Segment
 # + dsc - DSC Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "ERQ": [{name: "ERQ", maxReps: 1, required: false}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "ERQ": {name: "ERQ", maxReps: 1, required: true, segmentType: ERQ},

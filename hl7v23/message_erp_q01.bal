@@ -26,6 +26,15 @@ public const ERP_Q01_MESSAGE_TYPE = "ERP_Q01";
 # + erq - ERQ Segment
 # + dsc - DSC Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "QAK": [{name: "QAK", maxReps: 1, required: false}],
+        "ERQ": [{name: "ERQ", maxReps: 1, required: false}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},

@@ -22,6 +22,14 @@ public const CRM_C01_MESSAGE_TYPE = "CRM_C01";
 # + msh - MSH Segment
 # + patient - CRM_C01_PATIENT Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "CSP": [{name: "CSP", maxReps: -1, required: false, segmentComponentName: "CRM_C01_PATIENT"}],
+        "CSR": [{name: "CSR", maxReps: 1, required: false, segmentComponentName: "CRM_C01_PATIENT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "CRM_C01_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "CRM_C01_PATIENT"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH}
     }

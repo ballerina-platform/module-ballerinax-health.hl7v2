@@ -28,6 +28,20 @@ public const OSR_Q06_MESSAGE_TYPE = "OSR_Q06";
 # + dsc - DSC Segment
 # + response - OSR_Q06_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_PATIENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_ORDER"}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_PATIENT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_ORDER"}],
+        "CTI": [{name: "CTI", maxReps: -1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_ORDER"}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_ORDER"}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -45,7 +59,15 @@ public const OSR_Q06_MESSAGE_TYPE = "OSR_Q06";
                 "OSR_Q06_PATIENT": {name: "OSR_Q06_PATIENT", maxReps: 1, required: false, segmentType: typeof OSR_Q06_PATIENT},
                 "OSR_Q06_ORDER": {name: "OSR_Q06_ORDER", maxReps: -1, required: true, segmentType: typeof OSR_Q06_ORDER}
             }
-        }
+        },
+        "OSR_Q06_RESPONSE.OSR_Q06_ORDER": {
+		   maxReps: -1,
+		   required: false
+		},
+        "OSR_Q06_RESPONSE.OSR_Q06_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type OSR_Q06 record {
@@ -57,6 +79,6 @@ public type OSR_Q06 record {
     NTE[] nte = [];
     QRD qrd;
     QRF qrf?;
-    DSC dsc?;
     OSR_Q06_RESPONSE[] response = [{}];
+    DSC dsc?;
 };

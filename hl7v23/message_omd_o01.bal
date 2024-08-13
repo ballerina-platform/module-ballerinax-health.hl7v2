@@ -25,6 +25,24 @@ public const OMD_O01_MESSAGE_TYPE = "OMD_O01";
 # + order_diet - OMD_O01_ORDER_DIET Segment Group
 # + order_tray - OMD_O01_ORDER_TRAY Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OMD_O01_PATIENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OMD_O01_ORDER_DIET.OMD_O01_DIET.OMD_O01_OBSERVATION"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OMD_O01_ORDER_DIET.OMD_O01_DIET"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OMD_O01_ORDER_TRAY"}],
+        "GT1": [{name: "GT1", maxReps: 1, required: false, segmentComponentName: "OMD_O01_PATIENT"}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false, segmentComponentName: "OMD_O01_PATIENT"}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "OMD_O01_PATIENT.OMD_O01_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "OMD_O01_PATIENT.OMD_O01_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "OMD_O01_PATIENT.OMD_O01_INSURANCE"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "OMD_O01_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "OMD_O01_PATIENT.OMD_O01_PATIENT_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "OMD_O01_PATIENT.OMD_O01_PATIENT_VISIT"}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false, segmentComponentName: "OMD_O01_PATIENT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "OMD_O01_ORDER_DIET"}, {name: "ORC", maxReps: 1, required: false, segmentComponentName: "OMD_O01_ORDER_TRAY"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "OMD_O01_ORDER_DIET.OMD_O01_DIET.OMD_O01_OBSERVATION"}],
+        "ODS": [{name: "ODS", maxReps: -1, required: false, segmentComponentName: "OMD_O01_ORDER_DIET.OMD_O01_DIET"}],
+        "ODT": [{name: "ODT", maxReps: -1, required: false, segmentComponentName: "OMD_O01_ORDER_TRAY"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
@@ -59,7 +77,23 @@ public const OMD_O01_MESSAGE_TYPE = "OMD_O01";
                 "ODT": {name: "ODT", maxReps: -1, required: true, segmentType: typeof ODT},
                 "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE}
             }
-        }
+        },
+        "OMD_O01_PATIENT.OMD_O01_PATIENT_VISIT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "OMD_O01_PATIENT.OMD_O01_INSURANCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "OMD_O01_ORDER_DIET.OMD_O01_DIET": {
+		   maxReps: 1,
+		   required: false
+		},
+        "OMD_O01_ORDER_DIET.OMD_O01_DIET.OMD_O01_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type OMD_O01 record {

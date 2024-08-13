@@ -23,6 +23,13 @@ public const MFN_M10_MESSAGE_TYPE = "MFN_M10";
 # + mfi - MFI Segment
 # + mf_test_batteries - MFN_M10_MF_TEST_BATTERIES Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MFI": [{name: "MFI", maxReps: 1, required: false}],
+        "OM5": [{name: "OM5", maxReps: 1, required: false, segmentComponentName: "MFN_M10_MF_TEST_BATTERIES.MFN_M10_MF_TEST_BATT_DETAIL"}],
+        "OM4": [{name: "OM4", maxReps: -1, required: false, segmentComponentName: "MFN_M10_MF_TEST_BATTERIES.MFN_M10_MF_TEST_BATT_DETAIL"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
@@ -34,7 +41,11 @@ public const MFN_M10_MESSAGE_TYPE = "MFN_M10";
             segments: {
                 "MFN_M10_MF_TEST_BATT_DETAIL": {name: "MFN_M10_MF_TEST_BATT_DETAIL", maxReps: 1, required: false, segmentType: typeof MFN_M10_MF_TEST_BATT_DETAIL}
             }
-        }
+        },
+        "MFN_M10_MF_TEST_BATTERIES.MFN_M10_MF_TEST_BATT_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type MFN_M10 record {

@@ -26,6 +26,16 @@ public const RQP_I04_MESSAGE_TYPE = "RQP_I04";
 # + nte - NTE Segment
 # + provider - RQP_I04_PROVIDER Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "CTD": [{name: "CTD", maxReps: -1, required: false, segmentComponentName: "RQP_I04_PROVIDER"}],
+        "PRD": [{name: "PRD", maxReps: 1, required: false, segmentComponentName: "RQP_I04_PROVIDER"}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false}],
+        "GT1": [{name: "GT1", maxReps: -1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
@@ -48,9 +58,9 @@ public type RQP_I04 record {
     *hl7v2:Message;
     string name = RQP_I04_MESSAGE_TYPE;
     MSH msh;
+    RQP_I04_PROVIDER[] provider = [{prd:{}}];
     PID pid;
     NK1[] nk1 = [];
     GT1[] gt1 = [];
     NTE[] nte = [];
-    RQP_I04_PROVIDER[] provider = [{prd:{}}];
 };

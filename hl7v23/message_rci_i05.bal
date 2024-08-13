@@ -31,6 +31,22 @@ public const RCI_I05_MESSAGE_TYPE = "RCI_I05";
 # + provider - RCI_I05_PROVIDER Segment Group
 # + observation - RCI_I05_OBSERVATION Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}],
+        "CTD": [{name: "CTD", maxReps: -1, required: false, segmentComponentName: "RCI_I05_PROVIDER"}],
+        "PRD": [{name: "PRD", maxReps: 1, required: false, segmentComponentName: "RCI_I05_PROVIDER"}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false}],
+        "DRG": [{name: "DRG", maxReps: -1, required: false}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "RCI_I05_OBSERVATION"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "RCI_I05_OBSERVATION.RCI_I05_RESULTS"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -59,7 +75,11 @@ public const RCI_I05_MESSAGE_TYPE = "RCI_I05";
                 "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
                 "RCI_I05_RESULTS": {name: "RCI_I05_RESULTS", maxReps: -1, required: false, segmentType: typeof RCI_I05_RESULTS}
             }
-        }
+        },
+        "RCI_I05_OBSERVATION.RCI_I05_RESULTS": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type RCI_I05 record {
@@ -69,11 +89,11 @@ public type RCI_I05 record {
     MSA msa;
     QRD qrd;
     QRF qrf?;
+    RCI_I05_PROVIDER[] provider = [{prd:{}}];
     PID pid;
     DG1[] dg1 = [];
     DRG[] drg = [];
     AL1[] al1 = [];
-    NTE[] nte = [];
-    RCI_I05_PROVIDER[] provider = [{prd:{}}];
     RCI_I05_OBSERVATION[] observation = [{obr:{}}];
+    NTE[] nte = [];
 };

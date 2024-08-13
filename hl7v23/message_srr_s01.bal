@@ -24,6 +24,23 @@ public const SRR_S01_MESSAGE_TYPE = "SRR_S01";
 # + err - ERR Segment
 # + schedule - SRR_S01_SCHEDULE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_PATIENT"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_PATIENT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_PATIENT"}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_PATIENT"}],
+        "AIS": [{name: "AIS", maxReps: 1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_SERVICE"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_SERVICE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_GENERAL_RESOURCE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_PERSONNEL_RESOURCE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_LOCATION_RESOURCE"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "SRR_S01_SCHEDULE"}],
+        "AIG": [{name: "AIG", maxReps: 1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_GENERAL_RESOURCE"}],
+        "AIP": [{name: "AIP", maxReps: 1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_PERSONNEL_RESOURCE"}],
+        "AIL": [{name: "AIL", maxReps: 1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_LOCATION_RESOURCE"}],
+        "RGS": [{name: "RGS", maxReps: 1, required: false, segmentComponentName: "SRR_S01_SCHEDULE.SRR_S01_RESOURCES"}],
+        "SCH": [{name: "SCH", maxReps: 1, required: false, segmentComponentName: "SRR_S01_SCHEDULE"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -39,7 +56,31 @@ public const SRR_S01_MESSAGE_TYPE = "SRR_S01";
                 "SRR_S01_PATIENT": {name: "SRR_S01_PATIENT", maxReps: -1, required: false, segmentType: typeof SRR_S01_PATIENT},
                 "SRR_S01_RESOURCES": {name: "SRR_S01_RESOURCES", maxReps: -1, required: true, segmentType: typeof SRR_S01_RESOURCES}
             }
-        }
+        },
+        "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_PERSONNEL_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SRR_S01_SCHEDULE.SRR_S01_RESOURCES": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_LOCATION_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_SERVICE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SRR_S01_SCHEDULE.SRR_S01_RESOURCES.SRR_S01_GENERAL_RESOURCE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "SRR_S01_SCHEDULE.SRR_S01_PATIENT": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type SRR_S01 record {

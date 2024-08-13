@@ -24,6 +24,13 @@ public const SPQ_Q01_MESSAGE_TYPE = "SPQ_Q01";
 # + rdf - RDF Segment
 # + dsc - DSC Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "SPR": [{name: "SPR", maxReps: 1, required: false}],
+        "RDF": [{name: "RDF", maxReps: 1, required: false}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "SPR": {name: "SPR", maxReps: 1, required: true, segmentType: SPR},

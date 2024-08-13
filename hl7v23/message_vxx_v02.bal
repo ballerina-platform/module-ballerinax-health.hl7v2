@@ -25,6 +25,15 @@ public const VXX_V02_MESSAGE_TYPE = "VXX_V02";
 # + qrf - QRF Segment
 # + patient - VXX_V02_PATIENT Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false, segmentComponentName: "VXX_V02_PATIENT"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "VXX_V02_PATIENT"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},

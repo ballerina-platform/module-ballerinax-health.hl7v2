@@ -25,6 +25,17 @@ public const ORD_O02_MESSAGE_TYPE = "ORD_O02";
 # + nte - NTE Segment
 # + response - ORD_O02_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "ERR": [{name: "ERR", maxReps: 1, required: false}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORD_O02_RESPONSE.ORD_O02_ORDER_DIET"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORD_O02_RESPONSE.ORD_O02_ORDER_TRAY"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORD_O02_RESPONSE.ORD_O02_PATIENT"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "ORD_O02_RESPONSE.ORD_O02_ORDER_DIET"}, {name: "ORC", maxReps: 1, required: false, segmentComponentName: "ORD_O02_RESPONSE.ORD_O02_ORDER_TRAY"}],
+        "ODS": [{name: "ODS", maxReps: -1, required: false, segmentComponentName: "ORD_O02_RESPONSE.ORD_O02_ORDER_DIET"}],
+        "ODT": [{name: "ODT", maxReps: -1, required: false, segmentComponentName: "ORD_O02_RESPONSE.ORD_O02_ORDER_TRAY"}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "ORD_O02_RESPONSE.ORD_O02_PATIENT"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -40,7 +51,19 @@ public const ORD_O02_MESSAGE_TYPE = "ORD_O02";
                 "ORD_O02_ORDER_DIET": {name: "ORD_O02_ORDER_DIET", maxReps: -1, required: true, segmentType: typeof ORD_O02_ORDER_DIET},
                 "ORD_O02_ORDER_TRAY": {name: "ORD_O02_ORDER_TRAY", maxReps: -1, required: false, segmentType: typeof ORD_O02_ORDER_TRAY}
             }
-        }
+        },
+        "ORD_O02_RESPONSE.ORD_O02_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "ORD_O02_RESPONSE.ORD_O02_ORDER_DIET": {
+		   maxReps: -1,
+		   required: false
+		},
+        "ORD_O02_RESPONSE.ORD_O02_ORDER_TRAY": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type ORD_O02 record {

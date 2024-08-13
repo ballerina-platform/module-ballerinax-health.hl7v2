@@ -24,6 +24,13 @@ public const MFK_M02_MESSAGE_TYPE = "MFK_M02";
 # + mfi - MFI Segment
 # + mfa - MFA Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "MFI": [{name: "MFI", maxReps: 1, required: false}],
+        "MFA": [{name: "MFA", maxReps: -1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},

@@ -26,6 +26,20 @@ public const ORF_R04_MESSAGE_TYPE = "ORF_R04";
 # + dsc - DSC Segment
 # + query_response - ORF_R04_QUERY_RESPONSE Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MSA": [{name: "MSA", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "ORF_R04_QUERY_RESPONSE.ORF_R04_PATIENT"}],
+        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORF_R04_QUERY_RESPONSE.ORF_R04_PATIENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER.ORF_R04_OBSERVATION"}],
+        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER"}],
+        "CTI": [{name: "CTI", maxReps: -1, required: false, segmentComponentName: "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER"}],
+        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER"}],
+        "OBX": [{name: "OBX", maxReps: 1, required: false, segmentComponentName: "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER.ORF_R04_OBSERVATION"}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
@@ -41,7 +55,19 @@ public const ORF_R04_MESSAGE_TYPE = "ORF_R04";
                 "ORF_R04_PATIENT": {name: "ORF_R04_PATIENT", maxReps: 1, required: false, segmentType: typeof ORF_R04_PATIENT},
                 "ORF_R04_ORDER": {name: "ORF_R04_ORDER", maxReps: -1, required: true, segmentType: typeof ORF_R04_ORDER}
             }
-        }
+        },
+        "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER.ORF_R04_OBSERVATION": {
+		   maxReps: -1,
+		   required: false
+		},
+        "ORF_R04_QUERY_RESPONSE.ORF_R04_PATIENT": {
+		   maxReps: 1,
+		   required: false
+		},
+        "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type ORF_R04 record {
@@ -51,6 +77,6 @@ public type ORF_R04 record {
     MSA msa;
     QRD qrd;
     QRF qrf?;
-    DSC dsc?;
     ORF_R04_QUERY_RESPONSE[] query_response = [{}];
+    DSC dsc?;
 };

@@ -23,6 +23,14 @@ public const MFN_M09_MESSAGE_TYPE = "MFN_M09";
 # + mfi - MFI Segment
 # + mf_test_categorical - MFN_M09_MF_TEST_CATEGORICAL Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "MFI": [{name: "MFI", maxReps: 1, required: false}],
+        "OM3": [{name: "OM3", maxReps: 1, required: false, segmentComponentName: "MFN_M09_MF_TEST_CATEGORICAL.MFN_M09_MF_TEST_CAT_DETAIL"}],
+        "OM4": [{name: "OM4", maxReps: -1, required: false, segmentComponentName: "MFN_M09_MF_TEST_CATEGORICAL.MFN_M09_MF_TEST_CAT_DETAIL"}],
+        "MFE": [{name: "MFE", maxReps: 1, required: false, segmentComponentName: "MFN_M09_MF_TEST_CATEGORICAL"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
@@ -35,7 +43,11 @@ public const MFN_M09_MESSAGE_TYPE = "MFN_M09";
                 "MFE": {name: "MFE", maxReps: 1, required: true, segmentType: typeof MFE},
                 "MFN_M09_MF_TEST_CAT_DETAIL": {name: "MFN_M09_MF_TEST_CAT_DETAIL", maxReps: 1, required: false, segmentType: typeof MFN_M09_MF_TEST_CAT_DETAIL}
             }
-        }
+        },
+        "MFN_M09_MF_TEST_CATEGORICAL.MFN_M09_MF_TEST_CAT_DETAIL": {
+		   maxReps: 1,
+		   required: false
+		}
     }
 }
 public type MFN_M09 record {

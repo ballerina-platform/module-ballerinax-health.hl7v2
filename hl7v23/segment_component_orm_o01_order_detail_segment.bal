@@ -19,16 +19,16 @@ import ballerinax/health.hl7v2;
     required: false,
     maxReps: 0
 }
-public type ORM_O01_ORDER_DETAIL record {
+public type ORM_O01_ORDER_DETAIL_SEGMENT record {
     *hl7v2:SegmentComponent;
-    string name = ORM_O01_ORDER_DETAIL_SEGMENT_COMPONENT;
+    string name = ORM_O01_ORDER_DETAIL_SEGMENT_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    ORM_O01_ORDER_DETAIL_SEGMENT orm_o01_order_detail_segment = {};
-    NTE[] nte = [{}];
-    DG1[] dg1 = [{}];
-    ORM_O01_OBSERVATION[] orm_o01_observation = [{obx:{}}];
-    ORM_O01_CHOICE orm_o01_choice;
-
+    OBR obr?;
+    RQD rqd?;
+    RQ1 rq1?;
+    RXO rxo?;
+    ODS ods?;
+    ODT odt?;
 };
 
-public const ORM_O01_ORDER_DETAIL_SEGMENT_COMPONENT = "ORM_O01_ORDER_DETAIL";
+public const ORM_O01_ORDER_DETAIL_SEGMENT_SEGMENT_COMPONENT = "ORM_O01_ORDER_DETAIL_SEGMENT";

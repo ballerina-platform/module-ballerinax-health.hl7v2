@@ -25,6 +25,14 @@ public const MDM_T01_MESSAGE_TYPE = "MDM_T01";
 # + pv1 - PV1 Segment
 # + txa - TXA Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false}],
+        "TXA": [{name: "TXA", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},

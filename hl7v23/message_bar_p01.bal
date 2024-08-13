@@ -25,6 +25,30 @@ public const BAR_P01_MESSAGE_TYPE = "BAR_P01";
 # + pd1 - PD1 Segment
 # + visit - BAR_P01_VISIT Segment Group
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "EVN": [{name: "EVN", maxReps: 1, required: false}],
+        "PID": [{name: "PID", maxReps: 1, required: false}],
+        "PD1": [{name: "PD1", maxReps: 1, required: false}],
+        "ACC": [{name: "ACC", maxReps: 1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "OBX": [{name: "OBX", maxReps: -1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "UB2": [{name: "UB2", maxReps: 1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "GT1": [{name: "GT1", maxReps: -1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "UB1": [{name: "UB1", maxReps: 1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "AL1": [{name: "AL1", maxReps: -1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "IN2": [{name: "IN2", maxReps: 1, required: false, segmentComponentName: "BAR_P01_VISIT.BAR_P01_INSURANCE"}],
+        "IN1": [{name: "IN1", maxReps: 1, required: false, segmentComponentName: "BAR_P01_VISIT.BAR_P01_INSURANCE"}],
+        "IN3": [{name: "IN3", maxReps: 1, required: false, segmentComponentName: "BAR_P01_VISIT.BAR_P01_INSURANCE"}],
+        "PV1": [{name: "PV1", maxReps: 1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "PV2": [{name: "PV2", maxReps: 1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "DG1": [{name: "DG1", maxReps: -1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "DB1": [{name: "DB1", maxReps: -1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "NK1": [{name: "NK1", maxReps: -1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "DRG": [{name: "DRG", maxReps: 1, required: false, segmentComponentName: "BAR_P01_VISIT"}],
+        "PR1": [{name: "PR1", maxReps: 1, required: false, segmentComponentName: "BAR_P01_VISIT.BAR_P01_PROCEDURE"}],
+        "ROL": [{name: "ROL", maxReps: -1, required: false, segmentComponentName: "BAR_P01_VISIT.BAR_P01_PROCEDURE"}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
@@ -51,7 +75,15 @@ public const BAR_P01_MESSAGE_TYPE = "BAR_P01";
                 "UB1": {name: "UB1", maxReps: 1, required: false, segmentType: typeof UB1},
                 "UB2": {name: "UB2", maxReps: 1, required: false, segmentType: typeof UB2}
             }
-        }
+        }, 
+        "BAR_P01_VISIT.BAR_P01_PROCEDURE": {
+		   maxReps: -1,
+		   required: false
+		},
+        "BAR_P01_VISIT.BAR_P01_INSURANCE": {
+		   maxReps: -1,
+		   required: false
+		}
     }
 }
 public type BAR_P01 record {

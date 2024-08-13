@@ -24,6 +24,13 @@ public const QRY_Q01_MESSAGE_TYPE = "QRY_Q01";
 # + qrf - QRF Segment
 # + dsc - DSC Segment
 @hl7v2:MessageDefinition {
+    orderedSegments: {
+        "MSH": [{name: "MSH", maxReps: 1, required: false}],
+        "QRD": [{name: "QRD", maxReps: 1, required: false}],
+        "QRF": [{name: "QRF", maxReps: 1, required: false}],
+        "DSC": [{name: "DSC", maxReps: 1, required: false}]
+    }
+,
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
         "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
