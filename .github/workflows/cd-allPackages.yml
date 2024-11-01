@@ -35,6 +35,7 @@ on:
         options:
         - 2201.9.0
         - 2201.8.5
+        - 2201.10.2
         required: true
 
 jobs:
