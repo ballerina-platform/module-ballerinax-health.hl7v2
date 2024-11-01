@@ -1,14 +1,9 @@
 [package]
 org = "ballerinax"
 name = "health.hl7v231"
-version = "3.1.0"
+version = "3.0.2"
 authors = ["Ballerina"]
 keywords = ["Healthcare", "HL7", "HL7v2.3.1"]
-distribution = "2201.10.2"
+distribution = "2201.9.0"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
 
-[[dependency]]
-org = "ballerinax"
-name = "health.hl7v2"
-version="2.3.0"
-repository="local"
