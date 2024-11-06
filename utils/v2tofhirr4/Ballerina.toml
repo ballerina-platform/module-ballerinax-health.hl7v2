@@ -1,9 +1,12 @@
 [package]
 authors = ["Ballerina"]
-distribution = "2201.8.5"
+distribution = "2201.10.2"
 export = ["health.hl7v2.utils.v2tofhirr4"]
 keywords = ["Healthcare", "HL7", "FHIR"]
 name = "health.hl7v2.utils.v2tofhirr4"
 org = "ballerinax"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
-version = "3.0.2"
+version = "3.1.0"
+
+[build-options]
+optimizeDependencyCompilation = true
