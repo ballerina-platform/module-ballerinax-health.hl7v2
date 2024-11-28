@@ -83,6 +83,9 @@ dependencies = [
 	{org = "ballerina", name = "lang.value"},
 	{org = "ballerina", name = "observe"}
 ]
+modules = [
+	{org = "ballerina", packageName = "log", moduleName = "log"}
+]
 
 [[package]]
 org = "ballerina"
@@ -139,8 +142,9 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v25"
-version = "3.1.0"
+version = "3.1.1"
 dependencies = [
+	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "test"},
 	{org = "ballerinax", name = "health.hl7v2"}
 ]
