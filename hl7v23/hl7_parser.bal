@@ -84,7 +84,11 @@ class HL7Parser {
                                     if cmMsg2 != "" {
                                         hl7MessageType = hl7MessageType.concat("_", cmMsg2);
                                     }
-                                    messageResult = getMessage(hl7MessageType);
+                                    if hl7MessageType.startsWith("ACK_") {
+                                        messageResult = getMessage("ACK");
+                                    } else {
+                                        messageResult = getMessage(hl7MessageType);
+                                    }
                                 }
                                 if messageResult is hl7v2:Message {
                                     msgType = messageResult.name;
