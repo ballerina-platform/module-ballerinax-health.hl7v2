@@ -14,8 +14,27 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/lang.value;
 import ballerina/tcp;
+import ballerina/data.jsondata;
+
+
+// The following types are defined to handle the HL7 message versions.
+type CE record {
+    *CompositeType;
+    string ce1 = "";
+    string ce2 = "";
+    string ce3 = "";
+    string ce4 = "";
+    string ce5 = "";
+    string ce6 = "";
+};
+
+type VID record {
+    *CompositeType;
+    string vid1 = "";
+    CE vid2 = {};
+    CE vid3 = {};
+};
 
 # HL7 Client implementation.
 public class HL7Client {
@@ -44,8 +63,13 @@ public class HL7Client {
                     versionId = hl7Version;
                 } else {
                     json vid = hl7Version.toJson();
-                    json|error vid1 = vid.vid1;
-                    versionId = value:ensureType(vid1);
+                    VID|jsondata:Error value = jsondata:parseAsType(vid);
+
+                    if value is jsondata:Error {
+                        return error HL7Error(HL7_V2_MSG_VALIDATION_ERROR, message = "Error occurred while parsing HL7 message version.");
+                    }else {
+                        versionId = value.vid1;
+                    }
                 }
                 if versionId is string {
                     byte[]|HL7Error encodedMessage = encode(versionId, message);
