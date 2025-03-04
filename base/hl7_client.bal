@@ -36,6 +36,10 @@ type VID record {
 };
 
 # HL7 Client implementation.
+# 
+# # Deprecated
+# This client is deprecated and will be removed in future releases. Use HL7Client in ballerinax.clients.hl7 instead.
+@deprecated
 public class HL7Client {
 
     final string host;
