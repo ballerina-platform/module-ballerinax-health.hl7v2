@@ -19,7 +19,7 @@ import ballerinax/health.hl7v2;
 
 # HL7v24 message parser implementation.
 isolated class HL7v24Parser {
-   *hl7v2:Parser;
+    *hl7v2:Parser;
 
     # Parse HL7 encoded message to it's relevant model.
     # + message - Encoded HL7 message
@@ -82,7 +82,11 @@ class HL7Parser {
                                 map<anydata> msh9Fields = <hl7v2:CompositeType>segment.get("msh9");
                                 if messageResult is () {
                                     string hl7MessageType = msh9Fields["msg1"].toString() + "_" + msh9Fields["msg2"].toString();
-                                    messageResult = getMessage(hl7MessageType);
+                                    if hl7MessageType.startsWith("ACK_") {
+                                        messageResult = getMessage("ACK");
+                                    } else {
+                                        messageResult = getMessage(hl7MessageType);
+                                    }
                                 }
                                 if messageResult is hl7v2:Message {
                                     map<anydata> messageFields = messageResult;
@@ -233,9 +237,9 @@ class HL7Parser {
         boolean isMSHSegment = isMshSegment(segment.name);
         int fieldNum;
         string[] fieldsEmptyLastElement = re `${self.encodingCharacters.getFieldSeparatorWithEscapeChars()}`.split(segmentContent);
-        string[] fields = EMPTY_STRING == fieldsEmptyLastElement[fieldsEmptyLastElement.length() - 1] 
-                ? fieldsEmptyLastElement.slice(0, fieldsEmptyLastElement.length() - 1) 
-                : fieldsEmptyLastElement;
+        string[] fields = EMPTY_STRING == fieldsEmptyLastElement[fieldsEmptyLastElement.length() - 1]
+            ? fieldsEmptyLastElement.slice(0, fieldsEmptyLastElement.length() - 1)
+            : fieldsEmptyLastElement;
         foreach int i in 0 ..< fields.length() {
             string[] repetitions = re `${self.encodingCharacters.getRepetitionSeperator()}`.split(fields[i]);
             boolean isMSH2 = isDelimeterDefinedSegment(segment.name) && (i + fieldOffset == 2);
@@ -420,12 +424,12 @@ class HL7Parser {
                 if val is anydata[] {
                     foreach var dataType in val {
                         string encodedTypeStr = stripExtraDelimeters(self.encodeType(dataType, self.encodingCharacters.getComponentSeparator(), ""),
-                        self.encodingCharacters.getComponentSeparator());
+                                self.encodingCharacters.getComponentSeparator());
                         encodedString = string:concat(encodedString, self.encodingCharacters.getFieldSeparator(), encodedTypeStr);
                     }
                 } else {
                     string encodedTypeStr = stripExtraDelimeters(self.encodeType(val, self.encodingCharacters.getComponentSeparator(), ""),
-                        self.encodingCharacters.getComponentSeparator());
+                            self.encodingCharacters.getComponentSeparator());
                     encodedString = string:concat(encodedString, self.encodingCharacters.getFieldSeparator(), encodedTypeStr);
                 }
             }
