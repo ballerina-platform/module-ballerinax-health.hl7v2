@@ -14,9 +14,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/tcp;
 import ballerina/data.jsondata;
-
+import ballerina/tcp;
 
 // The following types are defined to handle the HL7 message versions.
 type CE record {
@@ -67,10 +66,10 @@ public class HL7Client {
 
                     if value is jsondata:Error {
                         return error HL7Error(HL7_V2_MSG_VALIDATION_ERROR, message = "Error occurred while parsing HL7 message version.");
-                    }else {
-                        versionId = value.vid1;
                     }
+                    versionId = value.vid1;
                 }
+                
                 if versionId is string {
                     byte[]|HL7Error encodedMessage = encode(versionId, message);
                     if encodedMessage is byte[] {
