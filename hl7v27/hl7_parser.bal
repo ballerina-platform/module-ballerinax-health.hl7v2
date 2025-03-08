@@ -83,6 +83,11 @@ class HL7Parser {
                                 if messageResult is () {
                                     string hl7MessageType = msh9Fields["msg1"].toString() + "_" + msh9Fields["msg2"].toString();
                                     messageResult = getMessage(hl7MessageType);
+                                    if hl7MessageType.startsWith("ACK_") {
+                                        messageResult = getMessage("ACK");
+                                    } else {
+                                        messageResult = getMessage(hl7MessageType);
+                                    }
                                 }
                                 if messageResult is hl7v2:Message {
                                     map<anydata> messageFields = messageResult;

@@ -14,9 +14,32 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/data.jsondata;
 import ballerina/tcp;
 
+// The following types are defined to handle the HL7 message versions.
+type CE record {
+    *CompositeType;
+    string ce1 = "";
+    string ce2 = "";
+    string ce3 = "";
+    string ce4 = "";
+    string ce5 = "";
+    string ce6 = "";
+};
+
+type VID record {
+    *CompositeType;
+    string vid1 = "";
+    CE vid2 = {};
+    CE vid3 = {};
+};
+
 # HL7 Client implementation.
+# 
+# # Deprecated
+# This client is deprecated and will be removed in future releases. Use HL7Client in ballerinax.clients.hl7 instead.
+@deprecated
 public class HL7Client {
 
     final string host;
@@ -37,8 +60,22 @@ public class HL7Client {
             anydata mshSegment = message.get("msh");
             if mshSegment is Segment {
                 anydata hl7Version = mshSegment.get("msh12");
+                // from hl7v24 onwards, MSH12 has 3 parts vid1(version id), vid2(internationalization id), vid3(internal version id)
+                string|error versionId = "";
                 if hl7Version is string {
-                    byte[]|HL7Error encodedMessage = encode(hl7Version, message);
+                    versionId = hl7Version;
+                } else {
+                    json vid = hl7Version.toJson();
+                    VID|jsondata:Error value = jsondata:parseAsType(vid);
+
+                    if value is jsondata:Error {
+                        return error HL7Error(HL7_V2_MSG_VALIDATION_ERROR, message = "Error occurred while parsing HL7 message version.");
+                    }
+                    versionId = value.vid1;
+                }
+                
+                if versionId is string {
+                    byte[]|HL7Error encodedMessage = encode(versionId, message);
                     if encodedMessage is byte[] {
                         byte[]|HL7Error response = self.writeToHL7Stream(encodedMessage);
                         if response is byte[] {
@@ -49,9 +86,9 @@ public class HL7Client {
                             return parseResult;
                         }
                         return response;
-                    } 
+                    }
                     return encodedMessage;
-                } 
+                }
                 return error HL7Error(HL7_V2_MSG_VALIDATION_ERROR, message = "HL7 message version cannot be empty.");
             }
         } else {
