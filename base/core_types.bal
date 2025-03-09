@@ -39,9 +39,11 @@ public type PrimitiveType record {
 
 # HL7 segment : A segment is a logical grouping of data fields.
 #
-# + name - Name of the segment
+# + name - Name of the segment  
+# + isEmtpy - Indicates whether the segment is empty
 public type Segment record {
     string name;
+    boolean isEmtpy = true;
 };
 
 # HL7 segment component which is a grouping of a set of segments.
