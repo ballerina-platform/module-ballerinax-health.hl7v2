@@ -17,7 +17,7 @@ import ballerinax/health.hl7v2;
 #
 # + segmentName - HL7 message segment name
 # + return - Record of segment instance
-isolated function getSegment(string segmentName) returns hl7v2:Segment? {
+public isolated function getSegment(string segmentName) returns hl7v2:Segment? {
     match segmentName {
         "APR" => {
             APR segmentInstance = {};
@@ -469,7 +469,7 @@ isolated function getSegment(string segmentName) returns hl7v2:Segment? {
 #
 # + messageName - Message type
 # + return - Instance of HL7 message 
-isolated function getMessage(string messageName) returns hl7v2:Message? {
+public isolated function getMessage(string messageName) returns hl7v2:Message? {
     match messageName {
         "SQM_S25" => {
             SQM_S25 messageInstance = {msh:{}, qrd:{}};
@@ -937,7 +937,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
 #
 # + segmentComponentName - HL7 Segment component name
 # + return - Instance of HL7 segment component
-isolated function getSegmentComponent(string segmentComponentName) returns hl7v2:SegmentComponent? {
+public isolated function getSegmentComponent(string segmentComponentName) returns hl7v2:SegmentComponent? {
     match segmentComponentName {
         "ADT_A06_PROCEDURE" => {
             ADT_A06_PROCEDURE messageInstance = {pr1:{}};
@@ -2451,7 +2451,7 @@ isolated function getSubComponent(hl7v2:CompositeType compositeType, int subComp
             hl7v2:PrimitiveType primitiveVal = {value: <any[]>[key, typeMap]};
             return primitiveVal;
         } else {
-            return <Type>val;
+            return getSubComponent(<Type>val, subComponentposition, 0);
         }
     }
     return {};
@@ -2500,7 +2500,7 @@ isolated function getSegmentField(int fieldNum, int repetitionNum, hl7v2:Segment
                     }
                 }
             }
-        } else if key != "name" {
+        } else if key != "name" && key != "isEmtpy" {
             log:printError(string `invalid segment field:  ${key}`);
             return ();
         }

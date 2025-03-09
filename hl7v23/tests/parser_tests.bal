@@ -75,7 +75,7 @@ function testEncodeHl7Message() returns error? {
     string|error encodedMsgStr = string:fromBytes(encodedQRYA19);
     if encodedMsgStr is string {
         string[] segmentLines = re `\r`.split(encodedMsgStr);
-        test:assertEquals(segmentLines[1], "QRD|20220828104856+0000|R|I|QueryID01|||5|1^ADAM^EVERMAN|VXI|SIIS||", "Encoding issue occurred with the message");
+        test:assertEquals(segmentLines[1], "QRD|20220828104856+0000|R|I|QueryID01|||5|1^ADAM^EVERMAN|VXI|SIIS|||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");
     }
@@ -118,7 +118,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
     string|error encodedMsgStr = string:fromBytes(encodedORMO01);
     if encodedMsgStr is string {
         string[] segmentLines = re `\r`.split(encodedMsgStr);
-        test:assertEquals(segmentLines[1], "PID|1|123456789^^^^SSN|||WAYNE^BRUCE^^^Mr^^D|||f|||Hays street^^Geelong^^^Au|||||||||||||||||||", "Encoding issue occurred with the message");
+        test:assertEquals(segmentLines[1], "PID|1|123456789^^^^SSN|||WAYNE^BRUCE^^^Mr^^D|||f|||Hays street^^Geelong^^^Au||||||||||||||||||||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");
     }
@@ -137,7 +137,7 @@ function testInvalidField() {
         anydata cspSegment = parseResult.get("csp");
         if cspSegment is hl7:Segment[] {
             hl7:Segment csp = cspSegment[0];
-            test:assertEquals(csp.entries().length(), 5, "Invalid field is not handled properly");
+            test:assertEquals(csp.entries().length(), 6, "Invalid field is not handled properly");
         } else {
             test:assertFail("Extrating CSP segment failed");
         }
@@ -163,4 +163,22 @@ function testSegmentGroupsParsing() returns error? {
     ORM_O01 inOrm = check parsedMsg.ensureType(ORM_O01);
     test:assertTrue(inOrm.'order[0].orm_o01_order_detail?.orm_o01_order_detail_segment?.obr?.obr1 == "1", "Segment groups parsing failed");
     test:assertTrue(inOrm.patient[0].orm_o01_patient_visit?.pv1?.pv11 == "1", "Segment groups parsing failed");
+}
+
+@test:Config {}
+function testSIUMsgParsing() returns error? {
+    string[] segmentsArr = [
+        string `MSH|^~\&|REHA|PROD|CARE|PROD|20250304134056||SIU^S12^SIU_S12|1|P|2.3||||||8859/1`,
+        string `SCH||1602622^REHA|||||303^Kinetec||||^^^20250314150000^20250314153000`,
+        string `NTE|1||This is a test message 1`,
+        string `PID|||0000001^^^^PI`,
+        string `RGS|1`,
+        string `AIS|1||303^Kinetec|`,
+        string `NTE|1||This is a test message 2`,
+        string `AIL|||4104`,
+        string `AIP|||9889^^^^^^^^SAP^^^^EI`
+    ];
+    string hl7MsgStr = string:'join("\r", ...segmentsArr);
+    hl7:Message parsedMsg = check hl7:parse(hl7MsgStr);
+    SIU_S12 inSiu = check parsedMsg.ensureType(SIU_S12);
 }
