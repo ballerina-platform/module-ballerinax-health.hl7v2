@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -24,10 +24,10 @@ public type PPG_PCG_PATHWAY record {
     string name = PPG_PCG_PATHWAY_SEGMENT_COMPONENT;
     boolean isRequired = true;
     PTH pth;
-    PPG_PCG_GOAL[] ppg_pcg_goal = [{gol:{}}];
-    'VAR[] 'var = [{}];
-    PPG_PCG_PATHWAY_ROLE[] ppg_pcg_pathway_role = [{rol:{}}];
     NTE[] nte = [{}];
+    VAR[] 'var = [{}];
+    PPG_PCG_PATHWAY_ROLE[] ppg_pcg_pathway_role = [{rol: {}}];
+    PPG_PCG_GOAL[] ppg_pcg_goal = [{gol: {}}];
 };
 
 public const PPG_PCG_PATHWAY_SEGMENT_COMPONENT = "PPG_PCG_PATHWAY";

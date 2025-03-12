@@ -21,7 +21,7 @@ import ballerinax/health.hl7v2;
 #
 # + segmentName - HL7 message segment name
 # + return - Record of segment instance
-isolated function getSegment(string segmentName) returns hl7v2:Segment? {
+public isolated function getSegment(string segmentName) returns hl7v2:Segment? {
     match segmentName {
         "APR" => {
             APR segmentInstance = {};
@@ -585,7 +585,7 @@ isolated function getSegment(string segmentName) returns hl7v2:Segment? {
 #
 # + messageName - Message type
 # + return - Instance of HL7 message 
-isolated function getMessage(string messageName) returns hl7v2:Message? {
+public isolated function getMessage(string messageName) returns hl7v2:Message? {
     match messageName {
         "SQM_S25" => {
             SQM_S25 messageInstance = {msh:{}, qrd:{}};
@@ -1313,7 +1313,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
 #
 # + segmentComponentName - HL7 Segment component name
 # + return - Instance of HL7 segment component
-isolated function getSegmentComponent(string segmentComponentName) returns hl7v2:SegmentComponent? {
+public isolated function getSegmentComponent(string segmentComponentName) returns hl7v2:SegmentComponent? {
     match segmentComponentName {
         "RPR_I03_PROVIDER" => {
             RPR_I03_PROVIDER messageInstance = {prd:{}};
@@ -1508,7 +1508,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PTR_PCF_ORDER_DETAIL" => {
-            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_choice:{}};
+            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_order_detail_segment: {}};
             return messageInstance;
         }
         "OMG_O19_PATIENT_VISIT_PRIOR" => {
@@ -1592,7 +1592,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PGL_PC6_ORDER_DETAIL" => {
-            PGL_PC6_ORDER_DETAIL messageInstance = {pgl_pc6_obrrxo_suppgrp:{}};
+            PGL_PC6_ORDER_DETAIL messageInstance = {pgl_pc6_order_detail_segment: {}};
             return messageInstance;
         }
         "ORG_O20_PATIENT" => {
@@ -1732,7 +1732,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PPP_PCB_ORDER_DETAIL" => {
-            PPP_PCB_ORDER_DETAIL messageInstance = {ppp_pcb_choice:{}};
+            PPP_PCB_ORDER_DETAIL messageInstance = {ppp_pcb_order_detail_segment: {}};
             return messageInstance;
         }
         "RPI_I04_PROVIDER" => {
@@ -1752,7 +1752,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PRR_PC5_ORDER_DETAIL" => {
-            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_choice:{}};
+            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_order_detail_segment: {}};
             return messageInstance;
         }
         "PGL_PC6_GOAL_ROLE" => {
@@ -1920,7 +1920,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "OSR_Q06_ORDER" => {
-            OSR_Q06_ORDER messageInstance = {orc:{}, osr_q06_choice:{}};
+            OSR_Q06_ORDER messageInstance = {orc:{},osr_q06_order_detail_segment: {}};
             return messageInstance;
         }
         "RSP_Z88_COMMON_ORDER" => {
@@ -2044,7 +2044,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPR_PC1_ORDER_DETAIL" => {
-            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_choice:{}};
+            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_order_detail_segment: {}};
             return messageInstance;
         }
         "OUL_R21_ORDER_OBSERVATION" => {
@@ -2168,7 +2168,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "ORR_O02_ORDER" => {
-            ORR_O02_ORDER messageInstance = {orc:{}, orr_o02_order_detail:{}};
+            ORR_O02_ORDER messageInstance = {orc:{}, orr_o02_order_detail_segment: {}};
             return messageInstance;
         }
         "RGR_RGR_ENCODING" => {
@@ -2300,7 +2300,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPT_PCL_ORDER_DETAIL" => {
-            PPT_PCL_ORDER_DETAIL messageInstance = {ppt_pcl_choice:{}};
+            PPT_PCL_ORDER_DETAIL messageInstance = {ppt_pcl_order_detail_segment: {}};
             return messageInstance;
         }
         "PPV_PCA_PROBLEM" => {
@@ -2364,7 +2364,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPV_PCA_ORDER_DETAIL" => {
-            PPV_PCA_ORDER_DETAIL messageInstance = {ppv_pca_choice:{}};
+            PPV_PCA_ORDER_DETAIL messageInstance = {ppv_pca_order_detail_segment: {}};
             return messageInstance;
         }
         "RRA_O18_PATIENT" => {
@@ -2412,7 +2412,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "ORM_O01_ORDER_DETAIL" => {
-            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_choice:{}};
+            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_order_detail_segment: {}};
             return messageInstance;
         }
         "RRE_O12_RESPONSE" => {
@@ -2864,7 +2864,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPV_PCA_ORDER_DETAIL" => {
-            PPV_PCA_ORDER_DETAIL messageInstance = {ppv_pca_choice:{}};
+            PPV_PCA_ORDER_DETAIL messageInstance = {ppv_pca_order_detail_segment: {}};
             return messageInstance;
         }
         "RRA_O18_PATIENT" => {
@@ -2912,7 +2912,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "ORM_O01_ORDER_DETAIL" => {
-            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_choice:{}};
+            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_order_detail_segment: {}};
             return messageInstance;
         }
         "RRE_O12_RESPONSE" => {
@@ -3391,7 +3391,7 @@ isolated function getSegmentField(int fieldNum, int repetitionNum, hl7v2:Segment
                     }
                 }
             }
-        } else if key != "name" {
+        } else if key != "name" && key != "emtpy" {
             log:printError(string `invalid segment field:  ${key}`);
             return ();
         }

@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,63 +13,238 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const OSR_Q06_MESSAGE_TYPE = "OSR_Q06";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + msa - MSA Segment
-# + err - ERR Segment
-# + nte - NTE Segment
-# + qrd - QRD Segment
-# + qrf - QRF Segment
-# + dsc - DSC Segment
-# + response - OSR_Q06_RESPONSE Segment Group
+# + msh - MSH
+# + msa - MSA
+# + err - ERR
+# + nte - NTE
+# + qrd - QRD
+# + qrf - QRF
+# + dsc - DSC
+
 @hl7v2:MessageDefinition {
     orderedSegments: {
-        "MSH": [{name: "MSH", maxReps: 1, required: false}],
-        "MSA": [{name: "MSA", maxReps: 1, required: false}],
-        "ERR": [{name: "ERR", maxReps: 1, required: false}],
-        "NTE": [{name: "NTE", maxReps: -1, required: false}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_PATIENT"}, {name: "NTE", maxReps: -1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_ORDER"}],
-        "QRD": [{name: "QRD", maxReps: 1, required: false}],
-        "QRF": [{name: "QRF", maxReps: 1, required: false}],
-        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_PATIENT"}],
-        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_ORDER"}],
-        "CTI": [{name: "CTI", maxReps: -1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_ORDER"}],
-        "OBR": [{name: "OBR", maxReps: 1, required: false, segmentComponentName: "OSR_Q06_RESPONSE.OSR_Q06_ORDER"}],
-        "DSC": [{name: "DSC", maxReps: 1, required: false}]
-    }
-,
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
-        "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE},
-        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
-        "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
-    ,groups: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "NTE": [
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_PATIENT"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_ORDER"
+                }
+        ],
+        "QRD": [
+                {
+                        "name": "QRD",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "QRF": [
+                {
+                        "name": "QRF",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_PATIENT"
+                }
+        ],
+        "ORC": [
+                {
+                        "name": "ORC",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_ORDER"
+                }
+        ],
+        "OBR": [
+                {
+                        "name": "OBR",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_ORDER.OSR_Q06_ORDER_DETAIL_SEGMENT"
+                }
+        ],
+        "RQD": [
+                {
+                        "name": "RQD",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_ORDER.OSR_Q06_ORDER_DETAIL_SEGMENT"
+                }
+        ],
+        "RQ1": [
+                {
+                        "name": "RQ1",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_ORDER.OSR_Q06_ORDER_DETAIL_SEGMENT"
+                }
+        ],
+        "RXO": [
+                {
+                        "name": "RXO",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_ORDER.OSR_Q06_ORDER_DETAIL_SEGMENT"
+                }
+        ],
+        "ODS": [
+                {
+                        "name": "ODS",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_ORDER.OSR_Q06_ORDER_DETAIL_SEGMENT"
+                }
+        ],
+        "ODT": [
+                {
+                        "name": "ODT",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_ORDER.OSR_Q06_ORDER_DETAIL_SEGMENT"
+                }
+        ],
+        "CTI": [
+                {
+                        "name": "CTI",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "OSR_Q06_RESPONSE.OSR_Q06_ORDER"
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {
         "OSR_Q06_RESPONSE": {
-            maxReps: 1,
-            required: false,
-            segments: {
-                "OSR_Q06_PATIENT": {name: "OSR_Q06_PATIENT", maxReps: 1, required: false, segmentType: typeof OSR_Q06_PATIENT},
-                "OSR_Q06_ORDER": {name: "OSR_Q06_ORDER", maxReps: -1, required: true, segmentType: typeof OSR_Q06_ORDER}
-            }
+                "maxReps": 1,
+                "required": false,
+                "segments": {}
+        },
+        "OSR_Q06_RESPONSE.OSR_Q06_PATIENT": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "PID": {
+                                "name": "PID",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         },
         "OSR_Q06_RESPONSE.OSR_Q06_ORDER": {
-		   maxReps: -1,
-		   required: false
-		},
-        "OSR_Q06_RESPONSE.OSR_Q06_PATIENT": {
-		   maxReps: 1,
-		   required: false
-		}
-    }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "ORC": {
+                                "name": "ORC",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        },
+                        "CTI": {
+                                "name": "CTI",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "OSR_Q06_RESPONSE.OSR_Q06_ORDER.OSR_Q06_ORDER_DETAIL_SEGMENT": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "OBR": {
+                                "name": "OBR",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "RQD": {
+                                "name": "RQD",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "RQ1": {
+                                "name": "RQ1",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "RXO": {
+                                "name": "RXO",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "ODS": {
+                                "name": "ODS",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "ODT": {
+                                "name": "ODT",
+                                "maxReps": 1,
+                                "required": false
+                        }
+                }
+        }
+}
 }
 public type OSR_Q06 record {
     *hl7v2:Message;
@@ -79,6 +255,6 @@ public type OSR_Q06 record {
     NTE[] nte = [];
     QRD qrd;
     QRF qrf?;
-    OSR_Q06_RESPONSE[] response = [{}];
     DSC dsc?;
+
 };

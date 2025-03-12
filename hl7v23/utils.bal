@@ -1088,7 +1088,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "PTR_PCF_ORDER_DETAIL" => {
-            PTR_PCF_ORDER_DETAIL messageInstance = {obr:{}};
+            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_order_detail_segment: {}};
             return messageInstance;
         }
         "PPT_PCL_ORDER_OBSERVATION" => {
@@ -1144,7 +1144,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "PGL_PC6_ORDER_DETAIL" => {
-            PGL_PC6_ORDER_DETAIL messageInstance = {obr:{}};
+            PGL_PC6_ORDER_DETAIL messageInstance = {pgl_pc6_order_detail_segment: {}};
             return messageInstance;
         }
         "RGV_O01_ORDER" => {
@@ -1264,7 +1264,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "PPP_PCB_ORDER_DETAIL" => {
-            PPP_PCB_ORDER_DETAIL messageInstance = {obr:{}};
+            PPP_PCB_ORDER_DETAIL messageInstance = {ppp_pcb_order_detail_segment: {}};
             return messageInstance;
         }
         "MFN_M07_MF_CLIN_STUDY" => {
@@ -1284,7 +1284,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "PRR_PC5_ORDER_DETAIL" => {
-            PRR_PC5_ORDER_DETAIL messageInstance = {obr:{}};
+            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_order_detail_segment: {}};
             return messageInstance;
         }
         "PGL_PC6_GOAL_ROLE" => {
@@ -1328,7 +1328,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "RAR_RAR_ORDER" => {
-            RAR_RAR_ORDER messageInstance = {orc:{}};
+            RAR_RAR_ORDER messageInstance = {orc:{},rxr: {}};
             return messageInstance;
         }
         "ORM_O01_PATIENT" => {
@@ -1488,7 +1488,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "PPR_PC1_ORDER_DETAIL" => {
-            PPR_PC1_ORDER_DETAIL messageInstance = {obr:{}};
+            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_order_detail_segment: {}};
             return messageInstance;
         }
         "MFN_M07_MF_PHASE_SCHED_DETAIL" => {
@@ -1568,7 +1568,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "ORR_O02_ORDER" => {
-            ORR_O02_ORDER messageInstance = {orc:{}, orr_o02_choice:{}};
+            ORR_O02_ORDER messageInstance = {orc:{}};
             return messageInstance;
         }
         "RGR_RGR_ENCODING" => {
@@ -1580,7 +1580,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "MFN_M09_MF_TEST_CATEGORICAL" => {
-            MFN_M09_MF_TEST_CATEGORICAL messageInstance = {mfe:{}};
+            MFN_M09_MF_TEST_CATEGORICAL messageInstance = {mfe:{},om1: {}};
             return messageInstance;
         }
         "SRR_S01_SERVICE" => {
@@ -1592,7 +1592,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "RRD_O02_PATIENT" => {
-            RRD_O02_PATIENT messageInstance = {};
+            RRD_O02_PATIENT messageInstance = {pid: {}};
             return messageInstance;
         }
         "CSU_C09_RX_ADMIN" => {
@@ -1648,11 +1648,11 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "PPT_PCL_ORDER_DETAIL" => {
-            PPT_PCL_ORDER_DETAIL messageInstance = {obr:{}};
+            PPT_PCL_ORDER_DETAIL messageInstance = {ppt_pcl_order_detail_segment: {}};
             return messageInstance;
         }
         "RRD_O02_RESPONSE" => {
-            RRD_O02_RESPONSE messageInstance = {pid:{}};
+            RRD_O02_RESPONSE messageInstance = {};
             return messageInstance;
         }
         "PPV_PCA_PROBLEM" => {
@@ -1676,7 +1676,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "RRI_I12_OBSERVATION" => {
-            RRI_I12_OBSERVATION messageInstance = {obx:{}};
+            RRI_I12_OBSERVATION messageInstance = {obr: {}};
             return messageInstance;
         }
         "RDO_O01_PATIENT_VISIT" => {
@@ -1700,7 +1700,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "PPV_PCA_ORDER_DETAIL" => {
-            PPV_PCA_ORDER_DETAIL messageInstance = {obr:{}};
+            PPV_PCA_ORDER_DETAIL messageInstance = {ppv_pca_order_detail_segment: {}};
             return messageInstance;
         }
         "ORN_O02_ORDER" => {
@@ -1744,7 +1744,7 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "ORM_O01_ORDER_DETAIL" => {
-            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_choice:{}};
+            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_order_detail_segment: {}};
             return messageInstance;
         }
         "ORM_O01_ORDER_DETAIL_SEGMENT" => {
@@ -1856,11 +1856,11 @@ public isolated function getSegmentComponent(string segmentComponentName) return
             return messageInstance;
         }
         "RDR_RDR_ENCODING" => {
-            RDR_RDR_ENCODING messageInstance = {rxr:{}, rxe:{}};
+            RDR_RDR_ENCODING messageInstance = { rxe:{}};
             return messageInstance;
         }
         "MFN_M03_MF_TEST" => {
-            MFN_M03_MF_TEST messageInstance = {om1:{}, anyhl7segment:{}, mfe:{}};
+            MFN_M03_MF_TEST messageInstance = {mfe:{}};
             return messageInstance;
         }
         "RGV_O01_OBSERVATION" => {
@@ -1993,7 +1993,7 @@ isolated function getSegmentComponent2(string segmentComponentName) returns hl7v
             return messageInstance;
         }
         "RRA_O02_ADMINISTRATION" => {
-            RRA_O02_ADMINISTRATION messageInstance = {rxa:{}, rxr:{}};
+            RRA_O02_ADMINISTRATION messageInstance = {rxr:{}};
             return messageInstance;
         }
         "CSU_C09_STUDY_SCHEDULE" => {
@@ -2073,7 +2073,7 @@ isolated function getSegmentComponent2(string segmentComponentName) returns hl7v
             return messageInstance;
         }
         "MFN_M10_MF_TEST_BATTERIES" => {
-            MFN_M10_MF_TEST_BATTERIES messageInstance = {};
+            MFN_M10_MF_TEST_BATTERIES messageInstance = {om1: {}, mfe: {}};
             return messageInstance;
         }
         "REF_I12_RESULTS" => {
@@ -2117,7 +2117,7 @@ isolated function getSegmentComponent2(string segmentComponentName) returns hl7v
             return messageInstance;
         }
         "REF_I12_OBSERVATION" => {
-            REF_I12_OBSERVATION messageInstance = {obx:{}};
+            REF_I12_OBSERVATION messageInstance = {obr: {}};
             return messageInstance;
         }
         "PPP_PCB_ORDER" => {
@@ -2153,7 +2153,7 @@ isolated function getSegmentComponent2(string segmentComponentName) returns hl7v
             return messageInstance;
         }
         "PPG_PCG_ORDER_DETAIL" => {
-            PPG_PCG_ORDER_DETAIL messageInstance = {obr:{}};
+            PPG_PCG_ORDER_DETAIL messageInstance = {ppg_pcg_order_detail_segment: {}};
             return messageInstance;
         }
         "RRO_O02_ORDER_DETAIL" => {

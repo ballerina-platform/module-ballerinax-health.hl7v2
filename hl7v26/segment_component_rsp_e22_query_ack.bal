@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -23,6 +23,9 @@ public type RSP_E22_QUERY_ACK record {
     *hl7v2:SegmentComponent;
     string name = RSP_E22_QUERY_ACK_SEGMENT_COMPONENT;
     boolean isRequired = true;
+    QAK qak;
+    QPD qpd;
+    RSP_E22_AUTHORIZATION_INFO rsp_e22_authorization_info?;
 };
 
 public const RSP_E22_QUERY_ACK_SEGMENT_COMPONENT = "RSP_E22_QUERY_ACK";

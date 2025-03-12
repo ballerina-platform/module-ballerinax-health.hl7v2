@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,36 +13,133 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const CRM_C01_MESSAGE_TYPE = "CRM_C01";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + uac - UAC Segment
+# + msh - MSH
+# + sft - SFT
+# + uac - UAC
 # + patient - CRM_C01_PATIENT Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "UAC": [
+                {
+                        "name": "UAC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "CRM_C01_PATIENT"
+                }
+        ],
+        "PRT": [
+                {
+                        "name": "PRT",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "CRM_C01_PATIENT"
+                },
+                {
+                        "name": "PRT",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "CRM_C01_PATIENT.CRM_C01_PATIENT_VISIT"
+                }
+        ],
+        "PV1": [
+                {
+                        "name": "PV1",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "CRM_C01_PATIENT.CRM_C01_PATIENT_VISIT"
+                }
+        ],
+        "CSR": [
+                {
+                        "name": "CSR",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "CRM_C01_PATIENT"
+                }
+        ],
+        "CSP": [
+                {
+                        "name": "CSP",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "CRM_C01_PATIENT"
+                }
+        ]
+},
+    groups: {
         "CRM_C01_PATIENT": {
-            maxReps: -1,
-            required: true,
-            segments: {
-                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
-                "PRT": {name: "PRT", maxReps: -1, required: false, segmentType: typeof PRT},
-                "CRM_C01_PATIENT_VISIT": {name: "CRM_C01_PATIENT_VISIT", maxReps: 1, required: false, segmentType: typeof CRM_C01_PATIENT_VISIT},
-                "CSR": {name: "CSR", maxReps: 1, required: true, segmentType: typeof CSR},
-                "CSP": {name: "CSP", maxReps: -1, required: false, segmentType: typeof CSP}
-            }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "PID": {
+                                "name": "PID",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "PRT": {
+                                "name": "PRT",
+                                "maxReps": -1,
+                                "required": false
+                        },
+                        "CSR": {
+                                "name": "CSR",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "CSP": {
+                                "name": "CSP",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "CRM_C01_PATIENT.CRM_C01_PATIENT_VISIT": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "PV1": {
+                                "name": "PV1",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "PRT": {
+                                "name": "PRT",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type CRM_C01 record {
     *hl7v2:Message;
@@ -49,5 +147,5 @@ public type CRM_C01 record {
     MSH msh;
     SFT[] sft = [];
     UAC uac?;
-    CRM_C01_PATIENT[] patient = [{pid:{}, csr:{}}];
+    CRM_C01_PATIENT[] patient = [{pid: {}, csr: {}}];
 };

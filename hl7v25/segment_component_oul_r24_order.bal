@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -23,13 +23,13 @@ public type OUL_R24_ORDER record {
     *hl7v2:SegmentComponent;
     string name = OUL_R24_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    ORC orc?;
-    OUL_R24_TIMING_QTY[] oul_r24_timing_qty = [{tq1:{}}];
-    OUL_R24_SPECIMEN[] oul_r24_specimen = [{spm:{}}];
-    CTI[] cti = [{}];
     OBR obr;
+    ORC orc?;
     NTE[] nte = [{}];
-    OUL_R24_RESULT[] oul_r24_result = [{obx:{}}];
+    CTI[] cti = [{}];
+    OUL_R24_TIMING_QTY[] oul_r24_timing_qty = [{tq1: {}}];
+    OUL_R24_SPECIMEN[] oul_r24_specimen = [{spm: {}}];
+    OUL_R24_RESULT[] oul_r24_result = [{obx: {}}];
 };
 
 public const OUL_R24_ORDER_SEGMENT_COMPONENT = "OUL_R24_ORDER";

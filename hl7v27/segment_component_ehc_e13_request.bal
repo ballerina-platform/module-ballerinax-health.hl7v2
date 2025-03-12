@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -24,9 +24,9 @@ public type EHC_E13_REQUEST record {
     string name = EHC_E13_REQUEST_SEGMENT_COMPONENT;
     boolean isRequired = true;
     CTD ctd?;
-    EHC_E13_RESPONSE[] ehc_e13_response = [{obx:{}}];
     OBR obr;
     NTE nte?;
+    EHC_E13_RESPONSE[] ehc_e13_response = [{obx: {}}];
 };
 
 public const EHC_E13_REQUEST_SEGMENT_COMPONENT = "EHC_E13_REQUEST";

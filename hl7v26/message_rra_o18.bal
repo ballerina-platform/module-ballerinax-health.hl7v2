@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,39 +13,186 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const RRA_O18_MESSAGE_TYPE = "RRA_O18";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + msa - MSA Segment
-# + err - ERR Segment
-# + sft - SFT Segment
-# + uac - UAC Segment
-# + nte - NTE Segment
-# + response - RRA_O18_RESPONSE Segment Group
+# + msh - MSH
+# + msa - MSA
+# + err - ERR
+# + sft - SFT
+# + uac - UAC
+# + nte - NTE
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "UAC": [
+                {
+                        "name": "UAC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "NTE": [
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RRA_O18_RESPONSE.RRA_O18_PATIENT"
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRA_O18_RESPONSE.RRA_O18_PATIENT"
+                }
+        ],
+        "ORC": [
+                {
+                        "name": "ORC",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRA_O18_RESPONSE.RRA_O18_ORDER"
+                }
+        ],
+        "TQ1": [
+                {
+                        "name": "TQ1",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRA_O18_RESPONSE.RRA_O18_ORDER.RRA_O18_TIMING"
+                }
+        ],
+        "TQ2": [
+                {
+                        "name": "TQ2",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RRA_O18_RESPONSE.RRA_O18_ORDER.RRA_O18_TIMING"
+                }
+        ],
+        "RXA": [
+                {
+                        "name": "RXA",
+                        "maxReps": -1,
+                        "required": true,
+                        "segmentComponentName": "RRA_O18_RESPONSE.RRA_O18_ORDER.RRA_O18_ADMINISTRATION"
+                }
+        ],
+        "RXR": [
+                {
+                        "name": "RXR",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRA_O18_RESPONSE.RRA_O18_ORDER.RRA_O18_ADMINISTRATION"
+                }
+        ]
+},
+    groups: {
         "RRA_O18_RESPONSE": {
-            maxReps: 1,
-            required: false,
-            segments: {
-                "RRA_O18_PATIENT": {name: "RRA_O18_PATIENT", maxReps: 1, required: false, segmentType: typeof RRA_O18_PATIENT},
-                "RRA_O18_ORDER": {name: "RRA_O18_ORDER", maxReps: -1, required: true, segmentType: typeof RRA_O18_ORDER}
-            }
+                "maxReps": 1,
+                "required": false,
+                "segments": {}
+        },
+        "RRA_O18_RESPONSE.RRA_O18_PATIENT": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "PID": {
+                                "name": "PID",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "RRA_O18_RESPONSE.RRA_O18_ORDER": {
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "ORC": {
+                                "name": "ORC",
+                                "maxReps": 1,
+                                "required": true
+                        }
+                }
+        },
+        "RRA_O18_RESPONSE.RRA_O18_ORDER.RRA_O18_TIMING": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "TQ1": {
+                                "name": "TQ1",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "TQ2": {
+                                "name": "TQ2",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "RRA_O18_RESPONSE.RRA_O18_ORDER.RRA_O18_ADMINISTRATION": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "RXA": {
+                                "name": "RXA",
+                                "maxReps": -1,
+                                "required": true
+                        },
+                        "RXR": {
+                                "name": "RXR",
+                                "maxReps": 1,
+                                "required": true
+                        }
+                }
         }
-    }
+}
 }
 public type RRA_O18 record {
     *hl7v2:Message;
@@ -55,5 +203,5 @@ public type RRA_O18 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
-    RRA_O18_RESPONSE[] response = [{}];
+
 };

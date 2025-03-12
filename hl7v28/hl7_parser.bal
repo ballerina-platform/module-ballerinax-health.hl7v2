@@ -22,8 +22,11 @@ isolated class HL7v28Parser {
    *hl7v2:Parser;
 
     # Parse HL7 encoded message to it's relevant model.
+    #
     # + message - Encoded HL7 message
     # + return - HL7 message model (specific or generic). hl7v2:HL7Error if error occurred
+    # # Deprecated Use hl7v2:parse instead
+    @deprecated 
     public isolated function parse(string message) returns hl7v2:Message|hl7v2:HL7Error {
         HL7Parser parser = new ();
         hl7v2:Message? parsedMessage = check parser.parse(message);
@@ -102,7 +105,7 @@ class HL7Parser {
                             hl7v2:Hl7MessageDefinitionRecord? msgDef = (typeof messageResult).@hl7v2:MessageDefinition;
                             map<anydata> messageFields = messageResult;
                             if msgDef is hl7v2:Hl7MessageDefinitionRecord {
-                                map<hl7v2:Hl7SegmentDefinitionRecord> segmentDefs = msgDef.segments;
+                                map<hl7v2:Hl7SegmentDefinitionRecord> segmentDefs = msgDef.segments ?: {};
                                 map<hl7v2:Hl7SegmentComponentDefinitionRecord>? groups = msgDef.groups;
 
                                 if segmentDefs.hasKey(segmentName) {

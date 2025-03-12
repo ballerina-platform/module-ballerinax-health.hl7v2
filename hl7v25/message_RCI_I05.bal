@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,57 +13,194 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const RCI_I05_MESSAGE_TYPE = "RCI_I05";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + msa - MSA Segment
-# + qrd - QRD Segment
-# + qrf - QRF Segment
-# + pid - PID Segment
-# + dg1 - DG1 Segment
-# + drg - DRG Segment
-# + al1 - AL1 Segment
-# + nte - NTE Segment
+# + msh - MSH
+# + sft - SFT
+# + msa - MSA
+# + qrd - QRD
+# + qrf - QRF
+# + pid - PID
+# + dg1 - DG1
+# + drg - DRG
+# + al1 - AL1
+# + nte - NTE
 # + provider - RCI_I05_PROVIDER Segment Group
 # + observation - RCI_I05_OBSERVATION Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
-        "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF},
-        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
-        "DG1": {name: "DG1", maxReps: -1, required: false, segmentType: DG1},
-        "DRG": {name: "DRG", maxReps: -1, required: false, segmentType: DRG},
-        "AL1": {name: "AL1", maxReps: -1, required: false, segmentType: AL1},
-        "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "QRD": [
+                {
+                        "name": "QRD",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "QRF": [
+                {
+                        "name": "QRF",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "PRD": [
+                {
+                        "name": "PRD",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RCI_I05_PROVIDER"
+                }
+        ],
+        "CTD": [
+                {
+                        "name": "CTD",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RCI_I05_PROVIDER"
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "DG1": [
+                {
+                        "name": "DG1",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "DRG": [
+                {
+                        "name": "DRG",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "AL1": [
+                {
+                        "name": "AL1",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "OBR": [
+                {
+                        "name": "OBR",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RCI_I05_OBSERVATION"
+                }
+        ],
+        "NTE": [
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RCI_I05_OBSERVATION"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RCI_I05_OBSERVATION.RCI_I05_RESULTS"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "OBX": [
+                {
+                        "name": "OBX",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RCI_I05_OBSERVATION.RCI_I05_RESULTS"
+                }
+        ]
+},
+    groups: {
         "RCI_I05_PROVIDER": {
-            maxReps: -1,
-            required: true,
-            segments: {
-                "PRD": {name: "PRD", maxReps: 1, required: true, segmentType: typeof PRD},
-                "CTD": {name: "CTD", maxReps: -1, required: false, segmentType: typeof CTD}
-            }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "PRD": {
+                                "name": "PRD",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "CTD": {
+                                "name": "CTD",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         },
         "RCI_I05_OBSERVATION": {
-            maxReps: -1,
-            required: false,
-            segments: {
-                "OBR": {name: "OBR", maxReps: 1, required: true, segmentType: typeof OBR},
-                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
-                "RCI_I05_RESULTS": {name: "RCI_I05_RESULTS", maxReps: -1, required: false, segmentType: typeof RCI_I05_RESULTS}
-            }
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "OBR": {
+                                "name": "OBR",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "RCI_I05_OBSERVATION.RCI_I05_RESULTS": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "OBX": {
+                                "name": "OBX",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type RCI_I05 record {
     *hl7v2:Message;
@@ -77,6 +215,6 @@ public type RCI_I05 record {
     DRG[] drg = [];
     AL1[] al1 = [];
     NTE[] nte = [];
-    RCI_I05_PROVIDER[] provider = [{prd:{}}];
-    RCI_I05_OBSERVATION[] observation = [{obr:{}}];
+    RCI_I05_PROVIDER[] provider = [{prd: {}}];
+    RCI_I05_OBSERVATION[] observation = [{obr: {}}];
 };

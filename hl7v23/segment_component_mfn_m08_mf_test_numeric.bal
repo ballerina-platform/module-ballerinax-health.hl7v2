@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -23,9 +23,9 @@ public type MFN_M08_MF_TEST_NUMERIC record {
     *hl7v2:SegmentComponent;
     string name = MFN_M08_MF_TEST_NUMERIC_SEGMENT_COMPONENT;
     boolean isRequired = true;
+    MFE mfe;
     OM1 om1;
     MFN_M08_MF_NUMERIC_OBSERVATION mfn_m08_mf_numeric_observation?;
-    MFE mfe;
 };
 
 public const MFN_M08_MF_TEST_NUMERIC_SEGMENT_COMPONENT = "MFN_M08_MF_TEST_NUMERIC";

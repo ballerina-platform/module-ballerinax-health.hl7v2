@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,35 +13,125 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const EHC_E24_MESSAGE_TYPE = "EHC_E24";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + uac - UAC Segment
-# + msa - MSA Segment
-# + err - ERR Segment
+# + msh - MSH
+# + sft - SFT
+# + uac - UAC
+# + msa - MSA
+# + err - ERR
 # + authorization_response_info - EHC_E24_AUTHORIZATION_RESPONSE_INFO Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "UAC": {name: "UAC", maxReps: -1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "UAC": [
+                {
+                        "name": "UAC",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "IVC": [
+                {
+                        "name": "IVC",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "EHC_E24_AUTHORIZATION_RESPONSE_INFO"
+                }
+        ],
+        "PSL": [
+                {
+                        "name": "PSL",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "EHC_E24_AUTHORIZATION_RESPONSE_INFO.EHC_E24_PSL_ITEM_INFO"
+                }
+        ],
+        "AUT": [
+                {
+                        "name": "AUT",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "EHC_E24_AUTHORIZATION_RESPONSE_INFO.EHC_E24_PSL_ITEM_INFO"
+                }
+        ],
+        "ADJ": [
+                {
+                        "name": "ADJ",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "EHC_E24_AUTHORIZATION_RESPONSE_INFO.EHC_E24_PSL_ITEM_INFO"
+                }
+        ]
+},
+    groups: {
         "EHC_E24_AUTHORIZATION_RESPONSE_INFO": {
-            maxReps: 1,
-            required: true,
-            segments: {
-            }
+                "maxReps": 1,
+                "required": true,
+                "segments": {
+                        "IVC": {
+                                "name": "IVC",
+                                "maxReps": 1,
+                                "required": true
+                        }
+                }
+        },
+        "EHC_E24_AUTHORIZATION_RESPONSE_INFO.EHC_E24_PSL_ITEM_INFO": {
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "PSL": {
+                                "name": "PSL",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "AUT": {
+                                "name": "AUT",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "ADJ": {
+                                "name": "ADJ",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type EHC_E24 record {
     *hl7v2:Message;
@@ -50,5 +141,5 @@ public type EHC_E24 record {
     UAC[] uac = [];
     MSA msa;
     ERR[] err = [];
-    EHC_E24_AUTHORIZATION_RESPONSE_INFO[] authorization_response_info = [{}];
+    EHC_E24_AUTHORIZATION_RESPONSE_INFO authorization_response_info = {ivc: {}};
 };

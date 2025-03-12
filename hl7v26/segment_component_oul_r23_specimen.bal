@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -25,7 +25,7 @@ public type OUL_R23_SPECIMEN record {
     boolean isRequired = true;
     SPM spm;
     OBX[] obx = [{}];
-    OUL_R23_CONTAINER[] oul_r23_container = [{sac:{}}];
+    OUL_R23_CONTAINER[] oul_r23_container = [{sac: {}}];
 };
 
 public const OUL_R23_SPECIMEN_SEGMENT_COMPONENT = "OUL_R23_SPECIMEN";

@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -22,9 +22,9 @@ import ballerinax/health.hl7v2;
 public type ORG_O20_RESPONSE record {
     *hl7v2:SegmentComponent;
     string name = ORG_O20_RESPONSE_SEGMENT_COMPONENT;
-    boolean isRequired = true;
+    boolean isRequired = false;
     ORG_O20_PATIENT org_o20_patient?;
-    ORG_O20_ORDER[] org_o20_order = [{orc:{}}];
+    ORG_O20_ORDER[] org_o20_order = [{orc: {}}];
 };
 
 public const ORG_O20_RESPONSE_SEGMENT_COMPONENT = "ORG_O20_RESPONSE";

@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,47 +13,120 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const MFR_M01_MESSAGE_TYPE = "MFR_M01";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + uac - UAC Segment
-# + msa - MSA Segment
-# + err - ERR Segment
-# + qak - QAK Segment
-# + qrd - QRD Segment
-# + qrf - QRF Segment
-# + mfi - MFI Segment
-# + dsc - DSC Segment
+# + msh - MSH
+# + sft - SFT
+# + uac - UAC
+# + msa - MSA
+# + err - ERR
+# + qak - QAK
+# + qrd - QRD
+# + qrf - QRF
+# + mfi - MFI
+# + dsc - DSC
 # + mf_query - MFR_M01_MF_QUERY Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
-        "QAK": {name: "QAK", maxReps: 1, required: false, segmentType: QAK},
-        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
-        "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF},
-        "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "UAC": [
+                {
+                        "name": "UAC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "QAK": [
+                {
+                        "name": "QAK",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "QRD": [
+                {
+                        "name": "QRD",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "QRF": [
+                {
+                        "name": "QRF",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "MFI": [
+                {
+                        "name": "MFI",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "MFE": [
+                {
+                        "name": "MFE",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "MFR_M01_MF_QUERY"
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {
         "MFR_M01_MF_QUERY": {
-            maxReps: -1,
-            required: true,
-            segments: {
-                "MFE": {name: "MFE", maxReps: 1, required: true, segmentType: typeof MFE},
-                "anydata": {name: "anyHL7Segment", maxReps: 1, required: false, segmentType: typeof anydata}
-            }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "MFE": {
+                                "name": "MFE",
+                                "maxReps": 1,
+                                "required": true
+                        }
+                }
         }
-    }
+}
 }
 public type MFR_M01 record {
     *hl7v2:Message;
@@ -67,5 +141,5 @@ public type MFR_M01 record {
     QRF qrf?;
     MFI mfi;
     DSC dsc?;
-    MFR_M01_MF_QUERY[] mf_query = [{mfe:{}}];
+    MFR_M01_MF_QUERY[] mf_query = [{mfe: {}}];
 };

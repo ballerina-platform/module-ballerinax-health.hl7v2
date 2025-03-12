@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -23,11 +23,11 @@ public type SRM_S01_RESOURCES record {
     *hl7v2:SegmentComponent;
     string name = SRM_S01_RESOURCES_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    SRM_S01_GENERAL_RESOURCE[] srm_s01_general_resource = [{aig:{}}];
-    SRM_S01_SERVICE[] srm_s01_service = [{ais:{}}];
-    SRM_S01_PERSONNEL_RESOURCE[] srm_s01_personnel_resource = [{aip:{}}];
-    SRM_S01_LOCATION_RESOURCE[] srm_s01_location_resource = [{ail:{}}];
     RGS rgs;
+    SRM_S01_SERVICE[] srm_s01_service = [{ais: {}}];
+    SRM_S01_GENERAL_RESOURCE[] srm_s01_general_resource = [{aig: {}}];
+    SRM_S01_LOCATION_RESOURCE[] srm_s01_location_resource = [{ail: {}}];
+    SRM_S01_PERSONNEL_RESOURCE[] srm_s01_personnel_resource = [{aip: {}}];
 };
 
 public const SRM_S01_RESOURCES_SEGMENT_COMPONENT = "SRM_S01_RESOURCES";

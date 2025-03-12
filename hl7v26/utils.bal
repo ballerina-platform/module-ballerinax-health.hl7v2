@@ -1496,7 +1496,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             return messageInstance;
         }
         "DFT_P03" => {
-            DFT_P03 messageInstance = {evn:{}, pid:{}};
+            DFT_P03 messageInstance = {evn:{}, pid:{},msh: {}};
             return messageInstance;
         }
         "RCI_I05" => {
@@ -1800,7 +1800,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PGL_PC6_ORDER_DETAIL" => {
-            PGL_PC6_ORDER_DETAIL messageInstance = {pgl_pc6_choice:{}};
+            PGL_PC6_ORDER_DETAIL messageInstance = {pgl_pc6_order_detail_segment: {}};
             return messageInstance;
         }
         "ORG_O20_PATIENT" => {
@@ -1912,7 +1912,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PPP_PCB_ORDER_DETAIL" => {
-            PPP_PCB_ORDER_DETAIL messageInstance = {ppp_pcb_choice:{}};
+            PPP_PCB_ORDER_DETAIL messageInstance = {ppp_pcb_order_detail_segment: {}};
             return messageInstance;
         }
         "EHC_E10_PRODUCT_SERVICE_GROUP" => {
@@ -2028,7 +2028,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "EHC_E04_REASSESSMENT_REQUEST_INFO" => {
-            EHC_E04_REASSESSMENT_REQUEST_INFO messageInstance = {};
+            EHC_E04_REASSESSMENT_REQUEST_INFO messageInstance = {ivc: {}};
             return messageInstance;
         }
         "SDR_S31_ANTIMICROBIAL_DEVICE_DATA" => {
@@ -2152,7 +2152,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "EHC_E15_PAYMENT_REMITTANCE_HEADER_INFO" => {
-            EHC_E15_PAYMENT_REMITTANCE_HEADER_INFO messageInstance = {};
+            EHC_E15_PAYMENT_REMITTANCE_HEADER_INFO messageInstance = {pmt: {}, pye: {}};
             return messageInstance;
         }
         "RSP_K23_QUERY_RESPONSE" => {
@@ -2164,7 +2164,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "QBP_E03_QUERY_INFORMATION" => {
-            QBP_E03_QUERY_INFORMATION messageInstance = {};
+            QBP_E03_QUERY_INFORMATION messageInstance = {qpd: {}, rcp: {}};
             return messageInstance;
         }
         "DFT_P11_OBSERVATION" => {
@@ -2388,7 +2388,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "ORM_O01_ORDER_DETAIL" => {
-            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_choice:{}};
+            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_order_detail_segment: {}};
             return messageInstance;
         }
         "MFN_M11_MF_TEST_CALCULATED" => {
@@ -2628,7 +2628,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "MFN_M03_MF_TEST" => {
-            MFN_M03_MF_TEST messageInstance = {om1:{}, anyhl7segment:{}, mfe:{}};
+            MFN_M03_MF_TEST messageInstance = {om1:{}, mfe:{}};
             return messageInstance;
         }
         "OMG_O19_CONTAINER" => {
@@ -2832,7 +2832,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPG_PCG_ORDER_DETAIL" => {
-            PPG_PCG_ORDER_DETAIL messageInstance = {ppg_pcg_choice:{}};
+            PPG_PCG_ORDER_DETAIL messageInstance = {ppg_pcg_order_detail_segment: {}};
             return messageInstance;
         }
         "QVR_Q17_QBP" => {
@@ -2840,7 +2840,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "SUR_P09_FACILITY" => {
-            SUR_P09_FACILITY messageInstance = {psh:{}, fac:{}, ed:{}};
+            SUR_P09_FACILITY messageInstance = {psh:{}, fac:{}};
             return messageInstance;
         }
         "RSP_K31_PATIENT_VISIT" => {
@@ -2992,7 +2992,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "QBP_E22_QUERY" => {
-            QBP_E22_QUERY messageInstance = {};
+            QBP_E22_QUERY messageInstance = {qpd: {}, rcp: {}};
             return messageInstance;
         }
         "DFT_P11_FINANCIAL_TIMING_QUANTITY" => {
@@ -3076,7 +3076,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E01_INVOICE_INFORMATION" => {
-            EHC_E01_INVOICE_INFORMATION messageInstance = {};
+            EHC_E01_INVOICE_INFORMATION messageInstance = {ivc: {}};
             return messageInstance;
         }
         "SQR_S25_PATIENT" => {
@@ -3260,7 +3260,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E24_AUTHORIZATION_RESPONSE_INFO" => {
-            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {};
+            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {ivc: {}};
             return messageInstance;
         }
         "DOC_T12_RESULT" => {
@@ -3440,7 +3440,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PTR_PCF_ORDER_DETAIL" => {
-            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_choice:{}};
+            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_order_detail_segment: {}};
             return messageInstance;
         }
         "OMG_O19_PATIENT_VISIT_PRIOR" => {
@@ -3464,7 +3464,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_E03_QUERY_ACK" => {
-            RSP_E03_QUERY_ACK messageInstance = {};
+            RSP_E03_QUERY_ACK messageInstance = {qpd: {}, qak: {}};
             return messageInstance;
         }
         "OPU_R25_SPECIMEN" => {
@@ -3504,7 +3504,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E21_AUTHORIZATION_REQUEST" => {
-            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {};
+            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {ivc: {}};
             return messageInstance;
         }
         "RDE_O11_ORDER" => {
@@ -3512,7 +3512,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E20_AUTHORIZATION_REQUEST" => {
-            EHC_E20_AUTHORIZATION_REQUEST messageInstance = {};
+            EHC_E20_AUTHORIZATION_REQUEST messageInstance = {ivc: {}};
             return messageInstance;
         }
         "DFT_P11_VISIT" => {
@@ -3604,7 +3604,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PRR_PC5_ORDER_DETAIL" => {
-            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_choice:{}};
+            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_order_detail_segment: {}};
             return messageInstance;
         }
         "PGL_PC6_GOAL_ROLE" => {
@@ -3736,7 +3736,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "OSR_Q06_ORDER" => {
-            OSR_Q06_ORDER messageInstance = {orc:{}, osr_q06_choice:{}};
+            OSR_Q06_ORDER messageInstance = {orc:{}};
             return messageInstance;
         }
         "RSP_Z88_COMMON_ORDER" => {
@@ -3772,7 +3772,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_E22_QUERY_ACK" => {
-            RSP_E22_QUERY_ACK messageInstance = {};
+            RSP_E22_QUERY_ACK messageInstance = {qpd: {}, qak: {}};
             return messageInstance;
         }
         "ORU_R01_PATIENT" => {
@@ -3812,7 +3812,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPR_PC1_ORDER_DETAIL" => {
-            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_choice:{}};
+            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_order_detail_segment: {}};
             return messageInstance;
         }
         "ORP_O10_PATIENT" => {
@@ -3892,7 +3892,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "ORR_O02_ORDER" => {
-            ORR_O02_ORDER messageInstance = {orc:{}, orr_o02_choice:{}};
+            ORR_O02_ORDER messageInstance = {orc:{}};
             return messageInstance;
         }
         _ => {
@@ -4032,7 +4032,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E24_AUTHORIZATION_RESPONSE_INFO" => {
-            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {};
+            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {ivc: {}};
             return messageInstance;
         }
         "DOC_T12_RESULT" => {
@@ -4212,7 +4212,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PTR_PCF_ORDER_DETAIL" => {
-            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_choice:{}};
+            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_order_detail_segment: {}};
             return messageInstance;
         }
         "OMG_O19_PATIENT_VISIT_PRIOR" => {
@@ -4236,7 +4236,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_E03_QUERY_ACK" => {
-            RSP_E03_QUERY_ACK messageInstance = {};
+            RSP_E03_QUERY_ACK messageInstance = {qpd: {}, qak: {}};
             return messageInstance;
         }
         "OPU_R25_SPECIMEN" => {
@@ -4276,7 +4276,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E21_AUTHORIZATION_REQUEST" => {
-            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {};
+            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {ivc: {}};
             return messageInstance;
         }
         "RDE_O11_ORDER" => {
@@ -4284,7 +4284,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E20_AUTHORIZATION_REQUEST" => {
-            EHC_E20_AUTHORIZATION_REQUEST messageInstance = {};
+            EHC_E20_AUTHORIZATION_REQUEST messageInstance = {ivc: {}};
             return messageInstance;
         }
         "DFT_P11_VISIT" => {
@@ -4376,7 +4376,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PRR_PC5_ORDER_DETAIL" => {
-            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_choice:{}};
+            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_order_detail_segment: {}};
             return messageInstance;
         }
         "PGL_PC6_GOAL_ROLE" => {
@@ -4508,7 +4508,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "OSR_Q06_ORDER" => {
-            OSR_Q06_ORDER messageInstance = {orc:{}, osr_q06_choice:{}};
+            OSR_Q06_ORDER messageInstance = {orc:{}};
             return messageInstance;
         }
         "RSP_Z88_COMMON_ORDER" => {
@@ -4544,7 +4544,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_E22_QUERY_ACK" => {
-            RSP_E22_QUERY_ACK messageInstance = {};
+            RSP_E22_QUERY_ACK messageInstance = {qpd: {}, qak: {}};
             return messageInstance;
         }
         "ORU_R01_PATIENT" => {
@@ -4584,7 +4584,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPR_PC1_ORDER_DETAIL" => {
-            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_choice:{}};
+            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_order_detail_segment: {}};
             return messageInstance;
         }
         "ORP_O10_PATIENT" => {
@@ -4664,7 +4664,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "ORR_O02_ORDER" => {
-            ORR_O02_ORDER messageInstance = {orc:{}, orr_o02_choice:{}};
+            ORR_O02_ORDER messageInstance = {orc:{}};
             return messageInstance;
         }
         _ => {

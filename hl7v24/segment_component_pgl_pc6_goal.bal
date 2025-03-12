@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -16,21 +16,21 @@
 import ballerinax/health.hl7v2;
 
 @hl7v2:SegmentComponentDefinition {
-    required: false,
-    maxReps: 0
+    required: true,
+    maxReps: -1
 }
 public type PGL_PC6_GOAL record {
     *hl7v2:SegmentComponent;
     string name = PGL_PC6_GOAL_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    PGL_PC6_GOAL_ROLE[] pgl_pc6_goal_role = [{rol:{}}];
-    PGL_PC6_ORDER[] pgl_pc6_order = [{orc:{}}];
     GOL gol;
-    'VAR[] 'var = [{}];
-    PGL_PC6_OBSERVATION[] pgl_pc6_observation = [{obx:{}}];
     NTE[] nte = [{}];
-    PGL_PC6_PATHWAY[] pgl_pc6_pathway = [{pth:{}}];
-    PGL_PC6_PROBLEM[] pgl_pc6_problem = [{prb:{}}];
+    VAR[] 'var = [{}];
+    PGL_PC6_GOAL_ROLE[] pgl_pc6_goal_role = [{rol: {}}];
+    PGL_PC6_PATHWAY[] pgl_pc6_pathway = [{pth: {}}];
+    PGL_PC6_OBSERVATION[] pgl_pc6_observation = [{obx: {}}];
+    PGL_PC6_PROBLEM[] pgl_pc6_problem = [{prb: {}}];
+    PGL_PC6_ORDER[] pgl_pc6_order = [{orc: {}}];
 };
 
 public const PGL_PC6_GOAL_SEGMENT_COMPONENT = "PGL_PC6_GOAL";

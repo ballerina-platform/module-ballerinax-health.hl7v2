@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -17,20 +17,21 @@ import ballerinax/health.hl7v2;
 
 @hl7v2:SegmentComponentDefinition {
     required: false,
-    maxReps: 0
+    maxReps: 1
 }
 public type OMI_O23_PATIENT record {
     *hl7v2:SegmentComponent;
     string name = OMI_O23_PATIENT_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    OMI_O23_PATIENT_VISIT omi_o23_patient_visit?;
-    PRT[] prt = [{}];
-    GT1 gt1?;
-    AL1[] al1 = [{}];
-    OMI_O23_INSURANCE[] omi_o23_insurance = [{in1:{}}];
+    boolean isRequired = false;
     PID pid;
     PD1 pd1?;
+    PRT[] prt = [{}];
+    ARV[] arv = [{}];
     NTE[] nte = [{}];
+    GT1 gt1?;
+    AL1[] al1 = [{}];
+    OMI_O23_PATIENT_VISIT omi_o23_patient_visit?;
+    OMI_O23_INSURANCE[] omi_o23_insurance = [{in1: {}}];
 };
 
 public const OMI_O23_PATIENT_SEGMENT_COMPONENT = "OMI_O23_PATIENT";

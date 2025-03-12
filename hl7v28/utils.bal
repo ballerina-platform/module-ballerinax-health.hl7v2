@@ -972,7 +972,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             return messageInstance;
         }
         "EHC_E20" => {
-            EHC_E20 messageInstance = {msh:{}};
+            EHC_E20 messageInstance = {msh:{},authorization_request: {}};
             return messageInstance;
         }
         "ADT_A61" => {
@@ -1132,7 +1132,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             return messageInstance;
         }
         "EHC_E04" => {
-            EHC_E04 messageInstance = {msh:{}};
+            EHC_E04 messageInstance = {msh:{},reassessment_request_info: {}};
             return messageInstance;
         }
         "MFN_M04" => {
@@ -1173,10 +1173,6 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
         }
         "ORB_O28" => {
             ORB_O28 messageInstance = {msh:{}, msa:{}};
-            return messageInstance;
-        }
-        "RAS_O17" => {
-            RAS_O17 messageInstance = {msh:{}};
             return messageInstance;
         }
         "ADT_A45" => {
@@ -1324,7 +1320,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             return messageInstance;
         }
         "RPR_I03" => {
-            RPR_I03 messageInstance = {msh:{}, msa:{}};
+            RPR_I03 messageInstance = {msh:{}, msa:{},pid: {}};
             return messageInstance;
         }
         "BAR_P12" => {
@@ -1711,10 +1707,6 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             MFN_M05_MF_LOCATION messageInstance = {loc:{}, mfe:{}};
             return messageInstance;
         }
-        "RAS_O17_ORDER" => {
-            RAS_O17_ORDER messageInstance = {orc:{}};
-            return messageInstance;
-        }
         "RSP_Z88_COMPONENT" => {
             RSP_Z88_COMPONENT messageInstance = {};
             return messageInstance;
@@ -1755,8 +1747,8 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             PPT_PCL_PROBLEM_OBSERVATION messageInstance = {obx:{}};
             return messageInstance;
         }
-        "SDR_S31_ANTI-MICROBIAL_DEVICE_DATA" => {
-            SDR_S31_ANTI_MICROBIAL_DEVICE_DATA messageInstance = {};
+        "SDR_S31_ANTI_MICROBIAL_DEVICE_DATA" => {
+            SDR_S31_ANTI_MICROBIAL_DEVICE_DATA messageInstance = {sdd: {}};
             return messageInstance;
         }
         "PPR_PC1_PATIENT_VISIT" => {
@@ -2043,7 +2035,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             DFT_P03_VISIT messageInstance = {pv1:{}};
             return messageInstance;
         }
-        "SDR_S32_ANTI-MICROBIAL_DEVICE_CYCLE_DATA" => {
+        "SDR_S32_ANTI_MICROBIAL_DEVICE_CYCLE_DATA" => {
             SDR_S32_ANTI_MICROBIAL_DEVICE_CYCLE_DATA messageInstance = {};
             return messageInstance;
         }
@@ -2208,7 +2200,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "EHC_E15_PAYMENT_REMITTANCE_HEADER_INFO" => {
-            EHC_E15_PAYMENT_REMITTANCE_HEADER_INFO messageInstance = {};
+            EHC_E15_PAYMENT_REMITTANCE_HEADER_INFO messageInstance = {pye: {}};
             return messageInstance;
         }
         "RSP_K23_QUERY_RESPONSE" => {
@@ -2220,7 +2212,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "QBP_E03_QUERY_INFORMATION" => {
-            QBP_E03_QUERY_INFORMATION messageInstance = {};
+            QBP_E03_QUERY_INFORMATION messageInstance = {qpd: {}, rcp: {}};
             return messageInstance;
         }
         "DFT_P11_OBSERVATION" => {
@@ -2424,7 +2416,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_K11_SEGMENT_PATTERN" => {
-            RSP_K11_SEGMENT_PATTERN messageInstance = {anyhl7segment:{}};
+            RSP_K11_SEGMENT_PATTERN messageInstance = {hxx: {}};
             return messageInstance;
         }
         "PRR_PC5_CHOICE" => {
@@ -3236,7 +3228,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "QBP_E22_QUERY" => {
-            QBP_E22_QUERY messageInstance = {};
+            QBP_E22_QUERY messageInstance = {qpd: {}, rcp: {}};
             return messageInstance;
         }
         "DFT_P11_FINANCIAL_TIMING_QUANTITY" => {
@@ -3524,7 +3516,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E24_AUTHORIZATION_RESPONSE_INFO" => {
-            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {};
+            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {ivc: {}};
             return messageInstance;
         }
         "RSP_Z86_PATIENT" => {
@@ -3792,7 +3784,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E21_AUTHORIZATION_REQUEST" => {
-            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {};
+            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {ivc: {}};
             return messageInstance;
         }
         "RDE_O11_ORDER" => {
@@ -4011,10 +4003,6 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             OML_O21_INSURANCE messageInstance = {in1:{}};
             return messageInstance;
         }
-        "RAS_O17_ENCODING" => {
-            RAS_O17_ENCODING messageInstance = {rxe:{}};
-            return messageInstance;
-        }
         "RSP_Z88_COMMON_ORDER" => {
             RSP_Z88_COMMON_ORDER messageInstance = {orc:{}, rxd:{}};
             return messageInstance;
@@ -4068,7 +4056,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_E22_QUERY_ACK" => {
-            RSP_E22_QUERY_ACK messageInstance = {};
+            RSP_E22_QUERY_ACK messageInstance = {qpd: {}, qak: {}};
             return messageInstance;
         }
         "ORU_R01_PATIENT" => {
@@ -4144,7 +4132,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCI_I22_ROLE_GOAL" => {
-            CCI_I22_ROLE_GOAL messageInstance = {cci_i22_role_goal_object:{}};
+            CCI_I22_ROLE_GOAL messageInstance = {};
             return messageInstance;
         }
         "RDS_O13_PATIENT_VISIT" => {
@@ -4420,7 +4408,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E24_AUTHORIZATION_RESPONSE_INFO" => {
-            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {};
+            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {ivc: {}};
             return messageInstance;
         }
         "RSP_Z86_PATIENT" => {
@@ -4688,7 +4676,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E21_AUTHORIZATION_REQUEST" => {
-            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {};
+            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {ivc: {}};
             return messageInstance;
         }
         "RDE_O11_ORDER" => {
@@ -4907,10 +4895,6 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             OML_O21_INSURANCE messageInstance = {in1:{}};
             return messageInstance;
         }
-        "RAS_O17_ENCODING" => {
-            RAS_O17_ENCODING messageInstance = {rxe:{}};
-            return messageInstance;
-        }
         "RSP_Z88_COMMON_ORDER" => {
             RSP_Z88_COMMON_ORDER messageInstance = {orc:{}, rxd:{}};
             return messageInstance;
@@ -4964,7 +4948,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_E22_QUERY_ACK" => {
-            RSP_E22_QUERY_ACK messageInstance = {};
+            RSP_E22_QUERY_ACK messageInstance = {qpd: {}, qak: {}};
             return messageInstance;
         }
         "ORU_R01_PATIENT" => {
@@ -5040,7 +5024,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCI_I22_ROLE_GOAL" => {
-            CCI_I22_ROLE_GOAL messageInstance = {cci_i22_role_goal_object:{}};
+            CCI_I22_ROLE_GOAL messageInstance = {};
             return messageInstance;
         }
         "RDS_O13_PATIENT_VISIT" => {

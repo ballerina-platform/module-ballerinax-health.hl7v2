@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,49 +13,99 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const ADT_A16_MESSAGE_TYPE = "ADT_A16";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + evn - EVN Segment
-# + pid - PID Segment
-# + pd1 - PD1 Segment
-# + pv1 - PV1 Segment
-# + pv2 - PV2 Segment
-# + db1 - DB1 Segment
-# + obx - OBX Segment
-# + dg1 - DG1 Segment
-# + drg - DRG Segment
+# + msh - MSH
+# + evn - EVN
+# + pid - PID
+# + pd1 - PD1
+# + pv1 - PV1
+# + pv2 - PV2
+# + db1 - DB1
+# + obx - OBX
+# + dg1 - DG1
+# + drg - DRG
+
 @hl7v2:MessageDefinition {
     orderedSegments: {
-        "MSH": [{name: "MSH", maxReps: 1, required: false}],
-        "EVN": [{name: "EVN", maxReps: 1, required: false}],
-        "PID": [{name: "PID", maxReps: 1, required: false}],
-        "PD1": [{name: "PD1", maxReps: 1, required: false}],
-        "PV1": [{name: "PV1", maxReps: 1, required: false}],
-        "PV2": [{name: "PV2", maxReps: 1, required: false}],
-        "DB1": [{name: "DB1", maxReps: -1, required: false}],
-        "OBX": [{name: "OBX", maxReps: -1, required: false}],
-        "DG1": [{name: "DG1", maxReps: 1, required: false}],
-        "DRG": [{name: "DRG", maxReps: 1, required: false}]
-    }
-,
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
-        "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
-        "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: PV1},
-        "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: PV2},
-        "DB1": {name: "DB1", maxReps: -1, required: false, segmentType: DB1},
-        "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: OBX},
-        "DG1": {name: "DG1", maxReps: 1, required: false, segmentType: DG1},
-        "DRG": {name: "DRG", maxReps: 1, required: false, segmentType: DRG}
-    }
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "EVN": [
+                {
+                        "name": "EVN",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PD1": [
+                {
+                        "name": "PD1",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "PV1": [
+                {
+                        "name": "PV1",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PV2": [
+                {
+                        "name": "PV2",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "DB1": [
+                {
+                        "name": "DB1",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "OBX": [
+                {
+                        "name": "OBX",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "DG1": [
+                {
+                        "name": "DG1",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "DRG": [
+                {
+                        "name": "DRG",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {}
 }
 public type ADT_A16 record {
     *hl7v2:Message;
@@ -69,4 +120,5 @@ public type ADT_A16 record {
     OBX[] obx = [];
     DG1 dg1?;
     DRG drg?;
+
 };

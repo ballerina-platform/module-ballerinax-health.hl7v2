@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,32 +13,83 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const ADT_A50_MESSAGE_TYPE = "ADT_A50";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + uac - UAC Segment
-# + evn - EVN Segment
-# + pid - PID Segment
-# + pd1 - PD1 Segment
-# + mrg - MRG Segment
-# + pv1 - PV1 Segment
+# + msh - MSH
+# + sft - SFT
+# + uac - UAC
+# + evn - EVN
+# + pid - PID
+# + pd1 - PD1
+# + mrg - MRG
+# + pv1 - PV1
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
-        "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
-        "MRG": {name: "MRG", maxReps: 1, required: true, segmentType: MRG},
-        "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: PV1}
-    }
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "UAC": [
+                {
+                        "name": "UAC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "EVN": [
+                {
+                        "name": "EVN",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PD1": [
+                {
+                        "name": "PD1",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "MRG": [
+                {
+                        "name": "MRG",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PV1": [
+                {
+                        "name": "PV1",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ]
+},
+    groups: {}
 }
 public type ADT_A50 record {
     *hl7v2:Message;
@@ -50,4 +102,5 @@ public type ADT_A50 record {
     PD1 pd1?;
     MRG mrg;
     PV1 pv1;
+
 };

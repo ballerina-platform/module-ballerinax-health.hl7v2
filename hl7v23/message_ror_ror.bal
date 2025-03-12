@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,60 +13,175 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const ROR_ROR_MESSAGE_TYPE = "ROR_ROR";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + msa - MSA Segment
-# + err - ERR Segment
-# + dsc - DSC Segment
+# + msh - MSH
+# + msa - MSA
+# + err - ERR
+# + dsc - DSC
 # + definition - ROR_ROR_DEFINITION Segment Group
+
 @hl7v2:MessageDefinition {
     orderedSegments: {
-        "MSH": [{name: "MSH", maxReps: 1, required: false}],
-        "MSA": [{name: "MSA", maxReps: 1, required: false}],
-        "ERR": [{name: "ERR", maxReps: 1, required: false}],
-        "QRD": [{name: "QRD", maxReps: 1, required: false, segmentComponentName: "ROR_ROR_DEFINITION"}],
-        "QRF": [{name: "QRF", maxReps: 1, required: false, segmentComponentName: "ROR_ROR_DEFINITION"}],
-        "ORC": [{name: "ORC", maxReps: 1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_ORDER"}],
-        "RXO": [{name: "RXO", maxReps: 1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_ORDER"}],
-        "RXC": [{name: "RXC", maxReps: -1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_ORDER"}],
-        "RXR": [{name: "RXR", maxReps: -1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_ORDER"}],
-        "PID": [{name: "PID", maxReps: 1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_PATIENT"}],
-        "NTE": [{name: "NTE", maxReps: -1, required: false, segmentComponentName: "ROR_ROR_DEFINITION.ROR_ROR_PATIENT"}],
-        "DSC": [{name: "DSC", maxReps: 1, required: false}]
-    }
-,
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
-    ,groups: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "QRD": [
+                {
+                        "name": "QRD",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "ROR_ROR_DEFINITION"
+                }
+        ],
+        "QRF": [
+                {
+                        "name": "QRF",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "ROR_ROR_DEFINITION"
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "ROR_ROR_DEFINITION.ROR_ROR_PATIENT"
+                }
+        ],
+        "NTE": [
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ROR_ROR_DEFINITION.ROR_ROR_PATIENT"
+                }
+        ],
+        "ORC": [
+                {
+                        "name": "ORC",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "ROR_ROR_DEFINITION.ROR_ROR_ORDER"
+                }
+        ],
+        "RXO": [
+                {
+                        "name": "RXO",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "ROR_ROR_DEFINITION.ROR_ROR_ORDER"
+                }
+        ],
+        "RXR": [
+                {
+                        "name": "RXR",
+                        "maxReps": -1,
+                        "required": true,
+                        "segmentComponentName": "ROR_ROR_DEFINITION.ROR_ROR_ORDER"
+                }
+        ],
+        "RXC": [
+                {
+                        "name": "RXC",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ROR_ROR_DEFINITION.ROR_ROR_ORDER"
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {
         "ROR_ROR_DEFINITION": {
-            maxReps: -1,
-            required: true,
-            segments: {
-                "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: typeof QRD},
-                "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: typeof QRF},
-                "ROR_ROR_PATIENT": {name: "ROR_ROR_PATIENT", maxReps: 1, required: false, segmentType: typeof ROR_ROR_PATIENT},
-                "ROR_ROR_ORDER": {name: "ROR_ROR_ORDER", maxReps: -1, required: true, segmentType: typeof ROR_ROR_ORDER}
-            }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "QRD": {
+                                "name": "QRD",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "QRF": {
+                                "name": "QRF",
+                                "maxReps": 1,
+                                "required": false
+                        }
+                }
         },
         "ROR_ROR_DEFINITION.ROR_ROR_PATIENT": {
-		   maxReps: 1,
-		   required: false
-		},
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "PID": {
+                                "name": "PID",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
         "ROR_ROR_DEFINITION.ROR_ROR_ORDER": {
-		   maxReps: -1,
-		   required: false
-		}
-    }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "ORC": {
+                                "name": "ORC",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "RXO": {
+                                "name": "RXO",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "RXR": {
+                                "name": "RXR",
+                                "maxReps": -1,
+                                "required": true
+                        },
+                        "RXC": {
+                                "name": "RXC",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        }
+}
 }
 public type ROR_ROR record {
     *hl7v2:Message;
@@ -73,6 +189,6 @@ public type ROR_ROR record {
     MSH msh;
     MSA msa;
     ERR err?;
-    ROR_ROR_DEFINITION[] definition = [{qrd:{}}];
     DSC dsc?;
+    ROR_ROR_DEFINITION[] definition = [{qrd: {}}];
 };

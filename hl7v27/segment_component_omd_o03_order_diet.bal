@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -24,7 +24,7 @@ public type OMD_O03_ORDER_DIET record {
     string name = OMD_O03_ORDER_DIET_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc;
-    OMD_O03_TIMING_DIET[] omd_o03_timing_diet = [{tq1:{}}];
+    OMD_O03_TIMING_DIET[] omd_o03_timing_diet = [{tq1: {}}];
     OMD_O03_DIET omd_o03_diet?;
 };
 

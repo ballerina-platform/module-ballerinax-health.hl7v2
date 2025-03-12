@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -16,16 +16,16 @@
 import ballerinax/health.hl7v2;
 
 @hl7v2:SegmentComponentDefinition {
-    required: false,
-    maxReps: 0
+    required: true,
+    maxReps: -1
 }
 public type MFR_M06_MF_QUERY record {
     *hl7v2:SegmentComponent;
     string name = MFR_M06_MF_QUERY_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    MFR_M06_MF_PHASE_SCHED_DETAIL[] mfr_m06_mf_phase_sched_detail = [{cm1:{}}];
-    CM0 cm0;
     MFE mfe;
+    CM0 cm0;
+    MFR_M06_MF_CLINICAL_STUDY[] mfr_m06_mf_clinical_study = [{cm1: {}}];
 };
 
 public const MFR_M06_MF_QUERY_SEGMENT_COMPONENT = "MFR_M06_MF_QUERY";

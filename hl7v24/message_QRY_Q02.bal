@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,24 +13,51 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const QRY_Q02_MESSAGE_TYPE = "QRY_Q02";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + qrd - QRD Segment
-# + qrf - QRF Segment
-# + dsc - DSC Segment
+# + msh - MSH
+# + qrd - QRD
+# + qrf - QRF
+# + dsc - DSC
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
-        "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "QRD": [
+                {
+                        "name": "QRD",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "QRF": [
+                {
+                        "name": "QRF",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {}
 }
 public type QRY_Q02 record {
     *hl7v2:Message;
@@ -38,4 +66,5 @@ public type QRY_Q02 record {
     QRD qrd;
     QRF qrf?;
     DSC dsc?;
+
 };

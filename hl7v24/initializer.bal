@@ -22,7 +22,12 @@ function init() {
         name: "HL7v24",
         hl7Version: "2.4",
         parserCreator: createHL7v24Parser,
-        encoderCreator: createHL7v24Encoder
+        encoderCreator: createHL7v24Encoder,
+        parserUtils: {
+            getMessageFunc: getMessage,
+            getSegmentFunc: getSegment,
+            getSegmentGroupFunc: getSegmentComponent
+        }
     };
     hl7v2:hl7Registry.addPackage(package);
     log:printDebug("HL7 v2.4 Package Initialized");

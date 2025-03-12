@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -17,16 +17,16 @@ import ballerinax/health.hl7v2;
 
 @hl7v2:SegmentComponentDefinition {
     required: false,
-    maxReps: 0
+    maxReps: 1
 }
 public type PPP_PCB_ORDER_DETAIL record {
     *hl7v2:SegmentComponent;
     string name = PPP_PCB_ORDER_DETAIL_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    PPP_PCB_CHOICE ppp_pcb_choice;
-    'VAR[] 'var = [{}];
-    PPP_PCB_ORDER_OBSERVATION[] ppp_pcb_order_observation = [{obx:{}}];
+    boolean isRequired = false;
     NTE[] nte = [{}];
+    VAR[] 'var = [{}];
+    PPP_PCB_ORDER_DETAIL_SEGMENT ppp_pcb_order_detail_segment;
+    PPP_PCB_ORDER_OBSERVATION[] ppp_pcb_order_observation = [{obx: {}}];
 };
 
 public const PPP_PCB_ORDER_DETAIL_SEGMENT_COMPONENT = "PPP_PCB_ORDER_DETAIL";

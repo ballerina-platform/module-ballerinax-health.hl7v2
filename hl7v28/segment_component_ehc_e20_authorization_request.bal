@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -23,6 +23,12 @@ public type EHC_E20_AUTHORIZATION_REQUEST record {
     *hl7v2:SegmentComponent;
     string name = EHC_E20_AUTHORIZATION_REQUEST_SEGMENT_COMPONENT;
     boolean isRequired = true;
+    IVC[] ivc = [{}];
+    CTD[] ctd = [{}];
+    LOC[] loc = [{}];
+    ROL[] rol = [{}];
+    EHC_E20_PAT_INFO[] ehc_e20_pat_info = [{}];
+    EHC_E20_PSL_ITEM_INFO[] ehc_e20_psl_item_info = [{psl: {}}];
 };
 
 public const EHC_E20_AUTHORIZATION_REQUEST_SEGMENT_COMPONENT = "EHC_E20_AUTHORIZATION_REQUEST";

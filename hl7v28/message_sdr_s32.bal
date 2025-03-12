@@ -22,7 +22,7 @@ public const SDR_S32_MESSAGE_TYPE = "SDR_S32";
 # + msh - MSH Segment
 # + sft - SFT Segment
 # + uac - UAC Segment
-# + anti_microbial_device_cycle_data - SDR_S32_ANTI-MICROBIAL_DEVICE_CYCLE_DATA Segment Group
+# + anti_microbial_device_cycle_data - SDR_S32_ANTI_MICROBIAL_DEVICE_CYCLE_DATA Segment Group
 @hl7v2:MessageDefinition {
     segments: {
         "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
@@ -30,7 +30,7 @@ public const SDR_S32_MESSAGE_TYPE = "SDR_S32";
         "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC}
     }
     ,groups: {
-        "SDR_S32_ANTI-MICROBIAL_DEVICE_CYCLE_DATA": {
+        "SDR_S32_ANTI_MICROBIAL_DEVICE_CYCLE_DATA": {
             maxReps: 1,
             required: true,
             segments: {

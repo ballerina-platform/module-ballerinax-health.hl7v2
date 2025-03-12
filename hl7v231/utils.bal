@@ -1096,7 +1096,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PTR_PCF_ORDER_DETAIL" => {
-            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_choice:{}};
+            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_order_detail_segment: {}};
             return messageInstance;
         }
         "PPT_PCL_ORDER_OBSERVATION" => {
@@ -1164,7 +1164,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PGL_PC6_ORDER_DETAIL" => {
-            PGL_PC6_ORDER_DETAIL messageInstance = {pgl_pc6_choice:{}};
+            PGL_PC6_ORDER_DETAIL messageInstance = {pgl_pc6_order_detail_segment: {}};
             return messageInstance;
         }
         "RGV_O01_ORDER" => {
@@ -1292,7 +1292,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PPP_PCB_ORDER_DETAIL" => {
-            PPP_PCB_ORDER_DETAIL messageInstance = {ppp_pcb_choice:{}};
+            PPP_PCB_ORDER_DETAIL messageInstance = {ppp_pcb_order_detail_segment: {}};
             return messageInstance;
         }
         "PEX_P07_ASSOCIATED_RX_ORDER" => {
@@ -1308,7 +1308,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PRR_PC5_ORDER_DETAIL" => {
-            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_choice:{}};
+            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_order_detail_segment: {}};
             return messageInstance;
         }
         "PGL_PC6_GOAL_ROLE" => {
@@ -1532,7 +1532,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPR_PC1_ORDER_DETAIL" => {
-            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_choice:{}};
+            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_order_detail_segment: {}};
             return messageInstance;
         }
         "RDS_O01_PATIENT" => {
@@ -1616,7 +1616,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "ORR_O02_ORDER" => {
-            ORR_O02_ORDER messageInstance = {orc:{}, orr_o02_choice:{}};
+            ORR_O02_ORDER messageInstance = {orc:{}};
             return messageInstance;
         }
         "RGR_RGR_ENCODING" => {
@@ -1700,7 +1700,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPT_PCL_ORDER_DETAIL" => {
-            PPT_PCL_ORDER_DETAIL messageInstance = {ppt_pcl_choice:{}};
+            PPT_PCL_ORDER_DETAIL messageInstance = {ppt_pcl_order_detail_segment: {}};
             return messageInstance;
         }
         "RRD_O02_RESPONSE" => {
@@ -1760,7 +1760,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPV_PCA_ORDER_DETAIL" => {
-            PPV_PCA_ORDER_DETAIL messageInstance = {ppv_pca_choice:{}};
+            PPV_PCA_ORDER_DETAIL messageInstance = {ppv_pca_order_detail_segment: {}};
             return messageInstance;
         }
         "ORN_O02_ORDER" => {
@@ -1808,7 +1808,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "ORM_O01_ORDER_DETAIL" => {
-            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_choice:{}};
+            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_order_detail_segment: {}};
             return messageInstance;
         }
         "SIU_S12_GENERAL_RESOURCE" => {
@@ -2152,7 +2152,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPV_PCA_ORDER_DETAIL" => {
-            PPV_PCA_ORDER_DETAIL messageInstance = {ppv_pca_choice:{}};
+            PPV_PCA_ORDER_DETAIL messageInstance = {ppv_pca_order_detail_segment: {}};
             return messageInstance;
         }
         "ORN_O02_ORDER" => {
@@ -2200,7 +2200,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "ORM_O01_ORDER_DETAIL" => {
-            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_choice:{}};
+            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_order_detail_segment: {}};
             return messageInstance;
         }
         "SIU_S12_GENERAL_RESOURCE" => {
