@@ -97,12 +97,30 @@ public isolated function createHL7v2XEncoder() returns Encoder {
     return encoder;
 }
 
+public isolated function getMessage(string message) returns Message? {
+    return ();
+}
+
+public isolated function getSegment(string segmentName) returns Segment? {
+    return ();
+}
+
+public isolated function getSegmentComponent(string componentName) returns SegmentComponent? {
+    return ();
+}
+
+
 function hl7PackageSettingUp() {
     readonly & HL7Package package = {
         name: "HL7v2x",
         hl7Version: "2.x",
         parserCreator: createHL7v2XParser,
-        encoderCreator: createHL7v2XEncoder
+        encoderCreator: createHL7v2XEncoder,
+        parserUtils: {
+            getMessageFunc: getMessage,
+            getSegmentFunc: getSegment,
+            getSegmentGroupFunc: getSegmentComponent
+        }
     };
     hl7Registry.addPackage(package);
 }
