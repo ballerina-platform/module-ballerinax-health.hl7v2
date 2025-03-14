@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -23,8 +23,8 @@ public type OML_O21_ORDER_GENERAL record {
     *hl7v2:SegmentComponent;
     string name = OML_O21_ORDER_GENERAL_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    OML_O21_ORDER[] oml_o21_order = [{orc:{}}];
     OML_O21_CONTAINER_1 oml_o21_container_1?;
+    OML_O21_ORDER[] oml_o21_order = [{orc: {}}];
 };
 
 public const OML_O21_ORDER_GENERAL_SEGMENT_COMPONENT = "OML_O21_ORDER_GENERAL";

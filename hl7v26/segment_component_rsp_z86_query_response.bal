@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -24,7 +24,7 @@ public type RSP_Z86_QUERY_RESPONSE record {
     string name = RSP_Z86_QUERY_RESPONSE_SEGMENT_COMPONENT;
     boolean isRequired = true;
     RSP_Z86_PATIENT rsp_z86_patient?;
-    RSP_Z86_COMMON_ORDER[] rsp_z86_common_order = [{orc:{}}];
+    RSP_Z86_COMMON_ORDER[] rsp_z86_common_order = [{orc: {}}];
 };
 
 public const RSP_Z86_QUERY_RESPONSE_SEGMENT_COMPONENT = "RSP_Z86_QUERY_RESPONSE";

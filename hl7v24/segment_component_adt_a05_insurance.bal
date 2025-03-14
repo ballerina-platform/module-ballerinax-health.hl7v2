@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -22,11 +22,11 @@ import ballerinax/health.hl7v2;
 public type ADT_A05_INSURANCE record {
     *hl7v2:SegmentComponent;
     string name = ADT_A05_INSURANCE_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    IN2 in2?;
+    boolean isRequired = false;
     IN1 in1;
-    ROL[] rol = [{}];
+    IN2 in2?;
     IN3[] in3 = [{}];
+    ROL[] rol = [{}];
 };
 
 public const ADT_A05_INSURANCE_SEGMENT_COMPONENT = "ADT_A05_INSURANCE";

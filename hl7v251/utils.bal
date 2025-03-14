@@ -1640,7 +1640,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PGL_PC6_ORDER_DETAIL" => {
-            PGL_PC6_ORDER_DETAIL messageInstance = {pgl_pc6_obr_suppgrp:{}};
+            PGL_PC6_ORDER_DETAIL messageInstance = {pgl_pc6_order_detail_segment: {}};
             return messageInstance;
         }
         "ORG_O20_PATIENT" => {
@@ -1760,7 +1760,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PPP_PCB_ORDER_DETAIL" => {
-            PPP_PCB_ORDER_DETAIL messageInstance = {ppp_pcb_obr_suppgrp:{}};
+            PPP_PCB_ORDER_DETAIL messageInstance = {ppp_pcb_order_detail_segment: {}};
             return messageInstance;
         }
         "PEX_P07_ASSOCIATED_RX_ORDER" => {
@@ -2160,7 +2160,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "ORM_O01_ORDER_DETAIL" => {
-            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_obrrqdrq1rxoodsodt_suppgrp:{}};
+            ORM_O01_ORDER_DETAIL messageInstance = {orm_o01_order_detail_segment: {}};
             return messageInstance;
         }
         "PGL_PC6_OBR_SUPPGRP" => {
@@ -2588,7 +2588,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPG_PCG_ORDER_DETAIL" => {
-            PPG_PCG_ORDER_DETAIL messageInstance = {ppg_pcg_obr_suppgrp:{}};
+            PPG_PCG_ORDER_DETAIL messageInstance = {ppg_pcg_order_detail_segment: {}};
             return messageInstance;
         }
         "QVR_Q17_QBP" => {
@@ -3140,7 +3140,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PTR_PCF_ORDER_DETAIL" => {
-            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_obr_suppgrp:{}};
+            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_order_detail_segment: {}};
             return messageInstance;
         }
         "OMG_O19_PATIENT_VISIT_PRIOR" => {
@@ -3276,7 +3276,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PRR_PC5_ORDER_DETAIL" => {
-            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_obranyhl7segment_suppgrp:{}};
+            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_order_detail_segment: {}};
             return messageInstance;
         }
         "PGL_PC6_GOAL_ROLE" => {
@@ -3388,7 +3388,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "OSR_Q06_ORDER" => {
-            OSR_Q06_ORDER messageInstance = {orc:{}, osr_q06_obrrqdrq1rxoodsodt_suppgrp:{}};
+            OSR_Q06_ORDER messageInstance = {orc:{}};
             return messageInstance;
         }
         "SUR_P09_FACPDCNTE_SUPPGRP" => {
@@ -3448,7 +3448,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPR_PC1_ORDER_DETAIL" => {
-            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_obr_suppgrp:{}};
+            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_order_detail_segment: {}};
             return messageInstance;
         }
         "ORP_O10_PATIENT" => {
@@ -3828,7 +3828,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PTR_PCF_ORDER_DETAIL" => {
-            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_obr_suppgrp:{}};
+            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_order_detail_segment: {}};
             return messageInstance;
         }
         "OMG_O19_PATIENT_VISIT_PRIOR" => {
@@ -3964,7 +3964,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PRR_PC5_ORDER_DETAIL" => {
-            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_obranyhl7segment_suppgrp:{}};
+            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_order_detail_segment: {}};
             return messageInstance;
         }
         "PGL_PC6_GOAL_ROLE" => {
@@ -4076,7 +4076,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "OSR_Q06_ORDER" => {
-            OSR_Q06_ORDER messageInstance = {orc:{}, osr_q06_obrrqdrq1rxoodsodt_suppgrp:{}};
+            OSR_Q06_ORDER messageInstance = {orc:{}};
             return messageInstance;
         }
         "SUR_P09_FACPDCNTE_SUPPGRP" => {
@@ -4136,7 +4136,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPR_PC1_ORDER_DETAIL" => {
-            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_obr_suppgrp:{}};
+            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_order_detail_segment: {}};
             return messageInstance;
         }
         "ORP_O10_PATIENT" => {

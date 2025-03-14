@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -24,16 +24,16 @@ public type RDS_O13_ORDER record {
     string name = RDS_O13_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc;
-    FT1[] ft1 = [{}];
     PRT[] prt = [{}];
-    RDS_O13_OBSERVATION[] rds_o13_observation = [{obx:{}}];
-    RDS_O13_TIMING[] rds_o13_timing = [{tq1:{}}];
+    RXD rxd;
+    NTE[] nte = [{}];
+    RXR[] rxr = [{}];
     RXC[] rxc = [{}];
+    FT1[] ft1 = [{}];
+    RDS_O13_TIMING[] rds_o13_timing = [{tq1: {}}];
     RDS_O13_ORDER_DETAIL rds_o13_order_detail?;
     RDS_O13_ENCODING rds_o13_encoding?;
-    RXR[] rxr = [{}];
-    NTE[] nte = [{}];
-    RXD rxd;
+    RDS_O13_OBSERVATION[] rds_o13_observation = [{obx: {}}];
 };
 
 public const RDS_O13_ORDER_SEGMENT_COMPONENT = "RDS_O13_ORDER";

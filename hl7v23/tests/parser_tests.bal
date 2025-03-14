@@ -75,7 +75,7 @@ function testEncodeHl7Message() returns error? {
     string|error encodedMsgStr = string:fromBytes(encodedQRYA19);
     if encodedMsgStr is string {
         string[] segmentLines = re `\r`.split(encodedMsgStr);
-        test:assertEquals(segmentLines[1], "QRD|20220828104856+0000|R|I|QueryID01|||5|1^ADAM^EVERMAN|VXI|SIIS||", "Encoding issue occurred with the message");
+        test:assertEquals(segmentLines[1], "QRD|20220828104856+0000|R|I|QueryID01|||5|1^ADAM^EVERMAN|VXI|SIIS|||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");
     }
@@ -94,7 +94,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
             msh11: {pt1: "T"},
             msh12: "2.3"
         },
-        patient: [
+        patient: 
             {
                 pid: {
                     pid1: "1",
@@ -104,8 +104,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
                     pid11: [{xad1: "Hays street", xad3: "Geelong", xad6: "Au"}]
 
                 }
-            }
-        ],
+            },
         'order: [
             {
                 orc: {
@@ -118,7 +117,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
     string|error encodedMsgStr = string:fromBytes(encodedORMO01);
     if encodedMsgStr is string {
         string[] segmentLines = re `\r`.split(encodedMsgStr);
-        test:assertEquals(segmentLines[1], "PID|1|123456789^^^^SSN|||WAYNE^BRUCE^^^Mr^^D|||f|||Hays street^^Geelong^^^Au|||||||||||||||||||", "Encoding issue occurred with the message");
+        test:assertEquals(segmentLines[1], "PID|1|123456789^^^^SSN|||WAYNE^BRUCE^^^Mr^^D|||f|||Hays street^^Geelong^^^Au||||||||||||||||||||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");
     }
@@ -137,7 +136,7 @@ function testInvalidField() {
         anydata cspSegment = parseResult.get("csp");
         if cspSegment is hl7:Segment[] {
             hl7:Segment csp = cspSegment[0];
-            test:assertEquals(csp.entries().length(), 5, "Invalid field is not handled properly");
+            test:assertEquals(csp.entries().length(), 6, "Invalid field is not handled properly");
         } else {
             test:assertFail("Extrating CSP segment failed");
         }
@@ -162,5 +161,7 @@ function testSegmentGroupsParsing() returns error? {
     hl7:Message parsedMsg = check hl7:parse(hl7MsgStr);
     ORM_O01 inOrm = check parsedMsg.ensureType(ORM_O01);
     test:assertTrue(inOrm.'order[0].orm_o01_order_detail?.orm_o01_order_detail_segment?.obr?.obr1 == "1", "Segment groups parsing failed");
-    test:assertTrue(inOrm.patient[0].orm_o01_patient_visit?.pv1?.pv11 == "1", "Segment groups parsing failed");
+    test:assertTrue(inOrm.patient?.orm_o01_patient_visit?.pv1?.pv11 == "1", "Segment groups parsing failed");
 }
+
+

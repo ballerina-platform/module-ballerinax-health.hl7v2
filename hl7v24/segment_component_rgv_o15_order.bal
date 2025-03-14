@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -24,9 +24,9 @@ public type RGV_O15_ORDER record {
     string name = RGV_O15_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc;
-    RGV_O15_GIVE[] rgv_o15_give = [{rxg:{}}];
     RGV_O15_ORDER_DETAIL rgv_o15_order_detail?;
     RGV_O15_ENCODING rgv_o15_encoding?;
+    RGV_O15_GIVE[] rgv_o15_give = [{rxg: {}}];
 };
 
 public const RGV_O15_ORDER_SEGMENT_COMPONENT = "RGV_O15_ORDER";

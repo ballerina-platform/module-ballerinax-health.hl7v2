@@ -84,7 +84,7 @@ function testEncodeHl7Message() returns error? {
     string|error encodedMsgStr = string:fromBytes(encodedQRYA19);
     if encodedMsgStr is string {
         string[] segmentLines = re `\r`.split(encodedMsgStr);
-        test:assertEquals(segmentLines[1], "QRD|20220828104856+0000|R|I|QueryID01|||5|1^ADAM^EVERMAN|VXI|SIIS||", "Encoding issue occurred with the message");
+        test:assertEquals(segmentLines[1], "QRD|20220828104856+0000|R|I|QueryID01|||5|1^ADAM^EVERMAN|VXI|SIIS|||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");
     }
@@ -103,7 +103,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
             msh11: {pt1: "T"},
             msh12: {vid1: "2.6"}
         },
-        patient: [
+        patient:
             {
                 pid: {
                     pid1: "1",
@@ -120,8 +120,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
                         }
                     ]
                 }
-            }
-        ],
+            },
         'order: [
             {
                 orc: {
@@ -134,7 +133,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
     string|error encodedMsgStr = string:fromBytes(encodedORMO01);
     if encodedMsgStr is string {
         string[] segmentLines = re `\r`.split(encodedMsgStr);
-        test:assertEquals(segmentLines[1], "PID|1|123456789^^^^SSN|||WAYNE^BRUCE^^^Mr^^D|||f|||Hays street^^Geelong^^^Au||||||||||||||||||||||||||||", "Encoding issue occurred with the message");
+        test:assertEquals(segmentLines[1], "PID|1|123456789^^^^SSN|||WAYNE^BRUCE^^^Mr^^D|||f|||Hays street^^Geelong^^^Au|||||||||||||||||||||||||||||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");
     }
@@ -153,7 +152,7 @@ function testInvalidField() {
         anydata cspSegment = parseResult.get("csp");
         if cspSegment is hl7:Segment[] {
             hl7:Segment csp = cspSegment[0];
-            test:assertEquals(csp.entries().length(), 5, "Invalid field is not handled properly");
+            test:assertEquals(csp.entries().length(), 6, "Invalid field is not handled properly");
         } else {
             test:assertFail("Extrating CSP segment failed");
         }

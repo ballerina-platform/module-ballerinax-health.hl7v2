@@ -106,7 +106,7 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
     string|error encodedMsgStr = string:fromBytes(encodedORMO01);
     if encodedMsgStr is string {
         string[] segmentLines = re `\r`.split(encodedMsgStr);
-        test:assertEquals(segmentLines[1], "PID|1||||WAYNE^BRUCE^^^Mr^D||||||Hays street^^Geelong^^^Au|||||||||||||||||||||||||||||", "Encoding issue occurred with the message");
+        test:assertEquals(segmentLines[1], "PID|1||||WAYNE^BRUCE^^^Mr^D||||||Hays street^^Geelong^^^Au||||||||||||||||||||||||||||||", "Encoding issue occurred with the message");
     } else {
         test:assertFail("Encoding failed");
     }
@@ -125,7 +125,7 @@ function testInvalidField() {
         anydata cspSegment = parseResult.get("csp");
         if cspSegment is hl7:Segment[] {
             hl7:Segment csp = cspSegment[0];
-            test:assertEquals(csp.entries().length(), 5, "Invalid field is not handled properly");
+            test:assertEquals(csp.entries().length(), 6, "Invalid field is not handled properly");
         } else {
             test:assertFail("Extrating CSP segment failed");
         }

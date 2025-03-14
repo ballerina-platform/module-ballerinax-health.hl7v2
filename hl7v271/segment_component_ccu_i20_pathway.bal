@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -22,11 +22,11 @@ import ballerinax/health.hl7v2;
 public type CCU_I20_PATHWAY record {
     *hl7v2:SegmentComponent;
     string name = CCU_I20_PATHWAY_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    OBX[] obx = [{}];
+    boolean isRequired = false;
     PTH pth;
-    'VAR[] 'var = [{}];
-    CCU_I20_ROLE_PATHWAY[] ccu_i20_role_pathway = [{ccu_i20_role_pathway_object:{}}];
+    VAR[] 'var = [{}];
+    OBX[] obx = [{}];
+    CCU_I20_ROLE_PATHWAY[] ccu_i20_role_pathway = [{rol: {}}];
 };
 
 public const CCU_I20_PATHWAY_SEGMENT_COMPONENT = "CCU_I20_PATHWAY";

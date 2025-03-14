@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,43 +13,252 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const ORF_R04_MESSAGE_TYPE = "ORF_R04";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + msa - MSA Segment
-# + qrd - QRD Segment
-# + qrf - QRF Segment
-# + err - ERR Segment
-# + qak - QAK Segment
-# + dsc - DSC Segment
-# + query_response - ORF_R04_QUERY_RESPONSE Segment Group
+# + msh - MSH
+# + sft - SFT
+# + msa - MSA
+# + qrd - QRD
+# + qrf - QRF
+# + err - ERR
+# + qak - QAK
+# + dsc - DSC
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: QRD},
-        "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: QRF},
-        "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
-        "QAK": {name: "QAK", maxReps: 1, required: false, segmentType: QAK},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "QRD": [
+                {
+                        "name": "QRD",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "QRF": [
+                {
+                        "name": "QRF",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_PATIENT"
+                }
+        ],
+        "NTE": [
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_PATIENT"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER.ORF_R04_OBSERVATION"
+                }
+        ],
+        "ORC": [
+                {
+                        "name": "ORC",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER"
+                }
+        ],
+        "OBR": [
+                {
+                        "name": "OBR",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER"
+                }
+        ],
+        "TQ1": [
+                {
+                        "name": "TQ1",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER.ORF_R04_TIMING_QTY"
+                }
+        ],
+        "TQ2": [
+                {
+                        "name": "TQ2",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER.ORF_R04_TIMING_QTY"
+                }
+        ],
+        "CTD": [
+                {
+                        "name": "CTD",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER"
+                }
+        ],
+        "OBX": [
+                {
+                        "name": "OBX",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER.ORF_R04_OBSERVATION"
+                }
+        ],
+        "CTI": [
+                {
+                        "name": "CTI",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER"
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "QAK": [
+                {
+                        "name": "QAK",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {
         "ORF_R04_QUERY_RESPONSE": {
-            maxReps: -1,
-            required: true,
-            segments: {
-                "ORF_R04_PATIENT": {name: "ORF_R04_PATIENT", maxReps: 1, required: false, segmentType: typeof ORF_R04_PATIENT},
-                "ORF_R04_ORDER": {name: "ORF_R04_ORDER", maxReps: -1, required: true, segmentType: typeof ORF_R04_ORDER}
-            }
+                "maxReps": -1,
+                "required": true,
+                "segments": {}
+        },
+        "ORF_R04_QUERY_RESPONSE.ORF_R04_PATIENT": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "PID": {
+                                "name": "PID",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER": {
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "ORC": {
+                                "name": "ORC",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "OBR": {
+                                "name": "OBR",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        },
+                        "CTD": {
+                                "name": "CTD",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "CTI": {
+                                "name": "CTI",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER.ORF_R04_TIMING_QTY": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "TQ1": {
+                                "name": "TQ1",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "TQ2": {
+                                "name": "TQ2",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "ORF_R04_QUERY_RESPONSE.ORF_R04_ORDER.ORF_R04_OBSERVATION": {
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "OBX": {
+                                "name": "OBX",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type ORF_R04 record {
     *hl7v2:Message;
@@ -61,5 +271,5 @@ public type ORF_R04 record {
     ERR[] err = [];
     QAK qak?;
     DSC dsc?;
-    ORF_R04_QUERY_RESPONSE[] query_response = [{}];
+
 };

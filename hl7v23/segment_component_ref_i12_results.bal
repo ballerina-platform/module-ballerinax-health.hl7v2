@@ -23,7 +23,7 @@ public type REF_I12_RESULTS record {
     *hl7v2:SegmentComponent;
     string name = REF_I12_RESULTS_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    REF_I12_OBSERVATION[] ref_i12_observation = [{obx:{}}];
+    REF_I12_OBSERVATION[] ref_i12_observation = [{obr: {}}];
     OBR obr;
     NTE[] nte = [{}];
 };

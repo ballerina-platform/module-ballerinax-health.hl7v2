@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,35 +13,143 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const ORG_O20_MESSAGE_TYPE = "ORG_O20";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + msa - MSA Segment
-# + err - ERR Segment
-# + nte - NTE Segment
-# + response - ORG_O20_RESPONSE Segment Group
+# + msh - MSH
+# + msa - MSA
+# + err - ERR
+# + nte - NTE
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
-        "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "NTE": [
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ORG_O20_RESPONSE.ORG_O20_PATIENT"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ORG_O20_RESPONSE.ORG_O20_ORDER"
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "ORG_O20_RESPONSE.ORG_O20_PATIENT"
+                }
+        ],
+        "ORC": [
+                {
+                        "name": "ORC",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "ORG_O20_RESPONSE.ORG_O20_ORDER"
+                }
+        ],
+        "OBR": [
+                {
+                        "name": "OBR",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "ORG_O20_RESPONSE.ORG_O20_ORDER"
+                }
+        ],
+        "CTI": [
+                {
+                        "name": "CTI",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ORG_O20_RESPONSE.ORG_O20_ORDER"
+                }
+        ]
+},
+    groups: {
         "ORG_O20_RESPONSE": {
-            maxReps: 1,
-            required: false,
-            segments: {
-                "ORG_O20_PATIENT": {name: "ORG_O20_PATIENT", maxReps: 1, required: false, segmentType: typeof ORG_O20_PATIENT},
-                "ORG_O20_ORDER": {name: "ORG_O20_ORDER", maxReps: -1, required: true, segmentType: typeof ORG_O20_ORDER}
-            }
+                "maxReps": 1,
+                "required": false,
+                "segments": {}
+        },
+        "ORG_O20_RESPONSE.ORG_O20_PATIENT": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "PID": {
+                                "name": "PID",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "ORG_O20_RESPONSE.ORG_O20_ORDER": {
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "ORC": {
+                                "name": "ORC",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "OBR": {
+                                "name": "OBR",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        },
+                        "CTI": {
+                                "name": "CTI",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type ORG_O20 record {
     *hl7v2:Message;
@@ -49,5 +158,5 @@ public type ORG_O20 record {
     MSA msa;
     ERR err?;
     NTE[] nte = [];
-    ORG_O20_RESPONSE[] response = [{}];
+
 };

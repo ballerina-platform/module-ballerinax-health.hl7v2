@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -16,21 +16,21 @@
 import ballerinax/health.hl7v2;
 
 @hl7v2:SegmentComponentDefinition {
-    required: false,
-    maxReps: 0
+    required: true,
+    maxReps: -1
 }
 public type MFN_M02_MF_STAFF record {
     *hl7v2:SegmentComponent;
     string name = MFN_M02_MF_STAFF_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    AFF[] aff = [{}];
-    CER[] cer = [{}];
-    STF stf;
-    ORG[] org = [{}];
-    EDU[] edu = [{}];
-    LAN[] lan = [{}];
     MFE mfe;
+    STF stf;
     PRA[] pra = [{}];
+    ORG[] org = [{}];
+    AFF[] aff = [{}];
+    LAN[] lan = [{}];
+    EDU[] edu = [{}];
+    CER[] cer = [{}];
     NTE[] nte = [{}];
 };
 

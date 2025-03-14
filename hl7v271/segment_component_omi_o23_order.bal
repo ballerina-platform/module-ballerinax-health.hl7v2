@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -24,14 +24,14 @@ public type OMI_O23_ORDER record {
     string name = OMI_O23_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc;
-    CTD ctd?;
-    PRT[] prt = [{}];
-    OMI_O23_OBSERVATION[] omi_o23_observation = [{obx:{}}];
-    IPC[] ipc = [{}];
-    OMI_O23_TIMING[] omi_o23_timing = [{tq1:{}}];
     OBR obr;
     NTE[] nte = [{}];
+    PRT[] prt = [{}];
+    CTD ctd?;
     DG1[] dg1 = [{}];
+    IPC[] ipc = [{}];
+    OMI_O23_TIMING[] omi_o23_timing = [{tq1: {}}];
+    OMI_O23_OBSERVATION[] omi_o23_observation = [{obx: {}}];
 };
 
 public const OMI_O23_ORDER_SEGMENT_COMPONENT = "OMI_O23_ORDER";

@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -22,11 +22,11 @@ import ballerinax/health.hl7v2;
 public type CCR_I16_PROBLEM record {
     *hl7v2:SegmentComponent;
     string name = CCR_I16_PROBLEM_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    CCR_I16_ROLE_PROBLEM[] ccr_i16_role_problem = [{ccr_i16_role_problem_object:{}}];
+    boolean isRequired = false;
     PRB prb;
+    VAR[] 'var = [{}];
     OBX[] obx = [{}];
-    'VAR[] 'var = [{}];
+    CCR_I16_ROLE_PROBLEM[] ccr_i16_role_problem = [{rol: {}}];
 };
 
 public const CCR_I16_PROBLEM_SEGMENT_COMPONENT = "CCR_I16_PROBLEM";

@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -22,14 +22,14 @@ import ballerinax/health.hl7v2;
 public type RDE_O01_PATIENT record {
     *hl7v2:SegmentComponent;
     string name = RDE_O01_PATIENT_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    RDE_O01_PATIENT_VISIT rde_o01_patient_visit?;
-    RDE_O01_INSURANCE[] rde_o01_insurance = [{in1:{}}];
-    GT1 gt1?;
-    AL1[] al1 = [{}];
+    boolean isRequired = false;
     PID pid;
     PD1 pd1?;
     NTE[] nte = [{}];
+    GT1 gt1?;
+    AL1[] al1 = [{}];
+    RDE_O01_PATIENT_VISIT rde_o01_patient_visit?;
+    RDE_O01_INSURANCE[] rde_o01_insurance = [{in1: {}}];
 };
 
 public const RDE_O01_PATIENT_SEGMENT_COMPONENT = "RDE_O01_PATIENT";

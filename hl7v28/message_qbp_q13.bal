@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,40 +13,96 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const QBP_Q13_MESSAGE_TYPE = "QBP_Q13";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + uac - UAC Segment
-# + qpd - QPD Segment
-# + rdf - RDF Segment
-# + rcp - RCP Segment
-# + dsc - DSC Segment
+# + msh - MSH
+# + sft - SFT
+# + uac - UAC
+# + qpd - QPD
+# + rdf - RDF
+# + rcp - RCP
+# + dsc - DSC
 # + qbp - QBP_Q13_QBP Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "QPD": {name: "QPD", maxReps: 1, required: true, segmentType: QPD},
-        "RDF": {name: "RDF", maxReps: 1, required: false, segmentType: RDF},
-        "RCP": {name: "RCP", maxReps: 1, required: true, segmentType: RCP},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "UAC": [
+                {
+                        "name": "UAC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "QPD": [
+                {
+                        "name": "QPD",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "Hxx": [
+                {
+                        "name": "Hxx",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "QBP_Q13_QBP"
+                }
+        ],
+        "RDF": [
+                {
+                        "name": "RDF",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "RCP": [
+                {
+                        "name": "RCP",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {
         "QBP_Q13_QBP": {
-            maxReps: 1,
-            required: false,
-            segments: {
-                "anydata": {name: "anyHL7Segment", maxReps: 1, required: false, segmentType: typeof anydata}
-            }
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "Hxx": {
+                                "name": "Hxx",
+                                "maxReps": 1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type QBP_Q13 record {
     *hl7v2:Message;
@@ -57,5 +114,5 @@ public type QBP_Q13 record {
     RDF rdf?;
     RCP rcp;
     DSC dsc?;
-    QBP_Q13_QBP[] qbp = [{}];
+    QBP_Q13_QBP qbp?;
 };

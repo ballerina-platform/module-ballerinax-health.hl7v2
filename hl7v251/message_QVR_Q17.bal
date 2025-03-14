@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,36 +13,59 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const QVR_Q17_MESSAGE_TYPE = "QVR_Q17";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + qpd - QPD Segment
-# + rcp - RCP Segment
-# + dsc - DSC Segment
-# + qbp - QVR_Q17_QBP Segment Group
+# + msh - MSH
+# + sft - SFT
+# + qpd - QPD
+# + rcp - RCP
+# + dsc - DSC
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "QPD": {name: "QPD", maxReps: 1, required: true, segmentType: QPD},
-        "RCP": {name: "RCP", maxReps: 1, required: true, segmentType: RCP},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
-    ,groups: {
-        "QVR_Q17_QBP": {
-            maxReps: 1,
-            required: false,
-            segments: {
-                "anydata": {name: "anyHL7Segment", maxReps: 1, required: true, segmentType: typeof anydata}
-            }
-        }
-    }
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "QPD": [
+                {
+                        "name": "QPD",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "RCP": [
+                {
+                        "name": "RCP",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {}
 }
 public type QVR_Q17 record {
     *hl7v2:Message;
@@ -51,5 +75,5 @@ public type QVR_Q17 record {
     QPD qpd;
     RCP rcp;
     DSC dsc?;
-    QVR_Q17_QBP[] qbp = [{anyhl7segment:{}}];
+
 };

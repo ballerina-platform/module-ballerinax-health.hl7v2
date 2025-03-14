@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -22,11 +22,11 @@ import ballerinax/health.hl7v2;
 public type CCI_I22_GOAL record {
     *hl7v2:SegmentComponent;
     string name = CCI_I22_GOAL_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    OBX[] obx = [{}];
+    boolean isRequired = false;
     GOL gol;
-    'VAR[] 'var = [{}];
-    CCI_I22_ROLE_GOAL[] cci_i22_role_goal = [{cci_i22_role_goal_object:{}}];
+    VAR[] 'var = [{}];
+    OBX[] obx = [{}];
+    CCI_I22_ROLE_GOAL[] cci_i22_role_goal = [{}];
 };
 
 public const CCI_I22_GOAL_SEGMENT_COMPONENT = "CCI_I22_GOAL";

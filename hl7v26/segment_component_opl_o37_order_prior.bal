@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -16,18 +16,18 @@
 import ballerinax/health.hl7v2;
 
 @hl7v2:SegmentComponentDefinition {
-    required: false,
-    maxReps: 0
+    required: true,
+    maxReps: -1
 }
 public type OPL_O37_ORDER_PRIOR record {
     *hl7v2:SegmentComponent;
     string name = OPL_O37_ORDER_PRIOR_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    OPL_O37_TIMING opl_o37_timing?;
-    ORC orc?;
-    OBX[] obx = [{}];
     OBR obr;
+    ORC orc?;
     ROL[] rol = [{}];
+    OBX[] obx = [{}];
+    OPL_O37_TIMING opl_o37_timing?;
 };
 
 public const OPL_O37_ORDER_PRIOR_SEGMENT_COMPONENT = "OPL_O37_ORDER_PRIOR";

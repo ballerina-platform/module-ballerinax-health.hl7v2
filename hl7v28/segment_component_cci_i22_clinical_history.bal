@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -22,11 +22,11 @@ import ballerinax/health.hl7v2;
 public type CCI_I22_CLINICAL_HISTORY record {
     *hl7v2:SegmentComponent;
     string name = CCI_I22_CLINICAL_HISTORY_SEGMENT_COMPONENT;
-    boolean isRequired = true;
+    boolean isRequired = false;
     ORC orc;
-    CCI_I22_CLINICAL_HISTORY_DETAIL[] cci_i22_clinical_history_detail = [{cci_i22_clinical_history_object:{}}];
     CTI[] cti = [{}];
-    CCI_I22_ROLE_CLINICAL_HISTORY[] cci_i22_role_clinical_history = [{cci_i22_role_clinical_history_object:{}}];
+    CCI_I22_CLINICAL_HISTORY_DETAIL[] cci_i22_clinical_history_detail = [{}];
+    CCI_I22_ROLE_CLINICAL_HISTORY[] cci_i22_role_clinical_history = [{}];
 };
 
 public const CCI_I22_CLINICAL_HISTORY_SEGMENT_COMPONENT = "CCI_I22_CLINICAL_HISTORY";

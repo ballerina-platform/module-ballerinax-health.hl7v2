@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,39 +13,213 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const RAR_RAR_MESSAGE_TYPE = "RAR_RAR";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + msa - MSA Segment
-# + err - ERR Segment
-# + sft - SFT Segment
-# + dsc - DSC Segment
+# + msh - MSH
+# + msa - MSA
+# + err - ERR
+# + sft - SFT
+# + dsc - DSC
 # + definition - RAR_RAR_DEFINITION Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "QRD": [
+                {
+                        "name": "QRD",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RAR_RAR_DEFINITION"
+                }
+        ],
+        "QRF": [
+                {
+                        "name": "QRF",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "RAR_RAR_DEFINITION"
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RAR_RAR_DEFINITION.RAR_RAR_PATIENT"
+                }
+        ],
+        "NTE": [
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RAR_RAR_DEFINITION.RAR_RAR_PATIENT"
+                }
+        ],
+        "ORC": [
+                {
+                        "name": "ORC",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RAR_RAR_DEFINITION.RAR_RAR_ORDER"
+                }
+        ],
+        "RXE": [
+                {
+                        "name": "RXE",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RAR_RAR_DEFINITION.RAR_RAR_ORDER.RAR_RAR_ENCODING"
+                }
+        ],
+        "RXR": [
+                {
+                        "name": "RXR",
+                        "maxReps": -1,
+                        "required": true,
+                        "segmentComponentName": "RAR_RAR_DEFINITION.RAR_RAR_ORDER.RAR_RAR_ENCODING"
+                },
+                {
+                        "name": "RXR",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RAR_RAR_DEFINITION.RAR_RAR_ORDER"
+                }
+        ],
+        "RXC": [
+                {
+                        "name": "RXC",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RAR_RAR_DEFINITION.RAR_RAR_ORDER.RAR_RAR_ENCODING"
+                }
+        ],
+        "RXA": [
+                {
+                        "name": "RXA",
+                        "maxReps": -1,
+                        "required": true,
+                        "segmentComponentName": "RAR_RAR_DEFINITION.RAR_RAR_ORDER"
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {
         "RAR_RAR_DEFINITION": {
-            maxReps: -1,
-            required: true,
-            segments: {
-                "QRD": {name: "QRD", maxReps: 1, required: true, segmentType: typeof QRD},
-                "QRF": {name: "QRF", maxReps: 1, required: false, segmentType: typeof QRF},
-                "RAR_RAR_PATIENT": {name: "RAR_RAR_PATIENT", maxReps: 1, required: false, segmentType: typeof RAR_RAR_PATIENT},
-                "RAR_RAR_ORDER": {name: "RAR_RAR_ORDER", maxReps: -1, required: true, segmentType: typeof RAR_RAR_ORDER}
-            }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "QRD": {
+                                "name": "QRD",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "QRF": {
+                                "name": "QRF",
+                                "maxReps": 1,
+                                "required": false
+                        }
+                }
+        },
+        "RAR_RAR_DEFINITION.RAR_RAR_PATIENT": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "PID": {
+                                "name": "PID",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "RAR_RAR_DEFINITION.RAR_RAR_ORDER": {
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "ORC": {
+                                "name": "ORC",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "RXA": {
+                                "name": "RXA",
+                                "maxReps": -1,
+                                "required": true
+                        },
+                        "RXR": {
+                                "name": "RXR",
+                                "maxReps": 1,
+                                "required": true
+                        }
+                }
+        },
+        "RAR_RAR_DEFINITION.RAR_RAR_ORDER.RAR_RAR_ENCODING": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "RXE": {
+                                "name": "RXE",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "RXR": {
+                                "name": "RXR",
+                                "maxReps": -1,
+                                "required": true
+                        },
+                        "RXC": {
+                                "name": "RXC",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type RAR_RAR record {
     *hl7v2:Message;
@@ -54,5 +229,5 @@ public type RAR_RAR record {
     ERR[] err = [];
     SFT[] sft = [];
     DSC dsc?;
-    RAR_RAR_DEFINITION[] definition = [{qrd:{}}];
+    RAR_RAR_DEFINITION[] definition = [{qrd: {}}];
 };

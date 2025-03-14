@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -16,18 +16,18 @@
 import ballerinax/health.hl7v2;
 
 @hl7v2:SegmentComponentDefinition {
-    required: false,
-    maxReps: 0
+    required: true,
+    maxReps: -1
 }
 public type PPP_PCB_PATHWAY record {
     *hl7v2:SegmentComponent;
     string name = PPP_PCB_PATHWAY_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    PPP_PCB_PROBLEM[] ppp_pcb_problem = [{prb:{}}];
     PTH pth;
-    'VAR[] 'var = [{}];
     NTE[] nte = [{}];
-    PPP_PCB_PATHWAY_ROLE[] ppp_pcb_pathway_role = [{rol:{}}];
+    VAR[] 'var = [{}];
+    PPP_PCB_PATHWAY_ROLE[] ppp_pcb_pathway_role = [{rol: {}}];
+    PPP_PCB_PROBLEM[] ppp_pcb_problem = [{prb: {}}];
 };
 
 public const PPP_PCB_PATHWAY_SEGMENT_COMPONENT = "PPP_PCB_PATHWAY";

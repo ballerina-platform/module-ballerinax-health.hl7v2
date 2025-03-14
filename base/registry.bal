@@ -20,18 +20,32 @@ import ballerina/log;
 public type ParserCreator isolated function () returns Parser;
 # Function to return to register HL7 Encoder
 public type EncoderCreator isolated function () returns Encoder;
+# Function to return the message record for specific message name
+public type GetMessageFuncCreator isolated function (string messageName) returns Message?;
+# Function to return the segment record for specific segment name
+public type GetSegmentFuncCreator isolated function (string segmentName) returns Segment?;
+# Function to return the segment group record for specific segment group name
+public type GetSegmentGroupFuncCreator isolated function (string segmentGroupName) returns SegmentComponent?;
+
+public type ParserUtils record {
+    GetMessageFuncCreator getMessageFunc;
+    GetSegmentFuncCreator getSegmentFunc;
+    GetSegmentGroupFuncCreator getSegmentGroupFunc;
+};
 
 # Record describing information about a package.
 #
-# + hl7Version - HL7 version supported 
-# + name - Package name
-# + parserCreator - Function capable of creating Parser implementation to parse HL7 wire format to model
-# + encoderCreator - Function capable of creating Encoder implementation encode to HL7 model in to wire format
+# + hl7Version - HL7 version supported  
+# + name - Package name  
+# + parserCreator - Function capable of creating Parser implementation to parse HL7 wire format to model  
+# + encoderCreator - Function capable of creating Encoder implementation encode to HL7 model in to wire format  
+# + parserUtils - Utility functions for parser
 public type HL7Package record {|
     readonly & string hl7Version;
     readonly & string name;
     readonly & ParserCreator? parserCreator;
     readonly & EncoderCreator? encoderCreator;
+    readonly & ParserUtils? parserUtils?;
 |};
 
 # Registry holding HL7 related runtime metadata. 
@@ -72,6 +86,68 @@ public isolated class HL7Registry {
                 return error(HL7_V2_PARSER_ERROR, message = "Parser creator function unavailable");
             } else {
                 return error(HL7_V2_PARSER_ERROR, message = "Package not found for HL7 version : " + hl7Version);
+            }
+        }
+    }
+
+    # Find matching HL7 message type for given HL7 version.
+    #
+    # + hl7Version - HL7 version  
+    # + messageName - Message name
+    # + return - Message record for specific message name. HL7Error is returned, if error occurred
+    public isolated function getHl7MessageType(string hl7Version, string messageName) returns Message?|HL7Error {
+        lock {
+            if self.packages.hasKey(hl7Version) {
+                HL7Package package = self.packages.get(hl7Version);
+                readonly & GetMessageFuncCreator? creator = package?.parserUtils?.getMessageFunc;
+                if creator != () {
+                    return creator(messageName);
+                } 
+                return error(HL7_V2_PARSER_ERROR, message = "Message creator function unavailable");
+            } else {
+                return error(HL7_V2_PARSER_ERROR, message = "Package not found for HL7 version : " + hl7Version);
+            }
+        }
+    }
+
+    # Find matching HL7 segment type for given HL7 version.
+    # 
+    # + hl7Version - HL7 version
+    # + segmentName - Segment name
+    # + return - Segment record for specific segment name. HL7Error is returned, if error occurred
+    public isolated function getHl7SegmentType(string hl7Version, string segmentName) returns Segment?|HL7Error {
+        lock {
+            if self.packages.hasKey(hl7Version) {
+                HL7Package package = self.packages.get(hl7Version);
+                readonly & GetSegmentFuncCreator? creator = package?.parserUtils?.getSegmentFunc;
+                if creator != () {
+                    return creator(segmentName);
+                } 
+                return error(HL7_V2_PARSER_ERROR, message = "Segment creator function unavailable");
+            } else {
+                return error(HL7_V2_PARSER_ERROR, message = "Package not found for HL7 version : " + hl7Version);
+            }
+        }
+    }
+
+    # Find matching HL7 segment group type for given HL7 version.
+    # 
+    # + hl7Version - HL7 version
+    # + segmentGroupName - Segment group name
+    # + return - Segment group record for specific segment group name. HL7Error is returned, if error occurred
+    public isolated function getHl7SegmentGroupType(string hl7Version, string segmentGroupName) returns SegmentComponent? {
+        lock {
+            if self.packages.hasKey(hl7Version) {
+                HL7Package package = self.packages.get(hl7Version);
+                readonly & GetSegmentGroupFuncCreator? creator = package?.parserUtils?.getSegmentGroupFunc;
+                if creator != () {
+                    return creator(segmentGroupName);
+                } 
+                log:printError(string `Segment group creator function unavailable`);
+                return ();
+            } else {
+                log:printError(string `Package not found for HL7 version : ${hl7Version}`);
+                return ();
             }
         }
     }

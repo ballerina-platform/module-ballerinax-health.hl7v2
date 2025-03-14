@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,45 +13,143 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const RSP_K22_MESSAGE_TYPE = "RSP_K22";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + uac - UAC Segment
-# + msa - MSA Segment
-# + err - ERR Segment
-# + qak - QAK Segment
-# + qpd - QPD Segment
-# + dsc - DSC Segment
+# + msh - MSH
+# + sft - SFT
+# + uac - UAC
+# + msa - MSA
+# + err - ERR
+# + qak - QAK
+# + qpd - QPD
+# + dsc - DSC
 # + query_response - RSP_K22_QUERY_RESPONSE Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
-        "QAK": {name: "QAK", maxReps: 1, required: true, segmentType: QAK},
-        "QPD": {name: "QPD", maxReps: 1, required: true, segmentType: QPD},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "UAC": [
+                {
+                        "name": "UAC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "QAK": [
+                {
+                        "name": "QAK",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "QPD": [
+                {
+                        "name": "QPD",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RSP_K22_QUERY_RESPONSE"
+                }
+        ],
+        "PD1": [
+                {
+                        "name": "PD1",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "RSP_K22_QUERY_RESPONSE"
+                }
+        ],
+        "NK1": [
+                {
+                        "name": "NK1",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RSP_K22_QUERY_RESPONSE"
+                }
+        ],
+        "QRI": [
+                {
+                        "name": "QRI",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "RSP_K22_QUERY_RESPONSE"
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {
         "RSP_K22_QUERY_RESPONSE": {
-            maxReps: -1,
-            required: false,
-            segments: {
-                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
-                "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: typeof PD1},
-                "NK1": {name: "NK1", maxReps: -1, required: false, segmentType: typeof NK1},
-                "QRI": {name: "QRI", maxReps: 1, required: false, segmentType: typeof QRI}
-            }
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "PID": {
+                                "name": "PID",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "PD1": {
+                                "name": "PD1",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "NK1": {
+                                "name": "NK1",
+                                "maxReps": -1,
+                                "required": false
+                        },
+                        "QRI": {
+                                "name": "QRI",
+                                "maxReps": 1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type RSP_K22 record {
     *hl7v2:Message;
@@ -63,5 +162,5 @@ public type RSP_K22 record {
     QAK qak;
     QPD qpd;
     DSC dsc?;
-    RSP_K22_QUERY_RESPONSE[] query_response = [{pid:{}}];
+    RSP_K22_QUERY_RESPONSE[] query_response = [{pid: {}}];
 };

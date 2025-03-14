@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,42 +13,96 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const ADT_A60_MESSAGE_TYPE = "ADT_A60";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + uac - UAC Segment
-# + evn - EVN Segment
-# + pid - PID Segment
-# + arv - ARV Segment
-# + iam - IAM Segment
-# + visit - ADT_A60_VISIT Segment Group
+# + msh - MSH
+# + sft - SFT
+# + uac - UAC
+# + evn - EVN
+# + pid - PID
+# + arv - ARV
+# + pv1 - PV1
+# + pv2 - PV2
+# + iam - IAM
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
-        "ARV": {name: "ARV", maxReps: -1, required: false, segmentType: ARV},
-        "IAM": {name: "IAM", maxReps: -1, required: false, segmentType: IAM}
-    }
-    ,groups: {
-        "ADT_A60_VISIT": {
-            maxReps: 1,
-            required: false,
-            segments: {
-                "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
-                "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2},
-                "ARV": {name: "ARV", maxReps: -1, required: false, segmentType: typeof ARV}
-            }
-        }
-    }
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "UAC": [
+                {
+                        "name": "UAC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "EVN": [
+                {
+                        "name": "EVN",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ARV": [
+                {
+                        "name": "ARV",
+                        "maxReps": -1,
+                        "required": false
+                },
+                {
+                        "name": "ARV",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "PV1": [
+                {
+                        "name": "PV1",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "PV2": [
+                {
+                        "name": "PV2",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "IAM": [
+                {
+                        "name": "IAM",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ]
+},
+    groups: {}
 }
 public type ADT_A60 record {
     *hl7v2:Message;
@@ -58,6 +113,8 @@ public type ADT_A60 record {
     EVN evn;
     PID pid;
     ARV[] arv = [];
+    PV1 pv1?;
+    PV2 pv2?;
     IAM[] iam = [];
-    ADT_A60_VISIT[] visit = [{pv1:{}}];
+
 };

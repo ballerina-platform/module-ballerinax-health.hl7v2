@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,40 +13,75 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const TBR_Q01_MESSAGE_TYPE = "TBR_Q01";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + msa - MSA Segment
-# + err - ERR Segment
-# + qak - QAK Segment
-# + rdf - RDF Segment
-# + rdt - RDT Segment
-# + dsc - DSC Segment
+# + msh - MSH
+# + msa - MSA
+# + err - ERR
+# + qak - QAK
+# + rdf - RDF
+# + rdt - RDT
+# + dsc - DSC
+
 @hl7v2:MessageDefinition {
     orderedSegments: {
-        "MSH": [{name: "MSH", maxReps: 1, required: false}],
-        "MSA": [{name: "MSA", maxReps: 1, required: false}],
-        "ERR": [{name: "ERR", maxReps: 1, required: false}],
-        "QAK": [{name: "QAK", maxReps: 1, required: false}],
-        "RDF": [{name: "RDF", maxReps: 1, required: false}],
-        "RDT": [{name: "RDT", maxReps: -1, required: false}],
-        "DSC": [{name: "DSC", maxReps: 1, required: false}]
-    }
-,
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "ERR": {name: "ERR", maxReps: 1, required: false, segmentType: ERR},
-        "QAK": {name: "QAK", maxReps: 1, required: true, segmentType: QAK},
-        "RDF": {name: "RDF", maxReps: 1, required: true, segmentType: RDF},
-        "RDT": {name: "RDT", maxReps: -1, required: true, segmentType: RDT},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "QAK": [
+                {
+                        "name": "QAK",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "RDF": [
+                {
+                        "name": "RDF",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "RDT": [
+                {
+                        "name": "RDT",
+                        "maxReps": -1,
+                        "required": true
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {}
 }
 public type TBR_Q01 record {
     *hl7v2:Message;
@@ -57,4 +93,5 @@ public type TBR_Q01 record {
     RDF rdf;
     RDT[] rdt = [];
     DSC dsc?;
+
 };

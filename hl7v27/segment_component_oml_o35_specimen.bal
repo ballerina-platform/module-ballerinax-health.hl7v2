@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -24,8 +24,8 @@ public type OML_O35_SPECIMEN record {
     string name = OML_O35_SPECIMEN_SEGMENT_COMPONENT;
     boolean isRequired = true;
     SPM spm;
-    OML_O35_SPECIMEN_OBSERVATION[] oml_o35_specimen_observation = [{obx:{}}];
-    OML_O35_SPECIMEN_CONTAINER[] oml_o35_specimen_container = [{sac:{}}];
+    OML_O35_SPECIMEN_OBSERVATION[] oml_o35_specimen_observation = [{obx: {}}];
+    OML_O35_SPECIMEN_CONTAINER[] oml_o35_specimen_container = [{sac: {}}];
 };
 
 public const OML_O35_SPECIMEN_SEGMENT_COMPONENT = "OML_O35_SPECIMEN";

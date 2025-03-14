@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,37 +13,130 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const EAC_U07_MESSAGE_TYPE = "EAC_U07";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + equ - EQU Segment
-# + rol - ROL Segment
+# + msh - MSH
+# + sft - SFT
+# + equ - EQU
+# + rol - ROL
 # + command - EAC_U07_COMMAND Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "EQU": {name: "EQU", maxReps: 1, required: true, segmentType: EQU},
-        "ROL": {name: "ROL", maxReps: 1, required: false, segmentType: ROL}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "EQU": [
+                {
+                        "name": "EQU",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ECD": [
+                {
+                        "name": "ECD",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "EAC_U07_COMMAND"
+                }
+        ],
+        "TQ1": [
+                {
+                        "name": "TQ1",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "EAC_U07_COMMAND"
+                }
+        ],
+        "SAC": [
+                {
+                        "name": "SAC",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "EAC_U07_COMMAND.EAC_U07_SPECIMEN_CONTAINER"
+                }
+        ],
+        "SPM": [
+                {
+                        "name": "SPM",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "EAC_U07_COMMAND.EAC_U07_SPECIMEN_CONTAINER"
+                }
+        ],
+        "CNS": [
+                {
+                        "name": "CNS",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "EAC_U07_COMMAND"
+                }
+        ],
+        "ROL": [
+                {
+                        "name": "ROL",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {
         "EAC_U07_COMMAND": {
-            maxReps: -1,
-            required: true,
-            segments: {
-                "ECD": {name: "ECD", maxReps: 1, required: true, segmentType: typeof ECD},
-                "TQ1": {name: "TQ1", maxReps: 1, required: false, segmentType: typeof TQ1},
-                "EAC_U07_SPECIMEN_CONTAINER": {name: "EAC_U07_SPECIMEN_CONTAINER", maxReps: 1, required: false, segmentType: typeof EAC_U07_SPECIMEN_CONTAINER},
-                "CNS": {name: "CNS", maxReps: 1, required: false, segmentType: typeof CNS}
-            }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "ECD": {
+                                "name": "ECD",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "TQ1": {
+                                "name": "TQ1",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "CNS": {
+                                "name": "CNS",
+                                "maxReps": 1,
+                                "required": false
+                        }
+                }
+        },
+        "EAC_U07_COMMAND.EAC_U07_SPECIMEN_CONTAINER": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "SAC": {
+                                "name": "SAC",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "SPM": {
+                                "name": "SPM",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type EAC_U07 record {
     *hl7v2:Message;
@@ -51,5 +145,5 @@ public type EAC_U07 record {
     SFT[] sft = [];
     EQU equ;
     ROL rol?;
-    EAC_U07_COMMAND[] command = [{ecd:{}}];
+    EAC_U07_COMMAND[] command = [{ecd: {}}];
 };

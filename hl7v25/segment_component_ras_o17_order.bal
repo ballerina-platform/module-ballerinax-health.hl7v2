@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -23,12 +23,12 @@ public type RAS_O17_ORDER record {
     *hl7v2:SegmentComponent;
     string name = RAS_O17_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    RAS_O17_ENCODING ras_o17_encoding?;
     ORC orc;
-    RAS_O17_TIMING[] ras_o17_timing = [{tq1:{}}];
     CTI[] cti = [{}];
-    RAS_O17_ADMINISTRATION[] ras_o17_administration = [{rxr:{}}];
+    RAS_O17_TIMING[] ras_o17_timing = [{tq1: {}}];
     RAS_O17_ORDER_DETAIL ras_o17_order_detail?;
+    RAS_O17_ENCODING ras_o17_encoding?;
+    RAS_O17_ADMINISTRATION[] ras_o17_administration = [{rxr: {}}];
 };
 
 public const RAS_O17_ORDER_SEGMENT_COMPONENT = "RAS_O17_ORDER";

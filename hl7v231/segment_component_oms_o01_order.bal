@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -24,8 +24,8 @@ public type OMS_O01_ORDER record {
     string name = OMS_O01_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc;
-    OMS_O01_ORDER_DETAIL oms_o01_order_detail?;
     BLG blg?;
+    OMS_O01_ORDER_DETAIL oms_o01_order_detail?;
 };
 
 public const OMS_O01_ORDER_SEGMENT_COMPONENT = "OMS_O01_ORDER";

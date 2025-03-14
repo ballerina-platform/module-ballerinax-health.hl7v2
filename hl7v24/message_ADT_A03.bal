@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,51 +13,152 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const ADT_A03_MESSAGE_TYPE = "ADT_A03";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + evn - EVN Segment
-# + pid - PID Segment
-# + pd1 - PD1 Segment
-# + rol - ROL Segment
-# + pv1 - PV1 Segment
-# + pv2 - PV2 Segment
-# + db1 - DB1 Segment
-# + dg1 - DG1 Segment
-# + drg - DRG Segment
-# + obx - OBX Segment
-# + pda - PDA Segment
+# + msh - MSH
+# + evn - EVN
+# + pid - PID
+# + pd1 - PD1
+# + rol - ROL
+# + pv1 - PV1
+# + pv2 - PV2
+# + db1 - DB1
+# + dg1 - DG1
+# + drg - DRG
+# + obx - OBX
+# + pda - PDA
 # + procedure - ADT_A03_PROCEDURE Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "EVN": {name: "EVN", maxReps: 1, required: true, segmentType: EVN},
-        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
-        "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: PD1},
-        "ROL": {name: "ROL", maxReps: -1, required: false, segmentType: ROL},
-        "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: PV1},
-        "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: PV2},
-        "DB1": {name: "DB1", maxReps: -1, required: false, segmentType: DB1},
-        "DG1": {name: "DG1", maxReps: -1, required: false, segmentType: DG1},
-        "DRG": {name: "DRG", maxReps: 1, required: false, segmentType: DRG},
-        "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: OBX},
-        "PDA": {name: "PDA", maxReps: 1, required: false, segmentType: PDA}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "EVN": [
+                {
+                        "name": "EVN",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PD1": [
+                {
+                        "name": "PD1",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "ROL": [
+                {
+                        "name": "ROL",
+                        "maxReps": -1,
+                        "required": false
+                },
+                {
+                        "name": "ROL",
+                        "maxReps": -1,
+                        "required": false
+                },
+                {
+                        "name": "ROL",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "ADT_A03_PROCEDURE"
+                }
+        ],
+        "PV1": [
+                {
+                        "name": "PV1",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "PV2": [
+                {
+                        "name": "PV2",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "DB1": [
+                {
+                        "name": "DB1",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "DG1": [
+                {
+                        "name": "DG1",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "DRG": [
+                {
+                        "name": "DRG",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "PR1": [
+                {
+                        "name": "PR1",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "ADT_A03_PROCEDURE"
+                }
+        ],
+        "OBX": [
+                {
+                        "name": "OBX",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "PDA": [
+                {
+                        "name": "PDA",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {
         "ADT_A03_PROCEDURE": {
-            maxReps: -1,
-            required: false,
-            segments: {
-                "PR1": {name: "PR1", maxReps: 1, required: true, segmentType: typeof PR1},
-                "ROL": {name: "ROL", maxReps: -1, required: false, segmentType: typeof ROL}
-            }
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "PR1": {
+                                "name": "PR1",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "ROL": {
+                                "name": "ROL",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type ADT_A03 record {
     *hl7v2:Message;
@@ -73,5 +175,5 @@ public type ADT_A03 record {
     DRG drg?;
     OBX[] obx = [];
     PDA pda?;
-    ADT_A03_PROCEDURE[] procedure = [{pr1:{}}];
+    ADT_A03_PROCEDURE[] procedure = [{pr1: {}}];
 };

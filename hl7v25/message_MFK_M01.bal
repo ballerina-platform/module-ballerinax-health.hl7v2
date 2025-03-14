@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,28 +13,67 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const MFK_M01_MESSAGE_TYPE = "MFK_M01";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + msa - MSA Segment
-# + err - ERR Segment
-# + mfi - MFI Segment
-# + mfa - MFA Segment
+# + msh - MSH
+# + sft - SFT
+# + msa - MSA
+# + err - ERR
+# + mfi - MFI
+# + mfa - MFA
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "MSA": {name: "MSA", maxReps: 1, required: true, segmentType: MSA},
-        "ERR": {name: "ERR", maxReps: -1, required: false, segmentType: ERR},
-        "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI},
-        "MFA": {name: "MFA", maxReps: -1, required: false, segmentType: MFA}
-    }
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ERR": [
+                {
+                        "name": "ERR",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "MFI": [
+                {
+                        "name": "MFI",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "MFA": [
+                {
+                        "name": "MFA",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ]
+},
+    groups: {}
 }
 public type MFK_M01 record {
     *hl7v2:Message;
@@ -44,4 +84,5 @@ public type MFK_M01 record {
     ERR[] err = [];
     MFI mfi;
     MFA[] mfa = [];
+
 };

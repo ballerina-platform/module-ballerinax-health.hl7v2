@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,33 +13,67 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const QBP_Q15_MESSAGE_TYPE = "QBP_Q15";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + qpd - QPD Segment
-# + anyzsegment - anyZSegment Segment
-# + rcp - RCP Segment
-# + dsc - DSC Segment
+# + msh - MSH
+# + qpd - QPD
+# + rdf - RDF
+# + rcp - RCP
+# + dsc - DSC
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "QPD": {name: "QPD", maxReps: 1, required: true, segmentType: QPD},
-        "anydata": {name: "anydata", maxReps: 1, required: false, segmentType: anydata},
-        "RCP": {name: "RCP", maxReps: 1, required: true, segmentType: RCP},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "QPD": [
+                {
+                        "name": "QPD",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "RDF": [
+                {
+                        "name": "RDF",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "RCP": [
+                {
+                        "name": "RCP",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {}
 }
 public type QBP_Q15 record {
     *hl7v2:Message;
     string name = QBP_Q15_MESSAGE_TYPE;
     MSH msh;
     QPD qpd;
-    anydata anyzsegment?;
+    RDF rdf?;
     RCP rcp;
     DSC dsc?;
+
 };

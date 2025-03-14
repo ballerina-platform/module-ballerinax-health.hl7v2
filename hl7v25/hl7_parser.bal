@@ -102,7 +102,7 @@ class HL7Parser {
                             hl7v2:Hl7MessageDefinitionRecord? msgDef = (typeof messageResult).@hl7v2:MessageDefinition;
                             map<anydata> messageFields = messageResult;
                             if msgDef is hl7v2:Hl7MessageDefinitionRecord {
-                                map<hl7v2:Hl7SegmentDefinitionRecord> segmentDefs = msgDef.segments;
+                                map<hl7v2:Hl7SegmentDefinitionRecord> segmentDefs = msgDef.segments ?: {};
                                 map<hl7v2:Hl7SegmentComponentDefinitionRecord>? groups = msgDef.groups;
 
                                 if segmentDefs.hasKey(segmentName) {

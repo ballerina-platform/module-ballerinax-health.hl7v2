@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -17,17 +17,17 @@ import ballerinax/health.hl7v2;
 
 @hl7v2:SegmentComponentDefinition {
     required: false,
-    maxReps: 0
+    maxReps: -1
 }
 public type CQU_I19_MEDICATION_HISTORY record {
     *hl7v2:SegmentComponent;
     string name = CQU_I19_MEDICATION_HISTORY_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    CQU_I19_MEDICATION_ADMINISTRATION_DETAIL[] cqu_i19_medication_administration_detail = [{rxr:{}}];
+    boolean isRequired = false;
     ORC orc;
-    CQU_I19_MEDICATION_ORDER_DETAIL cqu_i19_medication_order_detail?;
     CTI[] cti = [{}];
+    CQU_I19_MEDICATION_ORDER_DETAIL cqu_i19_medication_order_detail?;
     CQU_I19_MEDICATION_ENCODING_DETAIL cqu_i19_medication_encoding_detail?;
+    CQU_I19_MEDICATION_ADMINISTRATION_DETAIL[] cqu_i19_medication_administration_detail = [{rxr: {}}];
 };
 
 public const CQU_I19_MEDICATION_HISTORY_SEGMENT_COMPONENT = "CQU_I19_MEDICATION_HISTORY";

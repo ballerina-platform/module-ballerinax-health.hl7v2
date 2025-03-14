@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,49 +13,269 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const SIU_S12_MESSAGE_TYPE = "SIU_S12";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sch - SCH Segment
-# + nte - NTE Segment
+# + msh - MSH
+# + sch - SCH
+# + nte - NTE
 # + patient - SIU_S12_PATIENT Segment Group
 # + resources - SIU_S12_RESOURCES Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SCH": {name: "SCH", maxReps: 1, required: true, segmentType: SCH},
-        "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SCH": [
+                {
+                        "name": "SCH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "NTE": [
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "SIU_S12_RESOURCES.SIU_S12_SERVICE"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "SIU_S12_RESOURCES.SIU_S12_GENERAL_RESOURCE"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "SIU_S12_RESOURCES.SIU_S12_LOCATION_RESOURCE"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "SIU_S12_RESOURCES.SIU_S12_PERSONNEL_RESOURCE"
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "SIU_S12_PATIENT"
+                }
+        ],
+        "PD1": [
+                {
+                        "name": "PD1",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "SIU_S12_PATIENT"
+                }
+        ],
+        "PV1": [
+                {
+                        "name": "PV1",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "SIU_S12_PATIENT"
+                }
+        ],
+        "PV2": [
+                {
+                        "name": "PV2",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "SIU_S12_PATIENT"
+                }
+        ],
+        "OBX": [
+                {
+                        "name": "OBX",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "SIU_S12_PATIENT"
+                }
+        ],
+        "DG1": [
+                {
+                        "name": "DG1",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "SIU_S12_PATIENT"
+                }
+        ],
+        "RGS": [
+                {
+                        "name": "RGS",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "SIU_S12_RESOURCES"
+                }
+        ],
+        "AIS": [
+                {
+                        "name": "AIS",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "SIU_S12_RESOURCES.SIU_S12_SERVICE"
+                }
+        ],
+        "AIG": [
+                {
+                        "name": "AIG",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "SIU_S12_RESOURCES.SIU_S12_GENERAL_RESOURCE"
+                }
+        ],
+        "AIL": [
+                {
+                        "name": "AIL",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "SIU_S12_RESOURCES.SIU_S12_LOCATION_RESOURCE"
+                }
+        ],
+        "AIP": [
+                {
+                        "name": "AIP",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "SIU_S12_RESOURCES.SIU_S12_PERSONNEL_RESOURCE"
+                }
+        ]
+},
+    groups: {
         "SIU_S12_PATIENT": {
-            maxReps: -1,
-            required: false,
-            segments: {
-                "PID": {name: "PID", maxReps: 1, required: true, segmentType: typeof PID},
-                "PD1": {name: "PD1", maxReps: 1, required: false, segmentType: typeof PD1},
-                "PV1": {name: "PV1", maxReps: 1, required: false, segmentType: typeof PV1},
-                "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2},
-                "OBX": {name: "OBX", maxReps: -1, required: false, segmentType: typeof OBX},
-                "DG1": {name: "DG1", maxReps: -1, required: false, segmentType: typeof DG1}
-            }
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "PID": {
+                                "name": "PID",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "PD1": {
+                                "name": "PD1",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "PV1": {
+                                "name": "PV1",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "PV2": {
+                                "name": "PV2",
+                                "maxReps": 1,
+                                "required": false
+                        },
+                        "OBX": {
+                                "name": "OBX",
+                                "maxReps": -1,
+                                "required": false
+                        },
+                        "DG1": {
+                                "name": "DG1",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         },
         "SIU_S12_RESOURCES": {
-            maxReps: -1,
-            required: true,
-            segments: {
-                "RGS": {name: "RGS", maxReps: 1, required: true, segmentType: typeof RGS},
-                "SIU_S12_SERVICE": {name: "SIU_S12_SERVICE", maxReps: -1, required: false, segmentType: typeof SIU_S12_SERVICE},
-                "SIU_S12_GENERAL_RESOURCE": {name: "SIU_S12_GENERAL_RESOURCE", maxReps: -1, required: false, segmentType: typeof SIU_S12_GENERAL_RESOURCE},
-                "SIU_S12_LOCATION_RESOURCE": {name: "SIU_S12_LOCATION_RESOURCE", maxReps: -1, required: false, segmentType: typeof SIU_S12_LOCATION_RESOURCE},
-                "SIU_S12_PERSONNEL_RESOURCE": {name: "SIU_S12_PERSONNEL_RESOURCE", maxReps: -1, required: false, segmentType: typeof SIU_S12_PERSONNEL_RESOURCE}
-            }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "RGS": {
+                                "name": "RGS",
+                                "maxReps": 1,
+                                "required": true
+                        }
+                }
+        },
+        "SIU_S12_RESOURCES.SIU_S12_SERVICE": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "AIS": {
+                                "name": "AIS",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "SIU_S12_RESOURCES.SIU_S12_GENERAL_RESOURCE": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "AIG": {
+                                "name": "AIG",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "SIU_S12_RESOURCES.SIU_S12_LOCATION_RESOURCE": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "AIL": {
+                                "name": "AIL",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "SIU_S12_RESOURCES.SIU_S12_PERSONNEL_RESOURCE": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "AIP": {
+                                "name": "AIP",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type SIU_S12 record {
     *hl7v2:Message;
@@ -62,6 +283,6 @@ public type SIU_S12 record {
     MSH msh;
     SCH sch;
     NTE[] nte = [];
-    SIU_S12_PATIENT[] patient = [{pid:{}}];
-    SIU_S12_RESOURCES[] resources = [{rgs:{}}];
+    SIU_S12_PATIENT[] patient = [{pid: {}}];
+    SIU_S12_RESOURCES[] resources = [{rgs: {}}];
 };

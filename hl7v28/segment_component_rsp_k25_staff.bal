@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -23,14 +23,15 @@ public type RSP_K25_STAFF record {
     *hl7v2:SegmentComponent;
     string name = RSP_K25_STAFF_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    AFF[] aff = [{}];
-    CER[] cer = [{}];
     STF stf;
-    ORG[] org = [{}];
-    NK1[] nk1 = [{}];
-    EDU[] edu = [{}];
-    LAN[] lan = [{}];
     PRA[] pra = [{}];
+    ORG[] org = [{}];
+    AFF[] aff = [{}];
+    LAN[] lan = [{}];
+    EDU[] edu = [{}];
+    CER[] cer = [{}];
+    NK1[] nk1 = [{}];
+    PRT[] prt = [{}];
     ROL[] rol = [{}];
 };
 
