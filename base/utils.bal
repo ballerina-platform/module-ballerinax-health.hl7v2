@@ -302,9 +302,11 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
     }
 
     # Traverse through the segment groups and return the immediate parent segment group.
-    # + messageFields - Message fieldsof the parsed HL7 message
-    # + parentSegmentGroups - Parent segment group names
-    # + msgType - HL7 Message type
+    #
+    # + messageFields - Message fieldsof the parsed HL7 message  
+    # + parentSegmentGroups - Parent segment group names  
+    # + msgType - HL7 Message type  
+    # + hl7Version - HL7 version
     # + return - Immediate parent segment group
     isolated function processChildSegmentGroups(map<anydata> messageFields, string[] parentSegmentGroups, string msgType, string hl7Version) returns anydata {
         map<anydata> current = messageFields;
@@ -393,8 +395,9 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
 
     # Parse data type content and populate the data type model.
     #
-    # + typ - Data type model 
-    # + typeContent - Data type content string
+    # + typ - Data type model  
+    # + typeContent - Data type content string  
+    # + encodingCharacters - HL7 encoding characters
     isolated function parseType(anydata|PrimitiveType typ, string typeContent, EncodingCharacters encodingCharacters) {
 
         string[] components = re `${encodingCharacters.getComponentSeparatorWithEscapeChars()}`.split(typeContent);
