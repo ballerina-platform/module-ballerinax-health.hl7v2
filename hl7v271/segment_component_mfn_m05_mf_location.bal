@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -23,11 +23,11 @@ public type MFN_M05_MF_LOCATION record {
     *hl7v2:SegmentComponent;
     string name = MFN_M05_MF_LOCATION_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    LCH[] lch = [{}];
-    LOC loc;
-    LRL[] lrl = [{}];
-    MFN_M05_MF_LOC_DEPT[] mfn_m05_mf_loc_dept = [{ldp:{}}];
     MFE mfe;
+    LOC loc;
+    LCH[] lch = [{}];
+    LRL[] lrl = [{}];
+    MFN_M05_MF_LOC_DEPT[] mfn_m05_mf_loc_dept = [{ldp: {}}];
 };
 
 public const MFN_M05_MF_LOCATION_SEGMENT_COMPONENT = "MFN_M05_MF_LOCATION";

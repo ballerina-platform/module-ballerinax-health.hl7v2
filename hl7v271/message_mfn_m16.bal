@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,39 +13,222 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const MFN_M16_MESSAGE_TYPE = "MFN_M16";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + uac - UAC Segment
-# + mfi - MFI Segment
+# + msh - MSH
+# + sft - SFT
+# + uac - UAC
+# + mfi - MFI
 # + material_item_record - MFN_M16_MATERIAL_ITEM_RECORD Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "UAC": {name: "UAC", maxReps: 1, required: false, segmentType: UAC},
-        "MFI": {name: "MFI", maxReps: 1, required: true, segmentType: MFI}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "UAC": [
+                {
+                        "name": "UAC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "MFI": [
+                {
+                        "name": "MFI",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "MFE": [
+                {
+                        "name": "MFE",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD"
+                }
+        ],
+        "ITM": [
+                {
+                        "name": "ITM",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD"
+                }
+        ],
+        "NTE": [
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_STERILIZATION"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_MATERIAL_LOCATION"
+                }
+        ],
+        "STZ": [
+                {
+                        "name": "STZ",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_STERILIZATION"
+                }
+        ],
+        "VND": [
+                {
+                        "name": "VND",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_PURCHASING_VENDOR"
+                }
+        ],
+        "PKG": [
+                {
+                        "name": "PKG",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_PURCHASING_VENDOR.MFN_M16_PACKAGING"
+                }
+        ],
+        "PCE": [
+                {
+                        "name": "PCE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_PURCHASING_VENDOR.MFN_M16_PACKAGING"
+                }
+        ],
+        "IVT": [
+                {
+                        "name": "IVT",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_MATERIAL_LOCATION"
+                }
+        ],
+        "ILT": [
+                {
+                        "name": "ILT",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_MATERIAL_LOCATION"
+                }
+        ]
+},
+    groups: {
         "MFN_M16_MATERIAL_ITEM_RECORD": {
-            maxReps: -1,
-            required: true,
-            segments: {
-                "MFE": {name: "MFE", maxReps: 1, required: true, segmentType: typeof MFE},
-                "ITM": {name: "ITM", maxReps: 1, required: true, segmentType: typeof ITM},
-                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
-                "MFN_M16_STERILIZATION": {name: "MFN_M16_STERILIZATION", maxReps: -1, required: false, segmentType: typeof MFN_M16_STERILIZATION},
-                "MFN_M16_PURCHASING_VENDOR": {name: "MFN_M16_PURCHASING_VENDOR", maxReps: -1, required: false, segmentType: typeof MFN_M16_PURCHASING_VENDOR},
-                "MFN_M16_MATERIAL_LOCATION": {name: "MFN_M16_MATERIAL_LOCATION", maxReps: -1, required: false, segmentType: typeof MFN_M16_MATERIAL_LOCATION}
-            }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "MFE": {
+                                "name": "MFE",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "ITM": {
+                                "name": "ITM",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_STERILIZATION": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "STZ": {
+                                "name": "STZ",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_PURCHASING_VENDOR": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "VND": {
+                                "name": "VND",
+                                "maxReps": 1,
+                                "required": true
+                        }
+                }
+        },
+        "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_PURCHASING_VENDOR.MFN_M16_PACKAGING": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "PKG": {
+                                "name": "PKG",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "PCE": {
+                                "name": "PCE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "MFN_M16_MATERIAL_ITEM_RECORD.MFN_M16_MATERIAL_LOCATION": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "IVT": {
+                                "name": "IVT",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "ILT": {
+                                "name": "ILT",
+                                "maxReps": -1,
+                                "required": false
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type MFN_M16 record {
     *hl7v2:Message;
@@ -53,5 +237,5 @@ public type MFN_M16 record {
     SFT[] sft = [];
     UAC uac?;
     MFI mfi;
-    MFN_M16_MATERIAL_ITEM_RECORD[] material_item_record = [{mfe:{}, itm:{}}];
+    MFN_M16_MATERIAL_ITEM_RECORD[] material_item_record = [{mfe: {}, itm: {}}];
 };

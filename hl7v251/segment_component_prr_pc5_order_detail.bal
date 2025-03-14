@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -17,16 +17,16 @@ import ballerinax/health.hl7v2;
 
 @hl7v2:SegmentComponentDefinition {
     required: false,
-    maxReps: 0
+    maxReps: 1
 }
 public type PRR_PC5_ORDER_DETAIL record {
     *hl7v2:SegmentComponent;
     string name = PRR_PC5_ORDER_DETAIL_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    'VAR[] 'var = [{}];
-    PRR_PC5_ORDER_OBSERVATION[] prr_pc5_order_observation = [{obx:{}}];
-    PRR_PC5_OBRanyHL7Segment_SUPPGRP prr_pc5_obranyhl7segment_suppgrp;
+    boolean isRequired = false;
     NTE[] nte = [{}];
+    VAR[] 'var = [{}];
+    PRR_PC5_ORDER_DETAIL_SEGMENT prr_pc5_order_detail_segment;
+    PRR_PC5_ORDER_OBSERVATION[] prr_pc5_order_observation = [{obx: {}}];
 };
 
 public const PRR_PC5_ORDER_DETAIL_SEGMENT_COMPONENT = "PRR_PC5_ORDER_DETAIL";

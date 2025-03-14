@@ -1128,7 +1128,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             return messageInstance;
         }
         "SDR_S31" => {
-            SDR_S31 messageInstance = {msh:{}};
+            SDR_S31 messageInstance = {msh:{},sdd: {}};
             return messageInstance;
         }
         "EHC_E04" => {
@@ -1324,7 +1324,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             return messageInstance;
         }
         "RPR_I03" => {
-            RPR_I03 messageInstance = {msh:{}, msa:{}};
+            RPR_I03 messageInstance = {msh:{}, msa:{},pid: {}};
             return messageInstance;
         }
         "BAR_P12" => {
@@ -1556,7 +1556,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "CCU_I20_CLINICAL_HISTORY_DETAIL" => {
-            CCU_I20_CLINICAL_HISTORY_DETAIL messageInstance = {ccu_i20_clinical_history_object:{}};
+            CCU_I20_CLINICAL_HISTORY_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "OMG_O19_SPECIMEN_OBSERVATION" => {
@@ -1696,7 +1696,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "CCR_I16_CLINICAL_HISTORY_DETAIL" => {
-            CCR_I16_CLINICAL_HISTORY_DETAIL messageInstance = {ccr_i16_clinical_history_object:{}};
+            CCR_I16_CLINICAL_HISTORY_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "RSP_Z90_PATIENT" => {
@@ -1796,7 +1796,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "CCM_I21_ROLE_CLINICAL_HISTORY" => {
-            CCM_I21_ROLE_CLINICAL_HISTORY messageInstance = {ccm_i21_role_clinical_history_object:{}};
+            CCM_I21_ROLE_CLINICAL_HISTORY messageInstance = {rol: {}};
             return messageInstance;
         }
         "RRG_O16_TIMING" => {
@@ -1804,7 +1804,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PGL_PC6_ORDER_DETAIL" => {
-            PGL_PC6_ORDER_DETAIL messageInstance = {pgl_pc6_choice:{}};
+            PGL_PC6_ORDER_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "ORG_O20_PATIENT" => {
@@ -1932,7 +1932,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "PPP_PCB_ORDER_DETAIL" => {
-            PPP_PCB_ORDER_DETAIL messageInstance = {ppp_pcb_choice:{}};
+            PPP_PCB_ORDER_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "EHC_E10_PRODUCT_SERVICE_GROUP" => {
@@ -2016,7 +2016,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "CCU_I20_ROLE_GOAL" => {
-            CCU_I20_ROLE_GOAL messageInstance = {ccu_i20_role_goal_object:{}};
+            CCU_I20_ROLE_GOAL messageInstance = {rol: {}};
             return messageInstance;
         }
         "CCM_I21_MEDICATION_HISTORY" => {
@@ -2064,7 +2064,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "CCM_I21_ROLE_PATHWAY" => {
-            CCM_I21_ROLE_PATHWAY messageInstance = {ccm_i21_role_pathway_object:{}};
+            CCM_I21_ROLE_PATHWAY messageInstance = {rol: {}};
             return messageInstance;
         }
         "RSP_E22_PSL_ITEM_INFO" => {
@@ -2080,7 +2080,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "EHC_E04_REASSESSMENT_REQUEST_INFO" => {
-            EHC_E04_REASSESSMENT_REQUEST_INFO messageInstance = {};
+            EHC_E04_REASSESSMENT_REQUEST_INFO messageInstance = {ivc: {}};
             return messageInstance;
         }
         "OPL_O37_OBSERVATIONS_ON_PATIENT" => {
@@ -2124,7 +2124,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "CCU_I20_RESOURCE_DETAIL" => {
-            CCU_I20_RESOURCE_DETAIL messageInstance = {ccu_i20_resource_object:{}};
+            CCU_I20_RESOURCE_DETAIL messageInstance = {ais: {}};
             return messageInstance;
         }
         "RGV_O15_PATIENT" => {
@@ -2156,7 +2156,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "CCM_I21_ROLE_GOAL" => {
-            CCM_I21_ROLE_GOAL messageInstance = {ccm_i21_role_goal_object:{}};
+            CCM_I21_ROLE_GOAL messageInstance = {rol: {}};
             return messageInstance;
         }
         "CQU_I19_PATHWAY" => {
@@ -2204,7 +2204,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "EHC_E15_PAYMENT_REMITTANCE_HEADER_INFO" => {
-            EHC_E15_PAYMENT_REMITTANCE_HEADER_INFO messageInstance = {};
+            EHC_E15_PAYMENT_REMITTANCE_HEADER_INFO messageInstance = {pmt: {}, pye: {}};
             return messageInstance;
         }
         "RSP_K23_QUERY_RESPONSE" => {
@@ -2216,7 +2216,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "QBP_E03_QUERY_INFORMATION" => {
-            QBP_E03_QUERY_INFORMATION messageInstance = {};
+            QBP_E03_QUERY_INFORMATION messageInstance = {qpd: {}, rcp: {}};
             return messageInstance;
         }
         "DFT_P11_OBSERVATION" => {
@@ -2332,7 +2332,7 @@ isolated function getSegmentComponent(string segmentComponentName) returns hl7v2
             return messageInstance;
         }
         "CCM_I21_RESOURCE_DETAIL" => {
-            CCM_I21_RESOURCE_DETAIL messageInstance = {ccm_i21_resource_object:{}};
+            CCM_I21_RESOURCE_DETAIL messageInstance = {ais: {}};
             return messageInstance;
         }
         "CQU_I19_PATIENT_VISITS" => {
@@ -2556,7 +2556,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCU_I20_ROLE_PATHWAY" => {
-            CCU_I20_ROLE_PATHWAY messageInstance = {ccu_i20_role_pathway_object:{}};
+            CCU_I20_ROLE_PATHWAY messageInstance = {rol: {}};
             return messageInstance;
         }
         "ADT_A05_PROCEDURE" => {
@@ -2604,7 +2604,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCR_I16_ROLE_PROBLEM" => {
-            CCR_I16_ROLE_PROBLEM messageInstance = {ccr_i16_role_problem_object:{}};
+            CCR_I16_ROLE_PROBLEM messageInstance = {rol: {}};
             return messageInstance;
         }
         "CCR_I16_ROLE_CLINICAL_HISTORY_OBJECT" => {
@@ -2752,7 +2752,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCM_I21_CLINICAL_HISTORY_DETAIL" => {
-            CCM_I21_CLINICAL_HISTORY_DETAIL messageInstance = {ccm_i21_clinical_history_object:{}};
+            CCM_I21_CLINICAL_HISTORY_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "PRR_PC5_GOAL_ROLE" => {
@@ -3020,7 +3020,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCR_I16_RESOURCE_DETAIL" => {
-            CCR_I16_RESOURCE_DETAIL messageInstance = {ccr_i16_resource_object:{}};
+            CCR_I16_RESOURCE_DETAIL messageInstance = {ais: {}};
             return messageInstance;
         }
         "MFN_Znn_MF_SITE_DEFINED" => {
@@ -3028,7 +3028,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPG_PCG_ORDER_DETAIL" => {
-            PPG_PCG_ORDER_DETAIL messageInstance = {ppg_pcg_choice:{}};
+            PPG_PCG_ORDER_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "QVR_Q17_QBP" => {
@@ -3052,7 +3052,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCR_I16_CLINICAL_ORDER_DETAIL" => {
-            CCR_I16_CLINICAL_ORDER_DETAIL messageInstance = {ccr_i16_clinical_order_object:{}};
+            CCR_I16_CLINICAL_ORDER_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "BAR_P06_PATIENT" => {
@@ -3064,7 +3064,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCU_I20_ROLE_PROBLEM" => {
-            CCU_I20_ROLE_PROBLEM messageInstance = {ccu_i20_role_problem_object:{}};
+            CCU_I20_ROLE_PROBLEM messageInstance = {rol: {}};
             return messageInstance;
         }
         "CSU_C09_PATIENT" => {
@@ -3208,7 +3208,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "QBP_E22_QUERY" => {
-            QBP_E22_QUERY messageInstance = {};
+            QBP_E22_QUERY messageInstance = {qpd: {}, rcp: {}};
             return messageInstance;
         }
         "DFT_P11_FINANCIAL_TIMING_QUANTITY" => {
@@ -3276,7 +3276,7 @@ isolated function getSegmentComponentPart2(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E01_INVOICE_INFORMATION" => {
-            EHC_E01_INVOICE_INFORMATION messageInstance = {};
+            EHC_E01_INVOICE_INFORMATION messageInstance = {ivc: {}};
             return messageInstance;
         }
         "VXU_V04_PATIENT" => {
@@ -3372,7 +3372,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCR_I16_ROLE_GOAL" => {
-            CCR_I16_ROLE_GOAL messageInstance = {ccr_i16_role_goal_object:{}};
+            CCR_I16_ROLE_GOAL messageInstance = {rol: {}};
             return messageInstance;
         }
         "RPI_I04_GUARANTOR_INSURANCE" => {
@@ -3392,7 +3392,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCM_I21_ROLE_PROBLEM" => {
-            CCM_I21_ROLE_PROBLEM messageInstance = {ccm_i21_role_problem_object:{}};
+            CCM_I21_ROLE_PROBLEM messageInstance = {rol: {}};
             return messageInstance;
         }
         "BRP_O30_ORDER" => {
@@ -3484,7 +3484,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCU_I20_ROLE_CLINICAL_HISTORY" => {
-            CCU_I20_ROLE_CLINICAL_HISTORY messageInstance = {ccu_i20_role_clinical_history_object:{}};
+            CCU_I20_ROLE_CLINICAL_HISTORY messageInstance = {rol: {}};
             return messageInstance;
         }
         "MFN_M06_MF_CLIN_STUDY" => {
@@ -3496,7 +3496,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E24_AUTHORIZATION_RESPONSE_INFO" => {
-            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {};
+            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {ivc: {}};
             return messageInstance;
         }
         "RSP_Z86_PATIENT" => {
@@ -3636,7 +3636,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCR_I16_ROLE_CLINICAL_HISTORY" => {
-            CCR_I16_ROLE_CLINICAL_HISTORY messageInstance = {ccr_i16_role_clinical_history_object:{}};
+            CCR_I16_ROLE_CLINICAL_HISTORY messageInstance = {rol: {}};
             return messageInstance;
         }
         "EHC_E21_PSL_ITEM_INFO" => {
@@ -3688,7 +3688,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PTR_PCF_ORDER_DETAIL" => {
-            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_choice:{}};
+            PTR_PCF_ORDER_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "OMG_O19_PATIENT_VISIT_PRIOR" => {
@@ -3720,7 +3720,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_E03_QUERY_ACK" => {
-            RSP_E03_QUERY_ACK messageInstance = {};
+            RSP_E03_QUERY_ACK messageInstance = {qpd: {}, qak: {}};
             return messageInstance;
         }
         "OPU_R25_SPECIMEN" => {
@@ -3768,7 +3768,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E21_AUTHORIZATION_REQUEST" => {
-            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {};
+            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {ivc: {}};
             return messageInstance;
         }
         "RDE_O11_ORDER" => {
@@ -3776,7 +3776,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E20_AUTHORIZATION_REQUEST" => {
-            EHC_E20_AUTHORIZATION_REQUEST messageInstance = {};
+            EHC_E20_AUTHORIZATION_REQUEST messageInstance = {ivc: {}};
             return messageInstance;
         }
         "DFT_P11_VISIT" => {
@@ -3860,7 +3860,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PRR_PC5_ORDER_DETAIL" => {
-            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_choice:{}};
+            PRR_PC5_ORDER_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "PGL_PC6_GOAL_ROLE" => {
@@ -3944,7 +3944,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCR_I16_ROLE_PATHWAY" => {
-            CCR_I16_ROLE_PATHWAY messageInstance = {ccr_i16_role_pathway_object:{}};
+            CCR_I16_ROLE_PATHWAY messageInstance = {rol: {}};
             return messageInstance;
         }
         "PPG_PCG_GOAL" => {
@@ -4040,7 +4040,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_E22_QUERY_ACK" => {
-            RSP_E22_QUERY_ACK messageInstance = {};
+            RSP_E22_QUERY_ACK messageInstance = {qpd: {}, qak: {}};
             return messageInstance;
         }
         "ORU_R01_PATIENT" => {
@@ -4080,7 +4080,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPR_PC1_ORDER_DETAIL" => {
-            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_choice:{}};
+            PPR_PC1_ORDER_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "ORP_O10_PATIENT" => {
@@ -4116,7 +4116,7 @@ isolated function getSegmentComponentPart3(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCI_I22_ROLE_GOAL" => {
-            CCI_I22_ROLE_GOAL messageInstance = {cci_i22_role_goal_object:{}};
+            CCI_I22_ROLE_GOAL messageInstance = {};
             return messageInstance;
         }
         "RDS_O13_PATIENT_VISIT" => {
@@ -4260,7 +4260,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCR_I16_ROLE_GOAL" => {
-            CCR_I16_ROLE_GOAL messageInstance = {ccr_i16_role_goal_object:{}};
+            CCR_I16_ROLE_GOAL messageInstance = {rol: {}};
             return messageInstance;
         }
         "RPI_I04_GUARANTOR_INSURANCE" => {
@@ -4280,7 +4280,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCM_I21_ROLE_PROBLEM" => {
-            CCM_I21_ROLE_PROBLEM messageInstance = {ccm_i21_role_problem_object:{}};
+            CCM_I21_ROLE_PROBLEM messageInstance = {rol: {}};
             return messageInstance;
         }
         "BRP_O30_ORDER" => {
@@ -4372,7 +4372,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCU_I20_ROLE_CLINICAL_HISTORY" => {
-            CCU_I20_ROLE_CLINICAL_HISTORY messageInstance = {ccu_i20_role_clinical_history_object:{}};
+            CCU_I20_ROLE_CLINICAL_HISTORY messageInstance = {rol: {}};
             return messageInstance;
         }
         "MFN_M06_MF_CLIN_STUDY" => {
@@ -4384,7 +4384,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E24_AUTHORIZATION_RESPONSE_INFO" => {
-            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {};
+            EHC_E24_AUTHORIZATION_RESPONSE_INFO messageInstance = {ivc: {}};
             return messageInstance;
         }
         "RSP_Z86_PATIENT" => {
@@ -4524,7 +4524,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCR_I16_ROLE_CLINICAL_HISTORY" => {
-            CCR_I16_ROLE_CLINICAL_HISTORY messageInstance = {ccr_i16_role_clinical_history_object:{}};
+            CCR_I16_ROLE_CLINICAL_HISTORY messageInstance = {rol: {}};
             return messageInstance;
         }
         "EHC_E21_PSL_ITEM_INFO" => {
@@ -4576,7 +4576,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PTR_PCF_ORDER_DETAIL" => {
-            PTR_PCF_ORDER_DETAIL messageInstance = {ptr_pcf_choice:{}};
+            PTR_PCF_ORDER_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "OMG_O19_PATIENT_VISIT_PRIOR" => {
@@ -4608,7 +4608,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_E03_QUERY_ACK" => {
-            RSP_E03_QUERY_ACK messageInstance = {};
+            RSP_E03_QUERY_ACK messageInstance = {qpd: {}, qak: {}};
             return messageInstance;
         }
         "OPU_R25_SPECIMEN" => {
@@ -4656,7 +4656,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E21_AUTHORIZATION_REQUEST" => {
-            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {};
+            EHC_E21_AUTHORIZATION_REQUEST messageInstance = {ivc: {}};
             return messageInstance;
         }
         "RDE_O11_ORDER" => {
@@ -4664,7 +4664,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "EHC_E20_AUTHORIZATION_REQUEST" => {
-            EHC_E20_AUTHORIZATION_REQUEST messageInstance = {};
+            EHC_E20_AUTHORIZATION_REQUEST messageInstance = {ivc: {}};
             return messageInstance;
         }
         "DFT_P11_VISIT" => {
@@ -4748,7 +4748,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PRR_PC5_ORDER_DETAIL" => {
-            PRR_PC5_ORDER_DETAIL messageInstance = {prr_pc5_choice:{}};
+            PRR_PC5_ORDER_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "PGL_PC6_GOAL_ROLE" => {
@@ -4832,7 +4832,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCR_I16_ROLE_PATHWAY" => {
-            CCR_I16_ROLE_PATHWAY messageInstance = {ccr_i16_role_pathway_object:{}};
+            CCR_I16_ROLE_PATHWAY messageInstance = {rol: {}};
             return messageInstance;
         }
         "PPG_PCG_GOAL" => {
@@ -4928,7 +4928,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "RSP_E22_QUERY_ACK" => {
-            RSP_E22_QUERY_ACK messageInstance = {};
+            RSP_E22_QUERY_ACK messageInstance = {qpd: {}, qak: {}};
             return messageInstance;
         }
         "ORU_R01_PATIENT" => {
@@ -4968,7 +4968,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "PPR_PC1_ORDER_DETAIL" => {
-            PPR_PC1_ORDER_DETAIL messageInstance = {ppr_pc1_choice:{}};
+            PPR_PC1_ORDER_DETAIL messageInstance = {obr: {}};
             return messageInstance;
         }
         "ORP_O10_PATIENT" => {
@@ -5004,7 +5004,7 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
             return messageInstance;
         }
         "CCI_I22_ROLE_GOAL" => {
-            CCI_I22_ROLE_GOAL messageInstance = {cci_i22_role_goal_object:{}};
+            CCI_I22_ROLE_GOAL messageInstance = {};
             return messageInstance;
         }
         "RDS_O13_PATIENT_VISIT" => {

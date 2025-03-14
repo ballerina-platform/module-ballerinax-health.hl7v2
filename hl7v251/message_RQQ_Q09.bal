@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,24 +13,51 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const RQQ_Q09_MESSAGE_TYPE = "RQQ_Q09";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + erq - ERQ Segment
-# + dsc - DSC Segment
+# + msh - MSH
+# + sft - SFT
+# + erq - ERQ
+# + dsc - DSC
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "ERQ": {name: "ERQ", maxReps: 1, required: true, segmentType: ERQ},
-        "DSC": {name: "DSC", maxReps: 1, required: false, segmentType: DSC}
-    }
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "ERQ": [
+                {
+                        "name": "ERQ",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "DSC": [
+                {
+                        "name": "DSC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ]
+},
+    groups: {}
 }
 public type RQQ_Q09 record {
     *hl7v2:Message;
@@ -38,4 +66,5 @@ public type RQQ_Q09 record {
     SFT[] sft = [];
     ERQ erq;
     DSC dsc?;
+
 };

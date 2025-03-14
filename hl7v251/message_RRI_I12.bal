@@ -1,4 +1,5 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -12,84 +13,306 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.    
 import ballerinax/health.hl7v2;
+
 public const RRI_I12_MESSAGE_TYPE = "RRI_I12";
 
-#  HL7 Message Default Description
+#  HL7 Message
 #
 # + name - Message name
-# + msh - MSH Segment
-# + sft - SFT Segment
-# + msa - MSA Segment
-# + rf1 - RF1 Segment
-# + pid - PID Segment
-# + acc - ACC Segment
-# + dg1 - DG1 Segment
-# + drg - DRG Segment
-# + al1 - AL1 Segment
-# + nte - NTE Segment
+# + msh - MSH
+# + sft - SFT
+# + msa - MSA
+# + rf1 - RF1
+# + pid - PID
+# + acc - ACC
+# + dg1 - DG1
+# + drg - DRG
+# + al1 - AL1
+# + nte - NTE
 # + authorization_contact - RRI_I12_AUTHORIZATION_CONTACT Segment Group
 # + provider_contact - RRI_I12_PROVIDER_CONTACT Segment Group
 # + procedure - RRI_I12_PROCEDURE Segment Group
 # + observation - RRI_I12_OBSERVATION Segment Group
 # + patient_visit - RRI_I12_PATIENT_VISIT Segment Group
+
 @hl7v2:MessageDefinition {
-    segments: {
-        "MSH": {name: "MSH", maxReps: 1, required: true, segmentType: MSH},
-        "SFT": {name: "SFT", maxReps: -1, required: false, segmentType: SFT},
-        "MSA": {name: "MSA", maxReps: 1, required: false, segmentType: MSA},
-        "RF1": {name: "RF1", maxReps: 1, required: false, segmentType: RF1},
-        "PID": {name: "PID", maxReps: 1, required: true, segmentType: PID},
-        "ACC": {name: "ACC", maxReps: 1, required: false, segmentType: ACC},
-        "DG1": {name: "DG1", maxReps: -1, required: false, segmentType: DG1},
-        "DRG": {name: "DRG", maxReps: -1, required: false, segmentType: DRG},
-        "AL1": {name: "AL1", maxReps: -1, required: false, segmentType: AL1},
-        "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: NTE}
-    }
-    ,groups: {
+    orderedSegments: {
+        "MSH": [
+                {
+                        "name": "MSH",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "SFT": [
+                {
+                        "name": "SFT",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "MSA": [
+                {
+                        "name": "MSA",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "RF1": [
+                {
+                        "name": "RF1",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "AUT": [
+                {
+                        "name": "AUT",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRI_I12_AUTHORIZATION_CONTACT"
+                },
+                {
+                        "name": "AUT",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRI_I12_PROCEDURE.RRI_I12_AUTHORIZATION_CONTACT"
+                }
+        ],
+        "CTD": [
+                {
+                        "name": "CTD",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "RRI_I12_AUTHORIZATION_CONTACT"
+                },
+                {
+                        "name": "CTD",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RRI_I12_PROVIDER_CONTACT"
+                },
+                {
+                        "name": "CTD",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "RRI_I12_PROCEDURE.RRI_I12_AUTHORIZATION_CONTACT"
+                }
+        ],
+        "PRD": [
+                {
+                        "name": "PRD",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRI_I12_PROVIDER_CONTACT"
+                }
+        ],
+        "PID": [
+                {
+                        "name": "PID",
+                        "maxReps": 1,
+                        "required": true
+                }
+        ],
+        "ACC": [
+                {
+                        "name": "ACC",
+                        "maxReps": 1,
+                        "required": false
+                }
+        ],
+        "DG1": [
+                {
+                        "name": "DG1",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "DRG": [
+                {
+                        "name": "DRG",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "AL1": [
+                {
+                        "name": "AL1",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "PR1": [
+                {
+                        "name": "PR1",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRI_I12_PROCEDURE"
+                }
+        ],
+        "OBR": [
+                {
+                        "name": "OBR",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRI_I12_OBSERVATION"
+                }
+        ],
+        "NTE": [
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RRI_I12_OBSERVATION"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false,
+                        "segmentComponentName": "RRI_I12_OBSERVATION.RRI_I12_RESULTS_NOTES"
+                },
+                {
+                        "name": "NTE",
+                        "maxReps": -1,
+                        "required": false
+                }
+        ],
+        "OBX": [
+                {
+                        "name": "OBX",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRI_I12_OBSERVATION.RRI_I12_RESULTS_NOTES"
+                }
+        ],
+        "PV1": [
+                {
+                        "name": "PV1",
+                        "maxReps": 1,
+                        "required": true,
+                        "segmentComponentName": "RRI_I12_PATIENT_VISIT"
+                }
+        ],
+        "PV2": [
+                {
+                        "name": "PV2",
+                        "maxReps": 1,
+                        "required": false,
+                        "segmentComponentName": "RRI_I12_PATIENT_VISIT"
+                }
+        ]
+},
+    groups: {
         "RRI_I12_AUTHORIZATION_CONTACT": {
-            maxReps: 1,
-            required: false,
-            segments: {
-                "AUT": {name: "AUT", maxReps: 1, required: true, segmentType: typeof AUT},
-                "CTD": {name: "CTD", maxReps: 1, required: false, segmentType: typeof CTD}
-            }
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "AUT": {
+                                "name": "AUT",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "CTD": {
+                                "name": "CTD",
+                                "maxReps": 1,
+                                "required": false
+                        }
+                }
         },
         "RRI_I12_PROVIDER_CONTACT": {
-            maxReps: -1,
-            required: true,
-            segments: {
-                "PRD": {name: "PRD", maxReps: 1, required: true, segmentType: typeof PRD},
-                "CTD": {name: "CTD", maxReps: -1, required: false, segmentType: typeof CTD}
-            }
+                "maxReps": -1,
+                "required": true,
+                "segments": {
+                        "PRD": {
+                                "name": "PRD",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "CTD": {
+                                "name": "CTD",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         },
         "RRI_I12_PROCEDURE": {
-            maxReps: -1,
-            required: false,
-            segments: {
-                "PR1": {name: "PR1", maxReps: 1, required: true, segmentType: typeof PR1},
-                "RRI_I12_AUTCTD_SUPPGRP2": {name: "RRI_I12_AUTCTD_SUPPGRP2", maxReps: 1, required: false, segmentType: typeof RRI_I12_AUTCTD_SUPPGRP2}
-            }
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "PR1": {
+                                "name": "PR1",
+                                "maxReps": 1,
+                                "required": true
+                        }
+                }
+        },
+        "RRI_I12_PROCEDURE.RRI_I12_AUTHORIZATION_CONTACT": {
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "AUT": {
+                                "name": "AUT",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "CTD": {
+                                "name": "CTD",
+                                "maxReps": 1,
+                                "required": false
+                        }
+                }
         },
         "RRI_I12_OBSERVATION": {
-            maxReps: -1,
-            required: false,
-            segments: {
-                "OBR": {name: "OBR", maxReps: 1, required: true, segmentType: typeof OBR},
-                "NTE": {name: "NTE", maxReps: -1, required: false, segmentType: typeof NTE},
-                "RRI_I12_RESULTS_NOTES": {name: "RRI_I12_RESULTS_NOTES", maxReps: -1, required: false, segmentType: typeof RRI_I12_RESULTS_NOTES}
-            }
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "OBR": {
+                                "name": "OBR",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
+        },
+        "RRI_I12_OBSERVATION.RRI_I12_RESULTS_NOTES": {
+                "maxReps": -1,
+                "required": false,
+                "segments": {
+                        "OBX": {
+                                "name": "OBX",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "NTE": {
+                                "name": "NTE",
+                                "maxReps": -1,
+                                "required": false
+                        }
+                }
         },
         "RRI_I12_PATIENT_VISIT": {
-            maxReps: 1,
-            required: false,
-            segments: {
-                "PV1": {name: "PV1", maxReps: 1, required: true, segmentType: typeof PV1},
-                "PV2": {name: "PV2", maxReps: 1, required: false, segmentType: typeof PV2}
-            }
+                "maxReps": 1,
+                "required": false,
+                "segments": {
+                        "PV1": {
+                                "name": "PV1",
+                                "maxReps": 1,
+                                "required": true
+                        },
+                        "PV2": {
+                                "name": "PV2",
+                                "maxReps": 1,
+                                "required": false
+                        }
+                }
         }
-    }
+}
 }
 public type RRI_I12 record {
     *hl7v2:Message;
@@ -104,9 +327,9 @@ public type RRI_I12 record {
     DRG[] drg = [];
     AL1[] al1 = [];
     NTE[] nte = [];
-    RRI_I12_AUTHORIZATION_CONTACT[] authorization_contact = [{aut:{}}];
-    RRI_I12_PROVIDER_CONTACT[] provider_contact = [{prd:{}}];
-    RRI_I12_PROCEDURE[] procedure = [{pr1:{}}];
-    RRI_I12_OBSERVATION[] observation = [{obr:{}}];
-    RRI_I12_PATIENT_VISIT[] patient_visit = [{pv1:{}}];
+    RRI_I12_AUTHORIZATION_CONTACT authorization_contact?;
+    RRI_I12_PROVIDER_CONTACT[] provider_contact = [{prd: {}}];
+    RRI_I12_PROCEDURE[] procedure = [{pr1: {}}];
+    RRI_I12_OBSERVATION[] observation = [{obr: {}}];
+    RRI_I12_PATIENT_VISIT patient_visit?;
 };

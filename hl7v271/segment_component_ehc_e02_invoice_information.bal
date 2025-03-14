@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -23,6 +23,11 @@ public type EHC_E02_INVOICE_INFORMATION record {
     *hl7v2:SegmentComponent;
     string name = EHC_E02_INVOICE_INFORMATION_SEGMENT_COMPONENT;
     boolean isRequired = true;
+    IVC ivc;
+    PYE pye;
+    CTD[] ctd = [{}];
+    NTE[] nte = [{}];
+    EHC_E02_PRODUCT_SERVICE_SECTION[] ehc_e02_product_service_section = [{pss: {}}];
 };
 
 public const EHC_E02_INVOICE_INFORMATION_SEGMENT_COMPONENT = "EHC_E02_INVOICE_INFORMATION";

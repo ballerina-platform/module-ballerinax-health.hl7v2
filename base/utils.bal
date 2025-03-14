@@ -51,11 +51,6 @@ public isolated function parse(string|byte[] message) returns Message|HL7Error {
         return error(HL7_V2_PARSER_ERROR, message = "Failed to extract version of the HL7 message.");
     }
 
-    // Parser|HL7Error? parser = check hl7Registry.getParser(hl7Version);
-    // if parser is HL7Error? {
-    //     return error(HL7_V2_PARSER_ERROR, message = "Unable to find parser for HL7 message with version:" + hl7Version);
-    // }
-    // return parser.parse(msgStr);
     Message?|HL7Error parserHl7MsgResult = parseHl7Msg(msgStr, <string>hl7Version);
     if parserHl7MsgResult is Message {
         return parserHl7MsgResult;
@@ -139,14 +134,10 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                             Hl7MessageDefinitionRecord? msgDef = (typeof messageResult).@MessageDefinition;
                             map<anydata> messageFields = messageResult;
                             if msgDef is Hl7MessageDefinitionRecord {
-                                // map<Hl7SegmentDefinitionRecord> segmentDefs = msgDef.segments;
                                 map<Hl7SegmentComponentDefinitionRecord>? groups = msgDef.groups;
                                 map<Hl7SegmentDefinitionRecord[]>? orderedSegments = msgDef.orderedSegments;
                                 if orderedSegments is map<Hl7SegmentDefinitionRecord[]> {
                                     if segmentPositions.hasKey(segmentName) {
-                                        // if segmentDefs.get(segmentName).maxReps !== 1 {
-                                        //     segmentPositions[segmentName] = segmentPositions.get(segmentName) + 1;
-                                        // }
                                         segmentPositions[segmentName] = segmentPositions.get(segmentName) + 1;
                                     } else {
                                         segmentPositions[segmentName] = 0;

@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -22,9 +22,9 @@ import ballerinax/health.hl7v2;
 public type CCU_I20_APPOINTMENT_HISTORY record {
     *hl7v2:SegmentComponent;
     string name = CCU_I20_APPOINTMENT_HISTORY_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    CCU_I20_RESOURCES[] ccu_i20_resources = [{rgs:{}}];
+    boolean isRequired = false;
     SCH sch;
+    CCU_I20_RESOURCES[] ccu_i20_resources = [{rgs: {}}];
 };
 
 public const CCU_I20_APPOINTMENT_HISTORY_SEGMENT_COMPONENT = "CCU_I20_APPOINTMENT_HISTORY";

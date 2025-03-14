@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -22,9 +22,9 @@ import ballerinax/health.hl7v2;
 public type REF_I12_PROCEDURE record {
     *hl7v2:SegmentComponent;
     string name = REF_I12_PROCEDURE_SEGMENT_COMPONENT;
-    boolean isRequired = true;
+    boolean isRequired = false;
     PR1 pr1;
-    REF_I12_AUTHORIZATION_CONTACT ref_i12_authorization_contact?;
+    REF_I12_AUTHORIZATION_CONTACT2 ref_i12_authorization_contact2?;
 };
 
 public const REF_I12_PROCEDURE_SEGMENT_COMPONENT = "REF_I12_PROCEDURE";

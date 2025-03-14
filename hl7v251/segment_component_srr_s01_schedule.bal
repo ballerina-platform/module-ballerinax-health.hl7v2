@@ -1,10 +1,10 @@
-// Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com).
+
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
 // in compliance with the License.
 // You may obtain a copy of the License at
-
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing,
@@ -17,17 +17,17 @@ import ballerinax/health.hl7v2;
 
 @hl7v2:SegmentComponentDefinition {
     required: false,
-    maxReps: 0
+    maxReps: 1
 }
 public type SRR_S01_SCHEDULE record {
     *hl7v2:SegmentComponent;
     string name = SRR_S01_SCHEDULE_SEGMENT_COMPONENT;
-    boolean isRequired = true;
-    SRR_S01_PATIENT[] srr_s01_patient = [{pid:{}}];
-    TQ1[] tq1 = [{}];
-    SRR_S01_RESOURCES[] srr_s01_resources = [{rgs:{}}];
+    boolean isRequired = false;
     SCH sch;
+    TQ1[] tq1 = [{}];
     NTE[] nte = [{}];
+    SRR_S01_PATIENT[] srr_s01_patient = [{pid: {}}];
+    SRR_S01_RESOURCES[] srr_s01_resources = [{rgs: {}}];
 };
 
 public const SRR_S01_SCHEDULE_SEGMENT_COMPONENT = "SRR_S01_SCHEDULE";
