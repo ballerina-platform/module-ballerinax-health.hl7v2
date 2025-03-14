@@ -1444,6 +1444,621 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
             return messageInstance;
         }
         _ => {
+            return getMessagePart2(messageName);
+        }
+    }
+}
+
+isolated function getMessagePart2(string messageName) returns hl7v2:Message? {
+    match messageName {
+        "CSU_C12" => {
+            CSU_C12 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "QBP_Z79" => {
+            QBP_Z79 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "ADT_A07" => {
+            ADT_A07 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "CRM_C08" => {
+            CRM_C08 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "RDE_O25" => {
+            RDE_O25 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "ADT_A46" => {
+            ADT_A46 messageInstance = {msh:{},mrg: {}, pid: {}, evn: {}};
+            return messageInstance;
+        }
+        "PPG_PCJ" => {
+            PPG_PCJ messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "ADT_A11" => {
+            ADT_A11 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "ADT_A31" => {
+            ADT_A31 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "ADT_A27" => {
+            ADT_A27 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "ORU_R32" => {
+            ORU_R32 messageInstance = {msh:{},orc: {}, pid: {}, obr: {}};
+            return messageInstance;
+        }
+        "QBP_Z75" => {
+            QBP_Z75 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "CRM_C04" => {
+            CRM_C04 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "SIU_S24" => {
+            SIU_S24 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "QSB_Z83" => {
+            QSB_Z83 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "RPA_I11" => {
+            RPA_I11 messageInstance = {msh:{},pid: {}, msa: {}};
+            return messageInstance;
+        }
+        "RPA_I10" => {
+            RPA_I10 messageInstance = {msh:{},pid: {}, msa: {}};
+            return messageInstance;
+        }
+        "PPP_PCC" => {
+            PPP_PCC messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "CRM_C05" => {
+            CRM_C05 messageInstance = {msh:{}};
+            return messageInstance;
+        }        "ADT_A26" => {
+            ADT_A26 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "PGL_PC8" => {
+            PGL_PC8 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "ADT_A10" => {
+            ADT_A10 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "QBP_Z81" => {
+            QBP_Z81 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "ADT_A47" => {
+            ADT_A47 messageInstance = {msh:{},mrg: {}, pid: {}, evn: {}};
+            return messageInstance;
+        }
+        "ADT_A51" => {
+            ADT_A51 messageInstance = {msh:{},mrg: {}, pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "QBP_Z97" => {
+            QBP_Z97 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "RRE_O26" => {
+            RRE_O26 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "LSR_U13" => {
+            LSR_U13 messageInstance = {msh:{},equ: {}};
+            return messageInstance;
+        }
+        "SIU_S13" => {
+            SIU_S13 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "SIU_S18" => {
+            SIU_S18 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "SRM_S10" => {
+            SRM_S10 messageInstance = {msh:{},arq: {}};
+            return messageInstance;
+        }
+        "SRR_S07" => {
+            SRR_S07 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "SRR_S11" => {
+            SRR_S11 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "SRM_S06" => {
+            SRM_S06 messageInstance = {msh:{},arq: {}};
+            return messageInstance;
+        }
+        "MDM_T10" => {
+            MDM_T10 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}, txa: {}};
+            return messageInstance;
+        }
+        "CRM_C02" => {
+            CRM_C02 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "SIU_S22" => {
+            SIU_S22 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "PPP_PCD" => {
+            PPP_PCD messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "MDM_T06" => {
+            MDM_T06 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}, txa: {}};
+            return messageInstance;
+        }
+        "RTB_Z78" => {
+            RTB_Z78 messageInstance = {msh:{},qpd: {}, msa: {}, qak: {}};
+            return messageInstance;
+        }
+        "SIU_S14" => {
+            SIU_S14 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "ORU_W01" => {
+            ORU_W01 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "RQI_I02" => {
+            RQI_I02 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "RQA_I11" => {
+            RQA_I11 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "ADT_A40" => {
+            ADT_A40 messageInstance = {msh:{},evn: {}};
+            return messageInstance;
+        }
+        "QBP_Z87" => {
+            QBP_Z87 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "ADT_A41" => {
+            ADT_A41 messageInstance = {msh:{},evn: {}};
+            return messageInstance;
+        }
+        "RQI_I03" => {
+            RQI_I03 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "RQA_I10" => {
+            RQA_I10 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "QBP_Z91" => {
+            QBP_Z91 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "RDY_Z80" => {
+            RDY_Z80 messageInstance = {msh:{},qpd: {}, msa: {}, qak: {}};
+            return messageInstance;
+        }
+        "SIU_S15" => {
+            SIU_S15 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "QSX_J02" => {
+            QSX_J02 messageInstance = {msh:{},qid: {}};
+            return messageInstance;
+        }
+        "RTB_Z96" => {
+            RTB_Z96 messageInstance = {msh:{},qpd: {}, msa: {}, qak: {}};
+            return messageInstance;
+        }
+        "MDM_T07" => {
+            MDM_T07 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}, txa: {}};
+            return messageInstance;
+        }
+        "CRM_C03" => {
+            CRM_C03 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "SIU_S23" => {
+            SIU_S23 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "PEX_P08" => {
+            PEX_P08 messageInstance = {msh:{},pid: {}, evn: {}};
+            return messageInstance;
+        }
+        "MDM_T11" => {
+            MDM_T11 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}, txa: {}};
+            return messageInstance;
+        }
+        "SRR_S10" => {
+            SRR_S10 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "SRM_S07" => {
+            SRM_S07 messageInstance = {msh:{},arq: {}};
+            return messageInstance;
+        }
+        "QBP_Q31" => {
+            QBP_Q31 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "PMU_B06" => {
+            PMU_B06 messageInstance = {msh:{},stf: {}, evn: {}};
+            return messageInstance;
+        }
+        "ADT_A36" => {
+            ADT_A36 messageInstance = {msh:{},mrg: {}, pid: {}, evn: {}};
+            return messageInstance;
+        }
+        "SRM_S11" => {
+            SRM_S11 messageInstance = {msh:{},arq: {}};
+            return messageInstance;
+        }
+        "SRR_S06" => {
+            SRR_S06 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "SIU_S19" => {
+            SIU_S19 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "MDM_T04" => {
+            MDM_T04 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "RQA_I09" => {
+            RQA_I09 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "SIU_S20" => {
+            SIU_S20 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "PMU_B05" => {
+            PMU_B05 messageInstance = {msh:{},stf: {}, evn: {}};
+            return messageInstance;
+        }
+        "SRM_S04" => {
+            SRM_S04 messageInstance = {msh:{},arq: {}};
+            return messageInstance;
+        }
+        "ADT_A23" => {
+            ADT_A23 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "ADT_A35" => {
+            ADT_A35 messageInstance = {msh:{},mrg: {}, pid: {}, evn: {}};
+            return messageInstance;
+        }
+        "SRR_S05" => {
+            SRR_S05 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "QBP_Q24" => {
+            QBP_Q24 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "RTB_Z76" => {
+            RTB_Z76 messageInstance = {msh:{},qpd: {}, msa: {}, qak: {}};
+            return messageInstance;
+        }
+        "ADT_A62" => {
+            ADT_A62 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "MDM_T08" => {
+            MDM_T08 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}, txa: {}};
+            return messageInstance;
+        }
+        "RRI_I14" => {
+            RRI_I14 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "ADT_A42" => {
+            ADT_A42 messageInstance = {msh:{},evn: {}};
+            return messageInstance;
+        }
+        "SRM_S08" => {
+            SRM_S08 messageInstance = {msh:{},arq: {}};
+            return messageInstance;
+        }
+        "SRR_S09" => {
+            SRR_S09 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "SIU_S16" => {
+            SIU_S16 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "RTB_Z94" => {
+            RTB_Z94 messageInstance = {msh:{},qpd: {}, msa: {}, qak: {}};
+            return messageInstance;
+        }
+        "SIU_S17" => {
+            SIU_S17 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "RSP_K22" => {
+            RSP_K22 messageInstance = {msh:{},qpd: {}, msa: {}, qak: {}};
+            return messageInstance;
+        }
+        "SRR_S08" => {
+            SRR_S08 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "SRM_S09" => {
+            SRM_S09 messageInstance = {msh:{},arq: {}};
+            return messageInstance;
+        }
+        "QBP_Z93" => {
+            QBP_Z93 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "ADT_A55" => {
+            ADT_A55 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "MFK_M02" => {
+            MFK_M02 messageInstance = {msh:{},mfi: {}, msa: {}};
+            return messageInstance;
+        }
+        "MDM_T09" => {
+            MDM_T09 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}, txa: {}};
+            return messageInstance;
+        }
+        "RRI_I15" => {
+            RRI_I15 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "QBP_Z85" => {
+            QBP_Z85 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "ADT_A14" => {
+            ADT_A14 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "ADT_A34" => {
+            ADT_A34 messageInstance = {msh:{},mrg: {}, pid: {}, evn: {}};
+            return messageInstance;
+        }
+        "SRR_S04" => {
+            SRR_S04 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "QBP_Q25" => {
+            QBP_Q25 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "SRM_S05" => {
+            SRM_S05 messageInstance = {msh:{},arq: {}};
+            return messageInstance;
+        }
+        "ADT_A22" => {
+            ADT_A22 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "RDY_Z98" => {
+            RDY_Z98 messageInstance = {msh:{},qpd: {}, msa: {}, qak: {}};
+            return messageInstance;
+        }
+        "REF_I13" => {
+            REF_I13 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "SIU_S21" => {
+            SIU_S21 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "MDM_T05" => {
+            MDM_T05 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}, txa: {}};
+            return messageInstance;
+        }
+        "QBP_Z89" => {
+            QBP_Z89 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "ADT_A13" => {
+            ADT_A13 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "PPG_PCH" => {
+            PPG_PCH messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "ADT_A44" => {
+            ADT_A44 messageInstance = {msh:{},evn: {}};
+            return messageInstance;
+        }
+        "RPA_I09" => {
+            RPA_I09 messageInstance = {msh:{},pid: {}, msa: {}};
+            return messageInstance;
+        }
+        "PGL_PC7" => {
+            PGL_PC7 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "ADT_A29" => {
+            ADT_A29 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "PIN_I07" => {
+            PIN_I07 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "TCR_U11" => {
+            TCR_U11 messageInstance = {msh:{},equ: {}};
+            return messageInstance;
+        }
+        "CSU_C10" => {
+            CSU_C10 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "PPR_PC2" => {
+            PPR_PC2 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "RQC_I06" => {
+            RQC_I06 messageInstance = {msh:{},qrd: {}, pid: {}};
+            return messageInstance;
+        }
+        "ADT_A48" => {
+            ADT_A48 messageInstance = {msh:{},mrg: {}, pid: {}, evn: {}};
+            return messageInstance;
+        }
+        "RSP_Z84" => {
+            RSP_Z84 messageInstance = {msh:{},qpd: {}, msa: {}, qak: {}};
+            return messageInstance;
+        }
+        "SIU_S26" => {
+            SIU_S26 messageInstance = {msh:{},sch: {}};
+            return messageInstance;
+        }
+        "CRM_C06" => {
+            CRM_C06 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "REF_I14" => {
+            REF_I14 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "QBP_Z77" => {
+            QBP_Z77 messageInstance = {msh:{},qpd: {}, pid: {}, rcp: {}};
+            return messageInstance;
+        }
+        "ADT_A25" => {
+            ADT_A25 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "SRM_S02" => {
+            SRM_S02 messageInstance = {msh:{},arq: {}};
+            return messageInstance;
+        }
+        "QBP_Q22" => {
+            QBP_Q22 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "ADT_A33" => {
+            ADT_A33 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "SRR_S03" => {
+            SRR_S03 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "QBP_Q23" => {
+            QBP_Q23 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "ADT_A32" => {
+            ADT_A32 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "SRR_S02" => {
+            SRR_S02 messageInstance = {msh:{},msa: {}};
+            return messageInstance;
+        }
+        "ARD_A19" => {
+            ARD_A19 messageInstance = {msh:{},qrd: {}, msa: {}};
+            return messageInstance;
+        }
+        "ORU_R31" => {
+            ORU_R31 messageInstance = {msh:{},orc: {}, pid: {}, obr: {}};
+            return messageInstance;
+        }
+        "PMU_B02" => {
+            PMU_B02 messageInstance = {msh:{},stf: {}, evn: {}};
+            return messageInstance;
+        }
+        "SRM_S03" => {
+            SRM_S03 messageInstance = {msh:{},arq: {}};
+            return messageInstance;
+        }
+        "ORF_W02" => {
+            ORF_W02 messageInstance = {msh:{},qrd: {}, msa: {}};
+            return messageInstance;
+        }
+        "ADT_A08" => {
+            ADT_A08 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "REF_I15" => {
+            REF_I15 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "QBP_Z99" => {
+            QBP_Z99 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "CRM_C07" => {
+            CRM_C07 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "ADT_A49" => {
+            ADT_A49 messageInstance = {msh:{},mrg: {}, pid: {}, evn: {}};
+            return messageInstance;
+        }
+        "MDM_T03" => {
+            MDM_T03 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}, txa: {}};
+            return messageInstance;
+        }
+        "PPR_PC3" => {
+            PPR_PC3 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        "RTB_Z92" => {
+            RTB_Z92 messageInstance = {msh:{},qpd: {}, msa: {}, qak: {}};
+            return messageInstance;
+        }
+        "CSU_C11" => {
+            CSU_C11 messageInstance = {msh:{}};
+            return messageInstance;
+        }
+        "RSP_K24" => {
+            RSP_K24 messageInstance = {msh:{},qpd: {}, msa: {}, qak: {}};
+            return messageInstance;
+        }
+        "ADT_A28" => {
+            ADT_A28 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "QBP_Z95" => {
+            QBP_Z95 messageInstance = {msh:{},qpd: {}, rcp: {}};
+            return messageInstance;
+        }
+        "ADT_A04" => {
+            ADT_A04 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "ADT_A53" => {
+            ADT_A53 messageInstance = {msh:{},pid: {}, pv1: {}, evn: {}};
+            return messageInstance;
+        }
+        "MFK_M04" => {
+            MFK_M04 messageInstance = {msh:{},mfi: {}, msa: {}};
+            return messageInstance;
+        }
+        "RRI_I13" => {
+            RRI_I13 messageInstance = {msh:{},pid: {}};
+            return messageInstance;
+        }
+        _ => {
             return ();
         }
     }
@@ -4214,6 +4829,854 @@ isolated function getSegmentComponentPart4(string segmentComponentName) returns 
         "OMD_O03_INSURANCE" => {
             OMD_O03_INSURANCE messageInstance = {in1:{}};
             return messageInstance;
+        }
+        _ => {
+            return getSegmentComponentPart5(segmentComponentName);
+        }
+    }
+}
+
+isolated function getSegmentComponentPart5(string segmentComponentName) returns hl7v2:SegmentComponent? {
+    match segmentComponentName {
+        "CSU_C12_PATIENT" => {
+            CSU_C12_PATIENT segmentInstance = {pid: {}, csr: {}};
+            return segmentInstance;
+        }
+        "ADT_A07_PROCEDURE" => {
+            ADT_A07_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "ADT_A07_INSURANCE" => {
+            ADT_A07_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "CRM_C08_PATIENT" => {
+            CRM_C08_PATIENT segmentInstance = {pid: {}, csr: {}};
+            return segmentInstance;
+        }
+        "RDE_O25_PATIENT" => {
+            RDE_O25_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "RDE_O25_ORDER" => {
+            RDE_O25_ORDER segmentInstance = {orc: {}, rxe: {}};
+            return segmentInstance;
+        }
+        "PPG_PCJ_PATIENT_VISIT" => {
+            PPG_PCJ_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PPG_PCJ_PATHWAY" => {
+            PPG_PCJ_PATHWAY segmentInstance = {pth: {}};
+            return segmentInstance;
+        }
+        "ADT_A31_PROCEDURE" => {
+            ADT_A31_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "ADT_A31_INSURANCE" => {
+            ADT_A31_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "ORU_R32_VISIT" => {
+            ORU_R32_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "ORU_R32_OBSERVATION" => {
+            ORU_R32_OBSERVATION segmentInstance = {obx: {}};
+            return segmentInstance;
+        }
+        "ORU_R32_TIMING_QTY" => {
+            ORU_R32_TIMING_QTY segmentInstance = {tq1: {}};
+            return segmentInstance;
+        }
+        "CRM_C04_PATIENT" => {
+            CRM_C04_PATIENT segmentInstance = {pid: {}, csr: {}};
+            return segmentInstance;
+        }
+        "SIU_S24_PATIENT" => {
+            SIU_S24_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S24_RESOURCES" => {
+            SIU_S24_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "RPA_I11_AUTHORIZATION" => {
+            RPA_I11_AUTHORIZATION segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "RPA_I11_PROVIDER" => {
+            RPA_I11_PROVIDER segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RPA_I11_INSURANCE" => {
+            RPA_I11_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "RPA_I11_PROCEDURE" => {
+            RPA_I11_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "RPA_I11_OBSERVATION" => {
+            RPA_I11_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "RPA_I11_VISIT" => {
+            RPA_I11_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "RPA_I10_AUTHORIZATION" => {
+            RPA_I10_AUTHORIZATION segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "RPA_I10_PROVIDER" => {
+            RPA_I10_PROVIDER segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RPA_I10_INSURANCE" => {
+            RPA_I10_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "RPA_I10_PROCEDURE" => {
+            RPA_I10_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "RPA_I10_OBSERVATION" => {
+            RPA_I10_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "RPA_I10_VISIT" => {
+            RPA_I10_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PPP_PCC_PATIENT_VISIT" => {
+            PPP_PCC_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PPP_PCC_PATHWAY" => {
+            PPP_PCC_PATHWAY segmentInstance = {pth: {}};
+            return segmentInstance;
+        }
+        "CRM_C05_PATIENT" => {
+            CRM_C05_PATIENT segmentInstance = {pid: {}, csr: {}};
+            return segmentInstance;
+        }
+        "PGL_PC8_PATIENT_VISIT" => {
+            PGL_PC8_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PGL_PC8_GOAL" => {
+            PGL_PC8_GOAL segmentInstance = {gol: {}};
+            return segmentInstance;
+        }
+        "SIU_S13_PATIENT" => {
+            SIU_S13_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S13_RESOURCES" => {
+            SIU_S13_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "SIU_S18_PATIENT" => {
+            SIU_S18_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S18_RESOURCES" => {
+            SIU_S18_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "SRM_S10_PATIENT" => {
+            SRM_S10_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRM_S10_RESOURCES" => {
+            SRM_S10_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "SRR_S07_SCHEDULE" => {
+            SRR_S07_SCHEDULE segmentInstance = {sch: {}};
+            return segmentInstance;
+        }
+        "SRR_S11_SCHEDULE" => {
+            SRR_S11_SCHEDULE segmentInstance = {sch: {}};
+            return segmentInstance;
+        }
+        "SRM_S06_PATIENT" => {
+            SRM_S06_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRM_S06_RESOURCES" => {
+            SRM_S06_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "MDM_T10_COMMON_ORDER" => {
+            MDM_T10_COMMON_ORDER segmentInstance = {orc: {}, obr: {}};
+            return segmentInstance;
+        }
+        "MDM_T10_OBXNTE" => {
+            MDM_T10_OBXNTE segmentInstance = {obx: {}};
+            return segmentInstance;
+        }
+        "CRM_C02_PATIENT" => {
+            CRM_C02_PATIENT segmentInstance = {pid: {}, csr: {}};
+            return segmentInstance;
+        }
+        "SIU_S22_PATIENT" => {
+            SIU_S22_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S22_RESOURCES" => {
+            SIU_S22_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "PPP_PCD_PATIENT_VISIT" => {
+            PPP_PCD_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PPP_PCD_PATHWAY" => {
+            PPP_PCD_PATHWAY segmentInstance = {pth: {}};
+            return segmentInstance;
+        }
+        "MDM_T06_COMMON_ORDER" => {
+            MDM_T06_COMMON_ORDER segmentInstance = {orc: {}, obr: {}};
+            return segmentInstance;
+        }
+        "MDM_T06_OBXNTE" => {
+            MDM_T06_OBXNTE segmentInstance = {obx: {}};
+            return segmentInstance;
+        }
+        "RTB_Z78_ROW_DEFINITION" => {
+            RTB_Z78_ROW_DEFINITION segmentInstance = {rdf: {}};
+            return segmentInstance;
+        }
+        "SIU_S14_PATIENT" => {
+            SIU_S14_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S14_RESOURCES" => {
+            SIU_S14_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "RQI_I02_PROVIDER" => {
+            RQI_I02_PROVIDER segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RQI_I02_GUARANTOR_INSURANCE" => {
+            RQI_I02_GUARANTOR_INSURANCE segmentInstance = {};
+            return segmentInstance;
+        }
+        "RQA_I11_AUTHORIZATION" => {
+            RQA_I11_AUTHORIZATION segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "RQA_I11_PROVIDER" => {
+            RQA_I11_PROVIDER segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RQA_I11_GUARANTOR_INSURANCE" => {
+            RQA_I11_GUARANTOR_INSURANCE segmentInstance = {};
+            return segmentInstance;
+        }
+        "RQA_I11_PROCEDURE" => {
+            RQA_I11_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "RQA_I11_OBSERVATION" => {
+            RQA_I11_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "RQA_I11_VISIT" => {
+            RQA_I11_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "ADT_A40_PATIENT_ID" => {
+            ADT_A40_PATIENT_ID segmentInstance = {pid: {}, mrg: {}};
+            return segmentInstance;
+        }
+        "ADT_A41_PATIENT_ID" => {
+            ADT_A41_PATIENT_ID segmentInstance = {pid: {}, mrg: {}};
+            return segmentInstance;
+        }
+        "RQI_I03_PROVIDER" => {
+            RQI_I03_PROVIDER segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RQI_I03_GUARANTOR_INSURANCE" => {
+            RQI_I03_GUARANTOR_INSURANCE segmentInstance = {};
+            return segmentInstance;
+        }
+        "RQA_I10_AUTHORIZATION" => {
+            RQA_I10_AUTHORIZATION segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "RQA_I10_PROVIDER" => {
+            RQA_I10_PROVIDER segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RQA_I10_GUARANTOR_INSURANCE" => {
+            RQA_I10_GUARANTOR_INSURANCE segmentInstance = {};
+            return segmentInstance;
+        }
+        "RQA_I10_PROCEDURE" => {
+            RQA_I10_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "RQA_I10_OBSERVATION" => {
+            RQA_I10_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "RQA_I10_VISIT" => {
+            RQA_I10_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "SIU_S15_PATIENT" => {
+            SIU_S15_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S15_RESOURCES" => {
+            SIU_S15_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "RTB_Z96_ROW_DEFINITION" => {
+            RTB_Z96_ROW_DEFINITION segmentInstance = {rdf: {}};
+            return segmentInstance;
+        }
+        "MDM_T07_COMMON_ORDER" => {
+            MDM_T07_COMMON_ORDER segmentInstance = {orc: {}, obr: {}};
+            return segmentInstance;
+        }
+        "CRM_C03_PATIENT" => {
+            CRM_C03_PATIENT segmentInstance = {pid: {}, csr: {}};
+            return segmentInstance;
+        }
+        "SIU_S23_PATIENT" => {
+            SIU_S23_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S23_RESOURCES" => {
+            SIU_S23_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "PEX_P08_VISIT" => {
+            PEX_P08_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PEX_P08_EXPERIENCE" => {
+            PEX_P08_EXPERIENCE segmentInstance = {pes: {}};
+            return segmentInstance;
+        }
+        "MDM_T11_COMMON_ORDER" => {
+            MDM_T11_COMMON_ORDER segmentInstance = {orc: {}, obr: {}};
+            return segmentInstance;
+        }
+        "SRR_S10_SCHEDULE" => {
+            SRR_S10_SCHEDULE segmentInstance = {sch: {}};
+            return segmentInstance;
+        }
+        "SRM_S07_PATIENT" => {
+            SRM_S07_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRM_S07_RESOURCES" => {
+            SRM_S07_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "SRM_S11_PATIENT" => {
+            SRM_S11_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRM_S11_RESOURCES" => {
+            SRM_S11_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "SRR_S06_SCHEDULE" => {
+            SRR_S06_SCHEDULE segmentInstance = {sch: {}};
+            return segmentInstance;
+        }
+        "SIU_S19_PATIENT" => {
+            SIU_S19_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S19_RESOURCES" => {
+            SIU_S19_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "MDM_T04_COMMON_ORDER" => {
+            MDM_T04_COMMON_ORDER segmentInstance = {orc: {}, obr: {}};
+            return segmentInstance;
+        }
+        "MDM_T04_OBXNTE" => {
+            MDM_T04_OBXNTE segmentInstance = {obx: {}};
+            return segmentInstance;
+        }
+        "RQA_I09_AUTHORIZATION" => {
+            RQA_I09_AUTHORIZATION segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "RQA_I09_PROVIDER" => {
+            RQA_I09_PROVIDER segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RQA_I09_GUARANTOR_INSURANCE" => {
+            RQA_I09_GUARANTOR_INSURANCE segmentInstance = {};
+            return segmentInstance;
+        }
+        "RQA_I09_PROCEDURE" => {
+            RQA_I09_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "RQA_I09_OBSERVATION" => {
+            RQA_I09_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "RQA_I09_VISIT" => {
+            RQA_I09_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "SIU_S20_PATIENT" => {
+            SIU_S20_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S20_RESOURCES" => {
+            SIU_S20_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "SRM_S04_PATIENT" => {
+            SRM_S04_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRM_S04_RESOURCES" => {
+            SRM_S04_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "SRR_S05_SCHEDULE" => {
+            SRR_S05_SCHEDULE segmentInstance = {sch: {}};
+            return segmentInstance;
+        }
+        "RTB_Z76_ROW_DEFINITION" => {
+            RTB_Z76_ROW_DEFINITION segmentInstance = {rdf: {}};
+            return segmentInstance;
+        }
+        "MDM_T08_COMMON_ORDER" => {
+            MDM_T08_COMMON_ORDER segmentInstance = {orc: {}, obr: {}};
+            return segmentInstance;
+        }
+        "MDM_T08_OBXNTE" => {
+            MDM_T08_OBXNTE segmentInstance = {obx: {}};
+            return segmentInstance;
+        }
+        "RRI_I14_AUTHORIZATION_CONTACT" => {
+            RRI_I14_AUTHORIZATION_CONTACT segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "RRI_I14_PROVIDER_CONTACT" => {
+            RRI_I14_PROVIDER_CONTACT segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RRI_I14_PROCEDURE" => {
+            RRI_I14_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "RRI_I14_OBSERVATION" => {
+            RRI_I14_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "RRI_I14_PATIENT_VISIT" => {
+            RRI_I14_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "ADT_A42_PATIENT_ID" => {
+            ADT_A42_PATIENT_ID segmentInstance = {pid: {}, mrg: {}};
+            return segmentInstance;
+        }
+        "SRM_S08_PATIENT" => {
+            SRM_S08_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRM_S08_RESOURCES" => {
+            SRM_S08_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "SRR_S09_SCHEDULE" => {
+            SRR_S09_SCHEDULE segmentInstance = {sch: {}};
+            return segmentInstance;
+        }
+        "SIU_S16_PATIENT" => {
+            SIU_S16_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S16_RESOURCES" => {
+            SIU_S16_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "RTB_Z94_ROW_DEFINITION" => {
+            RTB_Z94_ROW_DEFINITION segmentInstance = {rdf: {}};
+            return segmentInstance;
+        }
+        "SIU_S17_PATIENT" => {
+            SIU_S17_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S17_RESOURCES" => {
+            SIU_S17_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "RSP_K22_QUERY_RESPONSE" => {
+            RSP_K22_QUERY_RESPONSE segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRR_S08_SCHEDULE" => {
+            SRR_S08_SCHEDULE segmentInstance = {sch: {}};
+            return segmentInstance;
+        }
+        "SRM_S09_PATIENT" => {
+            SRM_S09_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRM_S09_RESOURCES" => {
+            SRM_S09_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "MFK_M02_MF_STAFF" => {
+            MFK_M02_MF_STAFF segmentInstance = {mfe: {}, stf: {}};
+            return segmentInstance;
+        }
+        "MDM_T09_COMMON_ORDER" => {
+            MDM_T09_COMMON_ORDER segmentInstance = {orc: {}, obr: {}};
+            return segmentInstance;
+        }
+        "RRI_I15_AUTHORIZATION_CONTACT" => {
+            RRI_I15_AUTHORIZATION_CONTACT segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "RRI_I15_PROVIDER_CONTACT" => {
+            RRI_I15_PROVIDER_CONTACT segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RRI_I15_PROCEDURE" => {
+            RRI_I15_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "RRI_I15_OBSERVATION" => {
+            RRI_I15_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "RRI_I15_PATIENT_VISIT" => {
+            RRI_I15_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "ADT_A14_PROCEDURE" => {
+            ADT_A14_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "ADT_A14_INSURANCE" => {
+            ADT_A14_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "SRR_S04_SCHEDULE" => {
+            SRR_S04_SCHEDULE segmentInstance = {sch: {}};
+            return segmentInstance;
+        }
+        "SRM_S05_PATIENT" => {
+            SRM_S05_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRM_S05_RESOURCES" => {
+            SRM_S05_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "REF_I13_AUTHORIZATION_CONTACT" => {
+            REF_I13_AUTHORIZATION_CONTACT segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "REF_I13_PROVIDER_CONTACT" => {
+            REF_I13_PROVIDER_CONTACT segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "REF_I13_INSURANCE" => {
+            REF_I13_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "REF_I13_PROCEDURE" => {
+            REF_I13_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "REF_I13_OBSERVATION" => {
+            REF_I13_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "REF_I13_PATIENT_VISIT" => {
+            REF_I13_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "SIU_S21_PATIENT" => {
+            SIU_S21_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S21_RESOURCES" => {
+            SIU_S21_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "MDM_T05_COMMON_ORDER" => {
+            MDM_T05_COMMON_ORDER segmentInstance = {orc: {}, obr: {}};
+            return segmentInstance;
+        }
+        "ADT_A13_PROCEDURE" => {
+            ADT_A13_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "ADT_A13_INSURANCE" => {
+            ADT_A13_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "PPG_PCH_PATIENT_VISIT" => {
+            PPG_PCH_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PPG_PCH_PATHWAY" => {
+            PPG_PCH_PATHWAY segmentInstance = {pth: {}};
+            return segmentInstance;
+        }
+        "ADT_A44_PATIENT_ID" => {
+            ADT_A44_PATIENT_ID segmentInstance = {pid: {}, mrg: {}};
+            return segmentInstance;
+        }
+        "RPA_I09_AUTHORIZATION" => {
+            RPA_I09_AUTHORIZATION segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "RPA_I09_PROVIDER" => {
+            RPA_I09_PROVIDER segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RPA_I09_INSURANCE" => {
+            RPA_I09_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "RPA_I09_PROCEDURE" => {
+            RPA_I09_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "RPA_I09_OBSERVATION" => {
+            RPA_I09_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "RPA_I09_VISIT" => {
+            RPA_I09_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PGL_PC7_PATIENT_VISIT" => {
+            PGL_PC7_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PGL_PC7_GOAL" => {
+            PGL_PC7_GOAL segmentInstance = {gol: {}};
+            return segmentInstance;
+        }
+        "PIN_I07_PROVIDER" => {
+            PIN_I07_PROVIDER segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "PIN_I07_GUARANTOR_INSURANCE" => {
+            PIN_I07_GUARANTOR_INSURANCE segmentInstance = {};
+            return segmentInstance;
+        }
+        "TCR_U11_TEST_CONFIGURATION" => {
+            TCR_U11_TEST_CONFIGURATION segmentInstance = {};
+            return segmentInstance;
+        }
+        "CSU_C10_PATIENT" => {
+            CSU_C10_PATIENT segmentInstance = {pid: {}, csr: {}};
+            return segmentInstance;
+        }
+        "PPR_PC2_PATIENT_VISIT" => {
+            PPR_PC2_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PPR_PC2_PROBLEM" => {
+            PPR_PC2_PROBLEM segmentInstance = {prb: {}};
+            return segmentInstance;
+        }
+        "RQC_I06_PROVIDER" => {
+            RQC_I06_PROVIDER segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RSP_Z84_ROW_DEFINITION" => {
+            RSP_Z84_ROW_DEFINITION segmentInstance = {rdf: {}};
+            return segmentInstance;
+        }
+        "SIU_S26_PATIENT" => {
+            SIU_S26_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SIU_S26_RESOURCES" => {
+            SIU_S26_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "CRM_C06_PATIENT" => {
+            CRM_C06_PATIENT segmentInstance = {pid: {}, csr: {}};
+            return segmentInstance;
+        }
+        "REF_I14_AUTHORIZATION_CONTACT" => {
+            REF_I14_AUTHORIZATION_CONTACT segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "REF_I14_PROVIDER_CONTACT" => {
+            REF_I14_PROVIDER_CONTACT segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "REF_I14_INSURANCE" => {
+            REF_I14_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "REF_I14_PROCEDURE" => {
+            REF_I14_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "REF_I14_OBSERVATION" => {
+            REF_I14_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "REF_I14_PATIENT_VISIT" => {
+            REF_I14_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "SRM_S02_PATIENT" => {
+            SRM_S02_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRM_S02_RESOURCES" => {
+            SRM_S02_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "SRR_S03_SCHEDULE" => {
+            SRR_S03_SCHEDULE segmentInstance = {sch: {}};
+            return segmentInstance;
+        }
+        "SRR_S02_SCHEDULE" => {
+            SRR_S02_SCHEDULE segmentInstance = {sch: {}};
+            return segmentInstance;
+        }
+        "ARD_A19_QUERY_RESPONSE" => {
+            ARD_A19_QUERY_RESPONSE segmentInstance = {pid: {}, pv1: {}};
+            return segmentInstance;
+        }
+        "ORU_R31_VISIT" => {
+            ORU_R31_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "ORU_R31_OBSERVATION" => {
+            ORU_R31_OBSERVATION segmentInstance = {obx: {}};
+            return segmentInstance;
+        }
+        "ORU_R31_TIMING_QTY" => {
+            ORU_R31_TIMING_QTY segmentInstance = {tq1: {}};
+            return segmentInstance;
+        }
+        "SRM_S03_PATIENT" => {
+            SRM_S03_PATIENT segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "SRM_S03_RESOURCES" => {
+            SRM_S03_RESOURCES segmentInstance = {rgs: {}};
+            return segmentInstance;
+        }
+        "ADT_A08_PROCEDURE" => {
+            ADT_A08_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "ADT_A08_INSURANCE" => {
+            ADT_A08_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "REF_I15_AUTHORIZATION_CONTACT" => {
+            REF_I15_AUTHORIZATION_CONTACT segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "REF_I15_PROVIDER_CONTACT" => {
+            REF_I15_PROVIDER_CONTACT segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "REF_I15_INSURANCE" => {
+            REF_I15_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "REF_I15_PROCEDURE" => {
+            REF_I15_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "REF_I15_OBSERVATION" => {
+            REF_I15_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "REF_I15_PATIENT_VISIT" => {
+            REF_I15_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "CRM_C07_PATIENT" => {
+            CRM_C07_PATIENT segmentInstance = {pid: {}, csr: {}};
+            return segmentInstance;
+        }
+        "MDM_T03_COMMON_ORDER" => {
+            MDM_T03_COMMON_ORDER segmentInstance = {orc: {}, obr: {}};
+            return segmentInstance;
+        }
+        "PPR_PC3_PATIENT_VISIT" => {
+            PPR_PC3_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
+        }
+        "PPR_PC3_PROBLEM" => {
+            PPR_PC3_PROBLEM segmentInstance = {prb: {}};
+            return segmentInstance;
+        }
+        "RTB_Z92_ROW_DEFINITION" => {
+            RTB_Z92_ROW_DEFINITION segmentInstance = {rdf: {}};
+            return segmentInstance;
+        }
+        "CSU_C11_PATIENT" => {
+            CSU_C11_PATIENT segmentInstance = {pid: {}, csr: {}};
+            return segmentInstance;
+        }
+        "RSP_K24_QUERY_RESPONSE" => {
+            RSP_K24_QUERY_RESPONSE segmentInstance = {pid: {}};
+            return segmentInstance;
+        }
+        "ADT_A28_PROCEDURE" => {
+            ADT_A28_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "ADT_A28_INSURANCE" => {
+            ADT_A28_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "ADT_A04_PROCEDURE" => {
+            ADT_A04_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "ADT_A04_INSURANCE" => {
+            ADT_A04_INSURANCE segmentInstance = {in1: {}};
+            return segmentInstance;
+        }
+        "RRI_I13_AUTHORIZATION_CONTACT" => {
+            RRI_I13_AUTHORIZATION_CONTACT segmentInstance = {aut: {}};
+            return segmentInstance;
+        }
+        "RRI_I13_PROVIDER_CONTACT" => {
+            RRI_I13_PROVIDER_CONTACT segmentInstance = {prd: {}};
+            return segmentInstance;
+        }
+        "RRI_I13_PROCEDURE" => {
+            RRI_I13_PROCEDURE segmentInstance = {pr1: {}};
+            return segmentInstance;
+        }
+        "RRI_I13_OBSERVATION" => {
+            RRI_I13_OBSERVATION segmentInstance = {obr: {}};
+            return segmentInstance;
+        }
+        "RRI_I13_PATIENT_VISIT" => {
+            RRI_I13_PATIENT_VISIT segmentInstance = {pv1: {}};
+            return segmentInstance;
         }
         _ => {
             return ();
