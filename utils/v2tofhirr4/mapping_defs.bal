@@ -14,8 +14,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerinax/health.hl7v2commons;
 import ballerinax/health.fhir.r4.international401;
+import ballerinax/health.hl7v2commons;
 
 # ####################################################################################################
 # Mapping function definitions for V2 to FHIR

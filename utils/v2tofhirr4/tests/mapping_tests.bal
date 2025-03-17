@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-// import health.hl7v2;
 
 import ballerina/http;
 import ballerina/lang.runtime;
@@ -63,7 +62,7 @@ function v2toFhirTransformTest() {
         if resultantBundle is r4:Bundle {
             r4:BundleEntry[] entries = resultantBundle.entry ?: [];
             test:assertEquals(entries.length(), 5, "Transforming issue occurred with the message");
-            
+
         } else {
             test:assertFail("ADT_A01 msg to FHIR transforming failed.");
         }

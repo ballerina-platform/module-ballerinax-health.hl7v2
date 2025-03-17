@@ -23,8 +23,8 @@ import ballerinax/health.hl7v26;
 import ballerinax/health.hl7v27;
 import ballerinax/health.hl7v28;
 
-### Union types for holding hl7 segments for supported hl7 versions. ####
-#########################################################################
+# ## Union types for holding hl7 segments for supported hl7 versions. ####
+# ########################################################################
 
 # Union type for holding message header segment for all supported hl7 versions.
 # # Deprecated
@@ -86,8 +86,8 @@ public type Orc hl7v23:ORC|hl7v231:ORC|hl7v24:ORC|hl7v25:ORC|hl7v251:ORC|hl7v26:
 @deprecated
 public type Obr hl7v23:OBR|hl7v231:OBR|hl7v24:OBR|hl7v25:OBR|hl7v251:OBR|hl7v26:OBR|hl7v27:OBR|hl7v28:OBR;
 
-### Union types defined for data types for supported hl7 versions. ####
-#######################################################################
+# ## Union types defined for data types for supported hl7 versions. ####
+# ######################################################################
 
 # Union type for holding patient name for all supported hl7 versions.
 # # Deprecated
@@ -136,7 +136,7 @@ public type Pd14 hl7v23:XCN[]|hl7v231:XCN[]|hl7v24:XCN[]|hl7v25:XCN[]|hl7v251:XC
 
 # Union type for patient's extended person's name for all supported hl7 versions.
 # # Deprecated
-@deprecated  
+@deprecated
 public type Nk12 hl7v23:XPN[]|hl7v231:XPN[]|hl7v24:XPN[]|hl7v25:XPN[]|hl7v251:XPN[]|hl7v26:XPN[]|hl7v27:XPN[]|hl7v28:XPN[];
 
 # Union type for patient's extended person's address for all supported hl7 versions.
