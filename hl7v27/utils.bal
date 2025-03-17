@@ -21,7 +21,7 @@ import ballerinax/health.hl7v2;
 #
 # + segmentName - HL7 message segment name
 # + return - Record of segment instance
-isolated function getSegment(string segmentName) returns hl7v2:Segment? {
+public isolated function getSegment(string segmentName) returns hl7v2:Segment? {
     match segmentName {
         "SCP" => {
             SCP segmentInstance = {};
@@ -1521,7 +1521,7 @@ isolated function getMessage(string messageName) returns hl7v2:Message? {
 #
 # + segmentComponentName - HL7 Segment component name
 # + return - Instance of HL7 segment component
-isolated function getSegmentComponent(string segmentComponentName) returns hl7v2:SegmentComponent? {
+public isolated function getSegmentComponent(string segmentComponentName) returns hl7v2:SegmentComponent? {
     match segmentComponentName {
         "RPR_I03_PROVIDER" => {
             RPR_I03_PROVIDER messageInstance = {prd:{}};
