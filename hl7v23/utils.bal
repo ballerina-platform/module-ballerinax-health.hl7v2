@@ -3880,6 +3880,9 @@ isolated function getSegmentComponent3(string segmentComponentName) returns hl7v
             RRI_I13_PATIENT_VISIT segmentInstance = {pv1: {}};
             return segmentInstance;
         }
+        _ => {
+            return ();
+        }
     }
 }
 
