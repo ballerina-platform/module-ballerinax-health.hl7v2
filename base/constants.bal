@@ -15,8 +15,8 @@
 // under the License.
 
 # Hex character to use for end of a HL7 MLLP message.
-public const CARRIAGE_RETURN = 0x0D;
+public byte CARRIAGE_RETURN = 0x0D;
 # Hex character to indicate start of a HL7 MLLP message.
-public const HL7_MSG_START_BLOCK = 0x0B;
+public byte HL7_MSG_START_BLOCK = 0x0B;
 # Hex character to indicate end of a HL7 message content.
-public const HL7_MSG_END_BLOCK = 0x1C;
+public byte HL7_MSG_END_BLOCK = 0x1C;
