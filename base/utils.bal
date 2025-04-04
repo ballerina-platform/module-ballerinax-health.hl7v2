@@ -289,6 +289,12 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                                 }
                             }
                         }
+                    } else if segmentName.startsWith("Z") {
+                        // Vendor specific segments
+                        //Skipping the segments which are not defined in the registry
+                        continue;
+                        
+                    
                     } else {
                         log:printError(string `Invalid segment:  ${segmentName}`);
                         HL7Error err = error HL7Error(HL7_V2_PARSER_ERROR,
