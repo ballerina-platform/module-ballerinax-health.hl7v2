@@ -29,7 +29,7 @@ public isolated function parse(string|byte[] message) returns Message|HL7Error {
         hL7WirePayload = createHL7WirePayload(string:toBytes(message));
     } else {
         hL7WirePayload = message;
-        if message[0] != HL7_MSG_START_BLOCK && message[message.length() - 1] != HL7_MSG_END_BLOCK {
+        if message[0] != HL7_MSG_START_BLOCK && message[message.length() - 1] != 0x1C {
             // If the message isn't sent through MLLP, add the MLLP header and trailer.
             // Using tools like `netcat`, you can send HL7 messages without MLLP header and trailer.
             hL7WirePayload = createHL7WirePayload(message);
@@ -483,11 +483,11 @@ public isolated function createHL7WirePayload(byte[] message) returns byte[] {
         encodedMessage.push(item);
     }
     //Add CR to mark the end of last segment
-    encodedMessage.push(CARRIAGE_RETURN);
+    encodedMessage.push(0x0D);
     // Mark the end of hl7 content 
-    encodedMessage.push(HL7_MSG_END_BLOCK);
+    encodedMessage.push(0x1C);
     // Mark the end of the message
-    encodedMessage.push(CARRIAGE_RETURN);
+    encodedMessage.push(0x0D);
 
     return encodedMessage;
 }
