@@ -18,15 +18,6 @@ dependencies = [
 
 [[package]]
 org = "ballerina"
-name = "data.jsondata"
-version = "0.2.0"
-dependencies = [
-	{org = "ballerina", name = "jballerina.java"},
-	{org = "ballerina", name = "lang.object"}
-]
-
-[[package]]
-org = "ballerina"
 name = "io"
 version = "1.6.3"
 dependencies = [
@@ -72,6 +63,7 @@ dependencies = [
 org = "ballerina"
 name = "lang.object"
 version = "0.0.0"
+scope = "testOnly"
 
 [[package]]
 org = "ballerina"
@@ -137,9 +129,8 @@ dependencies = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2"
-version = "2.4.0"
+version = "2.4.2"
 dependencies = [
-	{org = "ballerina", name = "data.jsondata"},
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "tcp"},
 	{org = "ballerina", name = "time"}
