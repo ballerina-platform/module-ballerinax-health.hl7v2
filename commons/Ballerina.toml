@@ -1,13 +1,12 @@
 [package]
 org = "ballerinax"
 name = "health.hl7v2commons"
-version = "1.3.2"
+version = "2.0.0"
 authors = ["WSO2 Healthcare"]
 keywords = ["Healthcare", "HL7", "Commons"]
-distribution = "2201.10.2"
+distribution = "2201.12.3"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
 
 [build-options]
 observabilityIncluded = true
 optimizeDependencyCompilation = true
-

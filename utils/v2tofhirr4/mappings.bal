@@ -481,9 +481,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv13.pl5)
         };
-        if encounterLoc1 != {} && encounterLoc1.location != {} {
-            encounterLocations.push(encounterLoc1);
-        }
+        encounterLocations.push(encounterLoc1);
 
         international401:EncounterLocation encounterLoc2 = {
             location: {
@@ -491,9 +489,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv16.pl5)
         };
-        if encounterLoc2 != {} && encounterLoc2.location != {} {
-            encounterLocations.push(encounterLoc2);
-        }
+        encounterLocations.push(encounterLoc2);
 
         international401:EncounterLocation encounterLoc3 = {
             location: {
@@ -501,9 +497,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv111.pl5)
         };
-        if encounterLoc3 != {} && encounterLoc3.location != {} {
-            encounterLocations.push(encounterLoc3);
-        }
+        encounterLocations.push(encounterLoc3);
 
         international401:EncounterLocation encounterLoc4 = {
             location: {
@@ -511,9 +505,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv142.pl5)
         };
-        if encounterLoc4 != {} && encounterLoc4.location != {} {
-            encounterLocations.push(encounterLoc4);
-        }
+        encounterLocations.push(encounterLoc4);
 
         international401:EncounterLocation encounterLoc5 = {
             location: {
@@ -521,9 +513,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv142.pl5)
         };
-        if encounterLoc5 != {} && encounterLoc5.location != {} {
-            encounterLocations.push(encounterLoc5);
-        }
+        encounterLocations.push(encounterLoc5);
 
         international401:EncounterLocation encounterLoc6 = {
             location: {
@@ -531,9 +521,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv143.pl5)
         };
-        if encounterLoc6 != {} && encounterLoc6.location != {} {
-            encounterLocations.push(encounterLoc6);
-        }
+        encounterLocations.push(encounterLoc6);
     } else if pv1 is hl7v27:PV1|hl7v28:PV1 {
         international401:EncounterLocation encounterLoc1 = {
             location: {
@@ -541,9 +529,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv13.pl5)
         };
-        if encounterLoc1 != {} && encounterLoc1.location != {} {
-            encounterLocations.push(encounterLoc1);
-        }
+        encounterLocations.push(encounterLoc1);
 
         international401:EncounterLocation encounterLoc2 = {
             location: {
@@ -551,9 +537,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv16.pl5)
         };
-        if encounterLoc2 != {} && encounterLoc2.location != {} {
-            encounterLocations.push(encounterLoc2);
-        }
+        encounterLocations.push(encounterLoc2);
 
         international401:EncounterLocation encounterLoc3 = {
             location: {
@@ -561,9 +545,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv111.pl5)
         };
-        if encounterLoc3 != {} && encounterLoc3.location != {} {
-            encounterLocations.push(encounterLoc3);
-        }
+        encounterLocations.push(encounterLoc3);
 
         international401:EncounterLocation encounterLoc4 = {
             location: {
@@ -571,9 +553,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv142.pl5)
         };
-        if encounterLoc4 != {} && encounterLoc4.location != {} {
-            encounterLocations.push(encounterLoc4);
-        }
+        encounterLocations.push(encounterLoc4);
 
         international401:EncounterLocation encounterLoc5 = {
             location: {
@@ -581,9 +561,7 @@ public isolated function pv1ToEncounter(hl7v2commons:Pv1 pv1) returns internatio
             },
             status: getEncounterLocationStatus(pv1.pv143.pl5)
         };
-        if encounterLoc5 != {} && encounterLoc5.location != {} {
-            encounterLocations.push(encounterLoc5);
-        }
+        encounterLocations.push(encounterLoc5);
     }
 
     international401:EncounterParticipant[] participants = [];
