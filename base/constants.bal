@@ -17,6 +17,6 @@
 # Hex character to use for end of a HL7 MLLP message.
 public byte CARRIAGE_RETURN = 0x0D;
 # Hex character to indicate start of a HL7 MLLP message.
-public byte HL7_MSG_START_BLOCK = 0x0B;
+isolated byte HL7_MSG_START_BLOCK = 0x0B;
 # Hex character to indicate end of a HL7 message content.
 public byte HL7_MSG_END_BLOCK = 0x1C;
