@@ -1,8 +1,8 @@
 [package]
 org = "ballerinax"
 name = "health.hl7v27"
-version = "3.2.2"
+version = "4.0.0"
 authors = ["WSO2 Healthcare"]
 keywords = ["Healthcare", "HL7", "HL7v2.7"]
-distribution = "2201.10.2"
+distribution = "2201.12.3"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"

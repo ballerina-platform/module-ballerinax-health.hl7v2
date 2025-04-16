@@ -48,6 +48,12 @@ public type HL7Package record {|
     readonly & ParserUtils? parserUtils?;
 |};
 
+public type HL7CustomDef record {
+    map<Segment> segments?;
+    map<Message> messages?;
+    map<SegmentComponent> segmentGroups?;
+};
+
 # Registry holding HL7 related runtime metadata. 
 # NOTE: This is used for internal processing between related HL7 packages. Recommended not to update the content of this
 # package
@@ -55,6 +61,7 @@ public isolated class HL7Registry {
 
     // Key: Compatible HL7 version
     private map<HL7Package> packages = {};
+    private map<HL7CustomDef> customDefinitions = {};
 
     function init() {
     }
@@ -98,6 +105,11 @@ public isolated class HL7Registry {
     public isolated function getHl7MessageType(string hl7Version, string messageName) returns Message?|HL7Error {
         lock {
             if self.packages.hasKey(hl7Version) {
+                // check for custom message definition
+                Message? customMessage = self.getCustomMessage(hl7Version, messageName);
+                if customMessage != () {
+                    return customMessage.clone();
+                }
                 HL7Package package = self.packages.get(hl7Version);
                 readonly & GetMessageFuncCreator? creator = package?.parserUtils?.getMessageFunc;
                 if creator != () {
@@ -118,6 +130,12 @@ public isolated class HL7Registry {
     public isolated function getHl7SegmentType(string hl7Version, string segmentName) returns Segment?|HL7Error {
         lock {
             if self.packages.hasKey(hl7Version) {
+                // check for custom segment definition
+                Segment? customSegment = self.getCustomSegment(hl7Version, segmentName);
+                if customSegment != () {
+                    return customSegment.clone();
+                }
+
                 HL7Package package = self.packages.get(hl7Version);
                 readonly & GetSegmentFuncCreator? creator = package?.parserUtils?.getSegmentFunc;
                 if creator != () {
@@ -138,6 +156,11 @@ public isolated class HL7Registry {
     public isolated function getHl7SegmentGroupType(string hl7Version, string segmentGroupName) returns SegmentComponent? {
         lock {
             if self.packages.hasKey(hl7Version) {
+                // check for custom segment group definition
+                SegmentComponent? customSegmentGroup = self.getCustomSegmentGroup(hl7Version, segmentGroupName);
+                if customSegmentGroup != () {
+                    return customSegmentGroup.clone();
+                }
                 HL7Package package = self.packages.get(hl7Version);
                 readonly & GetSegmentGroupFuncCreator? creator = package?.parserUtils?.getSegmentGroupFunc;
                 if creator != () {
@@ -149,6 +172,123 @@ public isolated class HL7Registry {
                 log:printError(string `Package not found for HL7 version : ${hl7Version}`);
                 return ();
             }
+        }
+    }
+
+    isolated function registerCustomSegment(string hl7Version, Segment segment) {
+        lock {
+            if self.customDefinitions.hasKey(hl7Version) {
+                HL7CustomDef customDef = self.customDefinitions.get(hl7Version);
+                customDef.segments[segment.name] = segment.clone();
+            } else {
+                string name = segment.name;
+                map<Segment> segments = {};
+                segments[name] = segment.clone();
+                HL7CustomDef customDef = { segments: segments };
+                self.customDefinitions[hl7Version] = customDef;
+            }
+        }
+    }
+
+    isolated function registerCustomMessage(string hl7Version, Message message) {
+        lock {
+            if self.customDefinitions.hasKey(hl7Version) {
+                HL7CustomDef customDef = self.customDefinitions.get(hl7Version);
+                customDef.messages[message.name] = message.clone();
+            } else {
+                string messageName = message.name;
+                map<Message> messages = {};
+                messages[messageName] = message.clone();
+                HL7CustomDef customDef = { messages: messages };
+                self.customDefinitions[hl7Version] = customDef;
+            }
+        }
+    }
+
+    isolated function registerSegmentGroup(string hl7Version, SegmentComponent segmentGroup) {
+        lock {
+            if self.customDefinitions.hasKey(hl7Version) {
+                HL7CustomDef customDef = self.customDefinitions.get(hl7Version);
+                customDef.segmentGroups[segmentGroup.name] = segmentGroup.clone();
+            } else {
+                string segmentGroupName = segmentGroup.name;
+                map<SegmentComponent> segmentGroups = {};
+                segmentGroups[segmentGroupName] = segmentGroup.clone();
+                HL7CustomDef customDef = { segmentGroups: segmentGroups };
+                self.customDefinitions[hl7Version] = customDef;
+            }
+        }
+    }
+
+    isolated function hasCustomMessage(string hl7Version, string messageName) returns boolean {
+        lock {
+            if self.customDefinitions.hasKey(hl7Version) {
+                HL7CustomDef customDef = self.customDefinitions.get(hl7Version);
+                if customDef.messages != () && (<map<Message>>customDef.messages).hasKey(messageName) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    isolated function hasCustomSegment(string hl7Version, string segmentName) returns boolean {
+        lock {
+            if self.customDefinitions.hasKey(hl7Version) {
+                HL7CustomDef customDef = self.customDefinitions.get(hl7Version);
+                if customDef.segments != () && (<map<Segment>>customDef.segments).hasKey(segmentName) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    isolated function hasCustomSegmentGroup(string hl7Version, string segmentGroupName) returns boolean {
+        lock {
+            if self.customDefinitions.hasKey(hl7Version) {
+                HL7CustomDef customDef = self.customDefinitions.get(hl7Version);
+                if customDef.segmentGroups != () && (<map<SegmentComponent>>customDef.segmentGroups).hasKey(segmentGroupName) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    isolated function getCustomMessage(string hl7Version, string messageName) returns Message? {
+        lock {
+            if self.customDefinitions.hasKey(hl7Version) {
+                HL7CustomDef customDef = self.customDefinitions.get(hl7Version);
+                if customDef.messages != () && (<map<Message>>customDef.messages).hasKey(messageName) {
+                    return (<map<Message>>customDef.messages).get(messageName).clone();
+                }
+            }
+            return ();
+        }
+    }
+
+    isolated function getCustomSegment(string hl7Version, string segmentName) returns Segment? {
+        lock {
+            if self.customDefinitions.hasKey(hl7Version) {
+                HL7CustomDef customDef = self.customDefinitions.get(hl7Version);
+                if customDef.segments != () && (<map<Segment>>customDef.segments).hasKey(segmentName) {
+                    return (<map<Segment>>customDef.segments).get(segmentName).clone();
+                }
+            }
+            return ();
+        }
+    }
+
+    isolated function getCustomSegmentGroup(string hl7Version, string segmentGroupName) returns SegmentComponent? {
+        lock {
+            if self.customDefinitions.hasKey(hl7Version) {
+                HL7CustomDef customDef = self.customDefinitions.get(hl7Version);
+                if customDef.segmentGroups != () && (<map<SegmentComponent>>customDef.segmentGroups).hasKey(segmentGroupName) {
+                    return (<map<SegmentComponent>>customDef.segmentGroups).get(segmentGroupName).clone();
+                }
+            }
+            return ();
         }
     }
 
@@ -170,4 +310,28 @@ public isolated class HL7Registry {
             }
         }
     }
+}
+
+# Register custom HL7 segment for given HL7 version.
+#
+# + hl7Version - HL7 version
+# + segment - Custom Segment record
+public isolated function registerCustomSegment(string hl7Version, Segment segment) {
+    hl7Registry.registerCustomSegment(hl7Version, segment);
+}
+
+# Register custom HL7 message for given HL7 version.
+#
+# + hl7Version - HL7 version
+# + message - Custom Message record
+public isolated function registerCustomMessage(string hl7Version, Message message) {
+    hl7Registry.registerCustomMessage(hl7Version, message);
+}
+
+# Register custom HL7 segment group for given HL7 version.
+#
+# + hl7Version - HL7 version
+# + segmentGroup - Custom SegmentGroup record
+public isolated function registerCustomSegmentGroup(string hl7Version, SegmentComponent segmentGroup) {
+    hl7Registry.registerSegmentGroup(hl7Version, segmentGroup);
 }
