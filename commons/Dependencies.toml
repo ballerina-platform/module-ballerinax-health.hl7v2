@@ -89,7 +89,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2"
-version = "3.0.0"
+version = "3.0.3"
 dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "tcp"},
@@ -195,7 +195,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.hl7v2commons"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
 	{org = "ballerinai", name = "observe"},
 	{org = "ballerinax", name = "health.hl7v23"},
