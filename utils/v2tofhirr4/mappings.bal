@@ -394,12 +394,12 @@ public isolated function evnToProvenance(hl7v2commons:Evn evn) returns internati
         if evn.evn2.ts1 != "" {
             provenance.recorded = evn.evn2.ts1;
         }
-        provenance.occurredDateTime = (evn.evn6.ts1 != "") ? evn.evn6.ts1 : ();
+        provenance.occurredDateTime = (evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : ();
     } else if evn is hl7v26:EVN|hl7v27:EVN|hl7v28:EVN {
         if evn.evn2 != "" {
-            provenance.recorded = evn.evn2;
+            provenance.recorded = hl7DateToFhir(evn.evn2);
         }
-        provenance.occurredDateTime = (evn.evn6 != "") ? evn.evn6 : ();
+        provenance.occurredDateTime = (evn.evn6 != "") ? hl7DateToFhir(evn.evn6) : ();
     }
 
     return provenance;
@@ -439,17 +439,17 @@ public isolated function pidToPatient(hl7v2commons:Pid pid) returns internationa
     if pid is hl7v23:PID|hl7v231:PID|hl7v24:PID|hl7v25:PID|hl7v251:PID {
         patient.name = pidToPatientName(pid.pid5, pid.pid9);
         patient.birthDate = (pid.pid7.ts1 != "") ? pid.pid7.ts1 : ();
-        patient.deceasedDateTime = (pid.pid29.ts1 != "") ? pid.pid29.ts1 : ();
+        patient.deceasedDateTime = (pid.pid29.ts1 != "") ? hl7DateToFhir(pid.pid29.ts1) : ();
         patient.gender = pidToAdministrativeSex(pid.pid8);
     } else if pid is hl7v26:PID {
         patient.name = pidToPatientName(pid.pid5, pid.pid9);
         patient.birthDate = (pid.pid7 != "") ? pid.pid7 : ();
-        patient.deceasedDateTime = (pid.pid29 != "") ? pid.pid29 : ();
+        patient.deceasedDateTime = (pid.pid29 != "") ? hl7DateToFhir(pid.pid29) : ();
         patient.gender = pidToAdministrativeSex(pid.pid8);
     } else if pid is hl7v27:PID|hl7v28:PID {
         patient.name = pidToPatientName(pid.pid5, pid.pid9);
         patient.birthDate = (pid.pid7 != "") ? pid.pid7 : ();
-        patient.deceasedDateTime = (pid.pid29 != "") ? pid.pid29 : ();
+        patient.deceasedDateTime = (pid.pid29 != "") ? hl7DateToFhir(pid.pid29) : ();
         patient.gender = pidToAdministrativeSex(pid.pid8.cwe1);
     }
     return patient;
@@ -1088,8 +1088,8 @@ public isolated function dg1ToCondition(hl7v2commons:Dg1 dg1) returns internatio
             cweToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();
             condition.code = cweToCodeableConceptResult;
         }
-        condition.onsetDateTime = dg1.dg15 != "" ? dg1.dg15 : ();
-        condition.recordedDate = dg1.dg119 != "" ? dg1.dg119 : ();
+        condition.onsetDateTime = dg1.dg15 != "" ? hl7DateToFhir(dg1.dg15) : ();
+        condition.recordedDate = dg1.dg119 != "" ? hl7DateToFhir(dg1.dg119) : ();
         if dg1.dg120.ei1 != "" {
             condition.identifier = [eiToIdentifier(dg1.dg120)];
         }
@@ -1108,8 +1108,8 @@ public isolated function dg1ToCondition(hl7v2commons:Dg1 dg1) returns internatio
             ceToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();
             condition.code = ceToCodeableConceptResult;
         }
-        condition.onsetDateTime = dg1.dg15.ts1 != "" ? dg1.dg15.ts1 : ();
-        condition.recordedDate = dg1.dg119.ts1 != "" ? dg1.dg119.ts1 : ();
+        condition.onsetDateTime = dg1.dg15.ts1 != "" ? hl7DateToFhir(dg1.dg15.ts1) : ();
+        condition.recordedDate = dg1.dg119.ts1 != "" ? hl7DateToFhir(dg1.dg119.ts1) : ();
     }
     Xcn[] dg116 = dg1.dg116;
     foreach var item in dg116 {

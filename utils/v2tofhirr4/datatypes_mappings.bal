@@ -315,11 +315,11 @@ public isolated function ceToCodeableConcepts(Ce|hl7v26:CWE ce) returns r4:Codea
 }
 
 public isolated function dtmToDateTime(Dtm ts) returns r4:dateTime? {
-    return (ts != "") ? ts : ();
+    return (ts != "") ? hl7DateToFhir(ts) : ();
 };
 
 public isolated function tsToDateTime(Ts ts) returns r4:dateTime? {
-    return (ts.ts1 != "") ? ts.ts1 : ();
+    return (ts.ts1 != "") ? hl7DateToFhir(ts.ts1) : ();
 };
 
 public isolated function idToCodeableConcept(hl7v23:ID id) returns r4:CodeableConcept? {
