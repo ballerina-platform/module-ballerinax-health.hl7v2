@@ -13,6 +13,7 @@
 
 import ballerina/http;
 import ballerina/log;
+import ballerina/regex;
 import ballerina/uuid;
 import ballerinax/health.fhir.r4 as r4;
 import ballerinax/health.fhir.r4.international401;
@@ -526,4 +527,158 @@ isolated function populateBundleEntries(map<anydata> constructedResource) return
         entries.push({'resource: constructedResource});
     }
     return entries;
+}
+
+// Additional utility function to handle incomplete dates in HL7v2
+public isolated function hl7DateToFhir(string hl7Date) returns string {
+    if hl7Date.length() == 0 {
+        log:printError("Empty date value provided");
+        return hl7Date;
+    }
+    
+    // Handle YYYY format
+    if hl7Date.length() == 4 {
+        return hl7Date;
+    }
+    
+    // Handle YYYYMM format
+    if hl7Date.length() == 6 {
+        return hl7Date.substring(0, 4) + "-" + hl7Date.substring(4, 6);
+    }
+    
+    // Handle YYYYMMDD format
+    if hl7Date.length() == 8 {
+        return hl7Date.substring(0, 4) + "-" + hl7Date.substring(4, 6) + "-" + hl7Date.substring(6, 8);
+    }
+    
+    // If it has more precision, use the full datetime converter
+    return hl7FullDateTimeToFhir(hl7Date);
+}
+
+// Utility to convert HL7v2 DTM/TS format to FHIR R4 datetime format
+isolated function hl7FullDateTimeToFhir(string hl7DateTime) returns string {    
+    // Validate HL7v2 DTM/TS format
+    boolean isValidFormat = validateHl7DateTime(hl7DateTime);
+    if !isValidFormat {
+        log:printError("Invalid HL7v2 date time format: " + hl7DateTime);
+        return hl7DateTime;
+    }
+    
+    // Extract components from HL7 datetime
+    map<string>? components = extractDateTimeComponents(hl7DateTime);
+    
+    // Build the FHIR datetime string in ISO 8601 format
+    if components is () {
+        log:printError("Failed to extract components from HL7 datetime: " + hl7DateTime);
+        return hl7DateTime;
+    }
+    string fhirDateTime = buildFhirDateTime(components);
+    
+    return fhirDateTime;
+}
+
+// Extract components from HL7 datetime string
+
+isolated function extractDateTimeComponents(string dateTime) returns map<string>? {
+    map<string> components = {};
+
+    // Expected format: YYYYMMDDHHMMSS[.fraction][+/-HHMM]
+    // Example: 20231005123045.123456+0530
+
+    // Extract year,month,day (mandatory)
+    components["year"] = dateTime.substring(0, 4);
+
+    components["month"] = dateTime.substring(4, 6);
+
+    components["day"] = dateTime.substring(6, 8);
+
+    // Hour (optional)
+    if dateTime.length() >= 10 {
+        components["hour"] = dateTime.substring(8, 10);
+    } else {
+        components["hour"] = "00";
+    }
+
+    // Minute (optional)
+    if dateTime.length() >= 12 {
+        components["minute"] = dateTime.substring(10, 12);
+    } else {
+        components["minute"] = "00";
+    }
+
+    // Second (optional)
+    if dateTime.length() >= 14 {
+        components["second"] = dateTime.substring(12, 14);
+    } else {
+        components["second"] = "00";
+    }
+
+    // Fraction of seconds (optional)
+    components["fraction"] = "";
+    if dateTime.length() > 14 && dateTime.indexOf(".") != -1 {
+        int? dotPos = dateTime.indexOf(".");
+        if dotPos == () {
+            log:printError("Invalid dateTime format: missing '.' for fraction");
+            return;
+        }
+        int endPos = dotPos + 1;
+        int|error valueOfEndPos = int:fromString(dateTime[endPos]);
+        while (endPos < dateTime.length() && valueOfEndPos is int) {
+            endPos = endPos + 1;
+        }
+        components["fraction"] = dateTime.substring(dotPos, endPos);
+    }
+
+    // Timezone (optional)
+    components["timezone"] = "Z"; // Default to UTC
+    int? idxPlus = dateTime.indexOf("+");
+    int? idxMinus = dateTime.indexOf("-");
+    if idxPlus == () || idxMinus == () {
+        log:printError("Invalid dateTime format: missing timezone indicator");
+        return;
+    }
+    if idxPlus != -1 || idxMinus != -1 {
+        int tzPos = -1;
+        if idxPlus != -1 {
+            tzPos = idxPlus;
+        } else {
+            tzPos = idxMinus;
+        }
+
+        if tzPos != -1 && tzPos + 5 <= dateTime.length() {
+            string tzSign = dateTime.substring(tzPos, tzPos + 1);
+            string tzHours = dateTime.substring(tzPos + 1, tzPos + 3);
+            string tzMinutes = dateTime.substring(tzPos + 3, tzPos + 5);
+            components["timezone"] = tzSign + tzHours + ":" + tzMinutes;
+        }
+    }
+
+    return components;
+}
+
+// Build FHIR R4 DateTime string from components
+isolated function buildFhirDateTime(map<string> components) returns string {
+    string fhirDateTime = components.get("year") + "-" + components.get("month") + "-" + components.get("day") +
+                         "T" + components.get("hour") + ":" + components.get("minute") + ":" + components.get("second");
+    
+    // Add fraction if present
+    if components.get("fraction") != "" {
+        fhirDateTime = fhirDateTime + components.get("fraction");
+    }
+    
+    // Add timezone
+    string timezone = components.get("timezone");
+    if timezone != "Z" {
+        fhirDateTime = fhirDateTime + timezone;
+    } else {
+        fhirDateTime = fhirDateTime + "Z";
+    }
+    
+    return fhirDateTime;
+}
+
+isolated function validateHl7DateTime(string dateTime) returns boolean {
+    // Basic format validation for various levels of precision in HL7
+    string pattern = "^\\d{4}(\\d{2}(\\d{2}(\\d{2}(\\d{2}(\\d{2}(\\.\\d+)?)?)?)?)?)?([+-]\\d{4})?$";
+    return regex:matches(dateTime, pattern);
 }
