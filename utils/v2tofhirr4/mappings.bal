@@ -231,6 +231,11 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
                 return populateBundleEntries(constructedResource);
             }
         }
+        "NTE" => {
+            // Skip NTE segment tempararily. Tracking issue: https://github.com/wso2-enterprise/open-healthcare/issues/1737
+            r4:BundleEntry[] entriesNew = [];
+            return entriesNew;
+        }
         _ => {
             if segmentName.length() == 3 {
                 [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
@@ -438,17 +443,17 @@ public isolated function pidToPatient(hl7v2commons:Pid pid) returns internationa
 
     if pid is hl7v23:PID|hl7v231:PID|hl7v24:PID|hl7v25:PID|hl7v251:PID {
         patient.name = pidToPatientName(pid.pid5, pid.pid9);
-        patient.birthDate = (pid.pid7.ts1 != "") ? pid.pid7.ts1 : ();
+        patient.birthDate = (pid.pid7.ts1 != "") ? hl7DateToFhir(pid.pid7.ts1) : ();
         patient.deceasedDateTime = (pid.pid29.ts1 != "") ? hl7DateToFhir(pid.pid29.ts1) : ();
         patient.gender = pidToAdministrativeSex(pid.pid8);
     } else if pid is hl7v26:PID {
         patient.name = pidToPatientName(pid.pid5, pid.pid9);
-        patient.birthDate = (pid.pid7 != "") ? pid.pid7 : ();
+        patient.birthDate = (pid.pid7 != "") ? hl7DateToFhir(pid.pid7) : ();
         patient.deceasedDateTime = (pid.pid29 != "") ? hl7DateToFhir(pid.pid29) : ();
         patient.gender = pidToAdministrativeSex(pid.pid8);
     } else if pid is hl7v27:PID|hl7v28:PID {
         patient.name = pidToPatientName(pid.pid5, pid.pid9);
-        patient.birthDate = (pid.pid7 != "") ? pid.pid7 : ();
+        patient.birthDate = (pid.pid7 != "") ? hl7DateToFhir(pid.pid7) : ();
         patient.deceasedDateTime = (pid.pid29 != "") ? hl7DateToFhir(pid.pid29) : ();
         patient.gender = pidToAdministrativeSex(pid.pid8.cwe1);
     }
