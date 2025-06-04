@@ -81,26 +81,32 @@ isolated function isPrimitiveType(anydata data) returns boolean {
 
 # Returns the value of a given segment field.
 #
+# + hl7Version - HL7 version
 # + fieldNum - Field number
 # + repetitionNum - Number of repetitions
 # + segment - Segment model
 # + return - Value of the segment field
-isolated function getSegmentField(int fieldNum, int repetitionNum, Segment segment) returns anydata|PrimitiveType {
+isolated function getSegmentField(string hl7Version, int fieldNum, int repetitionNum, Segment segment) returns anydata|PrimitiveType {
     if segment.keys().length() > fieldNum {
-        [string, anydata][] entries = segment.entries().toArray();
-        string key;
-        anydata val;
-        [string, anydata] typeResult = entries[fieldNum];
-        [key, val] = typeResult;
-        if isValidSegmentField(segment, repetitionNum, key) {
-            if isPrimitiveType(val) {
+        if !segment.hasKey("name") {
+            log:printError(string `Invalid segment: ${segment.toBalString()}`);
+            return ();
+        }
+        if fieldNum == 0 {
+            //segment name
+            return ();
+        }
+        string segmentName = segment.name;
+        string key = string`${segmentName.toLowerAscii()}${fieldNum}`;
+        if isValidSegmentField(hl7Version, segment, repetitionNum, key) {
+            if isPrimitiveType(segment.get(key)) {
                 map<anydata> segmentMap = segment;
                 PrimitiveType primitiveVal = {value: <any[]>[key, segmentMap]};
                 return primitiveVal;
-            } else if val is CompositeType {
-                return val;
-            } else if val is anydata[] {
-                anydata[] arr = val;
+            } else if segment.get(key) is CompositeType {
+                return segment.get(key);
+            } else if segment.get(key) is anydata[] {
+                anydata[] arr = <anydata[]>segment.get(key);
                 foreach var elem in arr {
                     if elem is PrimitiveType || elem is CompositeType {
                         return elem;
@@ -123,21 +129,20 @@ isolated function getSegmentField(int fieldNum, int repetitionNum, Segment segme
 
 # Checks whether a given segment field is valid.
 #
+# + hl7Version - HL7 version
 # + segment - Segment model 
 # + repetitionNum - Number of repetitions
 # + fieldKey - Field key
 # + return - True if the segment field is valid, else false
-isolated function isValidSegmentField(Segment segment, int repetitionNum, string fieldKey) returns boolean {
-    Hl7SegmentDefinitionRecord? segmentDefinition = (typeof segment).@SegmentDefinition;
-    if segmentDefinition != () {
-        map<Hl7TypeDefinitionRecord> elementDefinitions = segmentDefinition.fields ?: {};
-        if elementDefinitions.hasKey(fieldKey) {
-            Hl7TypeDefinitionRecord fieldDefinition = elementDefinitions.get(fieldKey);
-            int? maxReps = fieldDefinition.maxReps;
-            if maxReps is int {
-                if maxReps >= repetitionNum || maxReps == -1 {
-                    return true;
-                }
+isolated function isValidSegmentField(string hl7Version, Segment segment, int repetitionNum, string fieldKey) returns boolean {
+    map<Hl7TypeDefinitionRecord> elementDefinitions = hl7Registry.getSegmentElementDefinitions(hl7Version, segment.name);
+    
+    if elementDefinitions.hasKey(fieldKey) {
+        Hl7TypeDefinitionRecord fieldDefinition = elementDefinitions.get(fieldKey);
+        int? maxReps = fieldDefinition.maxReps;
+        if maxReps is int {
+            if maxReps >= repetitionNum || maxReps == -1 {
+                return true;
             }
         }
     }
