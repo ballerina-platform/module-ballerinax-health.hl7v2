@@ -36,8 +36,8 @@ public type Hl7TypeDefinitionRecord record {
 # + fields - Field map
 # + segmentComponentName - Segment component name
 public type Hl7SegmentDefinitionRecord record {
-    string name;
-    boolean required;
+    string name?;
+    boolean required?;
     int maxReps?;
     typedesc segmentType?;
     map<Hl7TypeDefinitionRecord> fields?;

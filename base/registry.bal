@@ -18,12 +18,16 @@ import ballerina/log;
 
 # Function to return to register HL7 Parser
 public type ParserCreator isolated function () returns Parser;
+
 # Function to return to register HL7 Encoder
 public type EncoderCreator isolated function () returns Encoder;
+
 # Function to return the message record for specific message name
 public type GetMessageFuncCreator isolated function (string messageName) returns Message?;
+
 # Function to return the segment record for specific segment name
 public type GetSegmentFuncCreator isolated function (string segmentName) returns Segment?;
+
 # Function to return the segment group record for specific segment group name
 public type GetSegmentGroupFuncCreator isolated function (string segmentGroupName) returns SegmentComponent?;
 
@@ -62,6 +66,7 @@ public isolated class HL7Registry {
     // Key: Compatible HL7 version
     private map<HL7Package> packages = {};
     private map<HL7CustomDef> customDefinitions = {};
+    private map<map<Hl7TypeDefinitionRecord>> segmentElementDefinitions = {};
 
     function init() {
     }
@@ -89,7 +94,7 @@ public isolated class HL7Registry {
                 readonly & ParserCreator? creator = package.parserCreator;
                 if creator != () {
                     return creator();
-                } 
+                }
                 return error(HL7_V2_PARSER_ERROR, message = "Parser creator function unavailable");
             } else {
                 return error(HL7_V2_PARSER_ERROR, message = "Package not found for HL7 version : " + hl7Version);
@@ -114,7 +119,7 @@ public isolated class HL7Registry {
                 readonly & GetMessageFuncCreator? creator = package?.parserUtils?.getMessageFunc;
                 if creator != () {
                     return creator(messageName);
-                } 
+                }
                 return error(HL7_V2_PARSER_ERROR, message = "Message creator function unavailable");
             } else {
                 return error(HL7_V2_PARSER_ERROR, message = "Package not found for HL7 version : " + hl7Version);
@@ -123,7 +128,7 @@ public isolated class HL7Registry {
     }
 
     # Find matching HL7 segment type for given HL7 version.
-    # 
+    #
     # + hl7Version - HL7 version
     # + segmentName - Segment name
     # + return - Segment record for specific segment name. HL7Error is returned, if error occurred
@@ -140,7 +145,7 @@ public isolated class HL7Registry {
                 readonly & GetSegmentFuncCreator? creator = package?.parserUtils?.getSegmentFunc;
                 if creator != () {
                     return creator(segmentName);
-                } 
+                }
                 return error(HL7_V2_PARSER_ERROR, message = "Segment creator function unavailable");
             } else {
                 return error(HL7_V2_PARSER_ERROR, message = "Package not found for HL7 version : " + hl7Version);
@@ -148,8 +153,51 @@ public isolated class HL7Registry {
         }
     }
 
+    # Get the element definitions from the annotationfor a given segment.
+    #
+    # + hl7Version - HL7 version
+    # + segmentName - Segment name
+    # + return - Element definitions for the given segment
+    public isolated function getSegmentElementDefinitions(string hl7Version, string segmentName) returns map<Hl7TypeDefinitionRecord> {
+        lock {
+            if self.packages.hasKey(hl7Version) {
+                if self.segmentElementDefinitions.hasKey(segmentName) {
+                    return self.segmentElementDefinitions[segmentName].clone() ?: {};
+                }
+                map<Hl7TypeDefinitionRecord> elementDefinitions = {};
+                Segment? customSegment = self.getCustomSegment(hl7Version, segmentName);
+                if customSegment != () {
+                    Hl7SegmentDefinitionRecord? customSegmentDefinition = (typeof customSegment).@SegmentDefinition;
+                    if customSegmentDefinition != () {
+                        map<Hl7TypeDefinitionRecord> customDefFields = customSegmentDefinition.fields.clone() ?: {};
+                        foreach var [k, v] in customDefFields.entries() {
+                            elementDefinitions[k] = v;
+                        }
+                    }
+                }
+                HL7Package package = self.packages.get(hl7Version);
+                readonly & GetSegmentFuncCreator? creator = package?.parserUtils?.getSegmentFunc;
+                if creator != () {
+                    Segment? standardSegment = creator(segmentName);
+                    if standardSegment is Segment {
+                        Hl7SegmentDefinitionRecord? standardSegmentDefinition = (typeof standardSegment).@SegmentDefinition;
+                        if standardSegmentDefinition != () {
+                            map<Hl7TypeDefinitionRecord> standardDefFields = standardSegmentDefinition.fields.clone() ?: {};
+                            foreach var [k, v] in standardDefFields.entries() {
+                                elementDefinitions[k] = v;
+                            }
+                        }
+                    }
+                }
+                self.segmentElementDefinitions[segmentName] = elementDefinitions.clone();
+                return elementDefinitions.clone();
+            }
+            return {};
+        }
+    }
+
     # Find matching HL7 segment group type for given HL7 version.
-    # 
+    #
     # + hl7Version - HL7 version
     # + segmentGroupName - Segment group name
     # + return - Segment group record for specific segment group name. HL7Error is returned, if error occurred
@@ -165,7 +213,7 @@ public isolated class HL7Registry {
                 readonly & GetSegmentGroupFuncCreator? creator = package?.parserUtils?.getSegmentGroupFunc;
                 if creator != () {
                     return creator(segmentGroupName);
-                } 
+                }
                 log:printError(string `Segment group creator function unavailable`);
                 return ();
             } else {
@@ -184,7 +232,7 @@ public isolated class HL7Registry {
                 string name = segment.name;
                 map<Segment> segments = {};
                 segments[name] = segment.clone();
-                HL7CustomDef customDef = { segments: segments };
+                HL7CustomDef customDef = {segments: segments};
                 self.customDefinitions[hl7Version] = customDef;
             }
         }
@@ -199,7 +247,7 @@ public isolated class HL7Registry {
                 string messageName = message.name;
                 map<Message> messages = {};
                 messages[messageName] = message.clone();
-                HL7CustomDef customDef = { messages: messages };
+                HL7CustomDef customDef = {messages: messages};
                 self.customDefinitions[hl7Version] = customDef;
             }
         }
@@ -214,7 +262,7 @@ public isolated class HL7Registry {
                 string segmentGroupName = segmentGroup.name;
                 map<SegmentComponent> segmentGroups = {};
                 segmentGroups[segmentGroupName] = segmentGroup.clone();
-                HL7CustomDef customDef = { segmentGroups: segmentGroups };
+                HL7CustomDef customDef = {segmentGroups: segmentGroups};
                 self.customDefinitions[hl7Version] = customDef;
             }
         }
@@ -303,7 +351,7 @@ public isolated class HL7Registry {
                 readonly & EncoderCreator? creator = package.encoderCreator;
                 if creator != () {
                     return creator();
-                } 
+                }
                 return error(HL7_V2_PARSER_ERROR, message = "Encoder creator function unavailable");
             } else {
                 return error(HL7_V2_PARSER_ERROR, message = "Package not found for HL7 version : " + hl7Version);
