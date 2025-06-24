@@ -99,7 +99,7 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
 
                 Segment? segment = check hl7Registry.getHl7SegmentType(hl7Version, segmentName);
                 if segment is Segment {
-                    parseSegment(segment, segments[i], encodingCharacters);
+                    parseSegment(hl7Version, segment, segments[i], encodingCharacters);
                     if isMshSegment(segmentName) {
                         if segment.hasKey("msh9") {
                             map<anydata> msh9Fields = <CompositeType>segment.get("msh9");
@@ -350,10 +350,11 @@ isolated function processChildSegmentGroups(map<anydata> messageFields, string[]
 
 # Parse the segment content and populate the segment model.
 #
+# + hl7Version - HL7 version
 # + segment - Segment model  
 # + segmentContent - Segment content string  
 # + encodingCharacters - Encoding characters
-isolated function parseSegment(Segment segment, string segmentContent, EncodingCharacters encodingCharacters) {
+isolated function parseSegment(string hl7Version, Segment segment, string segmentContent, EncodingCharacters encodingCharacters) {
 
     int fieldOffset = 0;
     if (isDelimeterDefinedSegment(segment.name)) {
@@ -377,7 +378,7 @@ isolated function parseSegment(Segment segment, string segmentContent, EncodingC
             fieldNum = i;
         }
         foreach int j in 0 ..< repetitions.length() {
-            anydata|PrimitiveType fieldResult = getSegmentField(fieldNum, j, segment);
+            anydata|PrimitiveType fieldResult = getSegmentField(hl7Version, fieldNum, j, segment);
             if fieldResult is PrimitiveType {
                 if isMSH2 {
                     parsePrimitive(fieldResult, fields[i]);
