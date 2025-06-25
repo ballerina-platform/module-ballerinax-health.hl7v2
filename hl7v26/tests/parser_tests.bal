@@ -31,7 +31,7 @@ final string msgWithAllSegments = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, 
 "RDF|\rTQ1|\rURS|\rMSA|\rISD|\rNDS|\rPYE|\rSFT|\rACC|\rCON|\rMSH|\rRDT|\rGOL|\r" +
 "AL1|\rECD|\rGP2|\rGP1|\rPID|\rPR1|\rRMI|\rDB1|\rECR|\rDRG|\rLAN|\rREL|\rRF1|\r" +
 "PRA|\rPRC|\rADD|\rPRB|\rITM|\rPRD|\rADJ|\rLRL|\rVND|\rILT|\rSPM|\rRFI|\rDSC|\r" +
-"EDU|\rED|\rAUT|\rDSP|\rPSH|\rPSG|\rPSL|\rIN2|\rIN1|\rLCC|\rPKG|\rROL|\rIN3|\r" +
+"EDU|\rAUT|\rDSP|\rPSH|\rPSG|\rPSL|\rIN2|\rIN1|\rLCC|\rPKG|\rROL|\rIN3|\r" +
 "SID|\rLCH|\rPSS|\rPCE|\rSAC|\rTCD|\rTCC|\rIVC|\rRXA|\rEVN|\rPD1|\rRXC|\rPCR|\r" +
 "RXE|\rRGS|\rRXD|\rBPO|\rRXG|\rAFF|\rORC|\rORG|\rPTH|\rIVT|\rRXO|\rMFA|\rBPX|\r" +
 "BHS|\rPDA|\rMFE|\rRXR|\rPDC|\rFHS|\rINV|\rMFI|\rNPU|\rRQ1|\rLDP|\rZxx|\rOBR|\r" +

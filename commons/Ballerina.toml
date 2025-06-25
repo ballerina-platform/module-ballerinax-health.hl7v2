@@ -9,4 +9,5 @@ repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7
 
 [build-options]
 observabilityIncluded = true
-optimizeDependencyCompilation = true
+#optimizeDependencyCompilation = true
+

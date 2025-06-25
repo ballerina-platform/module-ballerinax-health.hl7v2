@@ -16,6 +16,9 @@
 
 import ballerina/log;
 import ballerinax/health.hl7v2;
+import ballerina/jballerina.java;
+
+final handle packageModule = hl7v2:newModule(java:fromString("ballerinax"), java:fromString("health.hl7v25"), java:fromString("4"));
 
 function init() {
     readonly & hl7v2:HL7Package package = {
