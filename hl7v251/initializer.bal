@@ -18,6 +18,7 @@ import ballerina/log;
 import ballerinax/health.hl7v2;
 import ballerina/jballerina.java;
 
+// This will get access to the package module from the Runtime API. The arguments are the org, name, and major version of the package.
 final handle packageModule = hl7v2:newModule(java:fromString("ballerinax"), java:fromString("health.hl7v251"), java:fromString("4"));
 
 function init() {

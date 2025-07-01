@@ -117,6 +117,38 @@ jobs:
           sed -i "0,/version = \"${CURRENT_VERSION}\"/s//version = \"${NEW_VERSION}\"/" ${{ inputs.working_dir }}/Ballerina.toml
           echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_OUTPUT
           echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_OUTPUT
+          echo "MAJOR_VERSION=${VERSION_PARTS[0]}" >> $GITHUB_OUTPUT
+
+      - name: Check and update initializer.bal version
+        if: ${{ inputs.bal_central_environment == 'PROD' }}
+        id: update_initializer
+        run: |
+          # Check if initializer.bal exists
+          if [ -f "${{ inputs.working_dir }}/initializer.bal" ]; then
+            # Extract current version from initializer.bal
+            CURRENT_INIT_VERSION=$(grep -Po '(?<=java:fromString\(")[0-9]+(?="\)\)$)' "${{ inputs.working_dir }}/initializer.bal" | head -1)
+            
+            if [ -n "$CURRENT_INIT_VERSION" ]; then
+              # Check if major version in Ballerina.toml is different from initializer.bal
+              if [ "$CURRENT_INIT_VERSION" != "${{ steps.increment_patch_version.outputs.MAJOR_VERSION }}" ]; then
+                echo "Major version mismatch detected. Updating initializer.bal from $CURRENT_INIT_VERSION to ${{ steps.increment_patch_version.outputs.MAJOR_VERSION }}"
+                # Update the version in initializer.bal
+                sed -i "s/java:fromString(\"$CURRENT_INIT_VERSION\")/java:fromString(\"${{ steps.increment_patch_version.outputs.MAJOR_VERSION }}\")/g" "${{ inputs.working_dir }}/initializer.bal"
+                echo "INITIALIZER_UPDATED=true" >> $GITHUB_OUTPUT
+                echo "OLD_INIT_VERSION=$CURRENT_INIT_VERSION" >> $GITHUB_OUTPUT
+                echo "NEW_INIT_VERSION=${{ steps.increment_patch_version.outputs.MAJOR_VERSION }}" >> $GITHUB_OUTPUT
+              else
+                echo "No major version change detected in initializer.bal"
+                echo "INITIALIZER_UPDATED=false" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "Could not extract version from initializer.bal"
+              echo "INITIALIZER_UPDATED=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "initializer.bal not found in ${{ inputs.working_dir }}"
+            echo "INITIALIZER_UPDATED=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Ballerina Build after incrementing version
         if: ${{ inputs.bal_central_environment == 'PROD' }}
@@ -135,19 +167,35 @@ jobs:
           git config --global user.name ${{ secrets.BALLERINA_BOT_USERNAME }}
           git config --global user.email ${{ secrets.BALLERINA_BOT_EMAIL }}
           git add ${{ inputs.working_dir }}/Ballerina.toml
-          git add ${{ inputs.working_dir }}/Dependencies.toml    
-          git commit -m "[Release ${packageName} ${{ steps.increment_patch_version.outputs.CURRENT_VERSION }}] Prepare for next dev cycle"
+          git add ${{ inputs.working_dir }}/Dependencies.toml
+          
+          # Add initializer.bal if it was updated
+          if [ "${{ steps.update_initializer.outputs.INITIALIZER_UPDATED }}" == "true" ]; then
+            git add ${{ inputs.working_dir }}/initializer.bal
+            COMMIT_MESSAGE="[Release ${packageName} ${{ steps.increment_patch_version.outputs.CURRENT_VERSION }}] Prepare for next dev cycle - Updated initializer.bal version from ${{ steps.update_initializer.outputs.OLD_INIT_VERSION }} to ${{ steps.update_initializer.outputs.NEW_INIT_VERSION }}"
+          else
+            COMMIT_MESSAGE="[Release ${packageName} ${{ steps.increment_patch_version.outputs.CURRENT_VERSION }}] Prepare for next dev cycle"
+          fi
+          
+          git commit -m "$COMMIT_MESSAGE"
           git push origin ${{ steps.publish_release.outputs.BRANCH_NAME }}
           
           # Set the base and head branches
           BASE_BRANCH="main"
           HEAD_BRANCH="${{ steps.publish_release.outputs.BRANCH_NAME }}"
+          # Set PR title based on whether initializer was updated
+          if [ "${{ steps.update_initializer.outputs.INITIALIZER_UPDATED }}" == "true" ]; then
+            PR_TITLE="[Release ${packageName} ${{ steps.increment_patch_version.outputs.CURRENT_VERSION }}] Prepare for next dev cycle - Updated initializer.bal version"
+          else
+            PR_TITLE="[Release ${packageName} ${{ steps.increment_patch_version.outputs.CURRENT_VERSION }}] Prepare for next dev cycle"
+          fi
+          
           # Create the pull request using the GitHub REST API
           RESPONSE=$(curl -s -X POST \
             -H "Authorization: Bearer ${{ secrets.BALLERINA_BOT_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             -d '{
-              "title": "[Release '"$packageName"' ${{ steps.increment_patch_version.outputs.CURRENT_VERSION }}] Prepare for next dev cycle",
+              "title": "'"$PR_TITLE"'",
               "body": "",
               "head": "'"$HEAD_BRANCH"'",
               "base": "'"$BASE_BRANCH"'"
