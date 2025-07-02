@@ -8,5 +8,5 @@ org = "ballerinax"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
 version = "4.0.3"
 
-[build-options]
-optimizeDependencyCompilation = true
+#[build-options]
+#optimizeDependencyCompilation = true

@@ -125,8 +125,8 @@ function testEncodeHl7MessageWithSegmentArrays() returns error? {
 
 @test:Config {}
 function testNonExistantMsgWithAllSegments() {
-    hl7:Message|hl7:HL7Error parseResult = hl7:parse(msgWithAllSegments);
-    test:assertTrue(parseResult is hl7:HL7Error, "Undefined messages are not handled properly");
+    hl7:Message|error parseResult = hl7:parse(msgWithAllSegments);
+    test:assertTrue(parseResult is error, "No such record: ADT_A0X");
 }
 
 @test:Config {}

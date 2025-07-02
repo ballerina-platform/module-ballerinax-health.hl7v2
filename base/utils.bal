@@ -14,6 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/jballerina.java;
 import ballerina/log;
 import ballerina/time;
 
@@ -525,3 +526,96 @@ function utcToTSFormat(string dateStrInUtc) returns string|HL7Error {
     }
     return tsTimeStr;
 }
+
+# Get the segment instance from the package module.
+#
+# + segmentName - Segment name
+# + packageModule - Package module
+# + return - Segment instance
+public isolated function getSegment(string segmentName, handle packageModule) returns Segment? {
+    handle recordJavaString = java:fromString(segmentName);
+    lock {
+        Segment|error segmentInstance = createSegment(packageModule, recordJavaString);
+        if segmentInstance is error {
+            return ();
+        }
+        return segmentInstance.clone();
+    }
+}
+
+# Get the message instance from the package module.
+#
+# + messageName - Message name
+# + packageModule - Package module
+# + return - Message instance
+public isolated function getMessage(string messageName, handle packageModule) returns Message? {
+    handle recordJavaString = java:fromString(messageName);
+    lock {
+        Message|error messageInstance = trap createMessage(packageModule, recordJavaString);
+        if messageInstance is error {
+            return ();
+        }
+        return messageInstance.clone();
+    }
+}
+
+# Get the segment component instance from the package module.
+#
+# + segmentComponentName - Segment component name
+# + packageModule - Package module
+# + return - Segment component instance
+public isolated function getSegmentComponent(string segmentComponentName, handle packageModule) returns SegmentComponent? {
+    handle recordJavaString = java:fromString(segmentComponentName);
+    lock {
+        SegmentComponent|error segmentInstance = createSegmentGroup(packageModule, recordJavaString);
+        if segmentInstance is error {
+            return ();
+        }
+        return segmentInstance.clone();
+    }
+}
+
+# Create a new module using runtime API.
+#
+# + org - Organization name
+# + name - Module name
+# + majorVersion - Major version
+# + return - Module instance
+isolated function newModule(handle org, handle name, handle majorVersion) returns handle = @java:Constructor {
+    'class: "io.ballerina.runtime.api.Module",
+    paramTypes: ["java.lang.String", "java.lang.String", "java.lang.String"]
+} external;
+
+# Create a new segment instance using runtime API.
+#
+# + module - Module instance
+# + recordName - Record name
+# + return - Segment instance
+isolated function createSegment(handle module, handle recordName) returns Segment|error = @java:Method {
+    name: "createRecordValue",
+    'class: "io.ballerina.runtime.api.creators.ValueCreator",
+    paramTypes: ["io.ballerina.runtime.api.Module", "java.lang.String"]
+} external;
+
+# Create a new segment group instance using runtime API.
+#
+# + module - Module instance
+# + recordName - Record name
+# + return - Segment group instance
+isolated function createSegmentGroup(handle module, handle recordName) returns SegmentComponent|error = @java:Method {
+    name: "createRecordValue",
+    'class: "io.ballerina.runtime.api.creators.ValueCreator",
+    paramTypes: ["io.ballerina.runtime.api.Module", "java.lang.String"]
+} external;
+
+# Create a new message instance using runtime API.
+#
+# + module - Module instance
+# + recordName - Record name
+# + return - Message instance
+isolated function createMessage(handle module, handle recordName) returns Message|error = @java:Method {
+    name: "createRecordValue",
+    'class: "io.ballerina.runtime.api.creators.ValueCreator",
+    paramTypes: ["io.ballerina.runtime.api.Module", "java.lang.String"]
+} external;
+

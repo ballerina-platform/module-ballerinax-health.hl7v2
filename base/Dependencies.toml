@@ -29,6 +29,9 @@ dependencies = [
 org = "ballerina"
 name = "jballerina.java"
 version = "0.0.0"
+modules = [
+	{org = "ballerina", packageName = "jballerina.java", moduleName = "jballerina.java"}
+]
 
 [[package]]
 org = "ballerina"
@@ -137,6 +140,7 @@ org = "ballerinax"
 name = "health.hl7v2"
 version = "3.0.4"
 dependencies = [
+	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "tcp"},
 	{org = "ballerina", name = "test"},
