@@ -581,7 +581,7 @@ public isolated function getSegmentComponent(string segmentComponentName, handle
 # + name - Module name
 # + majorVersion - Major version
 # + return - Module instance
-isolated function newModule(handle org, handle name, handle majorVersion) returns handle = @java:Constructor {
+public isolated function newModule(handle org, handle name, handle majorVersion) returns handle = @java:Constructor {
     'class: "io.ballerina.runtime.api.Module",
     paramTypes: ["java.lang.String", "java.lang.String", "java.lang.String"]
 } external;
