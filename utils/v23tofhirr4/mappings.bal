@@ -288,7 +288,7 @@ public isolated function al1ToAllerygyIntolerance(Al1 al1) returns international
         if al1.al14 == "SV" {
             allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
         }
-        }
+    }
 
     if al1.al12 is hl7v23:IS {
         allergyIntolerance.'type = isToAllergyIntoleranceType(<hl7v23:IS>al1.al12);
@@ -339,14 +339,14 @@ public isolated function evnToProvenance(Evn evn) returns international401:Prove
                 }
             ];
         }
-    } 
+    }
 
-    if evn is hl7v23:EVN{
+    if evn is hl7v23:EVN {
         if evn.evn2.ts1 != "" {
             provenance.recorded = evn.evn2.ts1;
         }
         provenance.occurredDateTime = (evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : ();
-    } 
+    }
 
     return provenance;
 };
@@ -385,7 +385,7 @@ public isolated function pidToPatient(Pid pid) returns international401:Patient 
         patient.birthDate = (pid.pid7.ts1 != "") ? hl7DateToFhir(pid.pid7.ts1) : ();
         patient.deceasedDateTime = (pid.pid29.ts1 != "") ? hl7DateToFhir(pid.pid29.ts1) : ();
         patient.gender = pidToAdministrativeSex(pid.pid8);
-    } 
+    }
     return patient;
 };
 
@@ -394,7 +394,7 @@ public isolated function pv1ToPatient(Pv1 pv1) returns international401:Patient 
 
     if pv1 is hl7v23:PV1 {
         extension = pv1.pv116;
-    } 
+    }
     return {
         extension: (extension != "") ? pv1ToExtension(extension) : ()
     };
@@ -454,7 +454,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
             status: getEncounterLocationStatus(pv1.pv143.pl5)
         };
         encounterLocations.push(encounterLoc6);
-    } 
+    }
 
     international401:EncounterParticipant[] participants = [];
 
@@ -463,7 +463,8 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
     while i < len {
         string system = "";
         string xcn1 = "";
-        string xcn10 = "";if pv1 is hl7v23:PV1 {
+        string xcn10 = "";
+        if pv1 is hl7v23:PV1 {
             system = pv1.pv17[i].xcn8;
             xcn1 = pv1.pv17[i].xcn1;
             xcn10 = pv1.pv17[i].xcn10;
@@ -630,7 +631,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
                 }
             ];
         }
-    } 
+    }
 
     if pv1 is hl7v23:PV1 {
         if pv1.pv113 != "" {
@@ -646,14 +647,14 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
                 text: pv1.pv114
             };
         }
-    } 
+    }
     if pv1 is hl7v23:PV1 {
         if pv1.pv136 != "" {
             encounter.hospitalization.dischargeDisposition = {
                 text: pv1.pv136
             };
         }
-    } 
+    }
 
     if pv1 is hl7v23:PV1 {
         if pv1.pv137.cm_dld1 != "" {
@@ -661,7 +662,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
                 reference: pv1.pv137.cm_dld1
             };
         }
-    } 
+    }
 
     if pv1 is hl7v23:PV1 {
         if pv1.pv138 != "" {
@@ -671,7 +672,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
                 }
             ];
         }
-    } 
+    }
 
     if pv1 is hl7v23:PV1 {
         if pv1.pv139 != "" {
@@ -733,7 +734,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
 
     if pv1 is hl7v23:PV1 {
         encounter.period.'start = (pv1.pv144.ts1 != "") ? pv1.pv144.ts1 : ();
-    } 
+    }
 
     if pv1 is hl7v23:PV1 {
         encounter.period.end = (pv1.pv145.ts1 != "") ? pv1.pv145.ts1 : ();
@@ -747,7 +748,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         if pv1.pv145.ts1 != "" {
             encounter.status = "finished";
         }
-    } 
+    }
 
     encounter.location = (encounterLocations.length() > 0) ? encounterLocations : ();
     encounter.participant = (participants.length() > 0) ? participants : ();
@@ -757,7 +758,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
 
 public isolated function pv2ToEncounter(Pv2 pv2) returns international401:Encounter {
     string display = "";
-    if pv2 is hl7v23:PV2{
+    if pv2 is hl7v23:PV2 {
         display = pv2.pv21.pl1;
     }
     international401:EncounterLocation[] location = [
@@ -780,7 +781,7 @@ public isolated function pv2ToEncounter(Pv2 pv2) returns international401:Encoun
     }
 
     string priority = "";
-    if pv2 is hl7v23:PV2{
+    if pv2 is hl7v23:PV2 {
         priority = pv2.pv225;
     }
 
@@ -822,7 +823,7 @@ public isolated function dg1ToCondition(Dg1 dg1) returns international401:Condit
     international401:Condition condition = {
         subject: {}
     };
-    if dg1 is hl7v23:DG1{
+    if dg1 is hl7v23:DG1 {
         r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(dg1.dg13);
         if ceToCodeableConceptResult != {} {
             ceToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();

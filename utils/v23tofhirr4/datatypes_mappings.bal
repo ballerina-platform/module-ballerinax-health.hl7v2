@@ -96,7 +96,7 @@ public isolated function xonToOrganization(Xon xon) returns international401:Org
 
 public isolated function xonToReference(Xon xon) returns r4:Reference? {
     string? xon3 = ();
-    if xon is hl7v23:XON{
+    if xon is hl7v23:XON {
         xon3 = (xon.xon3 != "") ? xon.xon3.toString() : ();
     }
     r4:Identifier identifier = {
