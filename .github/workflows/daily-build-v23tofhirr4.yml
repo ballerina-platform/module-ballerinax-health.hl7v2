@@ -1,0 +1,14 @@
+name: daily-build-v2tofhirr4
+
+on:
+  schedule:
+    - cron: '55 20 * * *'    # 02:25 in LK time (GMT+5:30)
+  workflow_dispatch:
+
+jobs:
+  build:
+     uses: ./.github/workflows/daily-build-executor.yml
+     secrets: inherit
+     with:
+      working_dir: utils/v2tofhirr4
+      
