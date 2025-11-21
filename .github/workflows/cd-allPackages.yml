@@ -28,15 +28,17 @@ on:
         - HL7V251
         - HL7V271
         - V2TOFHIRR4
+        - V23TOFHIRR4
         required: false
       ballerina_version:
         description: Ballerina Version
         type: choice
         options:
         - 2201.9.0
-        - 2201.8.5
         - 2201.10.2
         - 2201.12.3
+        - 2201.12.10
+        - 2201.13.1
         required: true
 
 jobs:
@@ -145,5 +147,13 @@ jobs:
         secrets: inherit
         with:
             working_dir: ./utils/v2tofhirr4
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+    build_cd-v23tofhirr4:
+        if: github.event.inputs.package_name == 'V23TOFHIRR4' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./utils/v23tofhirr4
             bal_central_environment: ${{ inputs.bal_central_environment }}
             ballerina_version: ${{ inputs.ballerina_version }}
