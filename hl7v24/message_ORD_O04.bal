@@ -25,6 +25,7 @@ public const ORD_O04_MESSAGE_TYPE = "ORD_O04";
 # + msa - MSA
 # + err - ERR
 # + nte - NTE
+# + response - ORD_O04_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -186,5 +187,6 @@ public type ORD_O04 record {
     MSA msa;
     ERR err?;
     NTE[] nte = [];
+    ORD_O04_RESPONSE response?;
 
 };

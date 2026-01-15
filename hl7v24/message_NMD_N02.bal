@@ -22,6 +22,7 @@ public const NMD_N02_MESSAGE_TYPE = "NMD_N02";
 #
 # + name - Message name
 # + msh - MSH
+# + clock_and_stats_with_notes - NMD_N02_CLOCK_AND_STATS_WITH_NOTES
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -137,5 +138,6 @@ public type NMD_N02 record {
     *hl7v2:Message;
     string name = NMD_N02_MESSAGE_TYPE;
     MSH msh;
+    NMD_N02_CLOCK_AND_STATS_WITH_NOTES[] clock_and_stats_with_notes = [];
 
 };
