@@ -146,45 +146,132 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                                 int pos = segmentPositions.get(segmentName);
                                 if orderedSegments.hasKey(segmentName) {
                                     Hl7SegmentDefinitionRecord[] segmentDefArr = orderedSegments.get(segmentName);
-                                    Hl7SegmentDefinitionRecord segmentDef = segmentDefArr[pos];
-                                    int? maxReps = segmentDef.maxReps;
-                                    string segmentComponentName = "";
-                                    string[] parentSegmentGroups = [];
-                                    if segmentDef.segmentComponentName is string {
-                                        segmentComponentName = <string>segmentDef.segmentComponentName;
-                                        if segmentComponentName.indexOf(".") > 0 {
-                                            string:RegExp dotSeperator = re `\.`;
-                                            parentSegmentGroups = dotSeperator.split(segmentComponentName.substring(0, <int>segmentComponentName.lastIndexOf(".")));
-                                            segmentComponentName = segmentComponentName.substring(<int>segmentComponentName.lastIndexOf(".") + 1);
-                                        }
-                                    }
-                                    if maxReps == 1 {
-                                        if segmentComponentName != "" {
-                                            string segmentGroupName;
-                                            if parentSegmentGroups.length() > 0 {
-                                                segmentGroupName = segmentComponentName.toLowerAscii();
-                                            } else {
-                                                segmentGroupName = segmentComponentName.substring(segmentComponentName.indexOf(msgType) + msgType.length() + 1 ?: 0).toLowerAscii();
+                                    // Handle case where pos exceeds array bounds - this happens when a segment
+                                    // with maxReps: 1 appears multiple times in a repeating segment group
+                                    if segmentDefArr.length() == 0 {
+                                        // Skip if no segment definitions (should not happen in valid config)
+                                        // Continue to next segment
+                                    } else {
+                                        // Initialize with first element as default, will be overridden if needed
+                                        Hl7SegmentDefinitionRecord segmentDef = segmentDefArr[0];
+                                        if pos >= segmentDefArr.length() {
+                                            // Find the segment definition that belongs to a repeating segment group
+                                            // or use the last one if all belong to repeating groups
+                                            boolean found = false;
+                                            foreach int idx in segmentDefArr.length() - 1 ... 0 {
+                                                Hl7SegmentDefinitionRecord candidateDef = segmentDefArr[idx];
+                                                if candidateDef.segmentComponentName is string {
+                                                    string candidateComponentName = <string>candidateDef.segmentComponentName;
+                                                    if groups is map<Hl7SegmentComponentDefinitionRecord> {
+                                                        if groups.hasKey(candidateComponentName) {
+                                                            Hl7SegmentComponentDefinitionRecord candidateComponentDef = groups.get(candidateComponentName);
+                                                            if candidateComponentDef.maxReps == -1 {
+                                                                segmentDef = candidateDef;
+                                                                found = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
-                                            if groups is map<Hl7SegmentComponentDefinitionRecord> {
-                                                Hl7SegmentComponentDefinitionRecord segmentComponentDef =
-                                                                                                groups.get(<string>segmentDef.segmentComponentName);
-                                                int? componentMaxReps = segmentComponentDef.maxReps;
+                                            if !found {
+                                                // Fallback to last segment definition
+                                                segmentDef = segmentDefArr[segmentDefArr.length() - 1];
+                                            }
+                                        } else {
+                                            segmentDef = segmentDefArr[pos];
+                                        }
+                                        int? maxReps = segmentDef.maxReps;
+                                        string segmentComponentName = "";
+                                        string[] parentSegmentGroups = [];
+                                        if segmentDef.segmentComponentName is string {
+                                            segmentComponentName = <string>segmentDef.segmentComponentName;
+                                            if segmentComponentName.indexOf(".") > 0 {
+                                                string:RegExp dotSeperator = re `\.`;
+                                                parentSegmentGroups = dotSeperator.split(segmentComponentName.substring(0, <int>segmentComponentName.lastIndexOf(".")));
+                                                segmentComponentName = segmentComponentName.substring(<int>segmentComponentName.lastIndexOf(".") + 1);
+                                            }
+                                        }
+                                        if maxReps == 1 {
+                                            if segmentComponentName != "" {
+                                                string segmentGroupName;
+                                                if parentSegmentGroups.length() > 0 {
+                                                    segmentGroupName = segmentComponentName.toLowerAscii();
+                                                } else {
+                                                    segmentGroupName = segmentComponentName.substring(segmentComponentName.indexOf(msgType) + msgType.length() + 1 ?: 0).toLowerAscii();
+                                                }
+                                                if groups is map<Hl7SegmentComponentDefinitionRecord> {
+                                                    Hl7SegmentComponentDefinitionRecord segmentComponentDef =
+                                                                                                        groups.get(<string>segmentDef.segmentComponentName);
+                                                    int? componentMaxReps = segmentComponentDef.maxReps;
 
-                                                if componentMaxReps is int {
+                                                    if componentMaxReps is int {
                                                     SegmentComponent? segmentComponent = hl7Registry.getHl7SegmentGroupType(hl7Version, segmentComponentName);
                                                     if segmentComponent is SegmentComponent {
                                                         if componentMaxReps == -1 {
                                                             map<anydata> childSegmentGroup = <map<anydata>>processChildSegmentGroups(messageFields, parentSegmentGroups, msgType, hl7Version);
-                                                            SegmentComponent[] segmentComponentArr = <SegmentComponent[]>
-                                                                    (childSegmentGroup[segmentGroupName]);
+                                                            anydata segmentComponentArrValue = childSegmentGroup[segmentGroupName];
+                                                            SegmentComponent[] segmentComponentArr;
+                                                            if segmentComponentArrValue is SegmentComponent[] {
+                                                                segmentComponentArr = segmentComponentArrValue;
+                                                            } else {
+                                                                // Initialize as empty array if field doesn't exist
+                                                                segmentComponentArr = [];
+                                                                childSegmentGroup[segmentGroupName] = segmentComponentArr;
+                                                            }
                                                             if segmentComponentArr.length() == 0 {
                                                                 map<anydata> segmentComponentFields = segmentComponent;
                                                                 segmentComponentFields[segmentName.toLowerAscii()] = segment;
                                                                 (<SegmentComponent[]>segmentComponentArr).push(segmentComponent);
                                                             } else {
-                                                                SegmentComponent lastSegmentComponent = segmentComponentArr[segmentComponentArr.length() - 1];
-                                                                lastSegmentComponent[segmentName.toLowerAscii()] = segment;
+                                                                int lastIndex = segmentComponentArr.length() - 1;
+                                                                SegmentComponent lastSegmentComponent = segmentComponentArr[lastIndex];
+                                                                // Check if the last segment component already has this segment and it's populated
+                                                                // If it does, create a new instance of the segment group
+                                                                anydata existingSegment = lastSegmentComponent[segmentName.toLowerAscii()];
+                                                                boolean segmentExistsAndPopulated = false;
+                                                                if existingSegment is () {
+                                                                    segmentExistsAndPopulated = false;
+                                                                } else if existingSegment is Segment {
+                                                                    segmentExistsAndPopulated = !existingSegment.isEmtpy;
+                                                                } else {
+                                                                    // Check if it's a record with isEmtpy property (like Segment)
+                                                                    map<anydata> existingSegmentMap = <map<anydata>>existingSegment;
+                                                                    if existingSegmentMap.hasKey("isEmtpy") {
+                                                                        anydata isEmtpyValue = existingSegmentMap["isEmtpy"];
+                                                                        if isEmtpyValue is boolean {
+                                                                            segmentExistsAndPopulated = !isEmtpyValue;
+                                                                        } else {
+                                                                            // If isEmtpy is not boolean, assume it's populated
+                                                                            segmentExistsAndPopulated = true;
+                                                                        }
+                                                                    } else {
+                                                                        // If it doesn't have isEmtpy, assume it exists and is populated
+                                                                        segmentExistsAndPopulated = true;
+                                                                    }
+                                                                }
+                                                                if segmentExistsAndPopulated {
+                                                                    // Create a new instance of the segment component
+                                                                    SegmentComponent? newSegmentComponent = hl7Registry.getHl7SegmentGroupType(hl7Version, segmentComponentName);
+                                                                    if newSegmentComponent is SegmentComponent {
+                                                                        map<anydata> newSegmentComponentFields = newSegmentComponent;
+                                                                        newSegmentComponentFields[segmentName.toLowerAscii()] = segment;
+                                                                        segmentComponentArr.push(newSegmentComponent);
+                                                                        // Ensure the array is updated in the parent structure
+                                                                        childSegmentGroup[segmentGroupName] = segmentComponentArr;
+                                                                    } else {
+                                                                        // Fallback: add to last component if we can't create new one
+                                                                        map<anydata> lastSegmentComponentFields = <map<anydata>>segmentComponentArr[lastIndex];
+                                                                        lastSegmentComponentFields[segmentName.toLowerAscii()] = segment;
+                                                                        childSegmentGroup[segmentGroupName] = segmentComponentArr;
+                                                                    }
+                                                                } else {
+                                                                    // Modify the record in the array directly
+                                                                    map<anydata> lastSegmentComponentFields = <map<anydata>>segmentComponentArr[lastIndex];
+                                                                    lastSegmentComponentFields[segmentName.toLowerAscii()] = segment;
+                                                                    // Ensure the array is updated in the parent structure
+                                                                    childSegmentGroup[segmentGroupName] = segmentComponentArr;
+                                                                }
                                                             }
                                                         } else if componentMaxReps == 1 {
                                                             map<anydata> processChildSegmentGroupsResult = <map<anydata>>processChildSegmentGroups(messageFields, parentSegmentGroups, msgType, hl7Version);
@@ -197,30 +284,37 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                                                             }
                                                         }
                                                     }
+                                                    }
                                                 }
-                                            }
-                                        } else {
-                                            messageFields[segmentName.toLowerAscii()] = segment;
-                                        }
-                                    } else if maxReps == -1 {
-                                        if segmentComponentName != "" {
-                                            string segmentGroupName;
-                                            if parentSegmentGroups.length() > 0 {
-                                                segmentGroupName = segmentComponentName.toLowerAscii();
                                             } else {
-                                                segmentGroupName = segmentComponentName.substring(segmentComponentName.indexOf(msgType) + msgType.length() + 1 ?: 0).toLowerAscii();
+                                                messageFields[segmentName.toLowerAscii()] = segment;
                                             }
-                                            if groups is map<Hl7SegmentComponentDefinitionRecord> {
-                                                Hl7SegmentComponentDefinitionRecord segmentComponentDef =
-                                                                                                groups.get(<string>segmentDef.segmentComponentName);
-                                                int? componentMaxReps = segmentComponentDef.maxReps;
+                                        } else if maxReps == -1 {
+                                            if segmentComponentName != "" {
+                                                string segmentGroupName;
+                                                if parentSegmentGroups.length() > 0 {
+                                                    segmentGroupName = segmentComponentName.toLowerAscii();
+                                                } else {
+                                                    segmentGroupName = segmentComponentName.substring(segmentComponentName.indexOf(msgType) + msgType.length() + 1 ?: 0).toLowerAscii();
+                                                }
+                                                if groups is map<Hl7SegmentComponentDefinitionRecord> {
+                                                    Hl7SegmentComponentDefinitionRecord segmentComponentDef =
+                                                                                                        groups.get(<string>segmentDef.segmentComponentName);
+                                                    int? componentMaxReps = segmentComponentDef.maxReps;
                                                 if componentMaxReps is int {
                                                     SegmentComponent? segmentComponent = hl7Registry.getHl7SegmentGroupType(hl7Version, segmentComponentName);
                                                     if segmentComponent is SegmentComponent {
                                                         if componentMaxReps == -1 {
                                                             map<anydata> childSegmentGroup = <map<anydata>>processChildSegmentGroups(messageFields, parentSegmentGroups, msgType, hl7Version);
-                                                            SegmentComponent[] segmentComponentArr = <SegmentComponent[]>
-                                                                    (childSegmentGroup[segmentGroupName]);
+                                                            anydata segmentComponentArrValue = childSegmentGroup[segmentGroupName];
+                                                            SegmentComponent[] segmentComponentArr;
+                                                            if segmentComponentArrValue is SegmentComponent[] {
+                                                                segmentComponentArr = segmentComponentArrValue;
+                                                            } else {
+                                                                // Initialize as empty array if field doesn't exist
+                                                                segmentComponentArr = [];
+                                                                childSegmentGroup[segmentGroupName] = segmentComponentArr;
+                                                            }
                                                             if segmentComponentArr.length() == 0 {
                                                                 map<anydata> segmentComponentFields = segmentComponent;
                                                                 Segment[] innerSegmentsArr =
@@ -268,6 +362,7 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                                                 segmentArr.push(segment);
                                             }
                                         }
+                                    }
                                     }
                                 } else {
                                     //considering custom segments to be added to the message
@@ -323,25 +418,18 @@ isolated function processChildSegmentGroups(map<anydata> messageFields, string[]
         } else {
             currentSegmentGroupName = parentSegmentGroup.toLowerAscii();
         }
-        if current.hasKey(currentSegmentGroupName) {
-            if current[currentSegmentGroupName] is SegmentComponent {
-                current = <map<anydata>>current[currentSegmentGroupName];
-            } else if current[currentSegmentGroupName] is SegmentComponent[] {
-                SegmentComponent[] segmentGroupArr = <SegmentComponent[]>current[currentSegmentGroupName];
-                current = <map<anydata>>segmentGroupArr[segmentGroupArr.length() - 1];
-            }
+        anydata currentSegmentGroupValue = current[currentSegmentGroupName];
+        if currentSegmentGroupValue is SegmentComponent {
+            current = <map<anydata>>currentSegmentGroupValue;
+        } else if currentSegmentGroupValue is SegmentComponent[] {
+            SegmentComponent[] segmentGroupArr = <SegmentComponent[]>currentSegmentGroupValue;
+            current = <map<anydata>>segmentGroupArr[segmentGroupArr.length() - 1];
         } else {
+            // Field doesn't exist or is () - create the segment component
             SegmentComponent? segmentComponent = hl7Registry.getHl7SegmentGroupType(hl7Version, parentSegmentGroup);
             if segmentComponent is SegmentComponent {
-                if current[currentSegmentGroupName] is SegmentComponent {
-                    current = <map<anydata>>current[currentSegmentGroupName];
-                } else if current[currentSegmentGroupName] is SegmentComponent[] {
-                    SegmentComponent[] segmentGroupArr = <SegmentComponent[]>current[currentSegmentGroupName];
-                    current = <map<anydata>>segmentGroupArr[segmentGroupArr.length() - 1];
-                } else {
-                    current[currentSegmentGroupName] = segmentComponent;
-                    current = <map<anydata>>current[currentSegmentGroupName];
-                }
+                current[currentSegmentGroupName] = segmentComponent;
+                current = <map<anydata>>current[currentSegmentGroupName];
             }
         }
         pos += 1;
