@@ -28,6 +28,7 @@ public const RSP_Z86_MESSAGE_TYPE = "RSP_Z86";
 # + qak - QAK
 # + qpd - QPD
 # + dsc - DSC
+# + query_response - RSP_Z86_QUERY_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -475,5 +476,6 @@ public type RSP_Z86 record {
     QAK qak;
     QPD qpd;
     DSC dsc?;
+    RSP_Z86_QUERY_RESPONSE[] query_response = [];
 
 };

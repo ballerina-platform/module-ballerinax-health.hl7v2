@@ -26,6 +26,7 @@ public const ORL_O36_MESSAGE_TYPE = "ORL_O36";
 # + err - ERR
 # + sft - SFT
 # + nte - NTE
+# + response - ORL_O36_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -221,5 +222,6 @@ public type ORL_O36 record {
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    ORL_O36_RESPONSE response?;
 
 };

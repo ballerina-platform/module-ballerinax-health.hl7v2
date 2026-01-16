@@ -29,6 +29,7 @@ public const RSP_K31_MESSAGE_TYPE = "RSP_K31";
 # + qpd - QPD
 # + rcp - RCP
 # + dsc - DSC
+# + response - RSP_K31_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -456,5 +457,6 @@ public type RSP_K31 record {
     QPD qpd;
     RCP rcp;
     DSC dsc?;
+    RSP_K31_RESPONSE[] response = [];
 
 };
