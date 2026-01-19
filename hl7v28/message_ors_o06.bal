@@ -27,6 +27,7 @@ public const ORS_O06_MESSAGE_TYPE = "ORS_O06";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - ORS_O06_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -245,5 +246,6 @@ public type ORS_O06 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    ORS_O06_RESPONSE response?;
 
 };

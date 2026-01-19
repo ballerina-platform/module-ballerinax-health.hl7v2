@@ -27,6 +27,7 @@ public const ORB_O28_MESSAGE_TYPE = "ORB_O28";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - ORB_O28_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -210,5 +211,6 @@ public type ORB_O28 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    ORB_O28_RESPONSE response?;
 
 };
