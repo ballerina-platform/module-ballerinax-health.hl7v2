@@ -27,6 +27,7 @@ public const ORL_O40_MESSAGE_TYPE = "ORL_O40";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - ORL_O40_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -290,5 +291,6 @@ public type ORL_O40 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    ORL_O40_RESPONSE response?;
 
 };
