@@ -22,7 +22,7 @@ public const ORU_R01_MESSAGE_TYPE = "ORU_R01";
 #
 # + name - Message name
 # + msh - MSH
-# + oru_r01_patient_result - ORU_R01_PATIENT_RESULT
+# + patient_result - ORU_R01_PATIENT_RESULT
 # + dsc - DSC
 
 @hl7v2:MessageDefinition {
@@ -217,7 +217,7 @@ public type ORU_R01 record {
     *hl7v2:Message;
     string name = ORU_R01_MESSAGE_TYPE;
     MSH msh;
-    ORU_R01_PATIENT_RESULT[] oru_r01_patient_result = [{oru_r01_order_observation: [{obr: {}}]}];
+    ORU_R01_PATIENT_RESULT[] patient_result = [{oru_r01_order_observation: [{obr: {}}]}];
     DSC dsc?;
 
 };

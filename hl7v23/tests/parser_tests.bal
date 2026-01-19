@@ -164,4 +164,19 @@ function testSegmentGroupsParsing() returns error? {
     test:assertTrue(inOrm.patient?.orm_o01_patient_visit?.pv1?.pv11 == "1", "Segment groups parsing failed");
 }
 
+@test:Config {}
+function testNestedSegmentGroupsParsing() returns error? {
+    final string oruMsg = "MSH|^~\\&|MESA_RPT_MGR|EAST_RADIOLOGY|iFW|XYZ|20010501141500||ORU^R01|MESA3b|P|2.3"+
+"\rPID|||CR3^^^ADT1||CRTHREE^PAUL|||||||||||||PatientAcct"+
+"\rPV1||1|CE||||12345^SMITH^BARON^H|||||||||||"+
+"\rOBR|||||||20010501141500||||||||||||||||||F||||||||||||||||||"+
+"\rOBX|1|HD|SR Instance UID||1.113654.1.2001.30.2.1||||||F||||||"+
+"\rOBX|2|TX|SR Text||Radiology Report History: Cough. Findings: PA evaluation of the chest demonstrates the lungs to be expanded and clear. Conclusions: Normal PA chest x-ray.|||||FCTI|study1|^1|^10_EP1";
+
+    hl7:Message parsedMsg = check hl7:parse(oruMsg);
+    ORU_R01 inOru = check parsedMsg.ensureType(ORU_R01);
+    test:assertTrue(inOru.patient_result[0].oru_r01_order_observation[0].obr.obr7.ts1 == "20010501141500", "ORU_R01 message parsing failed");
+    test:assertTrue(inOru.patient_result[0].oru_r01_order_observation[0].oru_r01_observation[0].obx?.obx1 == "1", "ORU_R01 message parsing failed");
+}
+
 
