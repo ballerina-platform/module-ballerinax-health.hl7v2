@@ -24,6 +24,7 @@ public const NMD_N02_MESSAGE_TYPE = "NMD_N02";
 # + msh - MSH
 # + sft - SFT
 # + uac - UAC
+# + clock_and_stats_with_notes - NMD_N02_CLOCK_AND_STATS_WITH_NOTES Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -155,5 +156,6 @@ public type NMD_N02 record {
     MSH msh;
     SFT[] sft = [];
     UAC uac?;
+    NMD_N02_CLOCK_AND_STATS_WITH_NOTES[] clock_and_stats_with_notes = [];
 
 };

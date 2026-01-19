@@ -27,6 +27,7 @@ public const ORI_O24_MESSAGE_TYPE = "ORI_O24";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - ORI_O24_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -232,5 +233,6 @@ public type ORI_O24 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    ORI_O24_RESPONSE response?;
 
 };
