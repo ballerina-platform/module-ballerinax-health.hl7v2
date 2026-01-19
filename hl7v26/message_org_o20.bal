@@ -27,6 +27,7 @@ public const ORG_O20_MESSAGE_TYPE = "ORG_O20";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - ORG_O20_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -259,5 +260,6 @@ public type ORG_O20 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    ORG_O20_RESPONSE response?;
 
 };

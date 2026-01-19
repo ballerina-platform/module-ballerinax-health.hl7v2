@@ -27,6 +27,7 @@ public const RRG_O16_MESSAGE_TYPE = "RRG_O16";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - RRG_O16_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -244,5 +245,6 @@ public type RRG_O16 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    RRG_O16_RESPONSE response?;
 
 };

@@ -30,6 +30,7 @@ public const OSR_Q06_MESSAGE_TYPE = "OSR_Q06";
 # + qrd - QRD
 # + qrf - QRF
 # + dsc - DSC
+# + response - OSR_Q06_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -306,5 +307,6 @@ public type OSR_Q06 record {
     QRD qrd;
     QRF qrf?;
     DSC dsc?;
+    OSR_Q06_RESPONSE response?;
 
 };

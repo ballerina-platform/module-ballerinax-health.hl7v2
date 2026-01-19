@@ -27,6 +27,7 @@ public const RRE_O26_MESSAGE_TYPE = "RRE_O26";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - RRE_O26_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -244,5 +245,6 @@ public type RRE_O26 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    RRE_O26_RESPONSE response?;
 
 };

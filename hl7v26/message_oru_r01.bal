@@ -26,6 +26,7 @@ public const ORU_R01_MESSAGE_TYPE = "ORU_R01";
 # + uac - UAC  
 # + dsc - DSC  
 # + patientResult - Patient Result
+# + patient_result - ORU_R01_PATIENT_RESULT
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -362,4 +363,5 @@ public type ORU_R01 record {
     UAC uac?;
     DSC dsc?;
     ORU_R01_PATIENT_RESULT[] patientResult = [{}];
+    ORU_R01_PATIENT_RESULT[] patient_result = [];
 };
