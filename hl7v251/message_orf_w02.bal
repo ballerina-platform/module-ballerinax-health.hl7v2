@@ -29,6 +29,7 @@ public const ORF_W02_MESSAGE_TYPE = "ORF_W02";
 # + err - ERR
 # + qak - QAK
 # + dsc - DSC
+# + response - ORF_W02_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -239,5 +240,6 @@ public type ORF_W02 record {
     ERR[] err = [];
     QAK qak?;
     DSC dsc?;
+    ORF_W02_RESPONSE[] response = [];
 
 };

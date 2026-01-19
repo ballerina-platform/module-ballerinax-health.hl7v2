@@ -26,6 +26,7 @@ public const ORP_O10_MESSAGE_TYPE = "ORP_O10";
 # + err - ERR
 # + sft - SFT
 # + nte - NTE
+# + response - ORP_O10_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -235,5 +236,6 @@ public type ORP_O10 record {
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    ORP_O10_RESPONSE response?;
 
 };

@@ -29,6 +29,7 @@ public const RSP_Z82_MESSAGE_TYPE = "RSP_Z82";
 # + qpd - QPD
 # + rcp - RCP
 # + dsc - DSC
+# + query_response - RSP_Z82_QUERY_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -456,5 +457,6 @@ public type RSP_Z82 record {
     QPD qpd;
     RCP rcp;
     DSC dsc?;
+    RSP_Z82_QUERY_RESPONSE[] query_response = [];
 
 };

@@ -26,6 +26,7 @@ public const RRE_O26_MESSAGE_TYPE = "RRE_O26";
 # + err - ERR
 # + sft - SFT
 # + nte - NTE
+# + response - RRE_O26_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -246,5 +247,6 @@ public type RRE_O26 record {
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    RRE_O26_RESPONSE response?;
 
 };

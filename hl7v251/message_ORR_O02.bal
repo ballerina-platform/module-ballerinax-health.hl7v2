@@ -25,6 +25,7 @@ public const ORR_O02_MESSAGE_TYPE = "ORR_O02";
 # + msa - MSA
 # + err - ERR
 # + nte - NTE
+# + response - ORR_O02_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -229,5 +230,6 @@ public type ORR_O02 record {
     MSA msa;
     ERR[] err = [];
     NTE[] nte = [];
+    ORR_O02_RESPONSE response?;
 
 };
