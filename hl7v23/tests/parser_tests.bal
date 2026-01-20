@@ -171,12 +171,60 @@ function testNestedSegmentGroupsParsing() returns error? {
 "\rPV1||1|CE||||12345^SMITH^BARON^H|||||||||||"+
 "\rOBR|||||||20010501141500||||||||||||||||||F||||||||||||||||||"+
 "\rOBX|1|HD|SR Instance UID||1.113654.1.2001.30.2.1||||||F||||||"+
-"\rOBX|2|TX|SR Text||Radiology Report History: Cough. Findings: PA evaluation of the chest demonstrates the lungs to be expanded and clear. Conclusions: Normal PA chest x-ray.|||||FCTI|study1|^1|^10_EP1";
+"\rOBX|2|TX|SR Text||Radiology Report History: Cough. Findings: PA evaluation of the chest demonstrates the lungs to be expanded and clear. Conclusions: Normal PA chest x-ray.|||||FCTI|study1|^1|^10_EP1" + 
+"\rNTE|1||For patients >49 years of age, the reference limit";
 
     hl7:Message parsedMsg = check hl7:parse(oruMsg);
     ORU_R01 inOru = check parsedMsg.ensureType(ORU_R01);
     test:assertTrue(inOru.patient_result[0].oru_r01_order_observation[0].obr.obr7.ts1 == "20010501141500", "ORU_R01 message parsing failed");
     test:assertTrue(inOru.patient_result[0].oru_r01_order_observation[0].oru_r01_observation[0].obx?.obx1 == "1", "ORU_R01 message parsing failed");
+    
+    // Verify there are 2 observations (OBX|1 and OBX|2)
+    test:assertTrue(inOru.patient_result[0].oru_r01_order_observation[0].oru_r01_observation.length() >= 2, "Should have at least 2 observations");
+    
+    // Check that NTE is NOT in the first observation (OBX|1)
+    NTE[]? nteArrayFirst = inOru.patient_result[0].oru_r01_order_observation[0].oru_r01_observation[0].nte;
+    if nteArrayFirst is NTE[] {
+        test:assertTrue(nteArrayFirst.length() == 0 || (nteArrayFirst.length() == 1 && nteArrayFirst[0].isEmtpy), 
+            "NTE should NOT be in the first observation group (OBX|1)");
+    }
+    
+    // Check NTE segment in the second observation group (OBX|2) - verify it's in the correct nested location
+    NTE[]? nteArray = inOru.patient_result[0].oru_r01_order_observation[0].oru_r01_observation[1].nte;
+    test:assertTrue(nteArray is NTE[], "NTE array should exist in the second observation group");
+    if nteArray is NTE[] {
+        test:assertTrue(nteArray.length() > 0, "NTE array should have at least one element in the second observation");
+        // Get the last segment in the array (the parsed one, not the default empty one)
+        NTE nte = nteArray[nteArray.length() - 1];
+        // Verify NTE segment exists in the nested observation group that contains OBX|2
+        // This verifies that nested segment groups are working correctly for NTE segments
+        test:assertEquals(nte.name, "NTE", "NTE segment name should be 'NTE'");
+        
+        // Verify NTE segment field values
+        // Expected: NTE|1||For patients >49 years of age, the reference limit
+        // nte1 = "1", nte2 = "", nte3[0] = "For patients >49 years of age, the reference limit"
+        test:assertEquals(nte.nte1, "1", "NTE Set ID (nte1) should be '1'");
+        test:assertEquals(nte.nte2, "", "NTE Source of Comment (nte2) should be empty");
+        test:assertTrue(nte.nte3.length() > 0, "NTE Comment (nte3) array should have at least one element");
+        if nte.nte3.length() > 0 {
+            test:assertEquals(nte.nte3[0], "For patients >49 years of age, the reference limit", 
+                "NTE Comment (nte3[0]) should match the expected text");
+        }
+    }
+    
+    // Verify NTE is NOT at the ORDER_OBSERVATION level
+    NTE[]? nteArrayOrder = inOru.patient_result[0].oru_r01_order_observation[0].nte;
+    if nteArrayOrder is NTE[] {
+        test:assertTrue(nteArrayOrder.length() == 0 || (nteArrayOrder.length() == 1 && nteArrayOrder[0].isEmtpy), 
+            "NTE should NOT be at the ORDER_OBSERVATION level");
+    }
+    
+    // Verify NTE is NOT at the PATIENT level
+    NTE[]? nteArrayPatient = inOru.patient_result[0].oru_r01_patient?.nte;
+    if nteArrayPatient is NTE[] {
+        test:assertTrue(nteArrayPatient.length() == 0 || (nteArrayPatient.length() == 1 && nteArrayPatient[0].isEmtpy), 
+            "NTE should NOT be at the PATIENT level - it should be in the observation group");
+    }
 }
 
 
