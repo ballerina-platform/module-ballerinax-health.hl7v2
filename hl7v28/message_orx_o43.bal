@@ -27,6 +27,7 @@ public const ORX_O43_MESSAGE_TYPE = "ORX_O43";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - ORX_O43_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -202,5 +203,6 @@ public type ORX_O43 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    ORX_O43_RESPONSE response?;
 
 };

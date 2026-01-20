@@ -27,6 +27,7 @@ public const ORP_O10_MESSAGE_TYPE = "ORP_O10";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - ORP_O10_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -244,5 +245,6 @@ public type ORP_O10 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    ORP_O10_RESPONSE response?;
 
 };

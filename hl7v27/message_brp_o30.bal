@@ -27,6 +27,7 @@ public const BRP_O30_MESSAGE_TYPE = "BRP_O30";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - BRP_O30_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -186,5 +187,6 @@ public type BRP_O30 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    BRP_O30_RESPONSE response?;
 
 };

@@ -24,6 +24,7 @@ public const ORU_R01_MESSAGE_TYPE = "ORU_R01";
 # + msh - MSH
 # + sft - SFT
 # + dsc - DSC
+# + patient_result - ORU_R01_PATIENT_RESULT Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -327,5 +328,6 @@ public type ORU_R01 record {
     MSH msh;
     SFT[] sft = [];
     DSC dsc?;
+    ORU_R01_PATIENT_RESULT[] patient_result = [];
 
 };

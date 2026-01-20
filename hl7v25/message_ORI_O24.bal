@@ -26,6 +26,7 @@ public const ORI_O24_MESSAGE_TYPE = "ORI_O24";
 # + err - ERR
 # + sft - SFT
 # + nte - NTE
+# + response - ORI_O24_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -199,5 +200,6 @@ public type ORI_O24 record {
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    ORI_O24_RESPONSE response?;
 
 };

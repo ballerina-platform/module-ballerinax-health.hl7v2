@@ -26,6 +26,7 @@ public const RRD_O14_MESSAGE_TYPE = "RRD_O14";
 # + err - ERR
 # + sft - SFT
 # + nte - NTE
+# + response - RRD_O14_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -218,5 +219,6 @@ public type RRD_O14 record {
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    RRD_O14_RESPONSE response?;
 
 };

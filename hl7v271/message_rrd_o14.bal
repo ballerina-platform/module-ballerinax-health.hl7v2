@@ -27,6 +27,7 @@ public const RRD_O14_MESSAGE_TYPE = "RRD_O14";
 # + sft - SFT
 # + uac - UAC
 # + nte - NTE
+# + response - RRD_O14_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -240,5 +241,6 @@ public type RRD_O14 record {
     SFT[] sft = [];
     UAC uac?;
     NTE[] nte = [];
+    RRD_O14_RESPONSE response?;
 
 };

@@ -26,6 +26,7 @@ public const RRA_O18_MESSAGE_TYPE = "RRA_O18";
 # + err - ERR
 # + sft - SFT
 # + nte - NTE
+# + response - RRA_O18_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -194,5 +195,6 @@ public type RRA_O18 record {
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    RRA_O18_RESPONSE response?;
 
 };

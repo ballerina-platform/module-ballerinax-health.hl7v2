@@ -29,6 +29,7 @@ public const RSP_Z90_MESSAGE_TYPE = "RSP_Z90";
 # + qpd - QPD
 # + rcp - RCP
 # + dsc - DSC
+# + query_response - RSP_Z90_QUERY_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -346,5 +347,6 @@ public type RSP_Z90 record {
     QPD qpd;
     RCP rcp;
     DSC dsc;
+    RSP_Z90_QUERY_RESPONSE[] query_response = [];
 
 };

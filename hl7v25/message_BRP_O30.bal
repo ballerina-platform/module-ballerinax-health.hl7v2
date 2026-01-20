@@ -26,6 +26,7 @@ public const BRP_O30_MESSAGE_TYPE = "BRP_O30";
 # + err - ERR
 # + sft - SFT
 # + nte - NTE
+# + response - BRP_O30_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -177,5 +178,6 @@ public type BRP_O30 record {
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    BRP_O30_RESPONSE response?;
 
 };

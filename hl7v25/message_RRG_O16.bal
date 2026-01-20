@@ -26,6 +26,7 @@ public const RRG_O16_MESSAGE_TYPE = "RRG_O16";
 # + err - ERR
 # + sft - SFT
 # + nte - NTE
+# + response - RRG_O16_RESPONSE
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -235,5 +236,6 @@ public type RRG_O16 record {
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    RRG_O16_RESPONSE response?;
 
 };

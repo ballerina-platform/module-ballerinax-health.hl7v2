@@ -26,6 +26,7 @@ public const ORN_O08_MESSAGE_TYPE = "ORN_O08";
 # + err - ERR
 # + sft - SFT
 # + nte - NTE
+# + response - ORN_O08_RESPONSE Segment Group
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -199,5 +200,6 @@ public type ORN_O08 record {
     ERR[] err = [];
     SFT[] sft = [];
     NTE[] nte = [];
+    ORN_O08_RESPONSE response?;
 
 };
