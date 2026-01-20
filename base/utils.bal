@@ -179,7 +179,29 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                                                 segmentDef = segmentDefArr[segmentDefArr.length() - 1];
                                             }
                                         } else {
-                                            segmentDef = segmentDefArr[pos];
+                                            // For segments that can appear in multiple contexts, select based on current context
+                                            // Check from deepest to shallowest to find the most recently active segment group
+                                            boolean contextFound = false;
+                                            // Iterate backwards from last to first
+                                            int idx = segmentDefArr.length() - 1;
+                                            while idx >= 0 {
+                                                Hl7SegmentDefinitionRecord candidateDef = segmentDefArr[idx];
+                                                if candidateDef.segmentComponentName is string {
+                                                    string candidateComponentName = <string>candidateDef.segmentComponentName;
+                                                    // Check if this segment group path exists and is active in the message
+                                                    boolean isActive = isSegmentGroupActive(messageFields, candidateComponentName, msgType, hl7Version);
+                                                    if isActive {
+                                                        segmentDef = candidateDef;
+                                                        contextFound = true;
+                                                        break;
+                                                    }
+                                                }
+                                                idx = idx - 1;
+                                            }
+                                            if !contextFound {
+                                                // Fallback to position-based selection
+                                                segmentDef = segmentDefArr[pos];
+                                            }
                                         }
                                         int? maxReps = segmentDef.maxReps;
                                         string segmentComponentName = "";
@@ -277,9 +299,21 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                                                             map<anydata> processChildSegmentGroupsResult = <map<anydata>>processChildSegmentGroups(messageFields, parentSegmentGroups, msgType, hl7Version);
                                                             if processChildSegmentGroupsResult[segmentGroupName] is SegmentComponent {
                                                                 SegmentComponent current = <SegmentComponent>processChildSegmentGroupsResult[segmentGroupName];
-                                                                current[segmentName.toLowerAscii()] = segment;
+                                                                anydata existingValue = current[segmentName.toLowerAscii()];
+                                                                if existingValue is Segment[] {
+                                                                    Segment[] segmentArr = <Segment[]>existingValue;
+                                                                    segmentArr.push(segment);
+                                                                } else {
+                                                                    current[segmentName.toLowerAscii()] = segment;
+                                                                }
                                                             } else {
-                                                                segmentComponent[segmentName.toLowerAscii()] = segment;
+                                                                anydata existingValue = segmentComponent[segmentName.toLowerAscii()];
+                                                                if existingValue is Segment[] {
+                                                                    Segment[] segmentArr = <Segment[]>existingValue;
+                                                                    segmentArr.push(segment);
+                                                                } else {
+                                                                    segmentComponent[segmentName.toLowerAscii()] = segment;
+                                                                }
                                                                 processChildSegmentGroupsResult[segmentGroupName] = segmentComponent;
                                                             }
                                                         }
@@ -317,34 +351,127 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                                                             }
                                                             if segmentComponentArr.length() == 0 {
                                                                 map<anydata> segmentComponentFields = segmentComponent;
-                                                                Segment[] innerSegmentsArr =
-                                                                        <Segment[]>(segmentComponentFields[segmentName.toLowerAscii()]);
-                                                                innerSegmentsArr.push(segment);
-                                                                segmentComponentArr.push(segmentComponent);
-                                                            } else {
-                                                                SegmentComponent lastSegmentComponent = segmentComponentArr[segmentComponentArr.length() - 1];
-                                                                if lastSegmentComponent.hasKey(segmentName.toLowerAscii()) {
-                                                                    map<anydata> segmentComponentFields = lastSegmentComponent;
-                                                                    Segment[] innerSegmentsArr =
-                                                                        <Segment[]>(segmentComponentFields[segmentName.toLowerAscii()]);
-                                                                    Segment segmentResult = innerSegmentsArr[innerSegmentsArr.length() - 1];
-                                                                    if segmentResult.isEmtpy {
-                                                                        innerSegmentsArr[innerSegmentsArr.length() - 1] = segment;
+                                                                anydata existingSegments = segmentComponentFields[segmentName.toLowerAscii()];
+                                                                Segment[] innerSegmentsArr;
+                                                                if existingSegments is Segment[] {
+                                                                    Segment[] defaultArr = <Segment[]>existingSegments;
+                                                                    // Create a new array to avoid modifying the default
+                                                                    innerSegmentsArr = [];
+                                                                    // Check if the last segment is empty and skip it, otherwise copy all segments
+                                                                    if defaultArr.length() > 0 {
+                                                                        Segment lastSeg = defaultArr[defaultArr.length() - 1];
+                                                                        if lastSeg.isEmtpy {
+                                                                            // Skip the empty segment, copy the rest, then add the parsed segment
+                                                                            foreach int idx in 0 ..< defaultArr.length() - 1 {
+                                                                                innerSegmentsArr.push(defaultArr[idx]);
+                                                                            }
+                                                                            innerSegmentsArr.push(segment);
+                                                                        } else {
+                                                                            // Copy all segments and add the new one
+                                                                            foreach Segment seg in defaultArr {
+                                                                                innerSegmentsArr.push(seg);
+                                                                            }
+                                                                            innerSegmentsArr.push(segment);
+                                                                        }
                                                                     } else {
                                                                         innerSegmentsArr.push(segment);
                                                                     }
                                                                 } else {
-                                                                    Segment[] innerSegmentsArr = <Segment[]>lastSegmentComponent[segmentName.toLowerAscii()];
+                                                                    innerSegmentsArr = [segment];
+                                                                }
+                                                                segmentComponentFields[segmentName.toLowerAscii()] = innerSegmentsArr;
+                                                                segmentComponentArr.push(segmentComponent);
+                                                            } else {
+                                                                SegmentComponent lastSegmentComponent = segmentComponentArr[segmentComponentArr.length() - 1];
+                                                                // Always check the field value directly (works for both explicit and default values)
+                                                                anydata fieldValue = lastSegmentComponent[segmentName.toLowerAscii()];
+                                                                if fieldValue is Segment[] {
+                                                                    Segment[] existingArr = <Segment[]>fieldValue;
+                                                                    // The parsed segment has isEmtpy = false and populated fields
+                                                                    // Default arrays like nte = [{}] have one empty segment with isEmtpy = true
+                                                                    // CRITICAL: We must preserve the specific array type (e.g., NTE[]) not create a generic Segment[]
+                                                                    // Directly modify the existing array in place to preserve its type
+                                                                    boolean replacedEmpty = false;
+                                                                    if existingArr.length() > 0 {
+                                                                        // Check each segment - replace empty default segments with the parsed segment
+                                                                        foreach int idx in 0 ..< existingArr.length() {
+                                                                            Segment existingSeg = existingArr[idx];
+                                                                            // Check if segment is empty (default empty segments have isEmtpy = true)
+                                                                            boolean isEmptyDefault = existingSeg.isEmtpy == true;
+                                                                            if isEmptyDefault && !replacedEmpty {
+                                                                                // Replace the first empty default segment with the parsed segment
+                                                                                // Directly modify the array element to preserve the array type
+                                                                                existingArr[idx] = segment;
+                                                                                replacedEmpty = true;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    if !replacedEmpty {
+                                                                        // No empty segment was replaced, append the parsed segment
+                                                                        existingArr.push(segment);
+                                                                    }
+                                                                    // IMPORTANT: The existingArr already has the correct specific type (e.g., NTE[])
+                                                                    // We modified it in place, so we can assign it back directly
+                                                                    // But we still need to update the record field to ensure it's persisted
+                                                                    map<anydata> segmentComponentFields = <map<anydata>>lastSegmentComponent;
+                                                                    // Assign the modified array back - this preserves the original type (e.g., NTE[])
+                                                                    // Since existingArr was extracted from fieldValue, it maintains the same type
+                                                                    segmentComponentFields[segmentName.toLowerAscii()] = fieldValue;
+                                                                    // Update the array element with the modified component
+                                                                    // Since we modified the record through map access, it should be updated
+                                                                    segmentComponentArr[segmentComponentArr.length() - 1] = lastSegmentComponent;
+                                                                    // Ensure the parent group has the updated array
+                                                                    childSegmentGroup[segmentGroupName] = segmentComponentArr;
+                                                                } else {
+                                                                    // Initialize new array if field doesn't exist and add the parsed segment
+                                                                    Segment[] innerSegmentsArr = [];
                                                                     innerSegmentsArr.push(segment);
+                                                                    map<anydata> segmentComponentFields = lastSegmentComponent;
+                                                                    segmentComponentFields[segmentName.toLowerAscii()] = innerSegmentsArr;
+                                                                    // Ensure the updated component is reflected in the parent array
+                                                                    segmentComponentArr[segmentComponentArr.length() - 1] = lastSegmentComponent;
+                                                                    childSegmentGroup[segmentGroupName] = segmentComponentArr;
                                                                 }
                                                             }
                                                         } else if componentMaxReps == 1 {
                                                             map<anydata> processChildSegmentGroupsResult = <map<anydata>>processChildSegmentGroups(messageFields, parentSegmentGroups, msgType, hl7Version);
                                                             if processChildSegmentGroupsResult[segmentGroupName] is SegmentComponent {
-                                                                SegmentComponent current = <SegmentComponent>messageFields[segmentGroupName];
-                                                                current[segmentName.toLowerAscii()] = segment;
+                                                                SegmentComponent current = <SegmentComponent>processChildSegmentGroupsResult[segmentGroupName];
+                                                                anydata existingValue = current[segmentName.toLowerAscii()];
+                                                                if existingValue is Segment[] {
+                                                                    Segment[] segmentArr = <Segment[]>existingValue;
+                                                                    // Check if the last segment is empty and replace it, otherwise push
+                                                                    if segmentArr.length() > 0 {
+                                                                        Segment lastSeg = segmentArr[segmentArr.length() - 1];
+                                                                        if lastSeg.isEmtpy {
+                                                                            segmentArr[segmentArr.length() - 1] = segment;
+                                                                        } else {
+                                                                            segmentArr.push(segment);
+                                                                        }
+                                                                    } else {
+                                                                        segmentArr.push(segment);
+                                                                    }
+                                                                } else {
+                                                                    current[segmentName.toLowerAscii()] = segment;
+                                                                }
                                                             } else {
-                                                                segmentComponent[segmentName.toLowerAscii()] = segment;
+                                                                anydata existingValue = segmentComponent[segmentName.toLowerAscii()];
+                                                                if existingValue is Segment[] {
+                                                                    Segment[] segmentArr = <Segment[]>existingValue;
+                                                                    // Check if the last segment is empty and replace it, otherwise push
+                                                                    if segmentArr.length() > 0 {
+                                                                        Segment lastSeg = segmentArr[segmentArr.length() - 1];
+                                                                        if lastSeg.isEmtpy {
+                                                                            segmentArr[segmentArr.length() - 1] = segment;
+                                                                        } else {
+                                                                            segmentArr.push(segment);
+                                                                        }
+                                                                    } else {
+                                                                        segmentArr.push(segment);
+                                                                    }
+                                                                } else {
+                                                                    segmentComponent[segmentName.toLowerAscii()] = segment;
+                                                                }
                                                                 processChildSegmentGroupsResult[segmentGroupName] = segmentComponent;
                                                             }
                                                         }
@@ -399,6 +526,86 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
         }
     }
     return messageResult;
+}
+
+# Check if a segment group path exists and is active (has been recently populated) in the message.
+#
+# + messageFields - Message fields of the parsed HL7 message
+# + segmentComponentName - Full segment component name (e.g., "ORU_R01_PATIENT_RESULT.ORU_R01_ORDER_OBSERVATION.ORU_R01_OBSERVATION")
+# + msgType - HL7 Message type
+# + hl7Version - HL7 version
+# + return - True if the segment group exists and is active, false otherwise
+isolated function isSegmentGroupActive(map<anydata> messageFields, string segmentComponentName, string msgType, string hl7Version) returns boolean {
+    if segmentComponentName.indexOf(".") <= 0 {
+        // Single level - check if it exists
+        string segmentGroupName = segmentComponentName.substring(segmentComponentName.indexOf(msgType) + msgType.length() + 1 ?: 0).toLowerAscii();
+        anydata groupValue = messageFields[segmentGroupName];
+        return groupValue is SegmentComponent || groupValue is SegmentComponent[];
+    }
+    
+    // Multi-level path - traverse and check
+    string:RegExp dotSeperator = re `\.`;
+    string[] pathComponents = dotSeperator.split(segmentComponentName);
+    map<anydata> current = messageFields;
+    
+    foreach int i in 0 ..< pathComponents.length() {
+        string componentName = pathComponents[i];
+        string segmentGroupName;
+        
+        if i == 0 {
+            // First component - remove message type prefix
+            segmentGroupName = componentName.substring(componentName.indexOf(msgType) + msgType.length() + 1 ?: 0).toLowerAscii();
+        } else {
+            segmentGroupName = componentName.toLowerAscii();
+        }
+        
+        anydata groupValue = current[segmentGroupName];
+        if groupValue is SegmentComponent {
+            current = <map<anydata>>groupValue;
+        } else if groupValue is SegmentComponent[] {
+            SegmentComponent[] segmentGroupArr = <SegmentComponent[]>groupValue;
+            if segmentGroupArr.length() == 0 {
+                return false;
+            }
+            // Check the last element (most recently added)
+            current = <map<anydata>>segmentGroupArr[segmentGroupArr.length() - 1];
+        } else {
+            // Group doesn't exist
+            return false;
+        }
+    }
+    
+    // If we got here, the path exists - check if it has been populated (has segments)
+    // Check if any segment fields exist (not just empty defaults)
+    // Also check if it has any segment arrays (even with default empty segments) - this indicates the group is active
+    foreach var [key, value] in current.entries() {
+        if key != "name" && key != "isRequired" && key != "isEmtpy" {
+            if value is Segment {
+                Segment seg = <Segment>value;
+                if !seg.isEmtpy {
+                    return true;
+                }
+            } else if value is Segment[] {
+                Segment[] segArr = <Segment[]>value;
+                // If there's a segment array, the group is active (even if it contains default empty segments)
+                // This handles cases where the group exists with default arrays like nte = [{}]
+                if segArr.length() > 0 {
+                    // Check if any segment is non-empty
+                    foreach Segment seg in segArr {
+                        if !seg.isEmtpy {
+                            return true;
+                        }
+                    }
+                    // Even if all segments are empty, if the array exists, the group is active
+                    // This is important for groups that have default empty segment arrays
+                    return true;
+                }
+            }
+        }
+    }
+    
+    // Path exists but may not be populated yet - still consider it active if it's the deepest path
+    return true;
 }
 
 # Traverse through the segment groups and return the immediate parent segment group.
