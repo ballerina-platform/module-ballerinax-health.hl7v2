@@ -700,7 +700,22 @@ isolated function parseSegment(string hl7Version, Segment segment, string segmen
 # + typeContent - Data type content string  
 # + encodingCharacters - HL7 encoding characters
 isolated function parseType(anydata|PrimitiveType typ, string typeContent, EncodingCharacters encodingCharacters) {
-
+    if typ is CompositeType {
+        // Check if this is a varies type - varies types have a 'value' field (optional, so may not exist yet)
+        // Varies types typically have minimal structure (empty or just value field)
+        map<anydata> compositeMap = <map<anydata>>typ;
+        [string, anydata][] entries = compositeMap.entries().toArray();
+        // Varies types are typically empty CompositeTypes or have only a value field
+        // If the CompositeType is empty or has minimal entries, try setting value directly
+        if typeContent != "" && (entries.length() == 0 || (entries.length() == 1 && entries[0][0] == "value")) {
+            // Try to set the value field - this should work for varies types
+            // Since we're working with map<anydata>, we can set any key
+            // The type system will validate it when the record is used
+            compositeMap["value"] = typeContent;
+            return;
+        }
+    }
+    
     string[] components = re `${encodingCharacters.getComponentSeparatorWithEscapeChars()}`.split(typeContent);
     foreach int i in 0 ..< components.length() {
         string[] subComponents = re `${encodingCharacters.getSubcomponentSeparator()}`.split(components[i]);
@@ -720,7 +735,6 @@ isolated function parseType(anydata|PrimitiveType typ, string typeContent, Encod
 # + typ - Primitive type model
 # + value - Primitive type content string
 isolated function parsePrimitive(anydata|PrimitiveType typ, anydata value) {
-
     if typ is PrimitiveType {
         if typ.value is any[] {
             string key;

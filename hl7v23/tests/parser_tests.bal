@@ -182,6 +182,35 @@ function testNestedSegmentGroupsParsing() returns error? {
     // Verify there are 2 observations (OBX|1 and OBX|2)
     test:assertTrue(inOru.patient_result[0].oru_r01_order_observation[0].oru_r01_observation.length() >= 2, "Should have at least 2 observations");
     
+    // Verify varies type field (OBX.5) is correctly parsed
+    OBX? obx1 = inOru.patient_result[0].oru_r01_order_observation[0].oru_r01_observation[0].obx;
+    if obx1 is OBX {
+        test:assertTrue(obx1.obx5.length() > 0, "OBX.5 (varies array) should have at least one element");
+        if obx1.obx5.length() > 0 {
+            varies obx5First = obx1.obx5[0];
+            anydata? obx5Value = obx5First?.value;
+            test:assertTrue(obx5Value is string, "OBX.5[0].value should be a string");
+            if obx5Value is string {
+                test:assertEquals(obx5Value, "1.113654.1.2001.30.2.1", "OBX.5[0].value should be '1.113654.1.2001.30.2.1'");
+            }
+        }
+    }
+    
+    // Verify varies type field for second OBX (OBX|2)
+    OBX? obx2 = inOru.patient_result[0].oru_r01_order_observation[0].oru_r01_observation[1].obx;
+    if obx2 is OBX {
+        test:assertTrue(obx2.obx5.length() > 0, "OBX.5 (varies array) should have at least one element for OBX|2");
+        if obx2.obx5.length() > 0 {
+            varies obx5Second = obx2.obx5[0];
+            anydata? obx5Value2 = obx5Second?.value;
+            test:assertTrue(obx5Value2 is string, "OBX.5[0].value should be a string for OBX|2");
+            if obx5Value2 is string {
+                test:assertTrue(obx5Value2.startsWith("Radiology Report History"), 
+                    "OBX.5[0].value for OBX|2 should start with 'Radiology Report History'");
+            }
+        }
+    }
+    
     // Check that NTE is NOT in the first observation (OBX|1)
     NTE[]? nteArrayFirst = inOru.patient_result[0].oru_r01_order_observation[0].oru_r01_observation[0].nte;
     if nteArrayFirst is NTE[] {

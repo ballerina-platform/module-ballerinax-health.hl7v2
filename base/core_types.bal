@@ -79,3 +79,16 @@ public type GenericMessage record {
     string name?;
     [Segment...] segments;
 };
+
+# Core type for handle varies datatype.
+#
+# + value - field description
+@TypeDefinition {
+    length: (),
+    maxReps: (),
+    required: false
+}
+public type varies record {
+    *CompositeType;
+    anydata value?;
+};
