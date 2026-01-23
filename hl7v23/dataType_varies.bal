@@ -25,4 +25,5 @@ import ballerinax/health.hl7v2;
 }
 public type varies record {
     *hl7v2:CompositeType;
+    anydata value?;
 };

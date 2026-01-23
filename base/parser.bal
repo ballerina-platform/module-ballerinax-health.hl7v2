@@ -107,14 +107,29 @@ isolated function getSegmentField(string hl7Version, int fieldNum, int repetitio
                 return segment.get(key);
             } else if segment.get(key) is anydata[] {
                 anydata[] arr = <anydata[]>segment.get(key);
-                foreach var elem in arr {
-                    if elem is PrimitiveType || elem is CompositeType {
-                        return elem;
-                    } else if isPrimitiveType(elem) {
-                        map<anydata> segmentMap = segment;
-                        PrimitiveType primitiveVal = {value: <any[]>[key, segmentMap]};
-                        return primitiveVal;
+                // For arrays, use repetitionNum to get or create the element at that index
+                // Ensure the array has enough elements for this repetition
+                if repetitionNum >= arr.length() {
+                    // Need to extend the array - create new elements based on the last element's type
+                    if arr.length() > 0 {
+                        // Clone the last element to create a new one of the same type
+                        anydata lastElem = arr[arr.length() - 1];
+                        while arr.length() <= repetitionNum {
+                            arr.push(lastElem);
+                        }
+                    } else {
+                        // Array is empty - this shouldn't happen with default values, but handle it
+                        return ();
                     }
+                }
+                // Get the element at the repetition index
+                anydata elem = arr[repetitionNum];
+                if elem is PrimitiveType || elem is CompositeType {
+                    return elem;
+                } else if isPrimitiveType(elem) {
+                    map<anydata> segmentMap = segment;
+                    PrimitiveType primitiveVal = {value: <any[]>[key, segmentMap]};
+                    return primitiveVal;
                 }
             }
         } else if key != "name" && key != "isEmtpy" {
