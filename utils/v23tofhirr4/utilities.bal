@@ -46,21 +46,17 @@ public isolated function pidToAdministrativeSex(string pid8) returns internation
 
 public isolated function pidToPatientName(Pid5 pid5, Pid9 pid9) returns r4:HumanName[]? {
     r4:HumanName[] humanNames = [];
-    if pid5 is hl7v23:XPN[] {
-        foreach hl7v23:XPN item in pid5 {
-            r4:HumanName name = xpnToHumanName(item);
-            if name != {} {
-                humanNames.push(name);
-            }
+    foreach hl7v23:XPN item in pid5 {
+        r4:HumanName name = xpnToHumanName(item);
+        if name != {} {
+            humanNames.push(name);
         }
     }
 
-    if pid9 is hl7v23:XPN[] {
-        foreach hl7v23:XPN item in pid9 {
-            r4:HumanName name = xpnToHumanName(item);
-            if name != {} {
-                humanNames.push(name);
-            }
+    foreach hl7v23:XPN item in pid9 {
+        r4:HumanName name = xpnToHumanName(item);
+        if name != {} {
+            humanNames.push(name);
         }
     }
 
@@ -73,12 +69,10 @@ public isolated function pidToAddress(string pid12, Pid11 pid11) returns r4:Addr
         address.push({district: pid12});
     }
 
-    if pid11 is hl7v23:XAD[] {
-        foreach hl7v23:XAD item in pid11 {
-            r4:Address? xadToAddressResult = xadToAddress(item);
-            if xadToAddressResult is r4:Address {
-                address.push(xadToAddressResult);
-            }
+    foreach hl7v23:XAD item in pid11 {
+        r4:Address? xadToAddressResult = xadToAddress(item);
+        if xadToAddressResult is r4:Address {
+            address.push(xadToAddressResult);
         }
     }
     return (address.length() > 0) ? address : ();
@@ -88,21 +82,17 @@ public isolated function pidToPhoneNumber(Pid13 pid13, Pid14 pid14) returns r4:C
     r4:ContactPoint[] phoneNumbers = [];
 
     //get ContactPointFromXTN use this
-    if pid13 is hl7v23:XTN[] {
-        foreach hl7v23:XTN item in pid13 {
-            r4:ContactPoint? contactPoint = xtnToContactPoint(item);
-            if contactPoint != () {
-                phoneNumbers.push(contactPoint);
-            }
+    foreach hl7v23:XTN item in pid13 {
+        r4:ContactPoint? contactPoint = xtnToContactPoint(item);
+        if contactPoint != () {
+            phoneNumbers.push(contactPoint);
         }
     }
 
-    if pid14 is hl7v23:XTN[] {
-        foreach hl7v23:XTN item in pid14 {
-            r4:ContactPoint? contactPoint = xtnToContactPoint(item);
-            if contactPoint != () {
-                phoneNumbers.push(contactPoint);
-            }
+    foreach hl7v23:XTN item in pid14 {
+        r4:ContactPoint? contactPoint = xtnToContactPoint(item);
+        if contactPoint != () {
+            phoneNumbers.push(contactPoint);
         }
     }
 
@@ -110,10 +100,8 @@ public isolated function pidToPhoneNumber(Pid13 pid13, Pid14 pid14) returns r4:C
 }
 
 public isolated function pidToPrimaryLanguage(Pid15 pid15) returns international401:PatientCommunication[]? {
-    if pid15 is hl7v23:CE {
-        r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(pid15);
-        return ceToCodeableConceptResult != {} ? [{language: ceToCodeableConceptResult}] : ();
-    }
+    r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(pid15);
+    return ceToCodeableConceptResult != {} ? [{language: ceToCodeableConceptResult}] : ();
 }
 
 public isolated function pidToMaritalStatus(Pid16 pid16) returns r4:CodeableConcept? {
@@ -122,7 +110,7 @@ public isolated function pidToMaritalStatus(Pid16 pid16) returns r4:CodeableConc
         if pid16.ce1 != "" {
             maritialStatues.push({code: pid16.ce1});
         }
-    } else if pid16 is string && pid16 != "" {
+    } else if pid16 != "" {
         maritialStatues.push({code: pid16});
     }
     return (maritialStatues.length() > 0) ? {coding: maritialStatues} : ();

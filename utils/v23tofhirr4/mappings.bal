@@ -246,7 +246,7 @@ public isolated function mshToMessageHeader(Msh msh) returns international401:Me
     international401:MessageHeader messageHeader = {
         'source: hdToMessageHeaderSource(msh.msh3),
         destination: [hdToMessageHeaderDestination(msh.msh5)],
-        eventCoding: (msh.msh9 is hl7v23:CM_MSG) ? msgToCoding(<hl7v23:CM_MSG>msh.msh9) : {},
+        eventCoding: msgToCoding(msh.msh9),
         language: ceToCode(<hl7v23:CE>msh.msh19),
         eventUri: ""
     };
@@ -257,18 +257,16 @@ public isolated function mshToMessageHeader(Msh msh) returns international401:Me
 public isolated function al1ToAllerygyIntolerance(Al1 al1) returns international401:AllergyIntolerance {
 
     international401:AllergyIntoleranceReaction[] allergyIntoleranceReactions = [];
-    if al1.al15 is hl7v23:ST && al1 is hl7v23:AL1 {
-        allergyIntoleranceReactions = [
-            {
-                manifestation: (al1.al15 != "") ? [
-                        {
-                            text: <hl7v23:ST>al1.al15
-                        }
-                    ] : [],
-                onset: (al1.al16 != "") ? al1.al16 : ()
-            }
-        ];
-    }
+    allergyIntoleranceReactions = [
+        {
+            manifestation: (al1.al15 != "") ? [
+                    {
+                        text: al1.al15
+                    }
+                ] : [],
+            onset: (al1.al16 != "") ? al1.al16 : ()
+        }
+    ];
     r4:CodeableConcept allergyCode = ceToCodeableConcept(<hl7v23:CE>al1.al13);
     international401:AllergyIntolerance allergyIntolerance = {
         clinicalStatus: {
@@ -284,15 +282,11 @@ public isolated function al1ToAllerygyIntolerance(Al1 al1) returns international
         patient: {}
     };
 
-    if al1.al14 is hl7v23:IS {
-        if al1.al14 == "SV" {
-            allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
-        }
+    if al1.al14 == "SV" {
+        allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
     }
 
-    if al1.al12 is hl7v23:IS {
-        allergyIntolerance.'type = isToAllergyIntoleranceType(<hl7v23:IS>al1.al12);
-    }
+    allergyIntolerance.'type = isToAllergyIntoleranceType(al1.al12);
 
     return allergyIntolerance;
 }
@@ -306,13 +300,11 @@ public isolated function evnToProvenance(Evn evn) returns international401:Prove
     ];
 
     international401:ProvenanceAgent[] agent = [];
-    if evn.evn5 is hl7v23:XCN {
-        r4:Reference xcnToReferenceResult = xcnToReferenceWithType(<hl7v23:XCN>evn.evn5, "Practitioner");
-        if xcnToReferenceResult != {} {
-            agent.push({
-                who: xcnToReferenceResult
-            });
-        }
+    r4:Reference xcnToReferenceResult = xcnToReferenceWithType(evn.evn5, "Practitioner");
+    if xcnToReferenceResult != {} {
+        agent.push({
+            who: xcnToReferenceResult
+        });
     }
     r4:instant recorded = "";
     r4:dateTime occurredDateTime = "";
@@ -327,26 +319,22 @@ public isolated function evnToProvenance(Evn evn) returns international401:Prove
         target: []
     };
 
-    if evn is hl7v23:EVN {
-        if evn.evn4 != "" && evn.evn4 != "U" {
-            provenance.reason = [
-                {
-                    coding: [
-                        {
-                            code: evn.evn4
-                        }
-                    ]
-                }
-            ];
-        }
+    if evn.evn4 != "" && evn.evn4 != "U" {
+        provenance.reason = [
+            {
+                coding: [
+                    {
+                        code: evn.evn4
+                    }
+                ]
+            }
+        ];
     }
 
-    if evn is hl7v23:EVN {
-        if evn.evn2.ts1 != "" {
-            provenance.recorded = evn.evn2.ts1;
-        }
-        provenance.occurredDateTime = (evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : ();
+    if evn.evn2.ts1 != "" {
+        provenance.recorded = evn.evn2.ts1;
     }
+    provenance.occurredDateTime = (evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : ();
 
     return provenance;
 };
@@ -357,9 +345,7 @@ public isolated function nk1ToPatient(Nk1 nk1) returns international401:Patient 
 
 public isolated function pd1ToPatient(Pd1 pd1) returns international401:Patient {
     r4:Extension[]? extension = [];
-    if pd1 is hl7v23:PD1 {
-        extension = pd1ToExtension(pd1.pd16);
-    }
+    extension = pd1ToExtension(pd1.pd16);
     return {
         generalPractitioner: pd1ToGeneralPractitioner(pd1.pd13, pd1.pd14),
         extension: extension
@@ -380,21 +366,15 @@ public isolated function pidToPatient(Pid pid) returns international401:Patient 
         deceasedBoolean: (pid.pid30 != "") ? pidToPatientDeathIndicator(pid.pid30) : ()
     };
 
-    if pid is hl7v23:PID {
-        patient.name = pidToPatientName(pid.pid5, pid.pid9);
-        patient.birthDate = (pid.pid7.ts1 != "") ? hl7DateToFhir(pid.pid7.ts1) : ();
-        patient.deceasedDateTime = (pid.pid29.ts1 != "") ? hl7DateToFhir(pid.pid29.ts1) : ();
-        patient.gender = pidToAdministrativeSex(pid.pid8);
-    }
+    patient.name = pidToPatientName(pid.pid5, pid.pid9);
+    patient.birthDate = (pid.pid7.ts1 != "") ? hl7DateToFhir(pid.pid7.ts1) : ();
+    patient.deceasedDateTime = (pid.pid29.ts1 != "") ? hl7DateToFhir(pid.pid29.ts1) : ();
+    patient.gender = pidToAdministrativeSex(pid.pid8);
     return patient;
 };
 
 public isolated function pv1ToPatient(Pv1 pv1) returns international401:Patient {
-    string extension = "";
-
-    if pv1 is hl7v23:PV1 {
-        extension = pv1.pv116;
-    }
+    string extension = pv1.pv116;
     return {
         extension: (extension != "") ? pv1ToExtension(extension) : ()
     };
@@ -406,69 +386,62 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         status: "in-progress"
     };
     international401:EncounterLocation[] encounterLocations = [];
-    if pv1 is hl7v23:PV1 {
-        international401:EncounterLocation encounterLoc1 = {
-            location: {
-                display: pv1.pv13.pl1 != "" ? pv1.pv13.pl1 : ()
-            },
-            status: getEncounterLocationStatus(pv1.pv13.pl5)
-        };
-        encounterLocations.push(encounterLoc1);
+    international401:EncounterLocation encounterLoc1 = {
+        location: {
+            display: pv1.pv13.pl1 != "" ? pv1.pv13.pl1 : ()
+        },
+        status: getEncounterLocationStatus(pv1.pv13.pl5)
+    };
+    encounterLocations.push(encounterLoc1);
 
-        international401:EncounterLocation encounterLoc2 = {
-            location: {
-                display: pv1.pv16.pl1 != "" ? pv1.pv16.pl1 : ()
-            },
-            status: getEncounterLocationStatus(pv1.pv16.pl5)
-        };
-        encounterLocations.push(encounterLoc2);
+    international401:EncounterLocation encounterLoc2 = {
+        location: {
+            display: pv1.pv16.pl1 != "" ? pv1.pv16.pl1 : ()
+        },
+        status: getEncounterLocationStatus(pv1.pv16.pl5)
+    };
+    encounterLocations.push(encounterLoc2);
 
-        international401:EncounterLocation encounterLoc3 = {
-            location: {
-                display: pv1.pv111.pl1 != "" ? pv1.pv111.pl1 : ()
-            },
-            status: getEncounterLocationStatus(pv1.pv111.pl5)
-        };
-        encounterLocations.push(encounterLoc3);
+    international401:EncounterLocation encounterLoc3 = {
+        location: {
+            display: pv1.pv111.pl1 != "" ? pv1.pv111.pl1 : ()
+        },
+        status: getEncounterLocationStatus(pv1.pv111.pl5)
+    };
+    encounterLocations.push(encounterLoc3);
 
-        international401:EncounterLocation encounterLoc4 = {
-            location: {
-                display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
-            },
-            status: getEncounterLocationStatus(pv1.pv142.pl5)
-        };
-        encounterLocations.push(encounterLoc4);
+    international401:EncounterLocation encounterLoc4 = {
+        location: {
+            display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
+        },
+        status: getEncounterLocationStatus(pv1.pv142.pl5)
+    };
+    encounterLocations.push(encounterLoc4);
 
-        international401:EncounterLocation encounterLoc5 = {
-            location: {
-                display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
-            },
-            status: getEncounterLocationStatus(pv1.pv142.pl5)
-        };
-        encounterLocations.push(encounterLoc5);
+    international401:EncounterLocation encounterLoc5 = {
+        location: {
+            display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
+        },
+        status: getEncounterLocationStatus(pv1.pv142.pl5)
+    };
+    encounterLocations.push(encounterLoc5);
 
-        international401:EncounterLocation encounterLoc6 = {
-            location: {
-                display: pv1.pv143.pl1 != "" ? pv1.pv143.pl1 : ()
-            },
-            status: getEncounterLocationStatus(pv1.pv143.pl5)
-        };
-        encounterLocations.push(encounterLoc6);
-    }
+    international401:EncounterLocation encounterLoc6 = {
+        location: {
+            display: pv1.pv143.pl1 != "" ? pv1.pv143.pl1 : ()
+        },
+        status: getEncounterLocationStatus(pv1.pv143.pl5)
+    };
+    encounterLocations.push(encounterLoc6);
 
     international401:EncounterParticipant[] participants = [];
 
     int i = 0;
     int len = 1; // in hl7v23 case
     while i < len {
-        string system = "";
-        string xcn1 = "";
-        string xcn10 = "";
-        if pv1 is hl7v23:PV1 {
-            system = pv1.pv17[i].xcn8;
-            xcn1 = pv1.pv17[i].xcn1;
-            xcn10 = pv1.pv17[i].xcn10;
-        }
+        string system = pv1.pv17[i].xcn8;
+        string xcn1 = pv1.pv17[i].xcn1;
+        string xcn10 = pv1.pv17[i].xcn10;
 
         international401:EncounterParticipant encounterParticipant =
             {
@@ -495,14 +468,9 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
     i = 0;
     int lenPv18 = 1; // in hl7v23 case
     while i < lenPv18 {
-        string system = "";
-        string xcn1 = "";
-        string xcn10 = "";
-        if pv1 is hl7v23:PV1 {
-            system = pv1.pv18[i].xcn8;
-            xcn1 = pv1.pv18[i].xcn1;
-            xcn10 = pv1.pv18[i].xcn10;
-        }
+        string system = pv1.pv18[i].xcn8;
+        string xcn1 = pv1.pv18[i].xcn1;
+        string xcn10 = pv1.pv18[i].xcn10;
         international401:EncounterParticipant encounterParticipant = {
             individual: (xcn1 != "") ? {
                     display: xcn1
@@ -527,10 +495,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
 
     i = 0;
     while i < pv1.pv19.length() {
-        string system = "";
-        if pv1 is hl7v23:PV1 {
-            system = pv1.pv19[i].xcn8;
-        }
+        string system = pv1.pv19[i].xcn8;
         international401:EncounterParticipant encounterParticipant = {
             individual: (pv1.pv19[i].xcn1 != "") ? {
                     display: pv1.pv19[i].xcn1
@@ -556,16 +521,10 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
     i = 0;
     int lenPv17 = 1; // in hl7v23 case
     while i < lenPv17 {
-        string system = "";
-        string code = "";
-        string xcn1 = "";
-        string xcn10 = "";
-        if pv1 is hl7v23:PV1 {
-            system = pv1.pv17[i].xcn8;
-            code = pv1.pv17[i].xcn10;
-            xcn1 = pv1.pv17[i].xcn1;
-            xcn10 = pv1.pv17[i].xcn10;
-        }
+        string system = pv1.pv17[i].xcn8;
+        string code = pv1.pv17[i].xcn10;
+        string xcn1 = pv1.pv17[i].xcn1;
+        string xcn10 = pv1.pv17[i].xcn10;
         international401:EncounterParticipant encounterParticipant = {
             individual: (xcn1 != "") ? {
                     display: xcn1
@@ -588,100 +547,83 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         i = +1;
     }
 
-    if pv1 is hl7v23:PV1 {
-        // Define pv1.pv152 hl7v27:PV1, hl7v28:PV1
-        i = 0;
-        while i < pv1.pv152.length() {
-            international401:EncounterParticipant encounterParticipant = {
-                individual: (pv1.pv152[i].xcn1 != "") ? {
-                        display: pv1.pv152[i].xcn1
-                    } : (),
-                'type: (pv1.pv152[i].xcn8 != "") ? [
-                        {
-                            coding: [
-                                {
-                                    code: "PART",
-                                    system: pv1.pv152[i].xcn8,
-                                    display: "Participation"
-                                }
-                            ]
-                        }
-                    ] : ()
-            };
-            if encounterParticipant != {} {
-                participants.push(encounterParticipant);
+    // Define pv1.pv152 hl7v27:PV1, hl7v28:PV1
+    i = 0;
+    while i < pv1.pv152.length() {
+        international401:EncounterParticipant encounterParticipant = {
+            individual: (pv1.pv152[i].xcn1 != "") ? {
+                    display: pv1.pv152[i].xcn1
+                } : (),
+            'type: (pv1.pv152[i].xcn8 != "") ? [
+                    {
+                        coding: [
+                            {
+                                code: "PART",
+                                system: pv1.pv152[i].xcn8,
+                                display: "Participation"
+                            }
+                        ]
+                    }
+                ] : ()
+        };
+        if encounterParticipant != {} {
+            participants.push(encounterParticipant);
+        }
+        i = +1;
+    }
+
+    if pv1.pv12 != "" {
+        encounter.'class = {
+            display: pv1.pv12
+        };
+    }
+
+    if pv1.pv14 != "" {
+        encounter.'type = [
+            {
+                text: pv1.pv14
             }
-            i = +1;
-        }
+        ];
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv12 != "" {
-            encounter.'class = {
-                display: pv1.pv12
-            };
-        }
+    if pv1.pv113 != "" {
+        encounter.hospitalization.reAdmission = {
+            text: pv1.pv113
+        };
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv14 != "" {
-            encounter.'type = [
-                {
-                    text: pv1.pv14
-                }
-            ];
-        }
+    if pv1.pv114 != "" {
+        encounter.hospitalization.admitSource = {
+            text: pv1.pv114
+        };
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv113 != "" {
-            encounter.hospitalization.reAdmission = {
-                text: pv1.pv113
-            };
-        }
+    if pv1.pv136 != "" {
+        encounter.hospitalization.dischargeDisposition = {
+            text: pv1.pv136
+        };
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv114 != "" {
-            encounter.hospitalization.admitSource = {
-                text: pv1.pv114
-            };
-        }
-    }
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv136 != "" {
-            encounter.hospitalization.dischargeDisposition = {
-                text: pv1.pv136
-            };
-        }
+    if pv1.pv137.cm_dld1 != "" {
+        encounter.hospitalization.destination = {
+            reference: pv1.pv137.cm_dld1
+        };
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv137.cm_dld1 != "" {
-            encounter.hospitalization.destination = {
-                reference: pv1.pv137.cm_dld1
-            };
-        }
+    if pv1.pv138 != "" {
+        encounter.hospitalization.dietPreference = [
+            {
+                text: pv1.pv138
+            }
+        ];
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv138 != "" {
-            encounter.hospitalization.dietPreference = [
-                {
-                    text: pv1.pv138
-                }
-            ];
-        }
-    }
-
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv139 != "" {
-            encounter.hospitalization.specialCourtesy = [
-                {
-                    text: pv1.pv139
-                }
-            ];
-        }
+    if pv1.pv139 != "" {
+        encounter.hospitalization.specialCourtesy = [
+            {
+                text: pv1.pv139
+            }
+        ];
     }
 
     if pv1.pv15.cx1 != "" {
@@ -693,12 +635,10 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         };
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv110 != "" {
-            encounter.serviceType = {
-                text: pv1.pv110
-            };
-        }
+    if pv1.pv110 != "" {
+        encounter.serviceType = {
+            text: pv1.pv110
+        };
     }
 
     r4:Identifier[] identifier = [];
@@ -732,22 +672,15 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
     }
     encounter.identifier = (identifier.length() > 0) ? identifier : ();
 
-    if pv1 is hl7v23:PV1 {
-        encounter.period.'start = (pv1.pv144.ts1 != "") ? pv1.pv144.ts1 : ();
-    }
-
-    if pv1 is hl7v23:PV1 {
-        encounter.period.end = (pv1.pv145.ts1 != "") ? pv1.pv145.ts1 : ();
-    }
+    encounter.period.'start = (pv1.pv144.ts1 != "") ? pv1.pv144.ts1 : ();
+    encounter.period.end = (pv1.pv145.ts1 != "") ? pv1.pv145.ts1 : ();
 
     if encounter.period == {} {
         encounter.period = ();
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv145.ts1 != "" {
-            encounter.status = "finished";
-        }
+    if pv1.pv145.ts1 != "" {
+        encounter.status = "finished";
     }
 
     encounter.location = (encounterLocations.length() > 0) ? encounterLocations : ();
@@ -757,10 +690,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
 };
 
 public isolated function pv2ToEncounter(Pv2 pv2) returns international401:Encounter {
-    string display = "";
-    if pv2 is hl7v23:PV2 {
-        display = pv2.pv21.pl1;
-    }
+    string display = pv2.pv21.pl1;
     international401:EncounterLocation[] location = [
         {
             location: {
@@ -772,18 +702,13 @@ public isolated function pv2ToEncounter(Pv2 pv2) returns international401:Encoun
     r4:Coding[] coding = [idToCoding(pv2.pv222)];
 
     international401:EncounterParticipant[] participant = []; // TODO: participant need to mapped correctly
-    if pv2.pv213 is hl7v23:XCN {
-        participant = [
-            {
-                id: (<hl7v23:XCN>pv2.pv213).xcn1
-            }
-        ];
-    }
+    participant = [
+        {
+            id: pv2.pv213.xcn1
+        }
+    ];
 
-    string priority = "";
-    if pv2 is hl7v23:PV2 {
-        priority = pv2.pv225;
-    }
+    string priority = pv2.pv225;
 
     international401:Encounter encounter = {
         location: location,
@@ -823,15 +748,13 @@ public isolated function dg1ToCondition(Dg1 dg1) returns international401:Condit
     international401:Condition condition = {
         subject: {}
     };
-    if dg1 is hl7v23:DG1 {
-        r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(dg1.dg13);
-        if ceToCodeableConceptResult != {} {
-            ceToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();
-            condition.code = ceToCodeableConceptResult;
-        }
-        condition.onsetDateTime = dg1.dg15.ts1 != "" ? hl7DateToFhir(dg1.dg15.ts1) : ();
-        condition.recordedDate = dg1.dg119.ts1 != "" ? hl7DateToFhir(dg1.dg119.ts1) : ();
+    r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(dg1.dg13);
+    if ceToCodeableConceptResult != {} {
+        ceToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();
+        condition.code = ceToCodeableConceptResult;
     }
+    condition.onsetDateTime = dg1.dg15.ts1 != "" ? hl7DateToFhir(dg1.dg15.ts1) : ();
+    condition.recordedDate = dg1.dg119.ts1 != "" ? hl7DateToFhir(dg1.dg119.ts1) : ();
     Xcn[] dg116 = dg1.dg116;
     foreach var item in dg116 {
         if item.xcn1 != "" {
@@ -850,22 +773,20 @@ public isolated function dg1ToEncounter(Dg1 dg1, string? conditionId) returns in
         'class: {},
         status: "finished"
     };
-    if dg1 is hl7v23:DG1 {
-        Is dg16 = dg1.dg16;
-        if conditionId is string {
-            international401:EncounterDiagnosis encounterDiagnosis = {
-                condition: {
-                    reference: string `Condition/${conditionId}`
-                }
-            };
-            if dg16 != "" {
-                encounterDiagnosis.use = {
-                    text: dg16
-                };
+    Is dg16 = dg1.dg16;
+    if conditionId is string {
+        international401:EncounterDiagnosis encounterDiagnosis = {
+            condition: {
+                reference: string `Condition/${conditionId}`
             }
-            encounter.diagnosis = [encounterDiagnosis];
-            encounter.id = generateFhirResourceId();
+        };
+        if dg16 != "" {
+            encounterDiagnosis.use = {
+                text: dg16
+            };
         }
+        encounter.diagnosis = [encounterDiagnosis];
+        encounter.id = generateFhirResourceId();
     }
     return encounter;
 }
@@ -882,13 +803,11 @@ public isolated function dg1ToEpisodeOfCare(Dg1 dg1, string? conditionId, string
             }
         };
         episodeOfCare.diagnosis = [episodeOfCareDiagnosis];
-        if dg1 is hl7v23:DG1 {
-            Is dg16 = dg1.dg16;
-            if dg16 != "" {
-                episodeOfCareDiagnosis.role = {
-                    text: dg16
-                };
-            }
+        Is dg16 = dg1.dg16;
+        if dg16 != "" {
+            episodeOfCareDiagnosis.role = {
+                text: dg16
+            };
         }
     }
     if patientId is string {
@@ -907,16 +826,14 @@ public isolated function obxToObservation(Obx obx) returns international401:Obse
         dataAbsentReason: idToCodeableConcept(obx.obx11),
         status: "preliminary"
     };
-    if obx is hl7v23:OBX {
-        r4:CodeableConcept code = ceToCodeableConcept(obx.obx3);
-        if code != {} {
-            observation.code = code;
-        }
-        observation.effectiveDateTime = (obx.obx14.ts1 != "") ? tsToDateTime(obx.obx14) : ();
-        r4:CodeableConcept method = ceToCodeableConcept(obx.obx17[0]);
-        if method != {} {
-            observation.method = method;
-        }
+    r4:CodeableConcept code = ceToCodeableConcept(obx.obx3);
+    if code != {} {
+        observation.code = code;
+    }
+    observation.effectiveDateTime = (obx.obx14.ts1 != "") ? tsToDateTime(obx.obx14) : ();
+    r4:CodeableConcept method = ceToCodeableConcept(obx.obx17[0]);
+    if method != {} {
+        observation.method = method;
     }
     return observation;
 };
@@ -928,16 +845,14 @@ public isolated function obrToDiagnosticReport(Obr obr) returns international401
         category: idToCodeableConceptArray(obr.obr24),
         status: idToDiagnosticReportStatus(obr.obr25)
     };
-    if obr is hl7v23:OBR {
-        r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(obr.obr4);
-        if ceToCodeableConceptResult != {} {
-            diagnosticReport.code = ceToCodeableConceptResult;
-        }
-        diagnosticReport.effectiveDateTime = tsToDateTime(obr.obr7);
-        diagnosticReport.effectivePeriod.'start = tsToDateTime(obr.obr7);
-        diagnosticReport.effectivePeriod.end = tsToDateTime(obr.obr8);
-        diagnosticReport.issued = tsToInstant(obr.obr22);
+    r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(obr.obr4);
+    if ceToCodeableConceptResult != {} {
+        diagnosticReport.code = ceToCodeableConceptResult;
     }
+    diagnosticReport.effectiveDateTime = tsToDateTime(obr.obr7);
+    diagnosticReport.effectivePeriod.'start = tsToDateTime(obr.obr7);
+    diagnosticReport.effectivePeriod.end = tsToDateTime(obr.obr8);
+    diagnosticReport.issued = tsToInstant(obr.obr22);
     r4:Identifier eiToIdentifierResult = eiToIdentifier(obr.obr2);
     if eiToIdentifierResult != {} {
         diagnosticReport.subject.identifier = eiToIdentifierResult;
@@ -960,14 +875,12 @@ public function obrToServiceRequest(Obr obr) returns international401:ServiceReq
     if xcnToReferenceResult != {} {
         serviceRequest.requester = xcnToReferenceResult;
     }
-    if obr is hl7v23:OBR {
-        r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(obr.obr4);
-        if ceToCodeableConceptResult != {} {
-            serviceRequest.code = ceToCodeableConceptResult;
-        }
-        serviceRequest.occurrenceDateTime = tsToDateTime(obr.obr6);
-        serviceRequest.reasonCode = [ceToCodeableConcept(obr.obr31[0])];
+    r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(obr.obr4);
+    if ceToCodeableConceptResult != {} {
+        serviceRequest.code = ceToCodeableConceptResult;
     }
+    serviceRequest.occurrenceDateTime = tsToDateTime(obr.obr6);
+    serviceRequest.reasonCode = [ceToCodeableConcept(obr.obr31[0])];
     return serviceRequest;
 };
 
@@ -1000,13 +913,11 @@ public function orcToDiagnosticReport(Orc orc) returns international401:Diagnost
     r4:uri url = "";
     r4:CodeableConcept valueCodeableConcept = {};
 
-    if orc is hl7v23:ORC {
-        r4:uri? ceToUriResult = ceToUri(orc.orc16);
-        if ceToUriResult is r4:uri {
-            url = ceToUriResult;
-        }
-        valueCodeableConcept = ceToCodeableConcept(orc.orc16);
+    r4:uri? ceToUriResult = ceToUri(orc.orc16);
+    if ceToUriResult is r4:uri {
+        url = ceToUriResult;
     }
+    valueCodeableConcept = ceToCodeableConcept(orc.orc16);
 
     // Extensions
     r4:Extension[] ext = [
@@ -1064,9 +975,7 @@ public isolated function orcToImmunization(Orc orc) returns international401:Imm
         status: "not-done",
         vaccineCode: {}
     };
-    if orc is hl7v23:ORC {
-        immunization.recorded = tsToDateTime(orc.orc9);
-    }
+    immunization.recorded = tsToDateTime(orc.orc9);
 
     return immunization;
 };

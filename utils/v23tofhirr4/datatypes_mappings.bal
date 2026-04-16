@@ -42,10 +42,8 @@ public isolated function xadToAddress(Xad xad) returns r4:Address? {
     r4:Extension[]? extension = [];
     string district = "";
 
-    if xad is hl7v23:XAD {
-        extension = getStringExtension([xad.xad7, <string>xad.xad10]);
-        district = xad.xad9;
-    }
+    extension = getStringExtension([xad.xad7, <string>xad.xad10]);
+    district = xad.xad9;
 
     r4:Address address = {
         city: (xad.xad3 != "") ? xad.xad3 : (),
@@ -57,23 +55,19 @@ public isolated function xadToAddress(Xad xad) returns r4:Address? {
         district: (district != "") ? district : ()
     };
     address.extension = extension;
-    if xad is hl7v23:XAD {
-        if xad.xad1 != "" && xad.xad2 != "" {
-            address.line = [xad.xad1, xad.xad2];
-        } else if xad.xad1 != "" {
-            address.line = [xad.xad1];
-        } else if xad.xad2 != "" {
-            address.line = [xad.xad2];
-        }
+    if xad.xad1 != "" && xad.xad2 != "" {
+        address.line = [xad.xad1, xad.xad2];
+    } else if xad.xad1 != "" {
+        address.line = [xad.xad1];
+    } else if xad.xad2 != "" {
+        address.line = [xad.xad2];
     }
     return (address != {}) ? address : ();
 };
 
 public isolated function xonToOrganization(Xon xon) returns international401:Organization {
     string? xon3 = ();
-    if xon is hl7v23:XON {
-        xon3 = (xon.xon3 != "") ? xon.xon3.toString() : ();
-    }
+    xon3 = (xon.xon3 != "") ? xon.xon3.toString() : ();
     r4:Identifier identifier = {
         value: xon3,
         'type: (xon.xon7 != "") ? {
@@ -96,9 +90,7 @@ public isolated function xonToOrganization(Xon xon) returns international401:Org
 
 public isolated function xonToReference(Xon xon) returns r4:Reference? {
     string? xon3 = ();
-    if xon is hl7v23:XON {
-        xon3 = (xon.xon3 != "") ? xon.xon3.toString() : ();
-    }
+    xon3 = (xon.xon3 != "") ? xon.xon3.toString() : ();
     r4:Identifier identifier = {
         value: xon3,
         'type: (xon.xon7 != "") ? {
@@ -120,9 +112,7 @@ public isolated function xpnToHumanName(Xpn xpn) returns r4:HumanName {
     r4:HumanName humanName = {
         use: (xpn.xpn7 != "") ? idToHumanNameUse(xpn.xpn7) : ()
     };
-    if xpn is hl7v23:XPN {
-        humanName.family = (xpn.xpn1 != "") ? xpn.xpn1 : ();
-    }
+    humanName.family = (xpn.xpn1 != "") ? xpn.xpn1 : ();
     //given
     if xpn.xpn2 != "" && xpn.xpn3 != "" {
         humanName.given = [xpn.xpn2, xpn.xpn3];
@@ -133,9 +123,7 @@ public isolated function xpnToHumanName(Xpn xpn) returns r4:HumanName {
     }
     //suffix
     string[] suffix = [];
-    if xpn is hl7v23:XPN {
-        suffix = [xpn.xpn4, xpn.xpn6];
-    }
+    suffix = [xpn.xpn4, xpn.xpn6];
     if suffix[0] != "" && suffix[1] != "" {
         humanName.suffix = suffix;
     } else if suffix[0] != "" {
@@ -158,10 +146,8 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint? {
         value: ()
     };
 
-    if xtn is hl7v23:XTN {
-        if (xtn.xtn3 != "Internet" || xtn.xtn3 != "X.400") && xtn.xtn7 != "" {
-            contactPoint.value = xtn.xtn1;
-        }
+    if (xtn.xtn3 != "Internet" || xtn.xtn3 != "X.400") && xtn.xtn7 != "" {
+        contactPoint.value = xtn.xtn1;
     }
     if contactPoint.value == "" {
         return ();
