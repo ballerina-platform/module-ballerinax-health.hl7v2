@@ -313,3 +313,37 @@ public type Ts hl7v23:TS;
 
 # Union type for IS data type for all supported hl7 versions.
 public type Is hl7v23:IS;
+
+public isolated function cxToIdentifier(Cx cx) returns r4:Identifier {
+    return {
+        value: (cx.cx1 != "") ? cx.cx1 : (),
+        'type: (cx.cx5 != "") ? {
+            coding: [{code: cx.cx5}]
+        } : ()
+    };
+};
+
+public isolated function xcnToHumanName(Xcn xcn) returns r4:HumanName {
+    r4:HumanName humanName = {};
+    humanName.family = (xcn.xcn2 != "") ? xcn.xcn2 : ();
+    if xcn.xcn3 != "" {
+        humanName.given = [xcn.xcn3];
+    }
+    if xcn.xcn5 != "" {
+        humanName.prefix = [xcn.xcn5];
+    }
+    return humanName;
+};
+
+public isolated function xcnToReferenceWithName(Xcn xcn, string resourceType) returns r4:Reference {
+    string? display = ();
+    if xcn.xcn2 != "" || xcn.xcn3 != "" {
+        display = ((xcn.xcn3 != "") ? xcn.xcn3 + " " : "") + xcn.xcn2;
+    } else if xcn.xcn1 != "" {
+        display = xcn.xcn1;
+    }
+    return {
+        reference: (xcn.xcn1 != "") ? string `${resourceType}/${xcn.xcn1}` : (),
+        display: display
+    };
+};

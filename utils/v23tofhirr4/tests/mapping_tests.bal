@@ -18,7 +18,9 @@ import ballerina/http;
 import ballerina/lang.runtime;
 import ballerina/test;
 import ballerinax/health.fhir.r4;
+import ballerinax/health.fhir.r4.international401;
 import ballerinax/health.hl7v2 as hl7;
+import ballerinax/health.hl7v23;
 
 final string msg = "MSH|^~\\&|ADT1|GOOD HEALTH HOSPITAL|GHH LAB, INC.|GOOD HEALTH HOSPITAL|" +
 "198808181126|SECURITY|ADT^A01^ADT_A01|MSG00001|P|2.3||\rEVN|A01|200708181123||" +
@@ -60,7 +62,9 @@ function v2toFhirTransformTest() {
         r4:Bundle|error resultantBundle = adtToFhirBundle.cloneWithType(r4:Bundle);
         if resultantBundle is r4:Bundle {
             r4:BundleEntry[] entries = resultantBundle.entry ?: [];
-            test:assertEquals(entries.length(), 5, "Transforming issue occurred with the message");
+            // NK1 now maps to both Patient (contact) and RelatedPerson (+1)
+            // PV1 now maps to Patient, Encounter, and Coverage (+1)
+            test:assertEquals(entries.length(), 7, "Transforming issue occurred with the message");
 
         } else {
             test:assertFail("ADT_A01 msg to FHIR transforming failed.");
@@ -83,7 +87,8 @@ function v2toFhirTransformWithCustomService() {
         r4:Bundle|error resultantBundle = adtToFhirBundle.cloneWithType(r4:Bundle);
         if resultantBundle is r4:Bundle {
             r4:BundleEntry[] entries = resultantBundle.entry ?: [];
-            test:assertEquals(entries.length(), 5, "Transforming issue occurred with the message");
+            // NK1 is handled by custom service (1 entry), PV1 now also maps to Coverage (+1)
+            test:assertEquals(entries.length(), 6, "Transforming issue occurred with the message");
             r4:BundleEntry nk1MappedEntry = entries[3];
             map<anydata> patientResource = <map<anydata>>nk1MappedEntry?.'resource;
             test:assertEquals(patientResource["resourceType"], "Patient");
@@ -160,3 +165,398 @@ http:Service customMapperService = service object {
         };
     }
 };
+
+// --------------------------------------------------------------------------------------------#
+// New segment mapping tests
+// --------------------------------------------------------------------------------------------#
+
+@test:Config {}
+function nk1ToRelatedPersonTest() {
+    hl7v23:NK1 nk1 = {
+        name: "NK1",
+        nk11: "1",
+        nk12: [{xpn1: "SMITH", xpn2: "JOHN", xpn5: "Dr."}],
+        nk13: {ce1: "SPO", ce2: "Spouse"},
+        nk14: [{xad1: "123 Main St", xad3: "Springfield", xad4: "IL", xad5: "62701"}],
+        nk15: [{xtn1: "555-123-4567", xtn2: "PRN"}],
+        nk115: "M",
+        nk116: {ts1: "19800601"}
+    };
+    international401:RelatedPerson relatedPerson = nk1ToRelatedPerson(nk1);
+    test:assertTrue(relatedPerson.name != (), "RelatedPerson should have name");
+    r4:HumanName[] names = relatedPerson.name ?: [];
+    test:assertEquals(names[0].family, "SMITH", "RelatedPerson family name should be SMITH");
+    test:assertTrue(relatedPerson.relationship != (), "RelatedPerson should have relationship");
+    test:assertEquals(relatedPerson.gender, "male", "RelatedPerson gender should be male");
+    test:assertEquals(relatedPerson.birthDate, "1980-06-01", "RelatedPerson birthDate should be mapped");
+}
+
+@test:Config {}
+function nteToObservationTest() {
+    hl7v23:NTE nte = {
+        name: "NTE",
+        nte1: "1",
+        nte2: "L",
+        nte3: ["Patient reports chest pain at rest"]
+    };
+    international401:Observation observation = nteToObservation(nte);
+    test:assertEquals(observation.status, "preliminary", "NTE Observation status should be preliminary");
+    r4:Annotation[] notes = observation.note ?: [];
+    test:assertTrue(notes.length() > 0, "NTE Observation should have notes");
+    test:assertEquals(notes[0].text, "Patient reports chest pain at rest", "NTE comment should be mapped to note text");
+}
+
+@test:Config {}
+function orcToServiceRequestTest() {
+    hl7v23:ORC orc = {
+        name: "ORC",
+        orc1: "NW",
+        orc2: {ei1: "PLACER-001"},
+        orc3: {ei1: "FILLER-001"},
+        orc12: [{xcn1: "DOC123", xcn2: "Smith", xcn3: "John"}]
+    };
+    international401:ServiceRequest serviceRequest = orcToServiceRequest(orc);
+    test:assertEquals(serviceRequest.intent, "order", "ORC ServiceRequest intent should be order");
+    test:assertEquals(serviceRequest.status, "unknown", "ORC ServiceRequest status should be unknown");
+    r4:Identifier[] identifiers = serviceRequest.identifier ?: [];
+    test:assertTrue(identifiers.length() >= 1, "ORC ServiceRequest should have identifiers");
+    test:assertEquals(identifiers[0].value, "PLACER-001", "Placer ID should be mapped");
+}
+
+@test:Config {}
+function obrToServiceRequestTest() {
+    hl7v23:OBR obr = {
+        name: "OBR",
+        obr3: {ei1: "FILLER-OBR-001"},
+        obr4: {ce1: "85025", ce2: "CBC with Differential", ce3: "LN"},
+        obr5: "R",
+        obr16: [{xcn1: "DOC456"}]
+    };
+    international401:ServiceRequest serviceRequest = obrToServiceRequest(obr);
+    test:assertTrue(serviceRequest.code != (), "OBR ServiceRequest should have code");
+    r4:CodeableConcept code = serviceRequest.code ?: {};
+    r4:Coding[] codings = code.coding ?: [];
+    test:assertTrue(codings.length() > 0, "OBR ServiceRequest code should have coding");
+    test:assertEquals(codings[0].code, "85025", "OBR-4 code should be mapped");
+}
+
+@test:Config {}
+function pr1ToProcedureTest() {
+    hl7v23:PR1 pr1 = {
+        name: "PR1",
+        pr11: "1",
+        pr13: {ce1: "80048", ce2: "Basic Metabolic Panel", ce3: "CPT"},
+        pr14: "Basic Metabolic Panel",
+        pr15: {ts1: "20230815"},
+        pr16: "D"
+    };
+    international401:Procedure procedure = pr1ToProcedure(pr1);
+    test:assertTrue(procedure.code != (), "PR1 Procedure should have code");
+    r4:CodeableConcept code = procedure.code ?: {};
+    r4:Coding[] codings = code.coding ?: [];
+    test:assertEquals(codings[0].code, "80048", "PR1-3 code should be mapped");
+    test:assertEquals(code.text, "Basic Metabolic Panel", "PR1-4 description should be mapped to code.text");
+    test:assertEquals(procedure.performedDateTime, "2023-08-15", "PR1-5 date should be mapped");
+    test:assertTrue(procedure.category != (), "PR1-6 should map to category");
+}
+
+@test:Config {}
+function rxaToImmunizationTest() {
+    hl7v23:RXA rxa = {
+        name: "RXA",
+        rxa1: "0",
+        rxa2: "1",
+        rxa3: {ts1: "20230901"},
+        rxa4: {},
+        rxa5: {ce1: "08", ce2: "Hepatitis B", ce3: "CVX"},
+        rxa6: "1",
+        rxa7: {ce1: "mL"},
+        rxa10: {xcn1: "NURSE001", xcn2: "Jones", xcn3: "Mary"},
+        rxa15: ["LOT12345"],
+        rxa20: "CP"
+    };
+    international401:Immunization immunization = rxaToImmunization(rxa);
+    test:assertEquals(immunization.status, "completed", "RXA Immunization status should be completed");
+    r4:CodeableConcept vaccineCode = immunization.vaccineCode;
+    r4:Coding[] codings = vaccineCode.coding ?: [];
+    test:assertEquals(codings[0].code, "08", "RXA-5 vaccine code should be mapped");
+    test:assertEquals(immunization.lotNumber, "LOT12345", "RXA-15 lot number should be mapped");
+    test:assertEquals(immunization.occurrenceDateTime, "2023-09-01", "RXA-3 occurrence date should be mapped");
+}
+
+@test:Config {}
+function rxoToMedicationRequestTest() {
+    hl7v23:RXO rxo = {
+        name: "RXO",
+        rxo1: {ce1: "ASPIRIN", ce2: "Aspirin 81mg"},
+        rxo2: "81",
+        rxo3: "162",
+        rxo4: {ce1: "mg"},
+        rxo13: "3",
+        rxo14: {xcn1: "PHYS001"}
+    };
+    international401:MedicationRequest medReq = rxoToMedicationRequest(rxo);
+    test:assertEquals(medReq.intent, "original-order", "RXO MedicationRequest intent should be original-order");
+    r4:CodeableConcept? medCode = medReq.medicationCodeableConcept;
+    test:assertTrue(medCode != (), "RXO MedicationRequest should have medication code");
+    test:assertTrue(medReq.dispenseRequest != (), "RXO dispense request should be mapped");
+}
+
+@test:Config {}
+function rxrToImmunizationTest() {
+    hl7v23:RXR rxr = {
+        name: "RXR",
+        rxr1: {ce1: "IM", ce2: "Intramuscular"},
+        rxr2: {ce1: "LA", ce2: "Left Arm"}
+    };
+    international401:Immunization immunization = rxrToImmunization(rxr);
+    test:assertTrue(immunization.route != (), "RXR-1 route should be mapped to Immunization.route");
+    r4:CodeableConcept route = immunization.route ?: {};
+    r4:Coding[] codings = route.coding ?: [];
+    test:assertEquals(codings[0].code, "IM", "RXR-1 route code should be IM");
+    test:assertTrue(immunization.site != (), "RXR-2 site should be mapped to Immunization.site");
+}
+
+@test:Config {}
+function rxrToMedicationRequestTest() {
+    hl7v23:RXR rxr = {
+        name: "RXR",
+        rxr1: {ce1: "PO", ce2: "Oral"},
+        rxr2: {},
+        rxr3: {},
+        rxr4: {ce1: "CHEW", ce2: "Chew"}
+    };
+    international401:MedicationRequest medReq = rxrToMedicationRequest(rxr);
+    r4:Dosage[] dosageInstructions = medReq.dosageInstruction ?: [];
+    test:assertTrue(dosageInstructions.length() > 0, "RXR should map to dosageInstruction");
+    r4:CodeableConcept? route = dosageInstructions[0].route;
+    test:assertTrue(route != (), "RXR-1 route should map to dosageInstruction.route");
+}
+
+@test:Config {}
+function schToAppointmentTest() {
+    hl7v23:SCH sch = {
+        name: "SCH",
+        sch1: {ei1: "APT-001"},
+        sch2: {ei1: "FILL-001"},
+        sch7: {ce1: "ROUTINE", ce2: "Routine"},
+        sch9: "30",
+        sch12: {xcn1: "DOC789", xcn2: "Brown", xcn3: "Carol"},
+        sch25: {ce1: "Complete"}
+    };
+    international401:Appointment appointment = schToAppointment(sch);
+    test:assertTrue(appointment.identifier != (), "SCH Appointment should have identifiers");
+    r4:Identifier[] ids = appointment.identifier ?: [];
+    test:assertEquals(ids[0].value, "APT-001", "SCH-1 placer ID should be mapped");
+    test:assertEquals(appointment.minutesDuration, 30, "SCH-9 duration should be mapped");
+    test:assertEquals(appointment.status, "fulfilled", "SCH-25 Complete should map to fulfilled");
+    test:assertTrue(appointment.participant.length() > 0, "SCH participants should be mapped");
+}
+
+@test:Config {}
+function txaToDocumentReferenceTest() {
+    hl7v23:TXA txa = {
+        name: "TXA",
+        txa1: "1",
+        txa2: "DS",
+        txa3: "TX",
+        txa6: {ts1: "20230901120000"},
+        txa9: {xcn1: "DOC001", xcn2: "Davis", xcn3: "Alan"},
+        txa12: {ei1: "DOC-2023-001"},
+        txa17: "AU",
+        txa19: "AV",
+        txa21: "Discharge Summary"
+    };
+    international401:DocumentReference docRef = txaToDocumentReference(txa);
+    test:assertTrue(docRef.'type != (), "TXA-2 document type should be mapped");
+    r4:CodeableConcept docType = docRef.'type ?: {};
+    r4:Coding[] typeCodings = docType.coding ?: [];
+    test:assertEquals(typeCodings[0].code, "DS", "TXA-2 document type code should be DS");
+    test:assertEquals(docRef.docStatus, "final", "TXA-17 AU should map to docStatus final");
+    test:assertEquals(docRef.status, "current", "TXA-19 AV should map to status current");
+    test:assertEquals(docRef.description, "Discharge Summary", "TXA-21 should map to description");
+    r4:Identifier? masterId = docRef.masterIdentifier;
+    test:assertTrue(masterId != (), "TXA-12 should map to masterIdentifier");
+    test:assertEquals(masterId?.value, "DOC-2023-001", "TXA-12 unique document ID should be mapped");
+}
+
+@test:Config {}
+function rolToRelatedPersonTest() {
+    hl7v23:ROL rol = {
+        name: "ROL",
+        rol1: {ei1: "ROLE-001"},
+        rol3: {ce1: "GUARD", ce2: "Guardian"},
+        rol4: {xcn1: "REL001", xcn2: "Wilson", xcn3: "Bob"},
+        rol5: {ts1: "20200101"},
+        rol6: {ts1: "20251231"}
+    };
+    international401:RelatedPerson relatedPerson = rolToRelatedPerson(rol);
+    test:assertTrue(relatedPerson.identifier != (), "ROL-1 should map to identifier");
+    test:assertTrue(relatedPerson.relationship != (), "ROL-3 should map to relationship");
+    r4:CodeableConcept[] rel = relatedPerson.relationship ?: [];
+    r4:Coding[] relCodings = rel[0].coding ?: [];
+    test:assertEquals(relCodings[0].code, "GUARD", "ROL-3 code should be GUARD");
+    test:assertTrue(relatedPerson.name != (), "ROL-4 should map to name");
+    r4:HumanName[] names = relatedPerson.name ?: [];
+    test:assertEquals(names[0].family, "Wilson", "ROL-4 family name should be Wilson");
+    test:assertTrue(relatedPerson.period != (), "ROL-5/6 should map to period");
+}
+
+@test:Config {}
+function msaToMessageHeaderTest() {
+    hl7v23:MSA msa = {
+        name: "MSA",
+        msa1: "AA",
+        msa2: "MSG00001",
+        msa3: "Message accepted"
+    };
+    international401:MessageHeader msgHeader = msaToMessageHeader(msa);
+    test:assertTrue(msgHeader.response != (), "MSA should produce a response in MessageHeader");
+    international401:MessageHeaderResponse resp = msgHeader.response ?: {identifier: "", code: "ok"};
+    test:assertEquals(resp.identifier, "MSG00001", "MSA-2 should map to response.identifier");
+    test:assertEquals(resp.code, "ok", "MSA-1 AA should map to response.code ok");
+}
+
+@test:Config {}
+function msaToMessageHeaderAeTest() {
+    hl7v23:MSA msa = {
+        name: "MSA",
+        msa1: "AE",
+        msa2: "MSG00002"
+    };
+    international401:MessageHeader msgHeader = msaToMessageHeader(msa);
+    international401:MessageHeaderResponse resp = msgHeader.response ?: {identifier: "", code: "ok"};
+    test:assertEquals(resp.code, "fatal-error", "MSA-1 AE should map to response.code fatal-error");
+}
+
+@test:Config {}
+function mrgToAccountTest() {
+    hl7v23:MRG mrg = {
+        name: "MRG",
+        mrg1: [{}],
+        mrg2: [{}],
+        mrg3: {cx1: "ACCT-12345", cx5: "AN"}
+    };
+    international401:Account account = mrgToAccount(mrg);
+    test:assertEquals(account.status, "unknown", "MRG Account status should be unknown");
+    r4:Identifier[] ids = account.identifier ?: [];
+    test:assertTrue(ids.length() > 0, "MRG-3 should map to Account identifier");
+    test:assertEquals(ids[0].value, "ACCT-12345", "MRG-3 account number should be mapped");
+}
+
+@test:Config {}
+function in1ToCoverageTest() {
+    hl7v23:IN1 in1 = {
+        name: "IN1",
+        in11: "1",
+        in12: {ce1: "PLAN-001", ce2: "Medicare"},
+        in14: [{xon1: "Medicare Insurance Co"}],
+        in112: "20200101",
+        in113: "20251231",
+        in115: "Medicare",
+        in117: "SE"
+    };
+    international401:Coverage coverage = in1ToCoverage(in1);
+    test:assertEquals(coverage.status, "active", "IN1 Coverage status should be active");
+    r4:Reference[] payors = coverage.payor;
+    test:assertTrue(payors.length() > 0 && payors[0].display != (), "IN1-4 payor name should be mapped");
+    test:assertEquals(payors[0].display, "Medicare Insurance Co", "IN1-4 payor should be mapped");
+    test:assertTrue(coverage.period != (), "IN1-12/13 should map to period");
+    test:assertTrue(coverage.'type != (), "IN1-15 plan type should be mapped");
+    test:assertTrue(coverage.relationship != (), "IN1-17 relationship should be mapped");
+}
+
+@test:Config {}
+function in3ToCareTeamTest() {
+    hl7v23:IN3 in3 = {
+        name: "IN3",
+        in31: "1",
+        in321: "Dr. Jane Smith"
+    };
+    international401:CareTeam careTeam = in3ToCareTeam(in3);
+    test:assertTrue(careTeam.participant != (), "IN3-21 case manager should map to CareTeam participant");
+}
+
+@test:Config {}
+function pv1ToCoverageTest() {
+    hl7v23:PV1 pv1 = {
+        name: "PV1",
+        pv12: "I",
+        pv120: [{fc1: "BC", fc2: {ts1: "20230101"}}]
+    };
+    international401:Coverage coverage = pv1ToCoverage(pv1);
+    test:assertEquals(coverage.status, "active", "PV1 Coverage should be active");
+    test:assertTrue(coverage.'type != (), "PV1-20 financial class should map to Coverage.type");
+    r4:CodeableConcept covType = coverage.'type ?: {};
+    r4:Coding[] codings = covType.coding ?: [];
+    test:assertEquals(codings[0].code, "BC", "PV1-20 FC1 should be mapped as Coverage type code");
+}
+
+@test:Config {}
+function aigToAppointmentTest() {
+    hl7v23:AIG aig = {
+        name: "AIG",
+        aig1: "1",
+        aig2: "A",
+        aig3: {ce1: "RES-001", ce2: "Conference Room A"},
+        aig4: {ce1: "ROOM", ce2: "Room"},
+        aig8: {ts1: "20230901090000"}
+    };
+    international401:Appointment appointment = aigToAppointment(aig);
+    test:assertEquals(appointment.status, "proposed", "AIG Appointment status should be proposed");
+    test:assertTrue(appointment.participant.length() > 0, "AIG should map to participant");
+    international401:AppointmentParticipant participant = appointment.participant[0];
+    test:assertTrue(participant.'type != (), "AIG-4 resource type should map to participant type");
+}
+
+@test:Config {}
+function ailToAppointmentTest() {
+    hl7v23:AIL ail = {
+        name: "AIL",
+        ail1: "1",
+        ail2: "A",
+        ail3: {pl1: "EXAM-ROOM-2"},
+        ail6: {ts1: "20230901100000"}
+    };
+    international401:Appointment appointment = ailToAppointment(ail);
+    test:assertEquals(appointment.status, "proposed", "AIL Appointment status should be proposed");
+    international401:AppointmentParticipant participant = appointment.participant[0];
+    test:assertTrue(participant.actor != (), "AIL-3 location should map to actor");
+    r4:Reference actor = participant.actor ?: {};
+    test:assertEquals(actor.display, "EXAM-ROOM-2", "AIL-3 location ID should be mapped");
+}
+
+@test:Config {}
+function aipToAppointmentTest() {
+    hl7v23:AIP aip = {
+        name: "AIP",
+        aip1: "1",
+        aip2: "A",
+        aip3: {xcn1: "PRACT001", xcn2: "Taylor", xcn3: "Emma"},
+        aip4: {ce1: "PHYS", ce2: "Physician"},
+        aip6: {ts1: "20230901090000"},
+        aip12: {ce1: "Accepted"}
+    };
+    international401:Appointment appointment = aipToAppointment(aip);
+    international401:AppointmentParticipant participant = appointment.participant[0];
+    test:assertTrue(participant.actor != (), "AIP-3 personnel should map to actor");
+    test:assertEquals(participant.status, "accepted", "AIP-12 Accepted should map to status accepted");
+}
+
+@test:Config {}
+function aisToAppointmentTest() {
+    hl7v23:AIS ais = {
+        name: "AIS",
+        ais1: "1",
+        ais2: "A",
+        ais3: {ce1: "CONSULT", ce2: "Consultation"},
+        ais10: {ce1: "Complete"}
+    };
+    international401:Appointment appointment = aisToAppointment(ais);
+    test:assertEquals(appointment.status, "fulfilled", "AIS-10 Complete should map to fulfilled status");
+    r4:CodeableConcept[]? serviceType = appointment.serviceType;
+    test:assertTrue(serviceType != (), "AIS-3 should map to serviceType");
+    r4:CodeableConcept[] types = serviceType ?: [];
+    r4:Coding[] codings = types[0].coding ?: [];
+    test:assertEquals(codings[0].code, "CONSULT", "AIS-3 service code should be CONSULT");
+}

@@ -64,13 +64,22 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
     }
     match segmentName {
         "NK1" => {
-            Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
-            if nk1ToPatient is Nk1ToPatient {
-                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
-                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
-                if customMappingResponse[0] {
-                    constructedResource = nk1ToPatient(check segment.ensureType(Nk1));
+            [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+            if customMappingResponse[0] {
+                Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
+                if nk1ToPatient is Nk1ToPatient {
+                    map<anydata> constructedResource = nk1ToPatient(check segment.ensureType(Nk1));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
                 }
+                Nk1ToRelatedPerson? nk1ToRelatedPerson = impl.nk1ToRelatedPerson;
+                if nk1ToRelatedPerson is Nk1ToRelatedPerson {
+                    map<anydata> constructedResource = nk1ToRelatedPerson(check segment.ensureType(Nk1));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
+                }
+            } else {
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 return populateBundleEntries(constructedResource);
             }
         }
@@ -107,6 +116,11 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
                 Pv1ToEncounter? pv1ToEncounterResult = impl.pv1ToEncounter;
                 if pv1ToEncounterResult is Pv1ToEncounter {
                     r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToEncounterResult(check segment.ensureType(Pv1)));
+                    entries.push(...bundleEntriesResult);
+                }
+                Pv1ToCoverage? pv1ToCoverageResult = impl.pv1ToCoverage;
+                if pv1ToCoverageResult is Pv1ToCoverage {
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToCoverageResult(check segment.ensureType(Pv1)));
                     entries.push(...bundleEntriesResult);
                 }
             }
@@ -202,31 +216,229 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
             }
         }
         "ORC" => {
-            OrcToImmunization? orcToImmunization = impl.orcToImmunization;
-            if orcToImmunization is OrcToImmunization {
-                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
-                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
-                if customMappingResponse[0] {
-                    constructedResource = orcToImmunization(check segment.ensureType(Orc));
+            [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+            if customMappingResponse[0] {
+                OrcToImmunization? orcToImmunization = impl.orcToImmunization;
+                if orcToImmunization is OrcToImmunization {
+                    map<anydata> constructedResource = orcToImmunization(check segment.ensureType(Orc));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
                 }
+                OrcToServiceRequest? orcToServiceRequest = impl.orcToServiceRequest;
+                if orcToServiceRequest is OrcToServiceRequest {
+                    map<anydata> constructedResource = orcToServiceRequest(check segment.ensureType(Orc));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
+                }
+            } else {
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 return populateBundleEntries(constructedResource);
             }
         }
         "OBR" => {
-            ObrToDiagnosticReport? obrToDiagnosticReport = impl.obrToDiagnosticReport;
-            if obrToDiagnosticReport is ObrToDiagnosticReport {
-                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
-                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
-                if customMappingResponse[0] {
-                    constructedResource = obrToDiagnosticReport(check segment.ensureType(Obr));
+            [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+            if customMappingResponse[0] {
+                ObrToDiagnosticReport? obrToDiagnosticReport = impl.obrToDiagnosticReport;
+                if obrToDiagnosticReport is ObrToDiagnosticReport {
+                    map<anydata> constructedResource = obrToDiagnosticReport(check segment.ensureType(Obr));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
                 }
+                ObrToServiceRequest? obrToServiceRequest = impl.obrToServiceRequest;
+                if obrToServiceRequest is ObrToServiceRequest {
+                    map<anydata> constructedResource = obrToServiceRequest(check segment.ensureType(Obr));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
+                }
+            } else {
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 return populateBundleEntries(constructedResource);
             }
         }
         "NTE" => {
-            // Skip NTE segment tempararily. Tracking issue: https://github.com/wso2-enterprise/open-healthcare/issues/1737
-            r4:BundleEntry[] entriesNew = [];
-            return entriesNew;
+            NteToObservation? nteToObservation = impl.nteToObservation;
+            if nteToObservation is NteToObservation {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = nteToObservation(check segment.ensureType(Nte));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "PR1" => {
+            Pr1ToProcedure? pr1ToProcedure = impl.pr1ToProcedure;
+            if pr1ToProcedure is Pr1ToProcedure {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = pr1ToProcedure(check segment.ensureType(Pr1));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "RXA" => {
+            RxaToImmunization? rxaToImmunization = impl.rxaToImmunization;
+            if rxaToImmunization is RxaToImmunization {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = rxaToImmunization(check segment.ensureType(Rxa));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "RXO" => {
+            RxoToMedicationRequest? rxoToMedicationRequest = impl.rxoToMedicationRequest;
+            if rxoToMedicationRequest is RxoToMedicationRequest {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = rxoToMedicationRequest(check segment.ensureType(Rxo));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "RXR" => {
+            [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+            if customMappingResponse[0] {
+                RxrToImmunization? rxrToImmunization = impl.rxrToImmunization;
+                if rxrToImmunization is RxrToImmunization {
+                    map<anydata> constructedResource = rxrToImmunization(check segment.ensureType(Rxr));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
+                }
+                RxrToMedicationRequest? rxrToMedicationRequest = impl.rxrToMedicationRequest;
+                if rxrToMedicationRequest is RxrToMedicationRequest {
+                    map<anydata> constructedResource = rxrToMedicationRequest(check segment.ensureType(Rxr));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
+                }
+            } else {
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "SCH" => {
+            SchToAppointment? schToAppointment = impl.schToAppointment;
+            if schToAppointment is SchToAppointment {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = schToAppointment(check segment.ensureType(Sch));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "TXA" => {
+            TxaToDocumentReference? txaToDocumentReference = impl.txaToDocumentReference;
+            if txaToDocumentReference is TxaToDocumentReference {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = txaToDocumentReference(check segment.ensureType(Txa));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "ROL" => {
+            RolToRelatedPerson? rolToRelatedPerson = impl.rolToRelatedPerson;
+            if rolToRelatedPerson is RolToRelatedPerson {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = rolToRelatedPerson(check segment.ensureType(Rol));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "MSA" => {
+            MsaToMessageHeader? msaToMessageHeader = impl.msaToMessageHeader;
+            if msaToMessageHeader is MsaToMessageHeader {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = msaToMessageHeader(check segment.ensureType(Msa));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "MRG" => {
+            MrgToAccount? mrgToAccount = impl.mrgToAccount;
+            if mrgToAccount is MrgToAccount {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = mrgToAccount(check segment.ensureType(Mrg));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "IN1" => {
+            In1ToCoverage? in1ToCoverage = impl.in1ToCoverage;
+            if in1ToCoverage is In1ToCoverage {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = in1ToCoverage(check segment.ensureType(In1));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "IN3" => {
+            In3ToCareTeam? in3ToCareTeam = impl.in3ToCareTeam;
+            if in3ToCareTeam is In3ToCareTeam {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = in3ToCareTeam(check segment.ensureType(In3));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "AIG" => {
+            AigToAppointment? aigToAppointment = impl.aigToAppointment;
+            if aigToAppointment is AigToAppointment {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = aigToAppointment(check segment.ensureType(Aig));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "AIL" => {
+            AilToAppointment? ailToAppointment = impl.ailToAppointment;
+            if ailToAppointment is AilToAppointment {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = ailToAppointment(check segment.ensureType(Ail));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "AIP" => {
+            AipToAppointment? aipToAppointment = impl.aipToAppointment;
+            if aipToAppointment is AipToAppointment {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = aipToAppointment(check segment.ensureType(Aip));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "AIS" => {
+            AisToAppointment? aisToAppointment = impl.aisToAppointment;
+            if aisToAppointment is AisToAppointment {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = aisToAppointment(check segment.ensureType(Ais));
+                }
+                return populateBundleEntries(constructedResource);
+            }
         }
         _ => {
             if segmentName.length() == 3 {
@@ -860,7 +1072,7 @@ public isolated function obrToDiagnosticReport(Obr obr) returns international401
     return diagnosticReport;
 };
 
-public function obrToServiceRequest(Obr obr) returns international401:ServiceRequest {
+public isolated function obrToServiceRequest(Obr obr) returns international401:ServiceRequest {
     international401:ServiceRequest serviceRequest = {
         intent: nameToServiceRequestIntent(obr.name),
         priority: idToServiceRequestPriority(obr.obr5),
@@ -978,4 +1190,907 @@ public isolated function orcToImmunization(Orc orc) returns international401:Imm
     immunization.recorded = tsToDateTime(orc.orc9);
 
     return immunization;
+};
+
+// --------------------------------------------------------------------------------------------#
+// NK1 → RelatedPerson
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-nk1-to-relatedperson.html
+// --------------------------------------------------------------------------------------------#
+public isolated function nk1ToRelatedPerson(Nk1 nk1) returns international401:RelatedPerson {
+    international401:RelatedPerson relatedPerson = {
+        patient: {}
+    };
+
+    r4:HumanName[] names = [];
+    foreach hl7v23:XPN item in nk1.nk12 {
+        r4:HumanName name = xpnToHumanName(item);
+        if name != {} {
+            names.push(name);
+        }
+    }
+    foreach hl7v23:XPN item in nk1.nk130 {
+        r4:HumanName name = xpnToHumanName(item);
+        if name != {} {
+            names.push(name);
+        }
+    }
+    relatedPerson.name = (names.length() > 0) ? names : ();
+
+    r4:CodeableConcept[] relationship = [];
+    r4:CodeableConcept rel = ceToCodeableConcept(nk1.nk13);
+    if rel != {} {
+        relationship.push(rel);
+    }
+    r4:CodeableConcept contactRole = ceToCodeableConcept(nk1.nk17);
+    if contactRole != {} {
+        relationship.push(contactRole);
+    }
+    relatedPerson.relationship = (relationship.length() > 0) ? relationship : ();
+
+    r4:Address[] addresses = [];
+    foreach hl7v23:XAD item in nk1.nk14 {
+        r4:Address? addr = xadToAddress(item);
+        if addr is r4:Address {
+            addresses.push(addr);
+        }
+    }
+    foreach hl7v23:XAD item in nk1.nk132 {
+        r4:Address? addr = xadToAddress(item);
+        if addr is r4:Address {
+            addresses.push(addr);
+        }
+    }
+    relatedPerson.address = (addresses.length() > 0) ? addresses : ();
+
+    r4:ContactPoint[] telecoms = [];
+    foreach hl7v23:XTN item in nk1.nk15 {
+        r4:ContactPoint? cp = xtnToContactPoint(item);
+        if cp is r4:ContactPoint {
+            telecoms.push(cp);
+        }
+    }
+    foreach hl7v23:XTN item in nk1.nk16 {
+        r4:ContactPoint? cp = xtnToContactPoint(item);
+        if cp is r4:ContactPoint {
+            telecoms.push(cp);
+        }
+    }
+    foreach hl7v23:XTN item in nk1.nk131 {
+        r4:ContactPoint? cp = xtnToContactPoint(item);
+        if cp is r4:ContactPoint {
+            telecoms.push(cp);
+        }
+    }
+    relatedPerson.telecom = (telecoms.length() > 0) ? telecoms : ();
+
+    r4:Period period = {'start: nk1.nk18 != "" ? nk1.nk18 : (), end: nk1.nk19 != "" ? nk1.nk19 : ()};
+    if period != {} {
+        relatedPerson.period = period;
+    }
+
+    relatedPerson.gender = pidToAdministrativeSex(nk1.nk115);
+    relatedPerson.birthDate = (nk1.nk116.ts1 != "") ? hl7DateToFhir(nk1.nk116.ts1) : ();
+
+    r4:Identifier[] identifiers = [];
+    r4:Identifier empId = cxToIdentifier(nk1.nk112);
+    if empId != {} {
+        identifiers.push(empId);
+    }
+    foreach hl7v23:CX item in nk1.nk133 {
+        r4:Identifier id = cxToIdentifier(item);
+        if id != {} {
+            identifiers.push(id);
+        }
+    }
+    if nk1.nk137 != "" {
+        identifiers.push({
+            value: nk1.nk137,
+            system: "http://hl7.org/fhir/sid/us-ssn",
+            'type: {coding: [{code: "SS", system: "http://terminology.hl7.org/CodeSystem/v2-0203"}]}
+        });
+    }
+    relatedPerson.identifier = (identifiers.length() > 0) ? identifiers : ();
+
+    r4:CodeableConcept? lang = ceToCodeableConcept(nk1.nk120);
+    if lang is r4:CodeableConcept && lang != {} {
+        relatedPerson.communication = [{language: lang}];
+    }
+
+    return relatedPerson;
+};
+
+// --------------------------------------------------------------------------------------------#
+// NTE → Observation
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-nte-to-observation.html
+// Note: HL7v2.3 NTE segment only has nte3 (comment text); nte5/nte6 fields are v2.6+
+// --------------------------------------------------------------------------------------------#
+public isolated function nteToObservation(Nte nte) returns international401:Observation {
+    r4:Annotation[] notes = [];
+    foreach hl7v23:FT commentLine in nte.nte3 {
+        if commentLine != "" {
+            notes.push({text: commentLine});
+        }
+    }
+    international401:Observation observation = {
+        code: {},
+        status: "preliminary",
+        note: (notes.length() > 0) ? notes : ()
+    };
+    return observation;
+};
+
+// --------------------------------------------------------------------------------------------#
+// ORC → ServiceRequest
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-orc-to-servicerequest.html
+// --------------------------------------------------------------------------------------------#
+public isolated function orcToServiceRequest(Orc orc) returns international401:ServiceRequest {
+    international401:ServiceRequest serviceRequest = {
+        intent: "order",
+        status: "unknown",
+        subject: {}
+    };
+
+    r4:Identifier[] identifiers = [];
+    r4:Identifier id1 = eiToIdentifier(<hl7v23:EI>orc.orc2);
+    if id1 != {} {
+        id1.'type = {coding: [{code: "PLAC", system: "http://terminology.hl7.org/CodeSystem/v2-0203"}]};
+        identifiers.push(id1);
+    }
+    r4:Identifier id2 = eiToIdentifier(orc.orc3);
+    if id2 != {} {
+        id2.'type = {coding: [{code: "FILL", system: "http://terminology.hl7.org/CodeSystem/v2-0203"}]};
+        identifiers.push(id2);
+    }
+    serviceRequest.identifier = (identifiers.length() > 0) ? identifiers : ();
+
+    r4:Reference requester = xcnToReference(orc.orc12[0]);
+    if requester != {} {
+        serviceRequest.requester = requester;
+    }
+
+    r4:CodeableConcept? reasonCode = ceToCodeableConcept(orc.orc16);
+    if reasonCode is r4:CodeableConcept && reasonCode != {} {
+        serviceRequest.reasonCode = [reasonCode];
+    }
+
+    serviceRequest.authoredOn = tsToDateTime(orc.orc9);
+    serviceRequest.occurrenceDateTime = tsToDateTime(orc.orc15);
+
+    return serviceRequest;
+};
+
+// --------------------------------------------------------------------------------------------#
+// PR1 → Procedure
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-pr1-to-procedure.html
+// --------------------------------------------------------------------------------------------#
+public isolated function pr1ToProcedure(Pr1 pr1) returns international401:Procedure {
+    international401:Procedure procedure = {
+        subject: {},
+        status: "unknown"
+    };
+
+    r4:CodeableConcept code = ceToCodeableConcept(pr1.pr13);
+    if code != {} {
+        if pr1.pr14 != "" {
+            code.text = pr1.pr14;
+        }
+        procedure.code = code;
+    }
+
+    procedure.performedDateTime = (pr1.pr15.ts1 != "") ? hl7DateToFhir(pr1.pr15.ts1) : ();
+
+    if pr1.pr16 != "" {
+        procedure.category = {
+            coding: [{code: pr1.pr16}]
+        };
+    }
+
+    international401:ProcedurePerformer[] performers = [];
+    foreach hl7v23:XCN item in pr1.pr18 {
+        r4:Reference ref = xcnToReferenceWithName(item, "Practitioner");
+        if ref != {} {
+            performers.push({
+                actor: ref,
+                'function: {coding: [{code: "88189002", system: "http://snomed.info/sct", display: "Anesthesiologist"}]}
+            });
+        }
+    }
+    foreach hl7v23:XCN item in pr1.pr111 {
+        r4:Reference ref = xcnToReferenceWithName(item, "Practitioner");
+        if ref != {} {
+            performers.push({
+                actor: ref,
+                'function: {coding: [{code: "304292004", system: "http://snomed.info/sct", display: "Surgeon"}]}
+            });
+        }
+    }
+    foreach hl7v23:XCN item in pr1.pr112 {
+        r4:Reference ref = xcnToReferenceWithName(item, "Practitioner");
+        if ref != {} {
+            performers.push({actor: ref});
+        }
+    }
+    procedure.performer = (performers.length() > 0) ? performers : ();
+
+    r4:CodeableConcept reasonCode = ceToCodeableConcept(pr1.pr115);
+    if reasonCode != {} {
+        procedure.reasonCode = [reasonCode];
+    }
+
+    return procedure;
+};
+
+// --------------------------------------------------------------------------------------------#
+// RXA → Immunization
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rxa-to-immunization.html
+// --------------------------------------------------------------------------------------------#
+public isolated function rxaToImmunization(Rxa rxa) returns international401:Immunization {
+    international401:Immunization immunization = {
+        occurrenceDateTime: "",
+        occurrenceString: "",
+        patient: {},
+        status: "completed",
+        vaccineCode: {}
+    };
+
+    immunization.occurrenceDateTime = (rxa.rxa3.ts1 != "") ? hl7DateToFhir(rxa.rxa3.ts1) : ();
+
+    r4:CodeableConcept vaccineCode = ceToCodeableConcept(rxa.rxa5);
+    if vaccineCode != {} {
+        immunization.vaccineCode = vaccineCode;
+    }
+
+    if rxa.rxa6 != "" {
+        decimal|error doseVal = decimal:fromString(rxa.rxa6);
+        if doseVal is decimal {
+            r4:CodeableConcept doseUnits = ceToCodeableConcept(rxa.rxa7);
+            immunization.doseQuantity = {
+                value: doseVal,
+                code: doseUnits.coding != () ? doseUnits.coding.toString() : (),
+                unit: doseUnits.coding != () ? doseUnits.coding.toString() : ()
+            };
+        }
+    }
+
+    r4:Reference performer = xcnToReferenceWithName(rxa.rxa10, "Practitioner");
+    if performer != {} {
+        immunization.performer = [{
+            actor: performer,
+            'function: {coding: [{code: "AP", system: "http://terminology.hl7.org/CodeSystem/v2-0443", display: "Administering Provider"}]}
+        }];
+    }
+
+    if rxa.rxa15.length() > 0 && rxa.rxa15[0] != "" {
+        immunization.lotNumber = rxa.rxa15[0];
+    }
+
+    if rxa.rxa16.length() > 0 && rxa.rxa16[0].ts1 != "" {
+        immunization.expirationDate = hl7DateToFhir(rxa.rxa16[0].ts1);
+    }
+
+    if rxa.rxa17.length() > 0 {
+        r4:CodeableConcept mfr = ceToCodeableConcept(rxa.rxa17[0]);
+        if mfr != {} {
+            immunization.manufacturer = {display: mfr.coding.toString()};
+        }
+    }
+
+    if rxa.rxa18.length() > 0 {
+        r4:CodeableConcept refusalReason = ceToCodeableConcept(rxa.rxa18[0]);
+        if refusalReason != {} {
+            immunization.statusReason = refusalReason;
+        }
+    }
+
+    if rxa.rxa19.length() > 0 {
+        r4:CodeableConcept[] reasonCodes = [];
+        foreach hl7v23:CE item in rxa.rxa19 {
+            r4:CodeableConcept rc = ceToCodeableConcept(item);
+            if rc != {} {
+                reasonCodes.push(rc);
+            }
+        }
+        immunization.reasonCode = (reasonCodes.length() > 0) ? reasonCodes : ();
+    }
+
+    match rxa.rxa20 {
+        "CP" => { immunization.status = "completed"; }
+        "RE" => { immunization.status = "not-done"; }
+        "PA" => { immunization.status = "completed"; }
+        "NA" => { immunization.status = "not-done"; }
+        _ => { immunization.status = "completed"; }
+    }
+
+    immunization.recorded = tsToDateTime(rxa.rxa22);
+
+    return immunization;
+};
+
+// --------------------------------------------------------------------------------------------#
+// RXO → MedicationRequest
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rxo-to-medicationrequest.html
+// --------------------------------------------------------------------------------------------#
+public isolated function rxoToMedicationRequest(Rxo rxo) returns international401:MedicationRequest {
+    international401:MedicationRequest medicationRequest = {
+        intent: "original-order",
+        status: "unknown",
+        subject: {},
+        medicationCodeableConcept: ceToCodeableConcept(rxo.rxo1)
+    };
+
+    r4:Reference requester = xcnToReferenceWithName(rxo.rxo14, "Practitioner");
+    if requester != {} {
+        medicationRequest.requester = requester;
+    }
+
+    r4:Dosage dosage = {};
+    if rxo.rxo2 != "" || rxo.rxo3 != "" {
+        decimal? lowVal = ();
+        decimal? highVal = ();
+        if rxo.rxo2 != "" {
+            decimal|error lv = decimal:fromString(rxo.rxo2);
+            if lv is decimal {
+                lowVal = lv;
+            }
+        }
+        if rxo.rxo3 != "" {
+            decimal|error hv = decimal:fromString(rxo.rxo3);
+            if hv is decimal {
+                highVal = hv;
+            }
+        }
+        r4:CodeableConcept units = ceToCodeableConcept(rxo.rxo4);
+        string? unitCode = ();
+        string? unitStr = ();
+        if units.coding != () {
+            r4:Coding[]? codings = units.coding;
+            if codings is r4:Coding[] && codings.length() > 0 {
+                unitCode = codings[0].code;
+                unitStr = codings[0].display;
+            }
+        }
+        if lowVal != () || highVal != () {
+            dosage.doseAndRate = [{
+                doseRange: {
+                    low: lowVal != () ? {value: lowVal, code: unitCode, unit: unitStr} : {},
+                    high: highVal != () ? {value: highVal, code: unitCode, unit: unitStr} : {}
+                }
+            }];
+        }
+    }
+    if dosage != {} {
+        medicationRequest.dosageInstruction = [dosage];
+    }
+
+    if rxo.rxo9 != "" {
+        medicationRequest.substitution = {
+            allowedCodeableConcept: {coding: [{code: rxo.rxo9}]}
+        };
+    }
+
+    if rxo.rxo11 != "" || rxo.rxo13 != "" {
+        international401:MedicationRequestDispenseRequest dispenseRequest = {};
+        if rxo.rxo11 != "" {
+            decimal|error qty = decimal:fromString(rxo.rxo11);
+            if qty is decimal {
+                dispenseRequest.quantity = {value: qty};
+            }
+        }
+        if rxo.rxo13 != "" {
+            decimal|error refills = decimal:fromString(rxo.rxo13);
+            if refills is decimal {
+                dispenseRequest.numberOfRepeatsAllowed = <int>refills;
+            }
+        }
+        if dispenseRequest != {} {
+            medicationRequest.dispenseRequest = dispenseRequest;
+        }
+    }
+
+    return medicationRequest;
+};
+
+// --------------------------------------------------------------------------------------------#
+// RXR → Immunization (adds route/site to immunization)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rxr-to-immunization.html
+// --------------------------------------------------------------------------------------------#
+public isolated function rxrToImmunization(Rxr rxr) returns international401:Immunization {
+    international401:Immunization immunization = {
+        occurrenceDateTime: "",
+        occurrenceString: "",
+        patient: {},
+        status: "completed",
+        vaccineCode: {}
+    };
+    r4:CodeableConcept route = ceToCodeableConcept(rxr.rxr1);
+    if route != {} {
+        immunization.route = route;
+    }
+    r4:CodeableConcept site = ceToCodeableConcept(rxr.rxr2);
+    if site != {} {
+        immunization.site = site;
+    }
+    return immunization;
+};
+
+// --------------------------------------------------------------------------------------------#
+// RXR → MedicationRequest (adds route/site/method to dosageInstruction)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rxr-to-medicationrequest.html
+// --------------------------------------------------------------------------------------------#
+public isolated function rxrToMedicationRequest(Rxr rxr) returns international401:MedicationRequest {
+    international401:MedicationRequest medicationRequest = {
+        intent: "order",
+        status: "unknown",
+        subject: {},
+        medicationCodeableConcept: {}
+    };
+    r4:Dosage dosage = {};
+    r4:CodeableConcept route = ceToCodeableConcept(rxr.rxr1);
+    if route != {} {
+        dosage.route = route;
+    }
+    r4:CodeableConcept site = ceToCodeableConcept(rxr.rxr2);
+    if site != {} {
+        dosage.site = site;
+    }
+    r4:CodeableConcept method = ceToCodeableConcept(rxr.rxr4);
+    if method != {} {
+        dosage.method = method;
+    }
+    if dosage != {} {
+        medicationRequest.dosageInstruction = [dosage];
+    }
+    return medicationRequest;
+};
+
+// --------------------------------------------------------------------------------------------#
+// SCH → Appointment
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-sch-to-appointment.html
+// --------------------------------------------------------------------------------------------#
+public isolated function schToAppointment(Sch sch) returns international401:Appointment {
+    international401:AppointmentParticipant defaultParticipant = {
+        status: "needs-action"
+    };
+    international401:Appointment appointment = {
+        status: "proposed",
+        participant: [defaultParticipant]
+    };
+
+    r4:Identifier[] identifiers = [];
+    r4:Identifier id1 = eiToIdentifier(sch.sch1);
+    if id1 != {} {
+        id1.'type = {coding: [{code: "PLAC", system: "http://terminology.hl7.org/CodeSystem/v2-0203"}]};
+        identifiers.push(id1);
+    }
+    r4:Identifier id2 = eiToIdentifier(sch.sch2);
+    if id2 != {} {
+        id2.'type = {coding: [{code: "FILL", system: "http://terminology.hl7.org/CodeSystem/v2-0203"}]};
+        identifiers.push(id2);
+    }
+    appointment.identifier = (identifiers.length() > 0) ? identifiers : ();
+
+    r4:CodeableConcept apptReason = ceToCodeableConcept(sch.sch7);
+    if apptReason != {} {
+        appointment.reasonCode = [apptReason];
+    }
+
+    r4:CodeableConcept apptType = ceToCodeableConcept(sch.sch8);
+    if apptType != {} {
+        appointment.appointmentType = apptType;
+    }
+
+    if sch.sch9 != "" {
+        decimal|error duration = decimal:fromString(sch.sch9);
+        if duration is decimal {
+            appointment.minutesDuration = <int>duration;
+        }
+    }
+
+    international401:AppointmentParticipant[] participants = [];
+    r4:Reference placer = xcnToReferenceWithName(sch.sch12, "Practitioner");
+    if placer != {} {
+        participants.push({
+            actor: placer,
+            'type: [{coding: [{code: "PART", system: "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"}]}],
+            status: "accepted"
+        });
+    }
+    r4:Reference filler = xcnToReferenceWithName(sch.sch16, "Practitioner");
+    if filler != {} {
+        participants.push({
+            actor: filler,
+            'type: [{coding: [{code: "PART", system: "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"}]}],
+            status: "accepted"
+        });
+    }
+    r4:Reference enteredBy = xcnToReferenceWithName(sch.sch20, "Practitioner");
+    if enteredBy != {} {
+        participants.push({
+            actor: enteredBy,
+            'type: [{coding: [{code: "ENT", system: "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"}]}],
+            status: "accepted"
+        });
+    }
+    appointment.participant = (participants.length() > 0) ? participants : [defaultParticipant];
+
+    if sch.sch25.ce1 != "" {
+        match sch.sch25.ce1 {
+            "Pending" => { appointment.status = "pending"; }
+            "Complete" => { appointment.status = "fulfilled"; }
+            "Cancelled" => { appointment.status = "cancelled"; }
+            "Discontinued" => { appointment.status = "cancelled"; }
+            _ => { appointment.status = "proposed"; }
+        }
+    }
+
+    return appointment;
+};
+
+// --------------------------------------------------------------------------------------------#
+// TXA → DocumentReference
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-txa-to-documentreference.html
+// --------------------------------------------------------------------------------------------#
+public isolated function txaToDocumentReference(Txa txa) returns international401:DocumentReference {
+    international401:DocumentReference documentReference = {
+        status: "current",
+        content: [{attachment: {}}]
+    };
+
+    if txa.txa2 != "" {
+        documentReference.'type = {coding: [{code: txa.txa2}]};
+    }
+
+    if txa.txa3 != "" {
+        documentReference.content = [{
+            attachment: {
+                contentType: txa.txa3
+            }
+        }];
+    }
+
+    documentReference.date = (txa.txa6.ts1 != "") ? tsToInstant(txa.txa6) : ();
+
+    r4:Reference[] authors = [];
+    r4:Reference author = xcnToReferenceWithName(txa.txa9, "Practitioner");
+    if author != {} {
+        authors.push(author);
+    }
+    documentReference.author = (authors.length() > 0) ? authors : ();
+
+    if txa.txa10.length() > 0 {
+        r4:Reference auth = xcnToReferenceWithName(txa.txa10[0], "Practitioner");
+        if auth != {} {
+            documentReference.authenticator = auth;
+        }
+    }
+
+    r4:Identifier masterId = eiToIdentifier(txa.txa12);
+    if masterId != {} {
+        documentReference.masterIdentifier = masterId;
+    }
+
+    if txa.txa16 != "" {
+        documentReference.identifier = [{value: txa.txa16}];
+    }
+
+    if txa.txa17 != "" {
+        match txa.txa17 {
+            "AU" => { documentReference.docStatus = "final"; }
+            "DI" => { documentReference.docStatus = "preliminary"; }
+            "DO" => { documentReference.docStatus = "preliminary"; }
+            "IN" => { documentReference.docStatus = "preliminary"; }
+            "IP" => { documentReference.docStatus = "preliminary"; }
+            "LA" => { documentReference.docStatus = "amended"; }
+            "OB" => { documentReference.docStatus = "entered-in-error"; }
+            "PA" => { documentReference.docStatus = "preliminary"; }
+            "PR" => { documentReference.docStatus = "preliminary"; }
+            "PY" => { documentReference.docStatus = "amended"; }
+            "UN" => { documentReference.docStatus = "preliminary"; }
+            _ => {}
+        }
+    }
+
+    if txa.txa19 != "" {
+        match txa.txa19 {
+            "AV" => { documentReference.status = "current"; }
+            "CA" => { documentReference.status = "entered-in-error"; }
+            "OB" => { documentReference.status = "superseded"; }
+            "UN" => { documentReference.status = "current"; }
+            _ => {}
+        }
+    }
+
+    if txa.txa21 != "" {
+        documentReference.description = txa.txa21;
+    }
+
+    return documentReference;
+};
+
+// --------------------------------------------------------------------------------------------#
+// ROL → RelatedPerson
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rol-to-relatedperson.html
+// --------------------------------------------------------------------------------------------#
+public isolated function rolToRelatedPerson(Rol rol) returns international401:RelatedPerson {
+    international401:RelatedPerson relatedPerson = {
+        patient: {}
+    };
+
+    r4:Identifier roleId = eiToIdentifier(rol.rol1);
+    if roleId != {} {
+        relatedPerson.identifier = [roleId];
+    }
+
+    r4:CodeableConcept relationship = ceToCodeableConcept(rol.rol3);
+    if relationship != {} {
+        relatedPerson.relationship = [relationship];
+    }
+
+    r4:HumanName personName = xcnToHumanName(rol.rol4);
+    if personName != {} {
+        relatedPerson.name = [personName];
+    }
+
+    r4:Period period = {
+        'start: (rol.rol5.ts1 != "") ? hl7DateToFhir(rol.rol5.ts1) : (),
+        end: (rol.rol6.ts1 != "") ? hl7DateToFhir(rol.rol6.ts1) : ()
+    };
+    if period != {} {
+        relatedPerson.period = period;
+    }
+
+    return relatedPerson;
+};
+
+// --------------------------------------------------------------------------------------------#
+// MSA → MessageHeader (response)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-msa-to-messageheader.html
+// --------------------------------------------------------------------------------------------#
+public isolated function msaToMessageHeader(Msa msa) returns international401:MessageHeader {
+    international401:MessageHeaderResponseCode responseCode = "ok";
+    match msa.msa1 {
+        "AA" => { responseCode = "ok"; }
+        "AE" => { responseCode = "fatal-error"; }
+        "AR" => { responseCode = "fatal-error"; }
+        "CA" => { responseCode = "ok"; }
+        "CE" => { responseCode = "transient-error"; }
+        "CR" => { responseCode = "transient-error"; }
+        _ => { responseCode = "ok"; }
+    }
+    international401:MessageHeader messageHeader = {
+        'source: {endpoint: ""},
+        eventUri: "",
+        response: {
+            identifier: msa.msa2,
+            code: responseCode
+        }
+    };
+    return messageHeader;
+};
+
+// --------------------------------------------------------------------------------------------#
+// MRG → Account
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-mrg-to-account.html
+// --------------------------------------------------------------------------------------------#
+public isolated function mrgToAccount(Mrg mrg) returns international401:Account {
+    international401:Account account = {
+        status: "unknown"
+    };
+    r4:Identifier id = cxToIdentifier(mrg.mrg3);
+    if id != {} {
+        account.identifier = [id];
+    }
+    return account;
+};
+
+// --------------------------------------------------------------------------------------------#
+// IN1 → Coverage
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-in1-to-coverage.html
+// --------------------------------------------------------------------------------------------#
+public isolated function in1ToCoverage(In1 in1) returns international401:Coverage {
+    international401:Coverage coverage = {
+        status: "active",
+        beneficiary: {},
+        payor: [{}]
+    };
+
+    r4:Identifier planId = ceToCodeableConcept(in1.in12) != {} ? {value: in1.in12.ce1} : {};
+    if planId != {} {
+        coverage.identifier = [planId];
+    }
+
+    r4:Reference[] payors = [];
+    foreach hl7v23:XON item in in1.in14 {
+        if item.xon1 != "" {
+            payors.push({display: item.xon1});
+        }
+    }
+    coverage.payor = (payors.length() > 0) ? payors : [{}];
+
+    if in1.in112 != "" || in1.in113 != "" {
+        coverage.period = {
+            'start: (in1.in112 != "") ? in1.in112 : (),
+            end: (in1.in113 != "") ? in1.in113 : ()
+        };
+    }
+
+    if in1.in115 != "" {
+        coverage.'type = {coding: [{code: in1.in115}]};
+    }
+
+    if in1.in117 != "" {
+        coverage.relationship = {coding: [{code: in1.in117}]};
+    }
+
+    return coverage;
+};
+
+// --------------------------------------------------------------------------------------------#
+// IN3 → CareTeam
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-in3-to-careteam.html
+// --------------------------------------------------------------------------------------------#
+public isolated function in3ToCareTeam(In3 in3) returns international401:CareTeam {
+    international401:CareTeam careTeam = {};
+    if in3.in321 != "" {
+        careTeam.participant = [{
+            role: [{
+                coding: [{
+                    code: "116154003",
+                    system: "http://snomed.info/sct",
+                    display: "Case Manager"
+                }],
+                text: in3.in321
+            }]
+        }];
+    }
+    return careTeam;
+};
+
+// --------------------------------------------------------------------------------------------#
+// PV1 → Coverage
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-pv1-to-coverage.html
+// --------------------------------------------------------------------------------------------#
+public isolated function pv1ToCoverage(Pv1 pv1) returns international401:Coverage {
+    international401:Coverage coverage = {
+        status: "active",
+        beneficiary: {},
+        payor: [{}]
+    };
+    if pv1.pv120.length() > 0 && pv1.pv120[0].fc1 != "" {
+        coverage.'type = {coding: [{code: pv1.pv120[0].fc1}]};
+    }
+    return coverage;
+};
+
+// --------------------------------------------------------------------------------------------#
+// AIG → Appointment (adds resource participant)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-aig-to-appointment.html
+// --------------------------------------------------------------------------------------------#
+public isolated function aigToAppointment(Aig aig) returns international401:Appointment {
+    international401:AppointmentParticipant participant = {
+        status: "needs-action"
+    };
+
+    r4:CodeableConcept resourceId = ceToCodeableConcept(aig.aig3);
+    if resourceId != {} {
+        participant.actor = {display: resourceId.coding.toString()};
+    }
+
+    r4:CodeableConcept resourceType = ceToCodeableConcept(aig.aig4);
+    if resourceType != {} {
+        participant.'type = [resourceType];
+    }
+
+    r4:Period period = {};
+    if aig.aig8.ts1 != "" {
+        period.'start = hl7DateToFhir(aig.aig8.ts1);
+    }
+    if period != {} {
+        participant.period = period;
+    }
+
+    return {
+        status: "proposed",
+        participant: [participant]
+    };
+};
+
+// --------------------------------------------------------------------------------------------#
+// AIL → Appointment (adds location participant)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-ail-to-appointment.html
+// --------------------------------------------------------------------------------------------#
+public isolated function ailToAppointment(Ail ail) returns international401:Appointment {
+    international401:AppointmentParticipant participant = {
+        status: "needs-action"
+    };
+
+    if ail.ail3.pl1 != "" {
+        participant.actor = {display: ail.ail3.pl1};
+    }
+
+    r4:Period period = {};
+    if ail.ail6.ts1 != "" {
+        period.'start = hl7DateToFhir(ail.ail6.ts1);
+    }
+    if period != {} {
+        participant.period = period;
+    }
+
+    return {
+        status: "proposed",
+        participant: [participant]
+    };
+};
+
+// --------------------------------------------------------------------------------------------#
+// AIP → Appointment (adds personnel participant)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-aip-to-appointment.html
+// --------------------------------------------------------------------------------------------#
+public isolated function aipToAppointment(Aip aip) returns international401:Appointment {
+    international401:AppointmentParticipant participant = {
+        status: "needs-action"
+    };
+
+    r4:Reference actor = xcnToReferenceWithName(aip.aip3, "Practitioner");
+    if actor != {} {
+        participant.actor = actor;
+    }
+
+    r4:CodeableConcept resourceType = ceToCodeableConcept(aip.aip4);
+    if resourceType != {} {
+        participant.'type = [resourceType];
+    }
+
+    r4:Period period = {};
+    if aip.aip6.ts1 != "" {
+        period.'start = hl7DateToFhir(aip.aip6.ts1);
+    }
+    if period != {} {
+        participant.period = period;
+    }
+
+    if aip.aip12.ce1 != "" {
+        match aip.aip12.ce1 {
+            "Accepted" => { participant.status = "accepted"; }
+            "Declined" => { participant.status = "declined"; }
+            "Tentative" => { participant.status = "tentative"; }
+            _ => { participant.status = "needs-action"; }
+        }
+    }
+
+    return {
+        status: "proposed",
+        participant: [participant]
+    };
+};
+
+// --------------------------------------------------------------------------------------------#
+// AIS → Appointment (adds service type)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-ais-to-appointment.html
+// --------------------------------------------------------------------------------------------#
+public isolated function aisToAppointment(Ais ais) returns international401:Appointment {
+    international401:AppointmentParticipant defaultParticipant = {
+        status: "needs-action"
+    };
+    international401:Appointment appointment = {
+        status: "proposed",
+        participant: [defaultParticipant]
+    };
+
+    r4:CodeableConcept serviceType = ceToCodeableConcept(ais.ais3);
+    if serviceType != {} {
+        appointment.serviceType = [serviceType];
+    }
+
+    if ais.ais10.ce1 != "" {
+        match ais.ais10.ce1 {
+            "Pending" => { appointment.status = "pending"; }
+            "Complete" => { appointment.status = "fulfilled"; }
+            "Cancelled" => { appointment.status = "cancelled"; }
+            "Discontinued" => { appointment.status = "cancelled"; }
+            _ => { appointment.status = "proposed"; }
+        }
+    }
+
+    return appointment;
 };
