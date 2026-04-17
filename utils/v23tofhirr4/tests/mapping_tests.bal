@@ -62,9 +62,10 @@ function v2toFhirTransformTest() {
         r4:Bundle|error resultantBundle = adtToFhirBundle.cloneWithType(r4:Bundle);
         if resultantBundle is r4:Bundle {
             r4:BundleEntry[] entries = resultantBundle.entry ?: [];
-            // NK1 now maps to both Patient (contact) and RelatedPerson (+1)
-            // PV1 now maps to Patient, Encounter, and Coverage (+1)
-            test:assertEquals(entries.length(), 7, "Transforming issue occurred with the message");
+            // NK1 maps to both RelatedPerson and Patient (+2)
+            // PV1 maps to Encounter and Patient (Coverage omitted: PV1-20 not valued per IG dependsOn)
+            // MSH(1) + EVN(1) + PID(1) + NK1→RelatedPerson(1) + NK1→Patient(1) + PV1→Encounter(1) = 6
+            test:assertEquals(entries.length(), 6, "Transforming issue occurred with the message");
 
         } else {
             test:assertFail("ADT_A01 msg to FHIR transforming failed.");
@@ -559,4 +560,284 @@ function aisToAppointmentTest() {
     r4:CodeableConcept[] types = serviceType ?: [];
     r4:Coding[] codings = types[0].coding ?: [];
     test:assertEquals(codings[0].code, "CONSULT", "AIS-3 service code should be CONSULT");
+}
+
+// =============================================================================
+// Message-level mapping tests
+// =============================================================================
+
+@test:Config {}
+function adtA01ToBundleTest() returns error? {
+    hl7v23:ADT_A01 message = {
+        name: "ADT_A01",
+        msh: {name: "MSH", msh3: {hd1: "SENDER"}, msh4: {hd1: "FACILITY"}, msh9: {cm_msg1: "ADT", cm_msg2: "A01"}},
+        evn: {name: "EVN", evn1: "A01", evn2: {ts1: "20230101120000"}},
+        pid: {name: "PID", pid3: [{cx1: "P001"}], pid5: [{xpn1: "Smith", xpn2: "John"}], pid7: {ts1: "19800101"}},
+        pv1: {name: "PV1", pv12: "I", pv17: [{xcn1: "D001", xcn2: "Jones"}]}
+    };
+    r4:Bundle bundle = check adtA01ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "ADT_A01 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 3, "ADT_A01 should produce at least MessageHeader, Patient, and Encounter entries");
+}
+
+@test:Config {}
+function adtA01ToBundleWithNk1Test() returns error? {
+    hl7v23:ADT_A01 message = {
+        name: "ADT_A01",
+        msh: {name: "MSH", msh9: {cm_msg1: "ADT", cm_msg2: "A01"}},
+        evn: {name: "EVN", evn1: "A01"},
+        pid: {name: "PID", pid5: [{xpn1: "Doe", xpn2: "Jane"}]},
+        pv1: {name: "PV1", pv12: "O"},
+        nk1: [{name: "NK1", nk11: "1", nk12: [{xpn1: "Doe", xpn2: "John"}], nk13: {ce1: "SPO", ce2: "Spouse"}}]
+    };
+    r4:Bundle bundle = check adtA01ToBundle(message);
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    // NK1 should produce both RelatedPerson and Patient entries
+    test:assertTrue(entries.length() >= 5, "ADT_A01 with NK1 should include RelatedPerson and Patient from NK1");
+}
+
+@test:Config {}
+function adtA02ToBundleTest() returns error? {
+    hl7v23:ADT_A02 message = {
+        name: "ADT_A02",
+        msh: {name: "MSH", msh9: {cm_msg1: "ADT", cm_msg2: "A02"}},
+        evn: {name: "EVN", evn1: "A02"},
+        pid: {name: "PID", pid5: [{xpn1: "Doe", xpn2: "Jane"}]},
+        pv1: {name: "PV1", pv12: "I"}
+    };
+    r4:Bundle bundle = check adtA02ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "ADT_A02 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 3, "ADT_A02 should produce at least MessageHeader, Patient, and Encounter entries");
+}
+
+@test:Config {}
+function adtA05ToBundleTest() returns error? {
+    hl7v23:ADT_A05 message = {
+        name: "ADT_A05",
+        msh: {name: "MSH", msh9: {cm_msg1: "ADT", cm_msg2: "A05"}},
+        evn: {name: "EVN", evn1: "A05"},
+        pid: {name: "PID", pid5: [{xpn1: "Smith", xpn2: "Bob"}]},
+        pv1: {name: "PV1", pv12: "P"}
+    };
+    r4:Bundle bundle = check adtA05ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "ADT_A05 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 3, "ADT_A05 should produce at least MessageHeader, Patient, and Encounter entries");
+}
+
+@test:Config {}
+function adtA06ToBundleWithMrgTest() returns error? {
+    hl7v23:ADT_A06 message = {
+        name: "ADT_A06",
+        msh: {name: "MSH", msh9: {cm_msg1: "ADT", cm_msg2: "A06"}},
+        evn: {name: "EVN", evn1: "A06"},
+        pid: {name: "PID", pid5: [{xpn1: "Doe", xpn2: "John"}]},
+        pv1: {name: "PV1", pv12: "I"},
+        mrg: {name: "MRG", mrg1: [{cx1: "OLD-001"}]}
+    };
+    r4:Bundle bundle = check adtA06ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "ADT_A06 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    // Should include MRG → Account entry in addition to the base entries
+    test:assertTrue(entries.length() >= 4, "ADT_A06 with MRG should include Account entry");
+}
+
+@test:Config {}
+function adtA09ToBundleTest() returns error? {
+    hl7v23:ADT_A09 message = {
+        name: "ADT_A09",
+        msh: {name: "MSH", msh9: {cm_msg1: "ADT", cm_msg2: "A09"}},
+        evn: {name: "EVN", evn1: "A09"},
+        pid: {name: "PID", pid5: [{xpn1: "Lee", xpn2: "Chris"}]},
+        pv1: {name: "PV1", pv12: "E"}
+    };
+    r4:Bundle bundle = check adtA09ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "ADT_A09 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 3, "ADT_A09 should produce at least MessageHeader, Patient, and Encounter entries");
+}
+
+@test:Config {}
+function adtA11ToBundleTest() returns error? {
+    hl7v23:ADT_A11 message = {
+        name: "ADT_A11",
+        msh: {name: "MSH", msh9: {cm_msg1: "ADT", cm_msg2: "A11"}},
+        evn: {name: "EVN", evn1: "A11"},
+        pid: {name: "PID", pid5: [{xpn1: "Kim", xpn2: "Pat"}]},
+        pv1: {name: "PV1", pv12: "I"}
+    };
+    r4:Bundle bundle = check adtA11ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "ADT_A11 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 3, "ADT_A11 should produce at least MessageHeader, Patient, and Encounter entries");
+}
+
+@test:Config {}
+function adtA17ToBundleTest() returns error? {
+    hl7v23:ADT_A17 message = {
+        name: "ADT_A17",
+        msh: {name: "MSH", msh9: {cm_msg1: "ADT", cm_msg2: "A17"}},
+        evn: {name: "EVN", evn1: "A17"},
+        pid: {name: "PID", pid5: [{xpn1: "Park", xpn2: "Alex"}]},
+        pv1: {name: "PV1", pv12: "I"}
+    };
+    r4:Bundle bundle = check adtA17ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "ADT_A17 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 3, "ADT_A17 should produce at least MessageHeader, Patient, and Encounter entries");
+}
+
+@test:Config {}
+function mdmT02ToBundleTest() returns error? {
+    hl7v23:MDM_T02 message = {
+        name: "MDM_T02",
+        msh: {name: "MSH", msh9: {cm_msg1: "MDM", cm_msg2: "T02"}},
+        evn: {name: "EVN", evn1: "T02"},
+        pid: {name: "PID", pid5: [{xpn1: "Brown", xpn2: "Sara"}]},
+        pv1: {name: "PV1", pv12: "O"},
+        txa: {
+            name: "TXA",
+            txa1: "1",
+            txa2: "DS",
+            txa17: "AU"
+        }
+    };
+    r4:Bundle bundle = check mdmT02ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "MDM_T02 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 4, "MDM_T02 should include MessageHeader, Patient, Encounter, and DocumentReference");
+    // Verify DocumentReference is present
+    boolean hasDocRef = false;
+    foreach r4:BundleEntry entry in entries {
+        anydata res = entry?.'resource;
+        if res is international401:DocumentReference {
+            hasDocRef = true;
+        }
+    }
+    test:assertTrue(hasDocRef, "MDM_T02 should produce a DocumentReference from TXA segment");
+}
+
+@test:Config {}
+function ormO01ToBundleTest() returns error? {
+    hl7v23:ORM_O01 message = {
+        name: "ORM_O01",
+        msh: {name: "MSH", msh9: {cm_msg1: "ORM", cm_msg2: "O01"}},
+        patient: {
+            name: "ORM_O01_PATIENT",
+            isRequired: false,
+            pid: {name: "PID", pid5: [{xpn1: "Wilson", xpn2: "Tom"}]}
+        },
+        'order: [{
+            name: "ORM_O01_ORDER",
+            isRequired: true,
+            orc: {name: "ORC", orc1: "NW", orc2: {ei1: "ORD-001"}}
+        }]
+    };
+    r4:Bundle bundle = check ormO01ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "ORM_O01 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 2, "ORM_O01 should include at least MessageHeader and ServiceRequest");
+    // Verify ServiceRequest is present from ORC
+    boolean hasServiceRequest = false;
+    foreach r4:BundleEntry entry in entries {
+        anydata res = entry?.'resource;
+        if res is international401:ServiceRequest {
+            hasServiceRequest = true;
+        }
+    }
+    test:assertTrue(hasServiceRequest, "ORM_O01 should produce a ServiceRequest from ORC segment");
+}
+
+@test:Config {}
+function oruR01ToBundleTest() returns error? {
+    hl7v23:ORU_R01 message = {
+        name: "ORU_R01",
+        msh: {name: "MSH", msh9: {cm_msg1: "ORU", cm_msg2: "R01"}}
+    };
+    r4:Bundle bundle = check oruR01ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "ORU_R01 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 1, "ORU_R01 should include at least a MessageHeader entry");
+}
+
+@test:Config {}
+function siuS12ToBundleTest() returns error? {
+    hl7v23:SIU_S12 message = {
+        name: "SIU_S12",
+        msh: {name: "MSH", msh9: {cm_msg1: "SIU", cm_msg2: "S12"}},
+        sch: {
+            name: "SCH",
+            sch1: {ei1: "APT-001"},
+            sch6: {ce1: "ROUTINE"},
+            sch11: [{tq4: {ts1: "20230601090000"}}],
+            sch9: "20",
+            sch25: {ce1: "Booked"}
+        },
+        patient: [{
+            name: "SIU_S12_PATIENT",
+            isRequired: false,
+            pid: {name: "PID", pid5: [{xpn1: "Green", xpn2: "Amy"}]}
+        }],
+        resources: [{
+            name: "SIU_S12_RESOURCES",
+            isRequired: true,
+            rgs: {name: "RGS", rgs1: "1"},
+            siu_s12_service: [{
+                name: "SIU_S12_SERVICE",
+                isRequired: false,
+                ais: {name: "AIS", ais1: "1", ais2: "A", ais3: {ce1: "CONSULT"}}
+            }]
+        }]
+    };
+    r4:Bundle bundle = check siuS12ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "SIU_S12 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 2, "SIU_S12 should include at least MessageHeader and Appointment entries");
+    // Verify Appointment is present
+    boolean hasAppointment = false;
+    foreach r4:BundleEntry entry in entries {
+        anydata res = entry?.'resource;
+        if res is international401:Appointment {
+            hasAppointment = true;
+        }
+    }
+    test:assertTrue(hasAppointment, "SIU_S12 should produce an Appointment from SCH segment");
+}
+
+@test:Config {}
+function vxuV04ToBundleTest() returns error? {
+    hl7v23:VXU_V04 message = {
+        name: "VXU_V04",
+        msh: {name: "MSH", msh9: {cm_msg1: "VXU", cm_msg2: "V04"}},
+        pid: {name: "PID", pid5: [{xpn1: "White", xpn2: "Sam"}]},
+        'order: [{
+            name: "VXU_V04_ORDER",
+            isRequired: false,
+            rxa: {
+                name: "RXA",
+                rxa1: "0",
+                rxa2: "1",
+                rxa3: {ts1: "20230101"},
+                rxa4: {ts1: "20230101"},
+                rxa5: {ce1: "208", ce2: "Influenza Virus Vaccine", ce3: "CVX"},
+                rxa6: "0.5",
+                rxa7: {ce1: "mL"}
+            }
+        }]
+    };
+    r4:Bundle bundle = check vxuV04ToBundle(message);
+    test:assertEquals(bundle.'type, "transaction", "VXU_V04 should produce a transaction bundle");
+    r4:BundleEntry[] entries = bundle.entry ?: [];
+    test:assertTrue(entries.length() >= 2, "VXU_V04 should include at least MessageHeader and Immunization entries");
+    // Verify Immunization is present
+    boolean hasImmunization = false;
+    foreach r4:BundleEntry entry in entries {
+        anydata res = entry?.'resource;
+        if res is international401:Immunization {
+            hasImmunization = true;
+        }
+    }
+    test:assertTrue(hasImmunization, "VXU_V04 should produce an Immunization from RXA segment");
 }

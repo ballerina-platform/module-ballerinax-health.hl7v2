@@ -264,7 +264,8 @@ public isolated function nk1ToContact(Nk12 nk12, Nk14 nk14, Nk15 nk15, Nk16 nk16
 
 isolated function isTransactionalMessage(hl7:Message message) returns boolean {
     return message.name.startsWith("ADT") || message.name.startsWith("ORM") || message.name.startsWith("ORU") ||
-        message.name.startsWith("SIU") || message.name.startsWith("MDM") || message.name.startsWith("RDE");
+        message.name.startsWith("SIU") || message.name.startsWith("MDM") || message.name.startsWith("RDE") ||
+        message.name.startsWith("VXU");
 }
 
 isolated function transformToFhir(hl7:Message message, V2SegmentToFhirMapper? customMapper, V2ToFhirCustomMapperServiceConfig? mapperServiceConf) returns json|error {

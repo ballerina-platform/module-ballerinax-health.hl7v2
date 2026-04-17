@@ -35,6 +35,20 @@ public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper?
     } else {
         hl7msg = hl7;
     }
+    // When no custom overrides are specified, dispatch to the typed message-level mapping
+    // functions that follow the IG ConceptMap exactly (including segment group handling).
+    // Falls back to the generic segment-by-segment approach for unsupported message types
+    // or when custom mapper / service config is provided.
+    if customMapper == () && mapperServiceConf == () {
+        r4:Bundle|error? typedBundle = mapMessageToBundle(hl7msg);
+        if typedBundle is r4:Bundle {
+            return typedBundle.toJson();
+        }
+        if typedBundle is error {
+            return typedBundle;
+        }
+        // typedBundle is () → unsupported message type, fall through to generic
+    }
     if customMapper == () {
         return transformToFhir(hl7msg, defaultMapper, mapperServiceConf);
     }
@@ -564,6 +578,25 @@ public isolated function pd1ToPatient(Pd1 pd1) returns international401:Patient 
     };
 };
 
+// --------------------------------------------------------------------------------------------#
+// PD1-7 → Observation (Living Will)
+// IG dependsOn: IF PD1-7 IS VALUED
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-pd1-to-observation.html
+// --------------------------------------------------------------------------------------------#
+public isolated function pd1ToLivingWillObservation(Pd1 pd1) returns international401:Observation {
+    return {
+        status: "final",
+        code: {
+            coding: [{
+                system: "http://loinc.org",
+                code: "45473-6",
+                display: "Advance directive - living will"
+            }]
+        },
+        valueCodeableConcept: {coding: [{code: pd1.pd17}]}
+    };
+};
+
 public isolated function pidToPatient(Pid pid) returns international401:Patient {
 
     international401:Patient patient = {
@@ -1031,22 +1064,43 @@ public isolated function dg1ToEpisodeOfCare(Dg1 dg1, string? conditionId, string
 }
 
 public isolated function obxToObservation(Obx obx) returns international401:Observation {
+    // IG dependsOn: IF OBX-5.count > 1 AND OBX-2 != "NA" → component observation
+    //               IF OBX-5.count <= 1 OR OBX-2 == "NA"  → single-value observation
+    boolean isComponent = obx.obx5.length() > 1 && obx.obx2 != "NA";
 
+    r4:CodeableConcept code = ceToCodeableConcept(obx.obx3);
     international401:Observation observation = {
-        code: {},
-        valueString: (obx.obx5[0].toString() != "") ? obx.obx5[0].toString() : (),
+        code: code != {} ? code : {},
         dataAbsentReason: idToCodeableConcept(obx.obx11),
         status: "preliminary"
     };
-    r4:CodeableConcept code = ceToCodeableConcept(obx.obx3);
-    if code != {} {
-        observation.code = code;
-    }
     observation.effectiveDateTime = (obx.obx14.ts1 != "") ? tsToDateTime(obx.obx14) : ();
     r4:CodeableConcept method = ceToCodeableConcept(obx.obx17[0]);
     if method != {} {
         observation.method = method;
     }
+
+    if isComponent {
+        // Multi-value OBX: each OBX-5 repetition becomes a component
+        international401:ObservationComponent[] components = [];
+        foreach var val in obx.obx5 {
+            string valStr = val.toString();
+            if valStr != "" {
+                components.push({
+                    code: observation.code,
+                    valueString: valStr
+                });
+            }
+        }
+        if components.length() > 0 {
+            observation.component = components;
+        }
+    } else {
+        // Single-value OBX
+        string singleVal = obx.obx5[0].toString();
+        observation.valueString = singleVal != "" ? singleVal : ();
+    }
+
     return observation;
 };
 
@@ -1805,6 +1859,35 @@ public isolated function txaToDocumentReference(Txa txa) returns international40
     }
 
     return documentReference;
+};
+
+// --------------------------------------------------------------------------------------------#
+// TXA-8 → Provenance (edit history)
+// IG dependsOn: IF TXA-8 IS VALUED (each edit date creates a separate Provenance instance)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-txa-to-provenance.html
+// --------------------------------------------------------------------------------------------#
+public isolated function txaToProvenance(Txa txa) returns international401:Provenance {
+    international401:Provenance provenance = {
+        recorded: "",
+        target: [{}],
+        agent: [{'type: {}, who: {}}]
+    };
+    // TXA-8 is TS[] (edit date/time repetitions); use first valued entry
+    foreach var ts in txa.txa8 {
+        if ts.ts1 != "" {
+            r4:instant? recorded = tsToInstant(ts);
+            if recorded != () {
+                provenance.recorded = recorded;
+            }
+            break;
+        }
+    }
+    // TXA-9 (originator) → agent.who
+    r4:Reference originator = xcnToReferenceWithName(txa.txa9, "Practitioner");
+    if originator != {} {
+        provenance.agent = [{'type: {coding: [{code: "author"}]}, who: originator}];
+    }
+    return provenance;
 };
 
 // --------------------------------------------------------------------------------------------#
