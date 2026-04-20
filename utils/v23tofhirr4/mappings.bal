@@ -1890,7 +1890,30 @@ public isolated function txaToProvenance(Txa txa) returns international401:Prove
     return provenance;
 };
 
-// --------------------------------------------------------------------------------------------#
+// MSH[Provenance-Operator] mapping
+// Used when EVN-5 (Operator ID) is NOT valued but MSH-4 (Sending Facility) IS valued.
+// Per IG condition: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED)
+// Note: MSH-22 (Sending Responsible Organization) does not exist in HL7v2.3 (added in v2.5),
+// so only MSH-4 (Sending Facility) is checked in this implementation.
+// The sending facility is mapped to Provenance.agent as the "assembler" operator.
+public isolated function mshToProvenanceOperator(Msh msh) returns international401:Provenance {
+    string facilityName = msh.msh4.hd1;
+    international401:ProvenanceAgent agent = {
+        'type: {
+            coding: [{
+                system: "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                code: "assembler",
+                display: "Assembler"
+            }]
+        },
+        who: {display: facilityName != "" ? facilityName : ()}
+    };
+    return {
+        recorded: "",
+        target: [{}],
+        agent: [agent]
+    };
+};
 // ROL → RelatedPerson
 // URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rol-to-relatedperson.html
 // --------------------------------------------------------------------------------------------#

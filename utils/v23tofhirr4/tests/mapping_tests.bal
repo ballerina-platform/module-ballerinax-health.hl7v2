@@ -62,10 +62,10 @@ function v2toFhirTransformTest() {
         r4:Bundle|error resultantBundle = adtToFhirBundle.cloneWithType(r4:Bundle);
         if resultantBundle is r4:Bundle {
             r4:BundleEntry[] entries = resultantBundle.entry ?: [];
-            // NK1 maps to both RelatedPerson and Patient (+2)
-            // PV1 maps to Encounter and Patient (Coverage omitted: PV1-20 not valued per IG dependsOn)
-            // MSH(1) + EVN(1) + PID(1) + NK1→RelatedPerson(1) + NK1→Patient(1) + PV1→Encounter(1) = 6
-            test:assertEquals(entries.length(), 6, "Transforming issue occurred with the message");
+            // MSH(1) + EVN→Provenance(1) + MSH→Provenance-Operator(1) [EVN-5 empty, MSH-4 valued]
+            // + PID(1) + NK1→RelatedPerson(1) + NK1→Patient(1) + PV1→Encounter(1) = 7
+            // PV1-20 not valued → Coverage omitted (IG dependsOn condition)
+            test:assertEquals(entries.length(), 7, "Transforming issue occurred with the message");
 
         } else {
             test:assertFail("ADT_A01 msg to FHIR transforming failed.");

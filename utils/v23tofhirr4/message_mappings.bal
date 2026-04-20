@@ -80,6 +80,11 @@ public isolated function adtA01ToBundle(hl7v23:ADT_A01 message) returns r4:Bundl
     entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
     // EVN → Provenance
     entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
+    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
+    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
+    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
+        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
+    }
     // PID → Patient
     entries.push(...populateBundleEntries(pidToPatient(message.pid)));
     // PD1 → Patient (optional)
@@ -91,9 +96,14 @@ public isolated function adtA01ToBundle(hl7v23:ADT_A01 message) returns r4:Bundl
             entries.push(...populateBundleEntries(pd1ToLivingWillObservation(pd1)));
         }
     }
-    // NK1 → RelatedPerson + Patient
+    // NK1 → RelatedPerson (IG dependsOn: IF NK1-3.1 NOT IN ("EMR","E","F","I","S"))
+    // NK1 → Patient (always, regardless of relationship type)
+    // Emergency/agency relationship types map to Patient contact only, not RelatedPerson.
     foreach hl7v23:NK1 nk1 in message.nk1 {
-        entries.push(...populateBundleEntries(nk1ToRelatedPerson(nk1)));
+        string nk1Rel = nk1.nk13.ce1;
+        if nk1Rel != "EMR" && nk1Rel != "E" && nk1Rel != "F" && nk1Rel != "I" && nk1Rel != "S" {
+            entries.push(...populateBundleEntries(nk1ToRelatedPerson(nk1)));
+        }
         entries.push(...populateBundleEntries(nk1ToPatient(nk1)));
     }
     // PV1 → Encounter + Patient
@@ -120,18 +130,21 @@ public isolated function adtA01ToBundle(hl7v23:ADT_A01 message) returns r4:Bundl
     foreach hl7v23:DG1 dg1 in message.dg1 {
         entries.push(...populateBundleEntries(dg1ToCondition(dg1)));
     }
-    // PROCEDURE group → Procedure + RelatedPerson (ROL)
+    // IG: follow:PID.ROL (ROL after PID/PD1) has two conditional targets:
+    //   IF ROL-3.1 = "PP" AND ROL-3.3 = "HL70443" → Patient[1] (ROL[Patient-GeneralPractitioner])
+    //   IF ROL-3.3 = "HL70443" AND ROL-3.1 != "PP" → CareTeam[1] (ROL[CareTeam])
+    // IG: follow:PV1.ROL → Encounter[1] (ROL[Encounter-PractitionerRole]) unconditionally
+    // These ROL segments are NOT exposed as typed fields in the hl7v23:ADT_A01 record;
+    // they are only reachable via the generic entries() iteration. Cannot be implemented here.
+    // PROCEDURE group → Procedure
+    // IG: PROCEDURE.ROL has no defined FHIR target; no resource created from it per spec.
     // Guard: pr11 (set-ID) is "" for Ballerina default empty instances
     foreach hl7v23:ADT_A01_PROCEDURE proc in message.procedure {
         if proc.pr1.pr11 == "" {
             continue;
         }
         entries.push(...populateBundleEntries(pr1ToProcedure(proc.pr1)));
-        foreach hl7v23:ROL rol in proc.rol {
-            if rol.rol1.ei1 != "" {
-                entries.push(...populateBundleEntries(rolToRelatedPerson(rol)));
-            }
-        }
+        // IG: PROCEDURE.ROL has no FHIR target; skipped.
     }
     // INSURANCE group → Coverage + CareTeam (IN3)
     foreach hl7v23:ADT_A01_INSURANCE ins in message.insurance {
@@ -162,6 +175,11 @@ public isolated function adtA02ToBundle(hl7v23:ADT_A02 message) returns r4:Bundl
     entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
     // EVN → Provenance
     entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
+    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
+    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
+    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
+        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
+    }
     // PID → Patient
     entries.push(...populateBundleEntries(pidToPatient(message.pid)));
     // PD1 → Patient (optional)
@@ -207,6 +225,11 @@ public isolated function adtA05ToBundle(hl7v23:ADT_A05 message) returns r4:Bundl
     entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
     // EVN → Provenance
     entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
+    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
+    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
+    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
+        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
+    }
     // PID → Patient
     entries.push(...populateBundleEntries(pidToPatient(message.pid)));
     // PD1 → Patient (optional)
@@ -247,18 +270,16 @@ public isolated function adtA05ToBundle(hl7v23:ADT_A05 message) returns r4:Bundl
     foreach hl7v23:DG1 dg1 in message.dg1 {
         entries.push(...populateBundleEntries(dg1ToCondition(dg1)));
     }
-    // PROCEDURE group → Procedure + RelatedPerson (ROL)
+    // IG: follow:PID.ROL conditional targets (ROL-3.1/3.3 conditions) and follow:PV1.ROL
+    // are not accessible as typed fields in hl7v23:ADT_A05; skipped.
+    // PROCEDURE group → Procedure
+    // IG: PROCEDURE.ROL has no defined FHIR target per CSV mapping; skipped.
     // Guard: pr11 (set-ID) is "" for Ballerina default empty instances
     foreach hl7v23:ADT_A05_PROCEDURE proc in message.procedure {
         if proc.pr1.pr11 == "" {
             continue;
         }
         entries.push(...populateBundleEntries(pr1ToProcedure(proc.pr1)));
-        foreach hl7v23:ROL rol in proc.rol {
-            if rol.rol1.ei1 != "" {
-                entries.push(...populateBundleEntries(rolToRelatedPerson(rol)));
-            }
-        }
     }
     // INSURANCE group → Coverage + CareTeam (IN3)
     foreach hl7v23:ADT_A05_INSURANCE ins in message.insurance {
@@ -289,6 +310,11 @@ public isolated function adtA06ToBundle(hl7v23:ADT_A06 message) returns r4:Bundl
     entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
     // EVN → Provenance
     entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
+    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
+    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
+    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
+        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
+    }
     // PID → Patient
     entries.push(...populateBundleEntries(pidToPatient(message.pid)));
     // PD1 → Patient (optional)
@@ -334,18 +360,16 @@ public isolated function adtA06ToBundle(hl7v23:ADT_A06 message) returns r4:Bundl
     foreach hl7v23:DG1 dg1 in message.dg1 {
         entries.push(...populateBundleEntries(dg1ToCondition(dg1)));
     }
-    // PROCEDURE group → Procedure + RelatedPerson (ROL)
+    // IG: follow:PID.ROL conditional targets (ROL-3.1/3.3 conditions) and follow:PV1.ROL
+    // are not accessible as typed fields in hl7v23:ADT_A06; skipped.
+    // PROCEDURE group → Procedure
+    // IG: PROCEDURE.ROL has no defined FHIR target per CSV mapping; skipped.
     // Guard: pr11 (set-ID) is "" for Ballerina default empty instances
     foreach hl7v23:ADT_A06_PROCEDURE proc in message.procedure {
         if proc.pr1.pr11 == "" {
             continue;
         }
         entries.push(...populateBundleEntries(pr1ToProcedure(proc.pr1)));
-        foreach hl7v23:ROL rol in proc.rol {
-            if rol.rol1.ei1 != "" {
-                entries.push(...populateBundleEntries(rolToRelatedPerson(rol)));
-            }
-        }
     }
     // INSURANCE group → Coverage + CareTeam (IN3)
     foreach hl7v23:ADT_A06_INSURANCE ins in message.insurance {
@@ -376,6 +400,11 @@ public isolated function adtA09ToBundle(hl7v23:ADT_A09 message) returns r4:Bundl
     entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
     // EVN → Provenance
     entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
+    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
+    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
+    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
+        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
+    }
     // PID → Patient
     entries.push(...populateBundleEntries(pidToPatient(message.pid)));
     // PD1 → Patient (optional)
@@ -425,6 +454,11 @@ public isolated function adtA11ToBundle(hl7v23:ADT_A11 message) returns r4:Bundl
     entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
     // EVN → Provenance
     entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
+    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
+    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
+    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
+        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
+    }
     // PID → Patient
     entries.push(...populateBundleEntries(pidToPatient(message.pid)));
     // PD1 → Patient (optional)
@@ -474,6 +508,11 @@ public isolated function adtA17ToBundle(hl7v23:ADT_A17 message) returns r4:Bundl
     entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
     // EVN → Provenance
     entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
+    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
+    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
+    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
+        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
+    }
     // PID → Patient
     entries.push(...populateBundleEntries(pidToPatient(message.pid)));
     // PD1 → Patient (optional)
@@ -598,16 +637,13 @@ public isolated function ormO01ToBundle(hl7v23:ORM_O01 message) returns r4:Bundl
                 entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
             }
         }
-        // INSURANCE sub-groups → Coverage + CareTeam
+        // INSURANCE sub-groups → Coverage
+        // IG: IN3 content is incorporated into Coverage (no separate CareTeam for ORM_O01)
         foreach hl7v23:ORM_O01_INSURANCE ins in patient.orm_o01_insurance {
             if ins.in1.in11 == "" {
                 continue;
             }
             entries.push(...populateBundleEntries(in1ToCoverage(ins.in1)));
-            hl7v23:IN3? in3 = ins.in3;
-            if in3 != () {
-                entries.push(...populateBundleEntries(in3ToCareTeam(in3)));
-            }
         }
     }
 
@@ -639,7 +675,7 @@ public isolated function ormO01ToBundle(hl7v23:ORM_O01 message) returns r4:Bundl
                     // IG dependsOn: IF PID IS VALUED → ServiceRequest
                     entries.push(...populateBundleEntries(obrToServiceRequest(obr)));
                 }
-                entries.push(...populateBundleEntries(obrToDiagnosticReport(obr)));
+                // IG: IF PID NOT VALUED → SupplyRequest (not yet implemented; no mapping function available)
             }
             hl7v23:RXO? rxo = detail.orm_o01_order_detail_segment.rxo;
             if rxo != () {
@@ -702,7 +738,12 @@ public isolated function siuS12ToBundle(hl7v23:SIU_S12 message) returns r4:Bundl
     entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
     // SCH → Appointment
     entries.push(...populateBundleEntries(schToAppointment(message.sch)));
+    // IG condition: IF SCH-26 OR SCH-27 VALUED → SCH[ServiceRequest] (Placer/Filler order numbers)
+    // SCH-26 and SCH-27 do not exist in HL7v2.3 (the SCH segment only defines up to SCH-25).
+    // ServiceRequest from SCH cannot be created in this v2.3 implementation.
     // NTE → Observation (message-level notes)
+    // IG: NTE → Appointment[1].comment (NTE[Appointment-Comment]); mapped to Observation as pragmatic fallback
+    //     since no nteToAppointmentComment function exists in this implementation.
     foreach hl7v23:NTE nte in message.nte {
         entries.push(...populateBundleEntries(nteToObservation(nte)));
     }
@@ -841,17 +882,14 @@ public isolated function vxuV04ToBundle(hl7v23:VXU_V04 message) returns r4:Bundl
         }
     }
 
-    // INSURANCE groups → Coverage + CareTeam
+    // INSURANCE groups → Coverage
+    // IG: IN3 content is incorporated into Coverage (no separate CareTeam for VXU_V04)
     // Guard: in11 (set-ID) is "" for Ballerina default empty instances
     foreach hl7v23:VXU_V04_INSURANCE ins in message.insurance {
         if ins.in1.in11 == "" {
             continue;
         }
         entries.push(...populateBundleEntries(in1ToCoverage(ins.in1)));
-        hl7v23:IN3? in3 = ins.in3;
-        if in3 != () {
-            entries.push(...populateBundleEntries(in3ToCareTeam(in3)));
-        }
     }
 
     // ORDER groups → Immunization + MedicationRequest + Observation
