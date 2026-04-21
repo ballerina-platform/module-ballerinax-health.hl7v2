@@ -708,7 +708,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         if encounterParticipant != {} {
             participants.push(encounterParticipant);
         }
-        i = +1;
+        i += 1;
     }
     i = 0;
     int lenPv18 = 1; // in hl7v23 case
@@ -735,7 +735,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         if encounterParticipant != {} {
             participants.push(encounterParticipant);
         }
-        i = +1;
+        i += 1;
     }
 
     i = 0;
@@ -760,7 +760,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         if encounterParticipant != {} {
             participants.push(encounterParticipant);
         }
-        i = +1;
+        i += 1;
     }
 
     i = 0;
@@ -789,7 +789,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         if encounterParticipant != {} {
             participants.push(encounterParticipant);
         }
-        i = +1;
+        i += 1;
     }
 
     // Define pv1.pv152 hl7v27:PV1, hl7v28:PV1
@@ -814,7 +814,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         if encounterParticipant != {} {
             participants.push(encounterParticipant);
         }
-        i = +1;
+        i += 1;
     }
 
     if pv1.pv12 != "" {
@@ -1317,9 +1317,11 @@ public isolated function nk1ToRelatedPerson(Nk1 nk1) returns international401:Re
     }
     relatedPerson.telecom = (telecoms.length() > 0) ? telecoms : ();
 
-    r4:Period period = {'start: nk1.nk18 != "" ? nk1.nk18 : (), end: nk1.nk19 != "" ? nk1.nk19 : ()};
-    if period != {} {
-        relatedPerson.period = period;
+    if nk1.nk18 != "" || nk1.nk19 != "" {
+        relatedPerson.period = {
+            'start: (nk1.nk18 != "") ? hl7DateToFhir(nk1.nk18) : (),
+            end: (nk1.nk19 != "") ? hl7DateToFhir(nk1.nk19) : ()
+        };
     }
 
     relatedPerson.gender = pidToAdministrativeSex(nk1.nk115);
@@ -1946,12 +1948,11 @@ public isolated function rolToRelatedPerson(Rol rol) returns international401:Re
         relatedPerson.name = [personName];
     }
 
-    r4:Period period = {
-        'start: (rol.rol5.ts1 != "") ? hl7DateToFhir(rol.rol5.ts1) : (),
-        end: (rol.rol6.ts1 != "") ? hl7DateToFhir(rol.rol6.ts1) : ()
-    };
-    if period != {} {
-        relatedPerson.period = period;
+    if rol.rol5.ts1 != "" || rol.rol6.ts1 != "" {
+        relatedPerson.period = {
+            'start: (rol.rol5.ts1 != "") ? hl7DateToFhir(rol.rol5.ts1) : (),
+            end: (rol.rol6.ts1 != "") ? hl7DateToFhir(rol.rol6.ts1) : ()
+        };
     }
 
     return relatedPerson;
@@ -2096,12 +2097,10 @@ public isolated function aigToAppointment(Aig aig) returns international401:Appo
         participant.'type = [resourceType];
     }
 
-    r4:Period period = {};
     if aig.aig8.ts1 != "" {
-        period.'start = hl7DateToFhir(aig.aig8.ts1);
-    }
-    if period != {} {
-        participant.period = period;
+        participant.period = {
+            'start: hl7DateToFhir(aig.aig8.ts1)
+        };
     }
 
     return {
@@ -2123,12 +2122,10 @@ public isolated function ailToAppointment(Ail ail) returns international401:Appo
         participant.actor = {display: ail.ail3.pl1};
     }
 
-    r4:Period period = {};
     if ail.ail6.ts1 != "" {
-        period.'start = hl7DateToFhir(ail.ail6.ts1);
-    }
-    if period != {} {
-        participant.period = period;
+        participant.period = {
+            'start: hl7DateToFhir(ail.ail6.ts1)
+        };
     }
 
     return {
@@ -2156,12 +2153,10 @@ public isolated function aipToAppointment(Aip aip) returns international401:Appo
         participant.'type = [resourceType];
     }
 
-    r4:Period period = {};
     if aip.aip6.ts1 != "" {
-        period.'start = hl7DateToFhir(aip.aip6.ts1);
-    }
-    if period != {} {
-        participant.period = period;
+        participant.period = {
+            'start: hl7DateToFhir(aip.aip6.ts1)
+        };
     }
 
     if aip.aip12.ce1 != "" {

@@ -382,7 +382,14 @@ public isolated function xcnToHumanName(Xcn xcn) returns r4:HumanName {
 public isolated function xcnToReferenceWithName(Xcn xcn, string resourceType) returns r4:Reference {
     string? display = ();
     if xcn.xcn2 != "" || xcn.xcn3 != "" {
-        display = ((xcn.xcn3 != "") ? xcn.xcn3 + " " : "") + xcn.xcn2;
+        string[] nameParts = [];
+        if xcn.xcn3 != "" {
+            nameParts.push(xcn.xcn3);
+        }
+        if xcn.xcn2 != "" {
+            nameParts.push(xcn.xcn2);
+        }
+        display = string:'join(" ", ...nameParts);
     } else if xcn.xcn1 != "" {
         display = xcn.xcn1;
     }
