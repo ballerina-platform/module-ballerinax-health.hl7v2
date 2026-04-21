@@ -558,7 +558,7 @@ public isolated function evnToProvenance(Evn evn) returns international401:Prove
     }
 
     if evn.evn2.ts1 != "" {
-        provenance.recorded = evn.evn2.ts1;
+        provenance.recorded = hl7DateToFhir(evn.evn2.ts1);
     }
     provenance.occurredDateTime = (evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : ();
 
@@ -1498,10 +1498,12 @@ public isolated function rxaToImmunization(Rxa rxa) returns international401:Imm
         decimal|error doseVal = decimal:fromString(rxa.rxa6);
         if doseVal is decimal {
             r4:CodeableConcept doseUnits = ceToCodeableConcept(rxa.rxa7);
+            r4:Coding[] doseUnitCodings = doseUnits.coding ?: [];
+            r4:Coding firstDoseUnitCoding = (doseUnitCodings.length() > 0) ? doseUnitCodings[0] : {};
             immunization.doseQuantity = {
                 value: doseVal,
-                code: doseUnits.coding != () ? doseUnits.coding.toString() : (),
-                unit: doseUnits.coding != () ? doseUnits.coding.toString() : ()
+                code: (firstDoseUnitCoding.code != "") ? firstDoseUnitCoding.code : (),
+                unit: (firstDoseUnitCoding.display != "") ? firstDoseUnitCoding.display : ()
             };
         }
     }
@@ -1525,7 +1527,14 @@ public isolated function rxaToImmunization(Rxa rxa) returns international401:Imm
     if rxa.rxa17.length() > 0 {
         r4:CodeableConcept mfr = ceToCodeableConcept(rxa.rxa17[0]);
         if mfr != {} {
-            immunization.manufacturer = {display: mfr.coding.toString()};
+            r4:Coding[] manufacturerCodings = mfr.coding ?: [];
+            if manufacturerCodings.length() > 0 {
+                r4:Coding manufacturerCoding = manufacturerCodings[0];
+                immunization.manufacturer = {
+                    display: (manufacturerCoding.display != "") ? manufacturerCoding.display :
+                        ((manufacturerCoding.code != "") ? manufacturerCoding.code : ())
+                };
+            }
         }
     }
 

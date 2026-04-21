@@ -139,15 +139,59 @@ public isolated function xpnToHumanName(Xpn xpn) returns r4:HumanName {
 };
 
 public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint? {
+    string xtn5 = xtn.xtn5.toString();
+    string xtn6 = xtn.xtn6.toString();
+    string xtn7 = xtn.xtn7.toString();
+    string xtn8 = xtn.xtn8.toString();
+    boolean isInternetOrX400 = xtn.xtn3 == "Internet" || xtn.xtn3 == "X.400";
+
+    r4:StringExtension[] extensions = [];
+    if xtn5 != "" {
+        extensions.push({
+            url: "http://hl7.org/fhir/StructureDefinition/contactpoint-country",
+            valueString: xtn5
+        });
+    }
+    if xtn6 != "" {
+        extensions.push({
+            url: "http://hl7.org/fhir/StructureDefinition/contactpoint-area",
+            valueString: xtn6
+        });
+    }
+    if !isInternetOrX400 && xtn7 != "" {
+        extensions.push({
+            url: "http://hl7.org/fhir/StructureDefinition/contactpoint-local",
+            valueString: xtn7
+        });
+    }
+    if xtn8 != "" {
+        extensions.push({
+            url: "http://hl7.org/fhir/StructureDefinition/contactpoint-extension",
+            valueString: xtn8
+        });
+    }
+
     r4:ContactPoint contactPoint = {
         use: idToContactPointUse(xtn.xtn2),
-        system: idToContactPointSystem(xtn.xtn3),
-        extension: xtn.xtn5 != "-1.0" ? getStringExtension([xtn.xtn5.toString()]) : (),
+        system: (xtn.xtn3 == "" && xtn.xtn4 != "") ? "email" : idToContactPointSystem(xtn.xtn3),
+        extension: (extensions.length() > 0) ? extensions : (),
         value: ()
     };
 
-    if (xtn.xtn3 != "Internet" || xtn.xtn3 != "X.400") && xtn.xtn7 != "" {
+    if isInternetOrX400 && xtn.xtn4 != "" {
+        contactPoint.value = xtn.xtn4;
+    } else if !isInternetOrX400 && xtn7 == "" && xtn.xtn1 != "" {
         contactPoint.value = xtn.xtn1;
+    } else if !isInternetOrX400 && xtn7 != "" {
+        if xtn5 != "" && xtn6 != "" && xtn8 != "" {
+            contactPoint.value = string `+${xtn5} ${xtn6} ${xtn7} X${xtn8}`;
+        } else if xtn5 != "" && xtn6 != "" {
+            contactPoint.value = string `+${xtn5} ${xtn6} ${xtn7}`;
+        } else if xtn6 != "" && xtn8 != "" {
+            contactPoint.value = string `${xtn6} ${xtn7} X${xtn8}`;
+        } else if xtn6 != "" {
+            contactPoint.value = string `${xtn6} ${xtn7}`;
+        }
     }
     if contactPoint.value == "" {
         return ();
