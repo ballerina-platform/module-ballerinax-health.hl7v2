@@ -122,19 +122,20 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "PV1" => {
             [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
             if customMappingResponse[0] {
+                Pv1 pv1Segment = check segment.ensureType(Pv1);
                 Pv1ToPatient? pv1ToPatientResult = impl.pv1ToPatient;
                 if pv1ToPatientResult is Pv1ToPatient {
-                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToPatientResult(check segment.ensureType(Pv1)));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToPatientResult(pv1Segment));
                     entries.push(...bundleEntriesResult);
                 }
                 Pv1ToEncounter? pv1ToEncounterResult = impl.pv1ToEncounter;
                 if pv1ToEncounterResult is Pv1ToEncounter {
-                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToEncounterResult(check segment.ensureType(Pv1)));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToEncounterResult(pv1Segment));
                     entries.push(...bundleEntriesResult);
                 }
                 Pv1ToCoverage? pv1ToCoverageResult = impl.pv1ToCoverage;
-                if pv1ToCoverageResult is Pv1ToCoverage {
-                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToCoverageResult(check segment.ensureType(Pv1)));
+                if pv1ToCoverageResult is Pv1ToCoverage && pv1Segment.pv120.length() > 0 && pv1Segment.pv120[0].fc1 != "" {
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToCoverageResult(pv1Segment));
                     entries.push(...bundleEntriesResult);
                 }
             }
@@ -316,17 +317,22 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "RXR" => {
             [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
             if customMappingResponse[0] {
+                Rxr rxr = check segment.ensureType(Rxr);
                 RxrToImmunization? rxrToImmunization = impl.rxrToImmunization;
-                if rxrToImmunization is RxrToImmunization {
-                    map<anydata> constructedResource = rxrToImmunization(check segment.ensureType(Rxr));
-                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
-                    entries.push(...bundleEntriesResult);
+                if rxrToImmunization is RxrToImmunization && hasRxrImmunizationData(rxr) {
+                    map<anydata> constructedResource = rxrToImmunization(rxr);
+                    if hasMeaningfulRxrImmunizationResource(constructedResource) {
+                        r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                        entries.push(...bundleEntriesResult);
+                    }
                 }
                 RxrToMedicationRequest? rxrToMedicationRequest = impl.rxrToMedicationRequest;
-                if rxrToMedicationRequest is RxrToMedicationRequest {
-                    map<anydata> constructedResource = rxrToMedicationRequest(check segment.ensureType(Rxr));
-                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
-                    entries.push(...bundleEntriesResult);
+                if rxrToMedicationRequest is RxrToMedicationRequest && hasRxrMedicationOrderContext(rxr) {
+                    map<anydata> constructedResource = rxrToMedicationRequest(rxr);
+                    if hasMeaningfulRxrMedicationRequestResource(constructedResource) {
+                        r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                        entries.push(...bundleEntriesResult);
+                    }
                 }
             } else {
                 map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
@@ -466,6 +472,44 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         }
     }
     return entries;
+}
+
+isolated function hasRxrImmunizationData(Rxr rxr) returns boolean {
+    return rxr.rxr1.ce1 != "" || rxr.rxr1.ce2 != "" || rxr.rxr2.ce1 != "" || rxr.rxr2.ce2 != "";
+}
+
+isolated function hasRxrMedicationOrderContext(Rxr rxr) returns boolean {
+    // RXR-4 (administration method) is used here as a medication-order context signal
+    // when dispatching standalone RXR mappings in the generic segment flow.
+    return rxr.rxr4.ce1 != "" || rxr.rxr4.ce2 != "";
+}
+
+isolated function hasMeaningfulRxrImmunizationResource(map<anydata> mappedResource) returns boolean {
+    if mappedResource["route"] is map<anydata> {
+        map<anydata> route = <map<anydata>>mappedResource["route"];
+        if route.keys().length() > 0 {
+            return true;
+        }
+    }
+    if mappedResource["site"] is map<anydata> {
+        map<anydata> site = <map<anydata>>mappedResource["site"];
+        if site.keys().length() > 0 {
+            return true;
+        }
+    }
+    return false;
+}
+
+isolated function hasMeaningfulRxrMedicationRequestResource(map<anydata> mappedResource) returns boolean {
+    if mappedResource["dosageInstruction"] is map<anydata>[] {
+        map<anydata>[] dosageInstruction = <map<anydata>[]>mappedResource["dosageInstruction"];
+        return dosageInstruction.length() > 0;
+    }
+    if mappedResource["medicationCodeableConcept"] is map<anydata> {
+        map<anydata> medicationCodeableConcept = <map<anydata>>mappedResource["medicationCodeableConcept"];
+        return medicationCodeableConcept.keys().length() > 0;
+    }
+    return false;
 }
 
 public isolated function mshToMessageHeader(Msh msh) returns international401:MessageHeader {
@@ -637,13 +681,15 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         status: "in-progress"
     };
     international401:EncounterLocation[] encounterLocations = [];
-    international401:EncounterLocation encounterLoc1 = {
-        location: {
-            display: pv1.pv13.pl1 != "" ? pv1.pv13.pl1 : ()
-        },
-        status: getEncounterLocationStatus(pv1.pv13.pl5)
-    };
-    encounterLocations.push(encounterLoc1);
+    if pv1.pv13.pl1 != "" {
+        international401:EncounterLocation encounterLoc1 = {
+            location: {
+                display: pv1.pv13.pl1
+            },
+            status: getEncounterLocationStatus(pv1.pv13.pl5)
+        };
+        encounterLocations.push(encounterLoc1);
+    }
 
     if pv1.pv16.pl1 != "" {
         international401:EncounterLocation encounterLoc2 = {
@@ -1983,9 +2029,11 @@ public isolated function msaToMessageHeader(Msa msa) returns international401:Me
         "CR" => { responseCode = "transient-error"; }
         _ => { responseCode = "ok"; }
     }
+    string eventUri = string `urn:hl7v2:msa:${(msa.msa1 != "") ? msa.msa1 : "UNSPECIFIED"}`;
+    string sourceEndpoint = (msa.msa2 != "") ? string `urn:hl7v2:message-control-id:${msa.msa2}` : "urn:source:unknown";
     international401:MessageHeader messageHeader = {
-        'source: {endpoint: ""},
-        eventUri: "",
+        'source: {endpoint: sourceEndpoint},
+        eventUri: eventUri,
         response: {
             identifier: msa.msa2,
             code: responseCode
@@ -2016,9 +2064,18 @@ public isolated function mrgToAccount(Mrg mrg) returns international401:Account 
 public isolated function in1ToCoverage(In1 in1) returns international401:Coverage {
     international401:Coverage coverage = {
         status: "active",
-        beneficiary: {},
-        payor: [{}]
+        beneficiary: {display: "Unknown Beneficiary"},
+        payor: [{display: "Unknown Payor"}]
     };
+
+    if in1.hasKey("in4") {
+        anydata in14Value = in1["in4"];
+        if in14Value is hl7v23:XON && in14Value.xon1 != "" {
+            coverage.beneficiary = {
+                display: in14Value.xon1
+            };
+        }
+    }
 
     r4:Identifier planId = (in1.in12.ce1 != "") ? {value: in1.in12.ce1} : {};
     if planId != {} {
@@ -2031,7 +2088,9 @@ public isolated function in1ToCoverage(In1 in1) returns international401:Coverag
             payors.push({display: item.xon1});
         }
     }
-    coverage.payor = (payors.length() > 0) ? payors : [{}];
+    if payors.length() > 0 {
+        coverage.payor = payors;
+    }
 
     if in1.in112 != "" || in1.in113 != "" {
         coverage.period = {
@@ -2079,8 +2138,8 @@ public isolated function in3ToCareTeam(In3 in3) returns international401:CareTea
 public isolated function pv1ToCoverage(Pv1 pv1) returns international401:Coverage {
     international401:Coverage coverage = {
         status: "active",
-        beneficiary: {},
-        payor: [{}]
+        beneficiary: {reference: "Patient"},
+        payor: [{display: "Unknown Payor"}]
     };
     if pv1.pv120.length() > 0 && pv1.pv120[0].fc1 != "" {
         coverage.'type = {coding: [{code: pv1.pv120[0].fc1}]};
@@ -2099,7 +2158,20 @@ public isolated function aigToAppointment(Aig aig) returns international401:Appo
 
     r4:CodeableConcept resourceId = ceToCodeableConcept(aig.aig3);
     if resourceId != {} {
-        participant.actor = {display: resourceId.coding.toString()};
+        string actorDisplay = "";
+        r4:Coding[] codings = resourceId.coding ?: [];
+        if codings.length() > 0 {
+            string? display = codings[0].display;
+            r4:code? code = codings[0].code;
+            if display is string && display != "" {
+                actorDisplay = display;
+            } else if code is string && code != "" {
+                actorDisplay = code;
+            }
+        }
+        if actorDisplay != "" {
+            participant.actor = {display: actorDisplay};
+        }
     }
 
     r4:CodeableConcept resourceType = ceToCodeableConcept(aig.aig4);

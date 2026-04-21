@@ -121,8 +121,8 @@ function v2toFhirTransformWithCustomService() {
         r4:Bundle|error resultantBundle = adtToFhirBundle.cloneWithType(r4:Bundle);
         if resultantBundle is r4:Bundle {
             r4:BundleEntry[] entries = resultantBundle.entry ?: [];
-            // NK1 is handled by custom service (1 entry), PV1 now also maps to Coverage (+1)
-            test:assertEquals(entries.length(), 6, "Transforming issue occurred with the message");
+            // NK1 is handled by custom service (1 entry), PV1-20 is empty so Coverage is omitted.
+            test:assertEquals(entries.length(), 5, "Transforming issue occurred with the message");
             r4:BundleEntry nk1MappedEntry = entries[3];
             map<anydata> patientResource = <map<anydata>>nk1MappedEntry?.'resource;
             test:assertEquals(patientResource["resourceType"], "Patient");
@@ -540,6 +540,8 @@ function aigToAppointmentTest() {
     test:assertEquals(appointment.status, "proposed", "AIG Appointment status should be proposed");
     test:assertTrue(appointment.participant.length() > 0, "AIG should map to participant");
     international401:AppointmentParticipant participant = appointment.participant[0];
+    r4:Reference actor = participant.actor ?: {};
+    test:assertEquals(actor.display, "Conference Room A", "AIG-3 should map to participant actor display");
     test:assertTrue(participant.'type != (), "AIG-4 resource type should map to participant type");
 }
 
