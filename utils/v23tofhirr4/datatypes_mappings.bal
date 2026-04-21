@@ -25,12 +25,12 @@ public isolated function ceToCodings(Ce ce) returns r4:Coding[]? {
     if ceToCodingResult != {} {
         codings.push(ceToCodingResult);
     }
-    r4:Coding alternateCoding = {
-        code: (ce.ce4 != "") ? ce.ce4 : (),
-        display: (ce.ce5 != "") ? ce.ce5 : (),
-        system: (ce.ce6 != "") ? ce.ce6 : ()
-    };
-    if alternateCoding != {} {
+    if ce.ce4 != "" || ce.ce5 != "" || ce.ce6 != "" {
+        r4:Coding alternateCoding = {
+            code: (ce.ce4 != "") ? ce.ce4 : (),
+            display: (ce.ce5 != "") ? ce.ce5 : (),
+            system: (ce.ce6 != "") ? ce.ce6 : ()
+        };
         codings.push(alternateCoding);
     }
     return (codings.length() > 0) ? codings : ();
@@ -292,10 +292,24 @@ public isolated function msgToCoding(hl7v23:CM_MSG msg) returns r4:Coding {
             cmMsg3 = cmMsg3Value;
         }
     }
+    string[] displayParts = [];
+    if msg.cm_msg1 != "" {
+        displayParts.push(msg.cm_msg1);
+    }
+    if msg.cm_msg2 != "" {
+        displayParts.push(msg.cm_msg2);
+    }
+    if cmMsg3 != "" {
+        displayParts.push(cmMsg3);
+    }
+    string? display = ();
+    if displayParts.length() > 0 {
+        display = string:'join("^", ...displayParts);
+    }
     return {
         code: (msg.cm_msg1 != "") ? msg.cm_msg1 : (),
         system: "http://terminology.hl7.org/CodeSystem/v2-0003",
-        display: (msg.cm_msg1 != "" || msg.cm_msg2 != "" || cmMsg3 != "") ? string `${msg.cm_msg1}^${msg.cm_msg2}^${cmMsg3}` : ()
+        display: display
     };
 };
 

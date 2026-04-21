@@ -584,17 +584,21 @@ public isolated function pd1ToPatient(Pd1 pd1) returns international401:Patient 
 // URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-pd1-to-observation.html
 // --------------------------------------------------------------------------------------------#
 public isolated function pd1ToLivingWillObservation(Pd1 pd1) returns international401:Observation {
-    return {
+    international401:Observation observation = {
         status: "final",
+        subject: {},
         code: {
             coding: [{
                 system: "http://loinc.org",
                 code: "45473-6",
                 display: "Advance directive - living will"
             }]
-        },
-        valueCodeableConcept: {coding: [{code: pd1.pd17}]}
+        }
     };
+    if pd1.pd17 != "" {
+        observation.valueCodeableConcept = {coding: [{code: pd1.pd17}]};
+    }
+    return observation;
 };
 
 public isolated function pidToPatient(Pid pid) returns international401:Patient {
@@ -661,23 +665,19 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         },
         status: getEncounterLocationStatus(pv1.pv142.pl5)
     };
-    encounterLocations.push(encounterLoc4);
+    if pv1.pv142.pl1 != "" {
+        encounterLocations.push(encounterLoc4);
+    }
 
     international401:EncounterLocation encounterLoc5 = {
-        location: {
-            display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
-        },
-        status: getEncounterLocationStatus(pv1.pv142.pl5)
-    };
-    encounterLocations.push(encounterLoc5);
-
-    international401:EncounterLocation encounterLoc6 = {
         location: {
             display: pv1.pv143.pl1 != "" ? pv1.pv143.pl1 : ()
         },
         status: getEncounterLocationStatus(pv1.pv143.pl5)
     };
-    encounterLocations.push(encounterLoc6);
+    if pv1.pv143.pl1 != "" {
+        encounterLocations.push(encounterLoc5);
+    }
 
     international401:EncounterParticipant[] participants = [];
 
@@ -917,8 +917,8 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
     }
     encounter.identifier = (identifier.length() > 0) ? identifier : ();
 
-    encounter.period.'start = (pv1.pv144.ts1 != "") ? pv1.pv144.ts1 : ();
-    encounter.period.end = (pv1.pv145.ts1 != "") ? pv1.pv145.ts1 : ();
+    encounter.period.'start = (pv1.pv144.ts1 != "") ? hl7DateToFhir(pv1.pv144.ts1) : ();
+    encounter.period.end = (pv1.pv145.ts1 != "") ? hl7DateToFhir(pv1.pv145.ts1) : ();
 
     if encounter.period == {} {
         encounter.period = ();
@@ -2010,7 +2010,7 @@ public isolated function in1ToCoverage(In1 in1) returns international401:Coverag
         payor: [{}]
     };
 
-    r4:Identifier planId = ceToCodeableConcept(in1.in12) != {} ? {value: in1.in12.ce1} : {};
+    r4:Identifier planId = (in1.in12.ce1 != "") ? {value: in1.in12.ce1} : {};
     if planId != {} {
         coverage.identifier = [planId];
     }
@@ -2025,8 +2025,8 @@ public isolated function in1ToCoverage(In1 in1) returns international401:Coverag
 
     if in1.in112 != "" || in1.in113 != "" {
         coverage.period = {
-            'start: (in1.in112 != "") ? in1.in112 : (),
-            end: (in1.in113 != "") ? in1.in113 : ()
+            'start: (in1.in112 != "") ? hl7DateToFhir(in1.in112) : (),
+            end: (in1.in113 != "") ? hl7DateToFhir(in1.in113) : ()
         };
     }
 
