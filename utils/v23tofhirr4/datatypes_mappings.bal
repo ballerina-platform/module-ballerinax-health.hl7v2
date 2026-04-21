@@ -47,7 +47,7 @@ public isolated function ceToCoding(Ce ce) returns r4:Coding => {
 };
 
 public isolated function xadToAddress(Xad xad) returns r4:Address? {
-    r4:Extension[]? extension = [];
+    r4:Extension[]? extension = ();
     string district = "";
 
     if xad.xad7 == "HV" {
@@ -84,7 +84,9 @@ public isolated function xadToAddress(Xad xad) returns r4:Address? {
         use: checkComputableAntlr([{identifier: xad.xad7, comparisonOperator: "IN", valueList: ["BA", "BI", "C", "B", "H", "O"]}]) ? idToAddressUse(xad.xad7) : (),
         district: (district != "") ? district : ()
     };
-    address.extension = extension;
+    if extension is r4:Extension[] && extension.length() > 0 {
+        address.extension = extension;
+    }
     if xad.xad1 != "" && xad.xad2 != "" {
         address.line = [xad.xad1, xad.xad2];
     } else if xad.xad1 != "" {
@@ -246,7 +248,7 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint? {
             contactPoint.value = string `${xtn6} ${xtn7}`;
         }
     }
-    if contactPoint.value == "" {
+    if contactPoint.value == () || contactPoint.value == "" || contactPoint == {} {
         return ();
     }
     return contactPoint;
@@ -265,6 +267,9 @@ public isolated function hdToMessageHeaderDestination(Hd hd) returns internation
 };
 
 isolated function getHdEndpoint(Hd hd) returns r4:urlType {
+    if hd.hd2 == "" {
+        return hd.hd1;
+    }
     match hd.hd3 {
         "ISO" => {
             return string `urn:oid:${hd.hd2}`;

@@ -59,6 +59,8 @@ function hlStringMessageParseTest() {
 function v2toFhirTransformTest() {
     json|error adtToFhirBundle = v2ToFhir(msg);
     if adtToFhirBundle is json {
+        test:assertFalse(containsEmptyFields(adtToFhirBundle),
+            "Transformed bundle contains empty strings/objects/arrays");
         r4:Bundle|error resultantBundle = adtToFhirBundle.cloneWithType(r4:Bundle);
         if resultantBundle is r4:Bundle {
             r4:BundleEntry[] entries = resultantBundle.entry ?: [];
@@ -73,6 +75,37 @@ function v2toFhirTransformTest() {
     } else {
         test:assertFail("ADT_A01 msg to FHIR transforming failed.");
     }
+}
+
+function containsEmptyFields(json value) returns boolean {
+    if value is string {
+        return value == "";
+    }
+
+    if value is json[] {
+        if value.length() == 0 {
+            return true;
+        }
+        foreach json item in value {
+            if containsEmptyFields(item) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    if value is map<json> {
+        if value.keys().length() == 0 {
+            return true;
+        }
+        foreach string key in value.keys() {
+            if containsEmptyFields(value[key]) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 @test:Config {groups: ["g1"]}

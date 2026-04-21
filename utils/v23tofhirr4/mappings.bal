@@ -473,8 +473,7 @@ public isolated function mshToMessageHeader(Msh msh) returns international401:Me
         'source: hdToMessageHeaderSource(msh.msh3),
         destination: [hdToMessageHeaderDestination(msh.msh5)],
         eventCoding: msgToCoding(msh.msh9),
-        language: ceToCode(<hl7v23:CE>msh.msh19),
-        eventUri: ""
+        language: ceToCode(<hl7v23:CE>msh.msh19)
     };
     return messageHeader;
 };
@@ -531,18 +530,24 @@ public isolated function evnToProvenance(Evn evn) returns international401:Prove
         agent.push({
             who: xcnToReferenceResult
         });
+    } else {
+        agent.push({
+            who: {
+                display: "Unknown"
+            }
+        });
     }
-    r4:instant recorded = "";
-    r4:dateTime occurredDateTime = "";
-
+    r4:instant recorded = (evn.evn2.ts1 != "") ? hl7DateToFhir(evn.evn2.ts1) :
+        ((evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : "1970-01-01T00:00:00Z");
     international401:Provenance provenance = {
         activity: {
             coding: coding
         },
         recorded: recorded,
         agent: agent,
-        occurredDateTime: (occurredDateTime != "") ? occurredDateTime : (),
-        target: []
+        target: [{
+            display: "HL7v2 event source"
+        }]
     };
 
     if evn.evn4 != "" && evn.evn4 != "U" {
@@ -557,9 +562,6 @@ public isolated function evnToProvenance(Evn evn) returns international401:Prove
         ];
     }
 
-    if evn.evn2.ts1 != "" {
-        provenance.recorded = hl7DateToFhir(evn.evn2.ts1);
-    }
     provenance.occurredDateTime = (evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : ();
 
     return provenance;
@@ -643,21 +645,25 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
     };
     encounterLocations.push(encounterLoc1);
 
-    international401:EncounterLocation encounterLoc2 = {
-        location: {
-            display: pv1.pv16.pl1 != "" ? pv1.pv16.pl1 : ()
-        },
-        status: getEncounterLocationStatus(pv1.pv16.pl5)
-    };
-    encounterLocations.push(encounterLoc2);
+    if pv1.pv16.pl1 != "" {
+        international401:EncounterLocation encounterLoc2 = {
+            location: {
+                display: pv1.pv16.pl1
+            },
+            status: getEncounterLocationStatus(pv1.pv16.pl5)
+        };
+        encounterLocations.push(encounterLoc2);
+    }
 
-    international401:EncounterLocation encounterLoc3 = {
-        location: {
-            display: pv1.pv111.pl1 != "" ? pv1.pv111.pl1 : ()
-        },
-        status: getEncounterLocationStatus(pv1.pv111.pl5)
-    };
-    encounterLocations.push(encounterLoc3);
+    if pv1.pv111.pl1 != "" {
+        international401:EncounterLocation encounterLoc3 = {
+            location: {
+                display: pv1.pv111.pl1
+            },
+            status: getEncounterLocationStatus(pv1.pv111.pl5)
+        };
+        encounterLocations.push(encounterLoc3);
+    }
 
     international401:EncounterLocation encounterLoc4 = {
         location: {
@@ -1252,7 +1258,9 @@ public isolated function orcToImmunization(Orc orc) returns international401:Imm
 // --------------------------------------------------------------------------------------------#
 public isolated function nk1ToRelatedPerson(Nk1 nk1) returns international401:RelatedPerson {
     international401:RelatedPerson relatedPerson = {
-        patient: {}
+        patient: {
+            reference: "Patient"
+        }
     };
 
     r4:HumanName[] names = [];
@@ -1920,8 +1928,10 @@ public isolated function mshToProvenanceOperator(Msh msh) returns international4
         who: {display: facilityName != "" ? facilityName : ()}
     };
     return {
-        recorded: "",
-        target: [{}],
+        recorded: msh.msh7.ts1 != "" ? hl7DateToFhir(msh.msh7.ts1) : "1970-01-01T00:00:00Z",
+        target: [{
+            display: "Sending facility"
+        }],
         agent: [agent]
     };
 };

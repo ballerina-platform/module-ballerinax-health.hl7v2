@@ -245,12 +245,18 @@ public isolated function nk1ToContact(Nk12 nk12, Nk14 nk14, Nk15 nk15, Nk16 nk16
         }
     }
 
-    patientContact.telecom = telecoms;
+    if telecoms.length() > 0 {
+        patientContact.telecom = telecoms;
+    }
 
     r4:CodeableConcept[] relationship = [];
     r4:CodeableConcept relation = ceToCodeableConcept(nk17);
-    relationship.push(relation);
-    patientContact.relationship = relationship;
+    if relation != {} {
+        relationship.push(relation);
+    }
+    if relationship.length() > 0 {
+        patientContact.relationship = relationship;
+    }
 
     r4:Period period = {'start: nk18 != "" ? nk18 : (), end: (nk19 != "") ? nk19 : ()};
     if period != {} {
@@ -259,7 +265,7 @@ public isolated function nk1ToContact(Nk12 nk12, Nk14 nk14, Nk15 nk15, Nk16 nk16
 
     patientContact.gender = pidToAdministrativeSex(nk115);
 
-    return [patientContact];
+    return patientContact != {} ? [patientContact] : [];
 }
 
 isolated function isTransactionalMessage(hl7:Message message) returns boolean {
