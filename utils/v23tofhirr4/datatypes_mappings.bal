@@ -25,6 +25,14 @@ public isolated function ceToCodings(Ce ce) returns r4:Coding[]? {
     if ceToCodingResult != {} {
         codings.push(ceToCodingResult);
     }
+    r4:Coding alternateCoding = {
+        code: (ce.ce4 != "") ? ce.ce4 : (),
+        display: (ce.ce5 != "") ? ce.ce5 : (),
+        system: (ce.ce6 != "") ? ce.ce6 : ()
+    };
+    if alternateCoding != {} {
+        codings.push(alternateCoding);
+    }
     return (codings.length() > 0) ? codings : ();
 };
 
@@ -42,7 +50,29 @@ public isolated function xadToAddress(Xad xad) returns r4:Address? {
     r4:Extension[]? extension = [];
     string district = "";
 
-    extension = getStringExtension([xad.xad7, <string>xad.xad10]);
+    if xad.xad7 == "HV" {
+        extension = [
+            {
+                url: "http://hl7.org/fhir/StructureDefinition/iso21090-AD-use",
+                valueCode: xad.xad7
+            }
+        ];
+    }
+    if <string>xad.xad10 != "" {
+        if extension is r4:Extension[] {
+            extension.push({
+                url: "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-censusTract",
+                valueString: <string>xad.xad10
+            });
+        } else {
+            extension = [
+                {
+                    url: "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-censusTract",
+                    valueString: <string>xad.xad10
+                }
+            ];
+        }
+    }
     district = xad.xad9;
 
     r4:Address address = {
@@ -66,15 +96,22 @@ public isolated function xadToAddress(Xad xad) returns r4:Address? {
 };
 
 public isolated function xonToOrganization(Xon xon) returns international401:Organization {
-    string? xon3 = ();
-    xon3 = (xon.xon3 != "") ? xon.xon3.toString() : ();
+    string xon10 = "";
+    if xon.hasKey("xon10") {
+        anydata xon10Value = xon["xon10"];
+        if xon10Value is string {
+            xon10 = xon10Value;
+        }
+    }
+    string? identifierValue = ();
+    identifierValue = (xon10 != "") ? xon10 : ((xon.xon3 != "") ? xon.xon3.toString() : ());
     r4:Identifier identifier = {
-        value: xon3,
+        value: identifierValue,
         'type: (xon.xon7 != "") ? {
                 coding: [
                     {
                         code: xon.xon7,
-                        system: string `urn:oid: ${xon.xon7}`
+                        system: "http://terminology.hl7.org/CodeSystem/v2-0203"
                     }
                 ]
             } : ()
@@ -89,15 +126,22 @@ public isolated function xonToOrganization(Xon xon) returns international401:Org
 };
 
 public isolated function xonToReference(Xon xon) returns r4:Reference? {
-    string? xon3 = ();
-    xon3 = (xon.xon3 != "") ? xon.xon3.toString() : ();
+    string xon10 = "";
+    if xon.hasKey("xon10") {
+        anydata xon10Value = xon["xon10"];
+        if xon10Value is string {
+            xon10 = xon10Value;
+        }
+    }
+    string? identifierValue = ();
+    identifierValue = (xon10 != "") ? xon10 : ((xon.xon3 != "") ? xon.xon3.toString() : ());
     r4:Identifier identifier = {
-        value: xon3,
+        value: identifierValue,
         'type: (xon.xon7 != "") ? {
                 coding: [
                     {
                         code: xon.xon7,
-                        system: string `urn:oid: ${xon.xon7}`
+                        system: "http://terminology.hl7.org/CodeSystem/v2-0203"
                     }
                 ]
             } : ()
@@ -143,6 +187,13 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint? {
     string xtn6 = xtn.xtn6.toString();
     string xtn7 = xtn.xtn7.toString();
     string xtn8 = xtn.xtn8.toString();
+    string xtn12 = "";
+    if xtn.hasKey("xtn12") {
+        anydata xtn12Value = xtn["xtn12"];
+        if xtn12Value is string {
+            xtn12 = xtn12Value;
+        }
+    }
     boolean isInternetOrX400 = xtn.xtn3 == "Internet" || xtn.xtn3 == "X.400";
 
     r4:StringExtension[] extensions = [];
@@ -172,14 +223,16 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint? {
     }
 
     r4:ContactPoint contactPoint = {
-        use: idToContactPointUse(xtn.xtn2),
-        system: (xtn.xtn3 == "" && xtn.xtn4 != "") ? "email" : idToContactPointSystem(xtn.xtn3),
+        use: (xtn.xtn2 != "") ? idToContactPointUse(xtn.xtn2) : (),
+        system: (xtn.xtn3 == "" && xtn.xtn4 != "") ? "email" : ((xtn.xtn3 != "") ? idToContactPointSystem(xtn.xtn3) : ()),
         extension: (extensions.length() > 0) ? extensions : (),
         value: ()
     };
 
     if isInternetOrX400 && xtn.xtn4 != "" {
         contactPoint.value = xtn.xtn4;
+    } else if !isInternetOrX400 && xtn12 != "" {
+        contactPoint.value = xtn12;
     } else if !isInternetOrX400 && xtn7 == "" && xtn.xtn1 != "" {
         contactPoint.value = xtn.xtn1;
     } else if !isInternetOrX400 && xtn7 != "" {
@@ -201,31 +254,67 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint? {
 
 public isolated function hdToMessageHeaderSource(Hd hd) returns international401:MessageHeaderSource {
     return {
-        name: (hd.hd1 != "") ? hd.hd1 : (),
-        endpoint: hd.hd2,
-        extension: getStringExtension([hd.hd3])
+        name: (hd.hd2 == "" && hd.hd1 != "") ? hd.hd1 : (),
+        endpoint: getHdEndpoint(hd)
     };
 };
 
 public isolated function hdToMessageHeaderDestination(Hd hd) returns international401:MessageHeaderDestination => {
-    name: (hd.hd1 != "") ? hd.hd1 : (),
-    endpoint: hd.hd2,
-    extension: getStringExtension([hd.hd3])
+    name: (hd.hd2 == "" && hd.hd1 != "") ? hd.hd1 : (),
+    endpoint: getHdEndpoint(hd)
 };
 
-public isolated function msgToCoding(hl7v23:CM_MSG msg) returns r4:Coding => {
-    code: (msg.cm_msg1 != "") ? msg.cm_msg1 : (),
-    system: (msg.cm_msg2 != "") ? msg.cm_msg2 : ()
+isolated function getHdEndpoint(Hd hd) returns r4:urlType {
+    match hd.hd3 {
+        "ISO" => {
+            return string `urn:oid:${hd.hd2}`;
+        }
+        "UUID" => {
+            return string `urn:uuid:${hd.hd2}`;
+        }
+        "DNS" => {
+            return string `urn:dns:${hd.hd2}`;
+        }
+        "URI" => {
+            return string `urn:uri:${hd.hd2}`;
+        }
+        _ => {
+            return hd.hd2;
+        }
+    }
+}
+
+public isolated function msgToCoding(hl7v23:CM_MSG msg) returns r4:Coding {
+    string cmMsg3 = "";
+    if msg.hasKey("cm_msg3") {
+        anydata cmMsg3Value = msg["cm_msg3"];
+        if cmMsg3Value is string {
+            cmMsg3 = cmMsg3Value;
+        }
+    }
+    return {
+        code: (msg.cm_msg1 != "") ? msg.cm_msg1 : (),
+        system: "http://terminology.hl7.org/CodeSystem/v2-0003",
+        display: (msg.cm_msg1 != "" || msg.cm_msg2 != "" || cmMsg3 != "") ? string `${msg.cm_msg1}^${msg.cm_msg2}^${cmMsg3}` : ()
+    };
 };
 
 public isolated function ptToMeta(Pt pt) returns r4:Meta {
+    r4:Coding[] tags = [];
+    if pt.pt1 != "" {
+        tags.push({
+            code: pt.pt1,
+            system: "http://terminology.hl7.org/CodeSystem/v2-0103"
+        });
+    }
+    if pt.pt2 != "" {
+        tags.push({
+            code: pt.pt2,
+            system: "http://terminology.hl7.org/CodeSystem/v2-0207"
+        });
+    }
     return {
-        tag: [
-            {
-                code: (pt.pt1 != "") ? pt.pt1 : (),
-                system: (pt.pt2 != "") ? pt.pt2 : ()
-            }
-        ]
+        tag: (tags.length() > 0) ? tags : ()
     };
 };
 
@@ -263,7 +352,7 @@ public isolated function ceToUri(Ce ce) returns r4:uri? {
 
 public isolated function xcnToCodeableConcept(Xcn xcn) returns r4:CodeableConcept {
     return {
-        id: (xcn.xcn1 != "") ? xcn.xcn1 : ()
+        coding: (xcn.xcn1 != "") ? [{code: xcn.xcn1}] : ()
     };
 };
 
@@ -281,7 +370,7 @@ public isolated function xcnToReferenceWithType(Xcn xcn, string resourceType) re
 
 public isolated function idToCoding(hl7v23:ID id) returns r4:Coding {
     return {
-        id: (id != "") ? id : ()
+        code: (id != "") ? id : ()
     };
 };
 
@@ -359,12 +448,50 @@ public type Ts hl7v23:TS;
 public type Is hl7v23:IS;
 
 public isolated function cxToIdentifier(Cx cx) returns r4:Identifier {
-    return {
+    string cx7 = "";
+    if cx.hasKey("cx7") {
+        anydata cx7Value = cx["cx7"];
+        if cx7Value is string {
+            cx7 = cx7Value;
+        }
+    }
+    string cx8 = "";
+    if cx.hasKey("cx8") {
+        anydata cx8Value = cx["cx8"];
+        if cx8Value is string {
+            cx8 = cx8Value;
+        }
+    }
+    r4:Identifier identifier = {
         value: (cx.cx1 != "") ? cx.cx1 : (),
         'type: (cx.cx5 != "") ? {
-            coding: [{code: cx.cx5}]
+            coding: [
+                {
+                    code: cx.cx5,
+                    system: "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+            ]
+        } : (),
+        period: (cx7 != "" || cx8 != "") ? {
+            'start: (cx7 != "") ? hl7DateToFhir(cx7) : (),
+            end: (cx8 != "") ? hl7DateToFhir(cx8) : ()
         } : ()
     };
+    r4:Extension[] extensions = [];
+    if cx.cx2 != "" {
+        extensions.push({
+            url: "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit",
+            valueString: cx.cx2
+        });
+    }
+    if cx.cx3 != "" {
+        extensions.push({
+            url: "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit",
+            valueString: cx.cx3
+        });
+    }
+    identifier.extension = (extensions.length() > 0) ? extensions : ();
+    return identifier;
 };
 
 public isolated function xcnToHumanName(Xcn xcn) returns r4:HumanName {
