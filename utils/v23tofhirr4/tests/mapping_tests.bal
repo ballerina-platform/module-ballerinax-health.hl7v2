@@ -670,13 +670,30 @@ function adtA06ToBundleWithMrgTest() returns error? {
         evn: {name: "EVN", evn1: "A06"},
         pid: {name: "PID", pid5: [{xpn1: "Doe", xpn2: "John"}]},
         pv1: {name: "PV1", pv12: "I"},
-        mrg: {name: "MRG", mrg1: [{cx1: "OLD-001"}]}
+        mrg: {name: "MRG", mrg3: {cx1: "OLD-001"}}
     };
     r4:Bundle bundle = check adtA06ToBundle(message);
     test:assertEquals(bundle.'type, "transaction", "ADT_A06 should produce a transaction bundle");
     r4:BundleEntry[] entries = bundle.entry ?: [];
-    // Should include MRG → Account entry in addition to the base entries
-    test:assertTrue(entries.length() >= 4, "ADT_A06 with MRG should include Account entry");
+    boolean foundAccount = false;
+    foreach r4:BundleEntry entry in entries {
+        if entry?.'resource is map<anydata> {
+            map<anydata> mappedResource = <map<anydata>>entry?.'resource;
+            if mappedResource["resourceType"] == "Account" {
+                anydata identifiersValue = mappedResource["identifier"];
+                if identifiersValue is map<anydata>[] && identifiersValue.length() > 0 {
+                    map<anydata> identifier = identifiersValue[0];
+                    test:assertEquals(identifier["value"], "OLD-001",
+                        "ADT_A06 mrg.mrg3.cx1 should map to Account.identifier.value");
+                    foundAccount = true;
+                } else {
+                    test:assertFail("MRG should map to Account.identifier");
+                }
+                break;
+            }
+        }
+    }
+    test:assertTrue(foundAccount, "ADT_A06 bundle should contain an Account from MRG-3");
 }
 
 @test:Config {}
