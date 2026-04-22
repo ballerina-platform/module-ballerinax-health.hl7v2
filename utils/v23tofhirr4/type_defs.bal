@@ -153,3 +153,57 @@ public type Nk131 hl7v23:XTN[];
 # Union type for patient's extended person's contact person address for all supported hl7 versions.
 
 public type Nk132 hl7v23:XAD[];
+
+# Union type for holding notes and comments segment for all supported hl7 versions.
+public type Nte hl7v23:NTE;
+
+# Union type for holding procedure segment for all supported hl7 versions.
+public type Pr1 hl7v23:PR1;
+
+# Union type for holding role segment for all supported hl7 versions.
+public type Rol hl7v23:ROL;
+
+# Union type for holding pharmacy/treatment administration segment for all supported hl7 versions.
+public type Rxa hl7v23:RXA;
+
+# Union type for holding pharmacy/treatment order segment for all supported hl7 versions.
+public type Rxo hl7v23:RXO;
+
+# Union type for holding pharmacy/treatment route segment for all supported hl7 versions.
+public type Rxr hl7v23:RXR;
+
+# Union type for holding schedule activity information segment for all supported hl7 versions.
+public type Sch hl7v23:SCH;
+
+# Union type for holding transcription document header segment for all supported hl7 versions.
+public type Txa hl7v23:TXA;
+
+# Union type for holding insurance segment for all supported hl7 versions.
+public type In1 hl7v23:IN1;
+
+# Union type for holding insurance additional info - certification segment for all supported hl7 versions.
+public type In3 hl7v23:IN3;
+
+# Union type for holding merge patient information segment for all supported hl7 versions.
+public type Mrg hl7v23:MRG;
+
+# Union type for holding message acknowledgement segment for all supported hl7 versions.
+public type Msa hl7v23:MSA;
+
+# Union type for holding appointment information - general resource segment for all supported hl7 versions.
+public type Aig hl7v23:AIG;
+
+# Union type for holding appointment information - location resource segment for all supported hl7 versions.
+public type Ail hl7v23:AIL;
+
+# Union type for holding appointment information - personnel resource segment for all supported hl7 versions.
+public type Aip hl7v23:AIP;
+
+# Union type for holding appointment information - service segment for all supported hl7 versions.
+public type Ais hl7v23:AIS;
+
+# Union type for CX (composite ID with check digit) data type for all supported hl7 versions.
+public type Cx hl7v23:CX;
+
+# Union type for PL (person location) data type for all supported hl7 versions.
+public type Pl hl7v23:PL;

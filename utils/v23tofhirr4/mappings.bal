@@ -35,6 +35,20 @@ public isolated function v2ToFhir(string|hl7:Message hl7, V2SegmentToFhirMapper?
     } else {
         hl7msg = hl7;
     }
+    // When no custom overrides are specified, dispatch to the typed message-level mapping
+    // functions that follow the IG ConceptMap exactly (including segment group handling).
+    // Falls back to the generic segment-by-segment approach for unsupported message types
+    // or when custom mapper / service config is provided.
+    if customMapper == () && mapperServiceConf == () {
+        r4:Bundle|error? typedBundle = mapMessageToBundle(hl7msg);
+        if typedBundle is r4:Bundle {
+            return typedBundle.toJson();
+        }
+        if typedBundle is error {
+            return typedBundle;
+        }
+        // typedBundle is () → unsupported message type, fall through to generic
+    }
     if customMapper == () {
         return transformToFhir(hl7msg, defaultMapper, mapperServiceConf);
     }
@@ -64,13 +78,22 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
     }
     match segmentName {
         "NK1" => {
-            Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
-            if nk1ToPatient is Nk1ToPatient {
-                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
-                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
-                if customMappingResponse[0] {
-                    constructedResource = nk1ToPatient(check segment.ensureType(Nk1));
+            [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+            if customMappingResponse[0] {
+                Nk1ToPatient? nk1ToPatient = impl.nk1ToPatient;
+                if nk1ToPatient is Nk1ToPatient {
+                    map<anydata> constructedResource = nk1ToPatient(check segment.ensureType(Nk1));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
                 }
+                Nk1ToRelatedPerson? nk1ToRelatedPerson = impl.nk1ToRelatedPerson;
+                if nk1ToRelatedPerson is Nk1ToRelatedPerson {
+                    map<anydata> constructedResource = nk1ToRelatedPerson(check segment.ensureType(Nk1));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
+                }
+            } else {
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 return populateBundleEntries(constructedResource);
             }
         }
@@ -99,14 +122,20 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
         "PV1" => {
             [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
             if customMappingResponse[0] {
+                Pv1 pv1Segment = check segment.ensureType(Pv1);
                 Pv1ToPatient? pv1ToPatientResult = impl.pv1ToPatient;
                 if pv1ToPatientResult is Pv1ToPatient {
-                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToPatientResult(check segment.ensureType(Pv1)));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToPatientResult(pv1Segment));
                     entries.push(...bundleEntriesResult);
                 }
                 Pv1ToEncounter? pv1ToEncounterResult = impl.pv1ToEncounter;
                 if pv1ToEncounterResult is Pv1ToEncounter {
-                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToEncounterResult(check segment.ensureType(Pv1)));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToEncounterResult(pv1Segment));
+                    entries.push(...bundleEntriesResult);
+                }
+                Pv1ToCoverage? pv1ToCoverageResult = impl.pv1ToCoverage;
+                if pv1ToCoverageResult is Pv1ToCoverage && pv1Segment.pv120.length() > 0 && pv1Segment.pv120[0].fc1 != "" {
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(pv1ToCoverageResult(pv1Segment));
                     entries.push(...bundleEntriesResult);
                 }
             }
@@ -202,31 +231,234 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
             }
         }
         "ORC" => {
-            OrcToImmunization? orcToImmunization = impl.orcToImmunization;
-            if orcToImmunization is OrcToImmunization {
-                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
-                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
-                if customMappingResponse[0] {
-                    constructedResource = orcToImmunization(check segment.ensureType(Orc));
+            [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+            if customMappingResponse[0] {
+                OrcToImmunization? orcToImmunization = impl.orcToImmunization;
+                if orcToImmunization is OrcToImmunization {
+                    map<anydata> constructedResource = orcToImmunization(check segment.ensureType(Orc));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
                 }
+                OrcToServiceRequest? orcToServiceRequest = impl.orcToServiceRequest;
+                if orcToServiceRequest is OrcToServiceRequest {
+                    map<anydata> constructedResource = orcToServiceRequest(check segment.ensureType(Orc));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
+                }
+            } else {
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 return populateBundleEntries(constructedResource);
             }
         }
         "OBR" => {
-            ObrToDiagnosticReport? obrToDiagnosticReport = impl.obrToDiagnosticReport;
-            if obrToDiagnosticReport is ObrToDiagnosticReport {
-                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
-                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
-                if customMappingResponse[0] {
-                    constructedResource = obrToDiagnosticReport(check segment.ensureType(Obr));
+            [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+            if customMappingResponse[0] {
+                ObrToDiagnosticReport? obrToDiagnosticReport = impl.obrToDiagnosticReport;
+                if obrToDiagnosticReport is ObrToDiagnosticReport {
+                    map<anydata> constructedResource = obrToDiagnosticReport(check segment.ensureType(Obr));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
                 }
+                ObrToServiceRequest? obrToServiceRequest = impl.obrToServiceRequest;
+                if obrToServiceRequest is ObrToServiceRequest {
+                    map<anydata> constructedResource = obrToServiceRequest(check segment.ensureType(Obr));
+                    r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                    entries.push(...bundleEntriesResult);
+                }
+            } else {
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
                 return populateBundleEntries(constructedResource);
             }
         }
         "NTE" => {
-            // Skip NTE segment tempararily. Tracking issue: https://github.com/wso2-enterprise/open-healthcare/issues/1737
-            r4:BundleEntry[] entriesNew = [];
-            return entriesNew;
+            NteToObservation? nteToObservation = impl.nteToObservation;
+            if nteToObservation is NteToObservation {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = nteToObservation(check segment.ensureType(Nte));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "PR1" => {
+            Pr1ToProcedure? pr1ToProcedure = impl.pr1ToProcedure;
+            if pr1ToProcedure is Pr1ToProcedure {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = pr1ToProcedure(check segment.ensureType(Pr1));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "RXA" => {
+            RxaToImmunization? rxaToImmunization = impl.rxaToImmunization;
+            if rxaToImmunization is RxaToImmunization {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = rxaToImmunization(check segment.ensureType(Rxa));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "RXO" => {
+            RxoToMedicationRequest? rxoToMedicationRequest = impl.rxoToMedicationRequest;
+            if rxoToMedicationRequest is RxoToMedicationRequest {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = rxoToMedicationRequest(check segment.ensureType(Rxo));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "RXR" => {
+            [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+            if customMappingResponse[0] {
+                Rxr rxr = check segment.ensureType(Rxr);
+                RxrToImmunization? rxrToImmunization = impl.rxrToImmunization;
+                if rxrToImmunization is RxrToImmunization && hasRxrImmunizationData(rxr) {
+                    map<anydata> constructedResource = rxrToImmunization(rxr);
+                    if hasMeaningfulRxrImmunizationResource(constructedResource) {
+                        r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                        entries.push(...bundleEntriesResult);
+                    }
+                }
+                RxrToMedicationRequest? rxrToMedicationRequest = impl.rxrToMedicationRequest;
+                if rxrToMedicationRequest is RxrToMedicationRequest && hasRxrMedicationOrderContext(rxr) {
+                    map<anydata> constructedResource = rxrToMedicationRequest(rxr);
+                    if hasMeaningfulRxrMedicationRequestResource(constructedResource) {
+                        r4:BundleEntry[] bundleEntriesResult = populateBundleEntries(constructedResource);
+                        entries.push(...bundleEntriesResult);
+                    }
+                }
+            } else {
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "SCH" => {
+            SchToAppointment? schToAppointment = impl.schToAppointment;
+            if schToAppointment is SchToAppointment {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = schToAppointment(check segment.ensureType(Sch));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "TXA" => {
+            TxaToDocumentReference? txaToDocumentReference = impl.txaToDocumentReference;
+            if txaToDocumentReference is TxaToDocumentReference {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = txaToDocumentReference(check segment.ensureType(Txa));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "ROL" => {
+            RolToRelatedPerson? rolToRelatedPerson = impl.rolToRelatedPerson;
+            if rolToRelatedPerson is RolToRelatedPerson {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = rolToRelatedPerson(check segment.ensureType(Rol));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "MSA" => {
+            MsaToMessageHeader? msaToMessageHeader = impl.msaToMessageHeader;
+            if msaToMessageHeader is MsaToMessageHeader {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = msaToMessageHeader(check segment.ensureType(Msa));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "MRG" => {
+            MrgToAccount? mrgToAccount = impl.mrgToAccount;
+            if mrgToAccount is MrgToAccount {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = mrgToAccount(check segment.ensureType(Mrg));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "IN1" => {
+            In1ToCoverage? in1ToCoverage = impl.in1ToCoverage;
+            if in1ToCoverage is In1ToCoverage {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = in1ToCoverage(check segment.ensureType(In1));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "IN3" => {
+            In3ToCareTeam? in3ToCareTeam = impl.in3ToCareTeam;
+            if in3ToCareTeam is In3ToCareTeam {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = in3ToCareTeam(check segment.ensureType(In3));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "AIG" => {
+            AigToAppointment? aigToAppointment = impl.aigToAppointment;
+            if aigToAppointment is AigToAppointment {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = aigToAppointment(check segment.ensureType(Aig));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "AIL" => {
+            AilToAppointment? ailToAppointment = impl.ailToAppointment;
+            if ailToAppointment is AilToAppointment {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = ailToAppointment(check segment.ensureType(Ail));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "AIP" => {
+            AipToAppointment? aipToAppointment = impl.aipToAppointment;
+            if aipToAppointment is AipToAppointment {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = aipToAppointment(check segment.ensureType(Aip));
+                }
+                return populateBundleEntries(constructedResource);
+            }
+        }
+        "AIS" => {
+            AisToAppointment? aisToAppointment = impl.aisToAppointment;
+            if aisToAppointment is AisToAppointment {
+                [boolean, anydata] customMappingResponse = check getCustomSegmentToResourceMapping(serviceconf, segment);
+                map<anydata> constructedResource = <map<anydata>>customMappingResponse[1];
+                if customMappingResponse[0] {
+                    constructedResource = aisToAppointment(check segment.ensureType(Ais));
+                }
+                return populateBundleEntries(constructedResource);
+            }
         }
         _ => {
             if segmentName.length() == 3 {
@@ -242,13 +474,50 @@ public isolated function segmentToFhir(string segmentName, hl7:Segment segment, 
     return entries;
 }
 
+isolated function hasRxrImmunizationData(Rxr rxr) returns boolean {
+    return rxr.rxr1.ce1 != "" || rxr.rxr1.ce2 != "" || rxr.rxr2.ce1 != "" || rxr.rxr2.ce2 != "";
+}
+
+isolated function hasRxrMedicationOrderContext(Rxr rxr) returns boolean {
+    // RXR-4 (administration method) is used here as a medication-order context signal
+    // when dispatching standalone RXR mappings in the generic segment flow.
+    return rxr.rxr4.ce1 != "" || rxr.rxr4.ce2 != "";
+}
+
+isolated function hasMeaningfulRxrImmunizationResource(map<anydata> mappedResource) returns boolean {
+    if mappedResource["route"] is map<anydata> {
+        map<anydata> route = <map<anydata>>mappedResource["route"];
+        if route.keys().length() > 0 {
+            return true;
+        }
+    }
+    if mappedResource["site"] is map<anydata> {
+        map<anydata> site = <map<anydata>>mappedResource["site"];
+        if site.keys().length() > 0 {
+            return true;
+        }
+    }
+    return false;
+}
+
+isolated function hasMeaningfulRxrMedicationRequestResource(map<anydata> mappedResource) returns boolean {
+    if mappedResource["dosageInstruction"] is map<anydata>[] {
+        map<anydata>[] dosageInstruction = <map<anydata>[]>mappedResource["dosageInstruction"];
+        return dosageInstruction.length() > 0;
+    }
+    if mappedResource["medicationCodeableConcept"] is map<anydata> {
+        map<anydata> medicationCodeableConcept = <map<anydata>>mappedResource["medicationCodeableConcept"];
+        return medicationCodeableConcept.keys().length() > 0;
+    }
+    return false;
+}
+
 public isolated function mshToMessageHeader(Msh msh) returns international401:MessageHeader {
     international401:MessageHeader messageHeader = {
         'source: hdToMessageHeaderSource(msh.msh3),
         destination: [hdToMessageHeaderDestination(msh.msh5)],
-        eventCoding: (msh.msh9 is hl7v23:CM_MSG) ? msgToCoding(<hl7v23:CM_MSG>msh.msh9) : {},
-        language: ceToCode(<hl7v23:CE>msh.msh19),
-        eventUri: ""
+        eventCoding: msgToCoding(msh.msh9),
+        language: ceToCode(<hl7v23:CE>msh.msh19)
     };
     return messageHeader;
 };
@@ -257,18 +526,16 @@ public isolated function mshToMessageHeader(Msh msh) returns international401:Me
 public isolated function al1ToAllerygyIntolerance(Al1 al1) returns international401:AllergyIntolerance {
 
     international401:AllergyIntoleranceReaction[] allergyIntoleranceReactions = [];
-    if al1.al15 is hl7v23:ST && al1 is hl7v23:AL1 {
-        allergyIntoleranceReactions = [
-            {
-                manifestation: (al1.al15 != "") ? [
-                        {
-                            text: <hl7v23:ST>al1.al15
-                        }
-                    ] : [],
-                onset: (al1.al16 != "") ? al1.al16 : ()
-            }
-        ];
-    }
+    allergyIntoleranceReactions = [
+        {
+            manifestation: (al1.al15 != "") ? [
+                    {
+                        text: al1.al15
+                    }
+                ] : [],
+            onset: (al1.al16 != "") ? al1.al16 : ()
+        }
+    ];
     r4:CodeableConcept allergyCode = ceToCodeableConcept(<hl7v23:CE>al1.al13);
     international401:AllergyIntolerance allergyIntolerance = {
         clinicalStatus: {
@@ -284,15 +551,11 @@ public isolated function al1ToAllerygyIntolerance(Al1 al1) returns international
         patient: {}
     };
 
-    if al1.al14 is hl7v23:IS {
-        if al1.al14 == "SV" {
-            allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
-        }
+    if al1.al14 == "SV" {
+        allergyIntolerance.criticality = international401:CODE_CRITICALITY_HIGH;
     }
 
-    if al1.al12 is hl7v23:IS {
-        allergyIntolerance.'type = isToAllergyIntoleranceType(<hl7v23:IS>al1.al12);
-    }
+    allergyIntolerance.'type = isToAllergyIntoleranceType(al1.al12);
 
     return allergyIntolerance;
 }
@@ -306,47 +569,44 @@ public isolated function evnToProvenance(Evn evn) returns international401:Prove
     ];
 
     international401:ProvenanceAgent[] agent = [];
-    if evn.evn5 is hl7v23:XCN {
-        r4:Reference xcnToReferenceResult = xcnToReferenceWithType(<hl7v23:XCN>evn.evn5, "Practitioner");
-        if xcnToReferenceResult != {} {
-            agent.push({
-                who: xcnToReferenceResult
-            });
-        }
+    r4:Reference xcnToReferenceResult = xcnToReferenceWithType(evn.evn5, "Practitioner");
+    if xcnToReferenceResult != {} {
+        agent.push({
+            who: xcnToReferenceResult
+        });
+    } else {
+        agent.push({
+            who: {
+                display: "Unknown"
+            }
+        });
     }
-    r4:instant recorded = "";
-    r4:dateTime occurredDateTime = "";
-
+    r4:instant recorded = (evn.evn2.ts1 != "") ? hl7DateToFhir(evn.evn2.ts1) :
+        ((evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : "1970-01-01T00:00:00Z");
     international401:Provenance provenance = {
         activity: {
             coding: coding
         },
         recorded: recorded,
         agent: agent,
-        occurredDateTime: (occurredDateTime != "") ? occurredDateTime : (),
-        target: []
+        target: [{
+            display: "HL7v2 event source"
+        }]
     };
 
-    if evn is hl7v23:EVN {
-        if evn.evn4 != "" && evn.evn4 != "U" {
-            provenance.reason = [
-                {
-                    coding: [
-                        {
-                            code: evn.evn4
-                        }
-                    ]
-                }
-            ];
-        }
+    if evn.evn4 != "" && evn.evn4 != "U" {
+        provenance.reason = [
+            {
+                coding: [
+                    {
+                        code: evn.evn4
+                    }
+                ]
+            }
+        ];
     }
 
-    if evn is hl7v23:EVN {
-        if evn.evn2.ts1 != "" {
-            provenance.recorded = evn.evn2.ts1;
-        }
-        provenance.occurredDateTime = (evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : ();
-    }
+    provenance.occurredDateTime = (evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : ();
 
     return provenance;
 };
@@ -357,13 +617,34 @@ public isolated function nk1ToPatient(Nk1 nk1) returns international401:Patient 
 
 public isolated function pd1ToPatient(Pd1 pd1) returns international401:Patient {
     r4:Extension[]? extension = [];
-    if pd1 is hl7v23:PD1 {
-        extension = pd1ToExtension(pd1.pd16);
-    }
+    extension = pd1ToExtension(pd1.pd16);
     return {
         generalPractitioner: pd1ToGeneralPractitioner(pd1.pd13, pd1.pd14),
         extension: extension
     };
+};
+
+// --------------------------------------------------------------------------------------------#
+// PD1-7 → Observation (Living Will)
+// IG dependsOn: IF PD1-7 IS VALUED
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-pd1-to-observation.html
+// --------------------------------------------------------------------------------------------#
+public isolated function pd1ToLivingWillObservation(Pd1 pd1) returns international401:Observation {
+    international401:Observation observation = {
+        status: "final",
+        subject: {},
+        code: {
+            coding: [{
+                system: "http://loinc.org",
+                code: "45473-6",
+                display: "Advance directive - living will"
+            }]
+        }
+    };
+    if pd1.pd17 != "" {
+        observation.valueCodeableConcept = {coding: [{code: pd1.pd17}]};
+    }
+    return observation;
 };
 
 public isolated function pidToPatient(Pid pid) returns international401:Patient {
@@ -380,21 +661,15 @@ public isolated function pidToPatient(Pid pid) returns international401:Patient 
         deceasedBoolean: (pid.pid30 != "") ? pidToPatientDeathIndicator(pid.pid30) : ()
     };
 
-    if pid is hl7v23:PID {
-        patient.name = pidToPatientName(pid.pid5, pid.pid9);
-        patient.birthDate = (pid.pid7.ts1 != "") ? hl7DateToFhir(pid.pid7.ts1) : ();
-        patient.deceasedDateTime = (pid.pid29.ts1 != "") ? hl7DateToFhir(pid.pid29.ts1) : ();
-        patient.gender = pidToAdministrativeSex(pid.pid8);
-    }
+    patient.name = pidToPatientName(pid.pid5, pid.pid9);
+    patient.birthDate = (pid.pid7.ts1 != "") ? hl7DateToFhir(pid.pid7.ts1) : ();
+    patient.deceasedDateTime = (pid.pid29.ts1 != "") ? hl7DateToFhir(pid.pid29.ts1) : ();
+    patient.gender = pidToAdministrativeSex(pid.pid8);
     return patient;
 };
 
 public isolated function pv1ToPatient(Pv1 pv1) returns international401:Patient {
-    string extension = "";
-
-    if pv1 is hl7v23:PV1 {
-        extension = pv1.pv116;
-    }
+    string extension = pv1.pv116;
     return {
         extension: (extension != "") ? pv1ToExtension(extension) : ()
     };
@@ -406,54 +681,54 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         status: "in-progress"
     };
     international401:EncounterLocation[] encounterLocations = [];
-    if pv1 is hl7v23:PV1 {
+    if pv1.pv13.pl1 != "" {
         international401:EncounterLocation encounterLoc1 = {
             location: {
-                display: pv1.pv13.pl1 != "" ? pv1.pv13.pl1 : ()
+                display: pv1.pv13.pl1
             },
             status: getEncounterLocationStatus(pv1.pv13.pl5)
         };
         encounterLocations.push(encounterLoc1);
+    }
 
+    if pv1.pv16.pl1 != "" {
         international401:EncounterLocation encounterLoc2 = {
             location: {
-                display: pv1.pv16.pl1 != "" ? pv1.pv16.pl1 : ()
+                display: pv1.pv16.pl1
             },
             status: getEncounterLocationStatus(pv1.pv16.pl5)
         };
         encounterLocations.push(encounterLoc2);
+    }
 
+    if pv1.pv111.pl1 != "" {
         international401:EncounterLocation encounterLoc3 = {
             location: {
-                display: pv1.pv111.pl1 != "" ? pv1.pv111.pl1 : ()
+                display: pv1.pv111.pl1
             },
             status: getEncounterLocationStatus(pv1.pv111.pl5)
         };
         encounterLocations.push(encounterLoc3);
+    }
 
-        international401:EncounterLocation encounterLoc4 = {
-            location: {
-                display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
-            },
-            status: getEncounterLocationStatus(pv1.pv142.pl5)
-        };
+    international401:EncounterLocation encounterLoc4 = {
+        location: {
+            display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
+        },
+        status: getEncounterLocationStatus(pv1.pv142.pl5)
+    };
+    if pv1.pv142.pl1 != "" {
         encounterLocations.push(encounterLoc4);
+    }
 
-        international401:EncounterLocation encounterLoc5 = {
-            location: {
-                display: pv1.pv142.pl1 != "" ? pv1.pv142.pl1 : ()
-            },
-            status: getEncounterLocationStatus(pv1.pv142.pl5)
-        };
+    international401:EncounterLocation encounterLoc5 = {
+        location: {
+            display: pv1.pv143.pl1 != "" ? pv1.pv143.pl1 : ()
+        },
+        status: getEncounterLocationStatus(pv1.pv143.pl5)
+    };
+    if pv1.pv143.pl1 != "" {
         encounterLocations.push(encounterLoc5);
-
-        international401:EncounterLocation encounterLoc6 = {
-            location: {
-                display: pv1.pv143.pl1 != "" ? pv1.pv143.pl1 : ()
-            },
-            status: getEncounterLocationStatus(pv1.pv143.pl5)
-        };
-        encounterLocations.push(encounterLoc6);
     }
 
     international401:EncounterParticipant[] participants = [];
@@ -461,14 +736,9 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
     int i = 0;
     int len = 1; // in hl7v23 case
     while i < len {
-        string system = "";
-        string xcn1 = "";
-        string xcn10 = "";
-        if pv1 is hl7v23:PV1 {
-            system = pv1.pv17[i].xcn8;
-            xcn1 = pv1.pv17[i].xcn1;
-            xcn10 = pv1.pv17[i].xcn10;
-        }
+        string system = pv1.pv17[i].xcn8;
+        string xcn1 = pv1.pv17[i].xcn1;
+        string xcn10 = pv1.pv17[i].xcn10;
 
         international401:EncounterParticipant encounterParticipant =
             {
@@ -490,19 +760,14 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         if encounterParticipant != {} {
             participants.push(encounterParticipant);
         }
-        i = +1;
+        i += 1;
     }
     i = 0;
     int lenPv18 = 1; // in hl7v23 case
     while i < lenPv18 {
-        string system = "";
-        string xcn1 = "";
-        string xcn10 = "";
-        if pv1 is hl7v23:PV1 {
-            system = pv1.pv18[i].xcn8;
-            xcn1 = pv1.pv18[i].xcn1;
-            xcn10 = pv1.pv18[i].xcn10;
-        }
+        string system = pv1.pv18[i].xcn8;
+        string xcn1 = pv1.pv18[i].xcn1;
+        string xcn10 = pv1.pv18[i].xcn10;
         international401:EncounterParticipant encounterParticipant = {
             individual: (xcn1 != "") ? {
                     display: xcn1
@@ -522,15 +787,12 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         if encounterParticipant != {} {
             participants.push(encounterParticipant);
         }
-        i = +1;
+        i += 1;
     }
 
     i = 0;
     while i < pv1.pv19.length() {
-        string system = "";
-        if pv1 is hl7v23:PV1 {
-            system = pv1.pv19[i].xcn8;
-        }
+        string system = pv1.pv19[i].xcn8;
         international401:EncounterParticipant encounterParticipant = {
             individual: (pv1.pv19[i].xcn1 != "") ? {
                     display: pv1.pv19[i].xcn1
@@ -550,22 +812,16 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         if encounterParticipant != {} {
             participants.push(encounterParticipant);
         }
-        i = +1;
+        i += 1;
     }
 
     i = 0;
     int lenPv17 = 1; // in hl7v23 case
     while i < lenPv17 {
-        string system = "";
-        string code = "";
-        string xcn1 = "";
-        string xcn10 = "";
-        if pv1 is hl7v23:PV1 {
-            system = pv1.pv17[i].xcn8;
-            code = pv1.pv17[i].xcn10;
-            xcn1 = pv1.pv17[i].xcn1;
-            xcn10 = pv1.pv17[i].xcn10;
-        }
+        string system = pv1.pv17[i].xcn8;
+        string code = pv1.pv17[i].xcn10;
+        string xcn1 = pv1.pv17[i].xcn1;
+        string xcn10 = pv1.pv17[i].xcn10;
         international401:EncounterParticipant encounterParticipant = {
             individual: (xcn1 != "") ? {
                     display: xcn1
@@ -585,103 +841,86 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         if encounterParticipant != {} {
             participants.push(encounterParticipant);
         }
-        i = +1;
+        i += 1;
     }
 
-    if pv1 is hl7v23:PV1 {
-        // Define pv1.pv152 hl7v27:PV1, hl7v28:PV1
-        i = 0;
-        while i < pv1.pv152.length() {
-            international401:EncounterParticipant encounterParticipant = {
-                individual: (pv1.pv152[i].xcn1 != "") ? {
-                        display: pv1.pv152[i].xcn1
-                    } : (),
-                'type: (pv1.pv152[i].xcn8 != "") ? [
-                        {
-                            coding: [
-                                {
-                                    code: "PART",
-                                    system: pv1.pv152[i].xcn8,
-                                    display: "Participation"
-                                }
-                            ]
-                        }
-                    ] : ()
-            };
-            if encounterParticipant != {} {
-                participants.push(encounterParticipant);
+    // Define pv1.pv152 hl7v27:PV1, hl7v28:PV1
+    i = 0;
+    while i < pv1.pv152.length() {
+        international401:EncounterParticipant encounterParticipant = {
+            individual: (pv1.pv152[i].xcn1 != "") ? {
+                    display: pv1.pv152[i].xcn1
+                } : (),
+            'type: (pv1.pv152[i].xcn8 != "") ? [
+                    {
+                        coding: [
+                            {
+                                code: "PART",
+                                system: pv1.pv152[i].xcn8,
+                                display: "Participation"
+                            }
+                        ]
+                    }
+                ] : ()
+        };
+        if encounterParticipant != {} {
+            participants.push(encounterParticipant);
+        }
+        i += 1;
+    }
+
+    if pv1.pv12 != "" {
+        encounter.'class = {
+            display: pv1.pv12
+        };
+    }
+
+    if pv1.pv14 != "" {
+        encounter.'type = [
+            {
+                text: pv1.pv14
             }
-            i = +1;
-        }
+        ];
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv12 != "" {
-            encounter.'class = {
-                display: pv1.pv12
-            };
-        }
+    if pv1.pv113 != "" {
+        encounter.hospitalization.reAdmission = {
+            text: pv1.pv113
+        };
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv14 != "" {
-            encounter.'type = [
-                {
-                    text: pv1.pv14
-                }
-            ];
-        }
+    if pv1.pv114 != "" {
+        encounter.hospitalization.admitSource = {
+            text: pv1.pv114
+        };
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv113 != "" {
-            encounter.hospitalization.reAdmission = {
-                text: pv1.pv113
-            };
-        }
+    if pv1.pv136 != "" {
+        encounter.hospitalization.dischargeDisposition = {
+            text: pv1.pv136
+        };
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv114 != "" {
-            encounter.hospitalization.admitSource = {
-                text: pv1.pv114
-            };
-        }
-    }
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv136 != "" {
-            encounter.hospitalization.dischargeDisposition = {
-                text: pv1.pv136
-            };
-        }
+    if pv1.pv137.cm_dld1 != "" {
+        encounter.hospitalization.destination = {
+            reference: pv1.pv137.cm_dld1
+        };
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv137.cm_dld1 != "" {
-            encounter.hospitalization.destination = {
-                reference: pv1.pv137.cm_dld1
-            };
-        }
+    if pv1.pv138 != "" {
+        encounter.hospitalization.dietPreference = [
+            {
+                text: pv1.pv138
+            }
+        ];
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv138 != "" {
-            encounter.hospitalization.dietPreference = [
-                {
-                    text: pv1.pv138
-                }
-            ];
-        }
-    }
-
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv139 != "" {
-            encounter.hospitalization.specialCourtesy = [
-                {
-                    text: pv1.pv139
-                }
-            ];
-        }
+    if pv1.pv139 != "" {
+        encounter.hospitalization.specialCourtesy = [
+            {
+                text: pv1.pv139
+            }
+        ];
     }
 
     if pv1.pv15.cx1 != "" {
@@ -693,12 +932,10 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         };
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv110 != "" {
-            encounter.serviceType = {
-                text: pv1.pv110
-            };
-        }
+    if pv1.pv110 != "" {
+        encounter.serviceType = {
+            text: pv1.pv110
+        };
     }
 
     r4:Identifier[] identifier = [];
@@ -732,22 +969,15 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
     }
     encounter.identifier = (identifier.length() > 0) ? identifier : ();
 
-    if pv1 is hl7v23:PV1 {
-        encounter.period.'start = (pv1.pv144.ts1 != "") ? pv1.pv144.ts1 : ();
-    }
-
-    if pv1 is hl7v23:PV1 {
-        encounter.period.end = (pv1.pv145.ts1 != "") ? pv1.pv145.ts1 : ();
-    }
+    encounter.period.'start = (pv1.pv144.ts1 != "") ? hl7DateToFhir(pv1.pv144.ts1) : ();
+    encounter.period.end = (pv1.pv145.ts1 != "") ? hl7DateToFhir(pv1.pv145.ts1) : ();
 
     if encounter.period == {} {
         encounter.period = ();
     }
 
-    if pv1 is hl7v23:PV1 {
-        if pv1.pv145.ts1 != "" {
-            encounter.status = "finished";
-        }
+    if pv1.pv145.ts1 != "" {
+        encounter.status = "finished";
     }
 
     encounter.location = (encounterLocations.length() > 0) ? encounterLocations : ();
@@ -757,10 +987,7 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
 };
 
 public isolated function pv2ToEncounter(Pv2 pv2) returns international401:Encounter {
-    string display = "";
-    if pv2 is hl7v23:PV2 {
-        display = pv2.pv21.pl1;
-    }
+    string display = pv2.pv21.pl1;
     international401:EncounterLocation[] location = [
         {
             location: {
@@ -772,18 +999,13 @@ public isolated function pv2ToEncounter(Pv2 pv2) returns international401:Encoun
     r4:Coding[] coding = [idToCoding(pv2.pv222)];
 
     international401:EncounterParticipant[] participant = []; // TODO: participant need to mapped correctly
-    if pv2.pv213 is hl7v23:XCN {
-        participant = [
-            {
-                id: (<hl7v23:XCN>pv2.pv213).xcn1
-            }
-        ];
-    }
+    participant = [
+        {
+            id: pv2.pv213.xcn1
+        }
+    ];
 
-    string priority = "";
-    if pv2 is hl7v23:PV2 {
-        priority = pv2.pv225;
-    }
+    string priority = pv2.pv225;
 
     international401:Encounter encounter = {
         location: location,
@@ -823,15 +1045,13 @@ public isolated function dg1ToCondition(Dg1 dg1) returns international401:Condit
     international401:Condition condition = {
         subject: {}
     };
-    if dg1 is hl7v23:DG1 {
-        r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(dg1.dg13);
-        if ceToCodeableConceptResult != {} {
-            ceToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();
-            condition.code = ceToCodeableConceptResult;
-        }
-        condition.onsetDateTime = dg1.dg15.ts1 != "" ? hl7DateToFhir(dg1.dg15.ts1) : ();
-        condition.recordedDate = dg1.dg119.ts1 != "" ? hl7DateToFhir(dg1.dg119.ts1) : ();
+    r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(dg1.dg13);
+    if ceToCodeableConceptResult != {} {
+        ceToCodeableConceptResult.text = (dg1.dg14 != "") ? dg1.dg14 : ();
+        condition.code = ceToCodeableConceptResult;
     }
+    condition.onsetDateTime = dg1.dg15.ts1 != "" ? hl7DateToFhir(dg1.dg15.ts1) : ();
+    condition.recordedDate = dg1.dg119.ts1 != "" ? hl7DateToFhir(dg1.dg119.ts1) : ();
     Xcn[] dg116 = dg1.dg116;
     foreach var item in dg116 {
         if item.xcn1 != "" {
@@ -850,22 +1070,20 @@ public isolated function dg1ToEncounter(Dg1 dg1, string? conditionId) returns in
         'class: {},
         status: "finished"
     };
-    if dg1 is hl7v23:DG1 {
-        Is dg16 = dg1.dg16;
-        if conditionId is string {
-            international401:EncounterDiagnosis encounterDiagnosis = {
-                condition: {
-                    reference: string `Condition/${conditionId}`
-                }
-            };
-            if dg16 != "" {
-                encounterDiagnosis.use = {
-                    text: dg16
-                };
+    Is dg16 = dg1.dg16;
+    if conditionId is string {
+        international401:EncounterDiagnosis encounterDiagnosis = {
+            condition: {
+                reference: string `Condition/${conditionId}`
             }
-            encounter.diagnosis = [encounterDiagnosis];
-            encounter.id = generateFhirResourceId();
+        };
+        if dg16 != "" {
+            encounterDiagnosis.use = {
+                text: dg16
+            };
         }
+        encounter.diagnosis = [encounterDiagnosis];
+        encounter.id = generateFhirResourceId();
     }
     return encounter;
 }
@@ -882,13 +1100,11 @@ public isolated function dg1ToEpisodeOfCare(Dg1 dg1, string? conditionId, string
             }
         };
         episodeOfCare.diagnosis = [episodeOfCareDiagnosis];
-        if dg1 is hl7v23:DG1 {
-            Is dg16 = dg1.dg16;
-            if dg16 != "" {
-                episodeOfCareDiagnosis.role = {
-                    text: dg16
-                };
-            }
+        Is dg16 = dg1.dg16;
+        if dg16 != "" {
+            episodeOfCareDiagnosis.role = {
+                text: dg16
+            };
         }
     }
     if patientId is string {
@@ -900,24 +1116,43 @@ public isolated function dg1ToEpisodeOfCare(Dg1 dg1, string? conditionId, string
 }
 
 public isolated function obxToObservation(Obx obx) returns international401:Observation {
+    // IG dependsOn: IF OBX-5.count > 1 AND OBX-2 != "NA" → component observation
+    //               IF OBX-5.count <= 1 OR OBX-2 == "NA"  → single-value observation
+    boolean isComponent = obx.obx5.length() > 1 && obx.obx2 != "NA";
 
+    r4:CodeableConcept code = ceToCodeableConcept(obx.obx3);
     international401:Observation observation = {
-        code: {},
-        valueString: (obx.obx5[0].toString() != "") ? obx.obx5[0].toString() : (),
+        code: code != {} ? code : {},
         dataAbsentReason: idToCodeableConcept(obx.obx11),
         status: "preliminary"
     };
-    if obx is hl7v23:OBX {
-        r4:CodeableConcept code = ceToCodeableConcept(obx.obx3);
-        if code != {} {
-            observation.code = code;
-        }
-        observation.effectiveDateTime = (obx.obx14.ts1 != "") ? tsToDateTime(obx.obx14) : ();
-        r4:CodeableConcept method = ceToCodeableConcept(obx.obx17[0]);
-        if method != {} {
-            observation.method = method;
-        }
+    observation.effectiveDateTime = (obx.obx14.ts1 != "") ? tsToDateTime(obx.obx14) : ();
+    r4:CodeableConcept method = ceToCodeableConcept(obx.obx17[0]);
+    if method != {} {
+        observation.method = method;
     }
+
+    if isComponent {
+        // Multi-value OBX: each OBX-5 repetition becomes a component
+        international401:ObservationComponent[] components = [];
+        foreach var val in obx.obx5 {
+            string valStr = val.toString();
+            if valStr != "" {
+                components.push({
+                    code: observation.code,
+                    valueString: valStr
+                });
+            }
+        }
+        if components.length() > 0 {
+            observation.component = components;
+        }
+    } else {
+        // Single-value OBX
+        string singleVal = obx.obx5[0].toString();
+        observation.valueString = singleVal != "" ? singleVal : ();
+    }
+
     return observation;
 };
 
@@ -928,16 +1163,14 @@ public isolated function obrToDiagnosticReport(Obr obr) returns international401
         category: idToCodeableConceptArray(obr.obr24),
         status: idToDiagnosticReportStatus(obr.obr25)
     };
-    if obr is hl7v23:OBR {
-        r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(obr.obr4);
-        if ceToCodeableConceptResult != {} {
-            diagnosticReport.code = ceToCodeableConceptResult;
-        }
-        diagnosticReport.effectiveDateTime = tsToDateTime(obr.obr7);
-        diagnosticReport.effectivePeriod.'start = tsToDateTime(obr.obr7);
-        diagnosticReport.effectivePeriod.end = tsToDateTime(obr.obr8);
-        diagnosticReport.issued = tsToInstant(obr.obr22);
+    r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(obr.obr4);
+    if ceToCodeableConceptResult != {} {
+        diagnosticReport.code = ceToCodeableConceptResult;
     }
+    diagnosticReport.effectiveDateTime = tsToDateTime(obr.obr7);
+    diagnosticReport.effectivePeriod.'start = tsToDateTime(obr.obr7);
+    diagnosticReport.effectivePeriod.end = tsToDateTime(obr.obr8);
+    diagnosticReport.issued = tsToInstant(obr.obr22);
     r4:Identifier eiToIdentifierResult = eiToIdentifier(obr.obr2);
     if eiToIdentifierResult != {} {
         diagnosticReport.subject.identifier = eiToIdentifierResult;
@@ -945,7 +1178,7 @@ public isolated function obrToDiagnosticReport(Obr obr) returns international401
     return diagnosticReport;
 };
 
-public function obrToServiceRequest(Obr obr) returns international401:ServiceRequest {
+public isolated function obrToServiceRequest(Obr obr) returns international401:ServiceRequest {
     international401:ServiceRequest serviceRequest = {
         intent: nameToServiceRequestIntent(obr.name),
         priority: idToServiceRequestPriority(obr.obr5),
@@ -960,14 +1193,12 @@ public function obrToServiceRequest(Obr obr) returns international401:ServiceReq
     if xcnToReferenceResult != {} {
         serviceRequest.requester = xcnToReferenceResult;
     }
-    if obr is hl7v23:OBR {
-        r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(obr.obr4);
-        if ceToCodeableConceptResult != {} {
-            serviceRequest.code = ceToCodeableConceptResult;
-        }
-        serviceRequest.occurrenceDateTime = tsToDateTime(obr.obr6);
-        serviceRequest.reasonCode = [ceToCodeableConcept(obr.obr31[0])];
+    r4:CodeableConcept ceToCodeableConceptResult = ceToCodeableConcept(obr.obr4);
+    if ceToCodeableConceptResult != {} {
+        serviceRequest.code = ceToCodeableConceptResult;
     }
+    serviceRequest.occurrenceDateTime = tsToDateTime(obr.obr6);
+    serviceRequest.reasonCode = [ceToCodeableConcept(obr.obr31[0])];
     return serviceRequest;
 };
 
@@ -1000,13 +1231,11 @@ public function orcToDiagnosticReport(Orc orc) returns international401:Diagnost
     r4:uri url = "";
     r4:CodeableConcept valueCodeableConcept = {};
 
-    if orc is hl7v23:ORC {
-        r4:uri? ceToUriResult = ceToUri(orc.orc16);
-        if ceToUriResult is r4:uri {
-            url = ceToUriResult;
-        }
-        valueCodeableConcept = ceToCodeableConcept(orc.orc16);
+    r4:uri? ceToUriResult = ceToUri(orc.orc16);
+    if ceToUriResult is r4:uri {
+        url = ceToUriResult;
     }
+    valueCodeableConcept = ceToCodeableConcept(orc.orc16);
 
     // Extensions
     r4:Extension[] ext = [
@@ -1064,9 +1293,996 @@ public isolated function orcToImmunization(Orc orc) returns international401:Imm
         status: "not-done",
         vaccineCode: {}
     };
-    if orc is hl7v23:ORC {
-        immunization.recorded = tsToDateTime(orc.orc9);
-    }
+    immunization.recorded = tsToDateTime(orc.orc9);
 
     return immunization;
+};
+
+// --------------------------------------------------------------------------------------------#
+// NK1 → RelatedPerson
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-nk1-to-relatedperson.html
+// --------------------------------------------------------------------------------------------#
+public isolated function nk1ToRelatedPerson(Nk1 nk1) returns international401:RelatedPerson {
+    international401:RelatedPerson relatedPerson = {
+        patient: {
+            reference: "Patient"
+        }
+    };
+
+    r4:HumanName[] names = [];
+    foreach hl7v23:XPN item in nk1.nk12 {
+        r4:HumanName name = xpnToHumanName(item);
+        if name != {} {
+            names.push(name);
+        }
+    }
+    foreach hl7v23:XPN item in nk1.nk130 {
+        r4:HumanName name = xpnToHumanName(item);
+        if name != {} {
+            names.push(name);
+        }
+    }
+    relatedPerson.name = (names.length() > 0) ? names : ();
+
+    r4:CodeableConcept[] relationship = [];
+    r4:CodeableConcept rel = ceToCodeableConcept(nk1.nk13);
+    if rel != {} {
+        relationship.push(rel);
+    }
+    r4:CodeableConcept contactRole = ceToCodeableConcept(nk1.nk17);
+    if contactRole != {} {
+        relationship.push(contactRole);
+    }
+    relatedPerson.relationship = (relationship.length() > 0) ? relationship : ();
+
+    r4:Address[] addresses = [];
+    foreach hl7v23:XAD item in nk1.nk14 {
+        r4:Address? addr = xadToAddress(item);
+        if addr is r4:Address {
+            addresses.push(addr);
+        }
+    }
+    foreach hl7v23:XAD item in nk1.nk132 {
+        r4:Address? addr = xadToAddress(item);
+        if addr is r4:Address {
+            addresses.push(addr);
+        }
+    }
+    relatedPerson.address = (addresses.length() > 0) ? addresses : ();
+
+    r4:ContactPoint[] telecoms = [];
+    foreach hl7v23:XTN item in nk1.nk15 {
+        r4:ContactPoint? cp = xtnToContactPoint(item);
+        if cp is r4:ContactPoint {
+            telecoms.push(cp);
+        }
+    }
+    foreach hl7v23:XTN item in nk1.nk16 {
+        r4:ContactPoint? cp = xtnToContactPoint(item);
+        if cp is r4:ContactPoint {
+            telecoms.push(cp);
+        }
+    }
+    foreach hl7v23:XTN item in nk1.nk131 {
+        r4:ContactPoint? cp = xtnToContactPoint(item);
+        if cp is r4:ContactPoint {
+            telecoms.push(cp);
+        }
+    }
+    relatedPerson.telecom = (telecoms.length() > 0) ? telecoms : ();
+
+    if nk1.nk18 != "" || nk1.nk19 != "" {
+        relatedPerson.period = {
+            'start: (nk1.nk18 != "") ? hl7DateToFhir(nk1.nk18) : (),
+            end: (nk1.nk19 != "") ? hl7DateToFhir(nk1.nk19) : ()
+        };
+    }
+
+    relatedPerson.gender = pidToAdministrativeSex(nk1.nk115);
+    relatedPerson.birthDate = (nk1.nk116.ts1 != "") ? hl7DateToFhir(nk1.nk116.ts1) : ();
+
+    r4:Identifier[] identifiers = [];
+    r4:Identifier empId = cxToIdentifier(nk1.nk112);
+    if empId != {} {
+        identifiers.push(empId);
+    }
+    foreach hl7v23:CX item in nk1.nk133 {
+        r4:Identifier id = cxToIdentifier(item);
+        if id != {} {
+            identifiers.push(id);
+        }
+    }
+    if nk1.nk137 != "" {
+        identifiers.push({
+            value: nk1.nk137,
+            system: "http://hl7.org/fhir/sid/us-ssn",
+            'type: {coding: [{code: "SS", system: "http://terminology.hl7.org/CodeSystem/v2-0203"}]}
+        });
+    }
+    relatedPerson.identifier = (identifiers.length() > 0) ? identifiers : ();
+
+    r4:CodeableConcept? lang = ceToCodeableConcept(nk1.nk120);
+    if lang is r4:CodeableConcept && lang != {} {
+        relatedPerson.communication = [{language: lang}];
+    }
+
+    return relatedPerson;
+};
+
+// --------------------------------------------------------------------------------------------#
+// NTE → Observation
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-nte-to-observation.html
+// Note: HL7v2.3 NTE segment only has nte3 (comment text); nte5/nte6 fields are v2.6+
+// --------------------------------------------------------------------------------------------#
+public isolated function nteToObservation(Nte nte) returns international401:Observation {
+    r4:Annotation[] notes = [];
+    foreach hl7v23:FT commentLine in nte.nte3 {
+        if commentLine != "" {
+            notes.push({text: commentLine});
+        }
+    }
+    international401:Observation observation = {
+        code: {},
+        status: "preliminary",
+        note: (notes.length() > 0) ? notes : ()
+    };
+    return observation;
+};
+
+// --------------------------------------------------------------------------------------------#
+// ORC → ServiceRequest
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-orc-to-servicerequest.html
+// --------------------------------------------------------------------------------------------#
+public isolated function orcToServiceRequest(Orc orc) returns international401:ServiceRequest {
+    international401:ServiceRequest serviceRequest = {
+        intent: "order",
+        status: "unknown",
+        subject: {}
+    };
+
+    r4:Identifier[] identifiers = [];
+    r4:Identifier id1 = eiToIdentifier(<hl7v23:EI>orc.orc2);
+    if id1 != {} {
+        id1.'type = {coding: [{code: "PLAC", system: "http://terminology.hl7.org/CodeSystem/v2-0203"}]};
+        identifiers.push(id1);
+    }
+    r4:Identifier id2 = eiToIdentifier(orc.orc3);
+    if id2 != {} {
+        id2.'type = {coding: [{code: "FILL", system: "http://terminology.hl7.org/CodeSystem/v2-0203"}]};
+        identifiers.push(id2);
+    }
+    serviceRequest.identifier = (identifiers.length() > 0) ? identifiers : ();
+
+    r4:Reference requester = xcnToReference(orc.orc12[0]);
+    if requester != {} {
+        serviceRequest.requester = requester;
+    }
+
+    r4:CodeableConcept? reasonCode = ceToCodeableConcept(orc.orc16);
+    if reasonCode is r4:CodeableConcept && reasonCode != {} {
+        serviceRequest.reasonCode = [reasonCode];
+    }
+
+    serviceRequest.authoredOn = tsToDateTime(orc.orc9);
+    serviceRequest.occurrenceDateTime = tsToDateTime(orc.orc15);
+
+    return serviceRequest;
+};
+
+// --------------------------------------------------------------------------------------------#
+// PR1 → Procedure
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-pr1-to-procedure.html
+// --------------------------------------------------------------------------------------------#
+public isolated function pr1ToProcedure(Pr1 pr1) returns international401:Procedure {
+    international401:Procedure procedure = {
+        subject: {},
+        status: "unknown"
+    };
+
+    r4:CodeableConcept code = ceToCodeableConcept(pr1.pr13);
+    if code != {} {
+        if pr1.pr14 != "" {
+            code.text = pr1.pr14;
+        }
+        procedure.code = code;
+    }
+
+    procedure.performedDateTime = (pr1.pr15.ts1 != "") ? hl7DateToFhir(pr1.pr15.ts1) : ();
+
+    if pr1.pr16 != "" {
+        procedure.category = {
+            coding: [{code: pr1.pr16}]
+        };
+    }
+
+    international401:ProcedurePerformer[] performers = [];
+    foreach hl7v23:XCN item in pr1.pr18 {
+        r4:Reference ref = xcnToReferenceWithName(item, "Practitioner");
+        if ref != {} {
+            performers.push({
+                actor: ref,
+                'function: {coding: [{code: "88189002", system: "http://snomed.info/sct", display: "Anesthesiologist"}]}
+            });
+        }
+    }
+    foreach hl7v23:XCN item in pr1.pr111 {
+        r4:Reference ref = xcnToReferenceWithName(item, "Practitioner");
+        if ref != {} {
+            performers.push({
+                actor: ref,
+                'function: {coding: [{code: "304292004", system: "http://snomed.info/sct", display: "Surgeon"}]}
+            });
+        }
+    }
+    foreach hl7v23:XCN item in pr1.pr112 {
+        r4:Reference ref = xcnToReferenceWithName(item, "Practitioner");
+        if ref != {} {
+            performers.push({actor: ref});
+        }
+    }
+    procedure.performer = (performers.length() > 0) ? performers : ();
+
+    r4:CodeableConcept reasonCode = ceToCodeableConcept(pr1.pr115);
+    if reasonCode != {} {
+        procedure.reasonCode = [reasonCode];
+    }
+
+    return procedure;
+};
+
+// --------------------------------------------------------------------------------------------#
+// RXA → Immunization
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rxa-to-immunization.html
+// --------------------------------------------------------------------------------------------#
+public isolated function rxaToImmunization(Rxa rxa) returns international401:Immunization {
+    international401:Immunization immunization = {
+        occurrenceDateTime: "",
+        occurrenceString: "",
+        patient: {},
+        status: "completed",
+        vaccineCode: {}
+    };
+
+    immunization.occurrenceDateTime = (rxa.rxa3.ts1 != "") ? hl7DateToFhir(rxa.rxa3.ts1) : ();
+
+    r4:CodeableConcept vaccineCode = ceToCodeableConcept(rxa.rxa5);
+    if vaccineCode != {} {
+        immunization.vaccineCode = vaccineCode;
+    }
+
+    if rxa.rxa6 != "" {
+        decimal|error doseVal = decimal:fromString(rxa.rxa6);
+        if doseVal is decimal {
+            r4:CodeableConcept doseUnits = ceToCodeableConcept(rxa.rxa7);
+            r4:Coding[] doseUnitCodings = doseUnits.coding ?: [];
+            r4:Coding firstDoseUnitCoding = (doseUnitCodings.length() > 0) ? doseUnitCodings[0] : {};
+            immunization.doseQuantity = {
+                value: doseVal,
+                code: (firstDoseUnitCoding.code != "") ? firstDoseUnitCoding.code : (),
+                unit: (firstDoseUnitCoding.display != "") ? firstDoseUnitCoding.display : ()
+            };
+        }
+    }
+
+    r4:Reference performer = xcnToReferenceWithName(rxa.rxa10, "Practitioner");
+    if performer != {} {
+        immunization.performer = [{
+            actor: performer,
+            'function: {coding: [{code: "AP", system: "http://terminology.hl7.org/CodeSystem/v2-0443", display: "Administering Provider"}]}
+        }];
+    }
+
+    if rxa.rxa15.length() > 0 && rxa.rxa15[0] != "" {
+        immunization.lotNumber = rxa.rxa15[0];
+    }
+
+    if rxa.rxa16.length() > 0 && rxa.rxa16[0].ts1 != "" {
+        immunization.expirationDate = hl7DateToFhir(rxa.rxa16[0].ts1);
+    }
+
+    if rxa.rxa17.length() > 0 {
+        r4:CodeableConcept mfr = ceToCodeableConcept(rxa.rxa17[0]);
+        if mfr != {} {
+            r4:Coding[] manufacturerCodings = mfr.coding ?: [];
+            if manufacturerCodings.length() > 0 {
+                r4:Coding manufacturerCoding = manufacturerCodings[0];
+                immunization.manufacturer = {
+                    display: (manufacturerCoding.display != "") ? manufacturerCoding.display :
+                        ((manufacturerCoding.code != "") ? manufacturerCoding.code : ())
+                };
+            }
+        }
+    }
+
+    if rxa.rxa18.length() > 0 {
+        r4:CodeableConcept refusalReason = ceToCodeableConcept(rxa.rxa18[0]);
+        if refusalReason != {} {
+            immunization.statusReason = refusalReason;
+        }
+    }
+
+    if rxa.rxa19.length() > 0 {
+        r4:CodeableConcept[] reasonCodes = [];
+        foreach hl7v23:CE item in rxa.rxa19 {
+            r4:CodeableConcept rc = ceToCodeableConcept(item);
+            if rc != {} {
+                reasonCodes.push(rc);
+            }
+        }
+        immunization.reasonCode = (reasonCodes.length() > 0) ? reasonCodes : ();
+    }
+
+    match rxa.rxa20 {
+        "CP" => { immunization.status = "completed"; }
+        "RE" => { immunization.status = "not-done"; }
+        "PA" => { immunization.status = "completed"; }
+        "NA" => { immunization.status = "not-done"; }
+        _ => { immunization.status = "completed"; }
+    }
+
+    immunization.recorded = tsToDateTime(rxa.rxa22);
+
+    return immunization;
+};
+
+// --------------------------------------------------------------------------------------------#
+// RXO → MedicationRequest
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rxo-to-medicationrequest.html
+// --------------------------------------------------------------------------------------------#
+public isolated function rxoToMedicationRequest(Rxo rxo) returns international401:MedicationRequest {
+    international401:MedicationRequest medicationRequest = {
+        intent: "original-order",
+        status: "unknown",
+        subject: {},
+        medicationCodeableConcept: ceToCodeableConcept(rxo.rxo1)
+    };
+
+    r4:Reference requester = xcnToReferenceWithName(rxo.rxo14, "Practitioner");
+    if requester != {} {
+        medicationRequest.requester = requester;
+    }
+
+    r4:Dosage dosage = {};
+    if rxo.rxo2 != "" || rxo.rxo3 != "" {
+        decimal? lowVal = ();
+        decimal? highVal = ();
+        if rxo.rxo2 != "" {
+            decimal|error lv = decimal:fromString(rxo.rxo2);
+            if lv is decimal {
+                lowVal = lv;
+            }
+        }
+        if rxo.rxo3 != "" {
+            decimal|error hv = decimal:fromString(rxo.rxo3);
+            if hv is decimal {
+                highVal = hv;
+            }
+        }
+        r4:CodeableConcept units = ceToCodeableConcept(rxo.rxo4);
+        string? unitCode = ();
+        string? unitStr = ();
+        if units.coding != () {
+            r4:Coding[]? codings = units.coding;
+            if codings is r4:Coding[] && codings.length() > 0 {
+                unitCode = codings[0].code;
+                unitStr = codings[0].display;
+            }
+        }
+        if lowVal != () || highVal != () {
+            dosage.doseAndRate = [{
+                doseRange: {
+                    low: lowVal != () ? {value: lowVal, code: unitCode, unit: unitStr} : {},
+                    high: highVal != () ? {value: highVal, code: unitCode, unit: unitStr} : {}
+                }
+            }];
+        }
+    }
+    if dosage != {} {
+        medicationRequest.dosageInstruction = [dosage];
+    }
+
+    if rxo.rxo9 != "" {
+        medicationRequest.substitution = {
+            allowedCodeableConcept: {coding: [{code: rxo.rxo9}]}
+        };
+    }
+
+    if rxo.rxo11 != "" || rxo.rxo13 != "" {
+        international401:MedicationRequestDispenseRequest dispenseRequest = {};
+        if rxo.rxo11 != "" {
+            decimal|error qty = decimal:fromString(rxo.rxo11);
+            if qty is decimal {
+                dispenseRequest.quantity = {value: qty};
+            }
+        }
+        if rxo.rxo13 != "" {
+            decimal|error refills = decimal:fromString(rxo.rxo13);
+            if refills is decimal {
+                dispenseRequest.numberOfRepeatsAllowed = <int>refills;
+            }
+        }
+        if dispenseRequest != {} {
+            medicationRequest.dispenseRequest = dispenseRequest;
+        }
+    }
+
+    return medicationRequest;
+};
+
+// --------------------------------------------------------------------------------------------#
+// RXR → Immunization (adds route/site to immunization)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rxr-to-immunization.html
+// --------------------------------------------------------------------------------------------#
+public isolated function rxrToImmunization(Rxr rxr) returns international401:Immunization {
+    international401:Immunization immunization = {
+        occurrenceDateTime: "",
+        occurrenceString: "",
+        patient: {},
+        status: "completed",
+        vaccineCode: {}
+    };
+    r4:CodeableConcept route = ceToCodeableConcept(rxr.rxr1);
+    if route != {} {
+        immunization.route = route;
+    }
+    r4:CodeableConcept site = ceToCodeableConcept(rxr.rxr2);
+    if site != {} {
+        immunization.site = site;
+    }
+    return immunization;
+};
+
+// --------------------------------------------------------------------------------------------#
+// RXR → MedicationRequest (adds route/site/method to dosageInstruction)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rxr-to-medicationrequest.html
+// --------------------------------------------------------------------------------------------#
+public isolated function rxrToMedicationRequest(Rxr rxr) returns international401:MedicationRequest {
+    international401:MedicationRequest medicationRequest = {
+        intent: "order",
+        status: "unknown",
+        subject: {},
+        medicationCodeableConcept: {}
+    };
+    r4:Dosage dosage = {};
+    r4:CodeableConcept route = ceToCodeableConcept(rxr.rxr1);
+    if route != {} {
+        dosage.route = route;
+    }
+    r4:CodeableConcept site = ceToCodeableConcept(rxr.rxr2);
+    if site != {} {
+        dosage.site = site;
+    }
+    r4:CodeableConcept method = ceToCodeableConcept(rxr.rxr4);
+    if method != {} {
+        dosage.method = method;
+    }
+    if dosage != {} {
+        medicationRequest.dosageInstruction = [dosage];
+    }
+    return medicationRequest;
+};
+
+// --------------------------------------------------------------------------------------------#
+// SCH → Appointment
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-sch-to-appointment.html
+// --------------------------------------------------------------------------------------------#
+public isolated function schToAppointment(Sch sch) returns international401:Appointment {
+    international401:AppointmentParticipant defaultParticipant = {
+        status: "needs-action"
+    };
+    international401:Appointment appointment = {
+        status: "proposed",
+        participant: [defaultParticipant]
+    };
+
+    r4:Identifier[] identifiers = [];
+    r4:Identifier id1 = eiToIdentifier(sch.sch1);
+    if id1 != {} {
+        id1.'type = {coding: [{code: "PLAC", system: "http://terminology.hl7.org/CodeSystem/v2-0203"}]};
+        identifiers.push(id1);
+    }
+    r4:Identifier id2 = eiToIdentifier(sch.sch2);
+    if id2 != {} {
+        id2.'type = {coding: [{code: "FILL", system: "http://terminology.hl7.org/CodeSystem/v2-0203"}]};
+        identifiers.push(id2);
+    }
+    appointment.identifier = (identifiers.length() > 0) ? identifiers : ();
+
+    r4:CodeableConcept apptReason = ceToCodeableConcept(sch.sch7);
+    if apptReason != {} {
+        appointment.reasonCode = [apptReason];
+    }
+
+    r4:CodeableConcept apptType = ceToCodeableConcept(sch.sch8);
+    if apptType != {} {
+        appointment.appointmentType = apptType;
+    }
+
+    if sch.sch9 != "" {
+        decimal|error duration = decimal:fromString(sch.sch9);
+        if duration is decimal {
+            appointment.minutesDuration = <int>duration;
+        }
+    }
+
+    international401:AppointmentParticipant[] participants = [];
+    r4:Reference placer = xcnToReferenceWithName(sch.sch12, "Practitioner");
+    if placer != {} {
+        participants.push({
+            actor: placer,
+            'type: [{coding: [{code: "PART", system: "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"}]}],
+            status: "accepted"
+        });
+    }
+    r4:Reference filler = xcnToReferenceWithName(sch.sch16, "Practitioner");
+    if filler != {} {
+        participants.push({
+            actor: filler,
+            'type: [{coding: [{code: "PART", system: "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"}]}],
+            status: "accepted"
+        });
+    }
+    r4:Reference enteredBy = xcnToReferenceWithName(sch.sch20, "Practitioner");
+    if enteredBy != {} {
+        participants.push({
+            actor: enteredBy,
+            'type: [{coding: [{code: "ENT", system: "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"}]}],
+            status: "accepted"
+        });
+    }
+    appointment.participant = (participants.length() > 0) ? participants : [defaultParticipant];
+
+    if sch.sch25.ce1 != "" {
+        match sch.sch25.ce1 {
+            "Pending" => { appointment.status = "pending"; }
+            "Complete" => { appointment.status = "fulfilled"; }
+            "Cancelled" => { appointment.status = "cancelled"; }
+            "Discontinued" => { appointment.status = "cancelled"; }
+            _ => { appointment.status = "proposed"; }
+        }
+    }
+
+    return appointment;
+};
+
+// --------------------------------------------------------------------------------------------#
+// TXA → DocumentReference
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-txa-to-documentreference.html
+// --------------------------------------------------------------------------------------------#
+public isolated function txaToDocumentReference(Txa txa) returns international401:DocumentReference {
+    international401:DocumentReference documentReference = {
+        status: "current",
+        content: [{attachment: {}}]
+    };
+
+    if txa.txa2 != "" {
+        documentReference.'type = {coding: [{code: txa.txa2}]};
+    }
+
+    if txa.txa3 != "" {
+        documentReference.content = [{
+            attachment: {
+                contentType: txa.txa3
+            }
+        }];
+    }
+
+    documentReference.date = (txa.txa6.ts1 != "") ? tsToInstant(txa.txa6) : ();
+
+    r4:Reference[] authors = [];
+    r4:Reference author = xcnToReferenceWithName(txa.txa9, "Practitioner");
+    if author != {} {
+        authors.push(author);
+    }
+    documentReference.author = (authors.length() > 0) ? authors : ();
+
+    if txa.txa10.length() > 0 {
+        r4:Reference auth = xcnToReferenceWithName(txa.txa10[0], "Practitioner");
+        if auth != {} {
+            documentReference.authenticator = auth;
+        }
+    }
+
+    r4:Identifier masterId = eiToIdentifier(txa.txa12);
+    if masterId != {} {
+        documentReference.masterIdentifier = masterId;
+    }
+
+    if txa.txa16 != "" {
+        documentReference.identifier = [{value: txa.txa16}];
+    }
+
+    if txa.txa17 != "" {
+        match txa.txa17 {
+            "AU" => { documentReference.docStatus = "final"; }
+            "DI" => { documentReference.docStatus = "preliminary"; }
+            "DO" => { documentReference.docStatus = "preliminary"; }
+            "IN" => { documentReference.docStatus = "preliminary"; }
+            "IP" => { documentReference.docStatus = "preliminary"; }
+            "LA" => { documentReference.docStatus = "amended"; }
+            "OB" => { documentReference.docStatus = "entered-in-error"; }
+            "PA" => { documentReference.docStatus = "preliminary"; }
+            "PR" => { documentReference.docStatus = "preliminary"; }
+            "PY" => { documentReference.docStatus = "amended"; }
+            "UN" => { documentReference.docStatus = "preliminary"; }
+            _ => {}
+        }
+    }
+
+    if txa.txa19 != "" {
+        match txa.txa19 {
+            "AV" => { documentReference.status = "current"; }
+            "CA" => { documentReference.status = "entered-in-error"; }
+            "OB" => { documentReference.status = "superseded"; }
+            "UN" => { documentReference.status = "current"; }
+            _ => {}
+        }
+    }
+
+    if txa.txa21 != "" {
+        documentReference.description = txa.txa21;
+    }
+
+    return documentReference;
+};
+
+// --------------------------------------------------------------------------------------------#
+// TXA-8 → Provenance (edit history)
+// IG dependsOn: IF TXA-8 IS VALUED (each edit date creates a separate Provenance instance)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-txa-to-provenance.html
+// --------------------------------------------------------------------------------------------#
+public isolated function txaToProvenance(Txa txa) returns international401:Provenance {
+    international401:Provenance provenance = {
+        recorded: "",
+        target: [{}],
+        agent: [{'type: {}, who: {}}]
+    };
+    // TXA-8 is TS[] (edit date/time repetitions); use first valued entry
+    foreach var ts in txa.txa8 {
+        if ts.ts1 != "" {
+            r4:instant? recorded = tsToInstant(ts);
+            if recorded != () {
+                provenance.recorded = recorded;
+            }
+            break;
+        }
+    }
+    // TXA-9 (originator) → agent.who
+    r4:Reference originator = xcnToReferenceWithName(txa.txa9, "Practitioner");
+    if originator != {} {
+        provenance.agent = [{'type: {coding: [{code: "author"}]}, who: originator}];
+    }
+    return provenance;
+};
+
+// MSH[Provenance-Operator] mapping
+// Used when EVN-5 (Operator ID) is NOT valued but MSH-4 (Sending Facility) IS valued.
+// Per IG condition: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED)
+// Note: MSH-22 (Sending Responsible Organization) does not exist in HL7v2.3 (added in v2.5),
+// so only MSH-4 (Sending Facility) is checked in this implementation.
+// The sending facility is mapped to Provenance.agent as the "assembler" operator.
+public isolated function mshToProvenanceOperator(Msh msh) returns international401:Provenance {
+    string facilityName = msh.msh4.hd1;
+    international401:ProvenanceAgent agent = {
+        'type: {
+            coding: [{
+                system: "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                code: "assembler",
+                display: "Assembler"
+            }]
+        },
+        who: {display: facilityName != "" ? facilityName : ()}
+    };
+    return {
+        recorded: msh.msh7.ts1 != "" ? hl7DateToFhir(msh.msh7.ts1) : "1970-01-01T00:00:00Z",
+        target: [{
+            display: "Sending facility"
+        }],
+        agent: [agent]
+    };
+};
+// ROL → RelatedPerson
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-rol-to-relatedperson.html
+// --------------------------------------------------------------------------------------------#
+public isolated function rolToRelatedPerson(Rol rol) returns international401:RelatedPerson {
+    international401:RelatedPerson relatedPerson = {
+        patient: {}
+    };
+
+    r4:Identifier roleId = eiToIdentifier(rol.rol1);
+    if roleId != {} {
+        relatedPerson.identifier = [roleId];
+    }
+
+    r4:CodeableConcept relationship = ceToCodeableConcept(rol.rol3);
+    if relationship != {} {
+        relatedPerson.relationship = [relationship];
+    }
+
+    r4:HumanName personName = xcnToHumanName(rol.rol4);
+    if personName != {} {
+        relatedPerson.name = [personName];
+    }
+
+    if rol.rol5.ts1 != "" || rol.rol6.ts1 != "" {
+        relatedPerson.period = {
+            'start: (rol.rol5.ts1 != "") ? hl7DateToFhir(rol.rol5.ts1) : (),
+            end: (rol.rol6.ts1 != "") ? hl7DateToFhir(rol.rol6.ts1) : ()
+        };
+    }
+
+    return relatedPerson;
+};
+
+// --------------------------------------------------------------------------------------------#
+// MSA → MessageHeader (response)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-msa-to-messageheader.html
+// --------------------------------------------------------------------------------------------#
+public isolated function msaToMessageHeader(Msa msa) returns international401:MessageHeader {
+    international401:MessageHeaderResponseCode responseCode = "ok";
+    match msa.msa1 {
+        "AA" => { responseCode = "ok"; }
+        "AE" => { responseCode = "fatal-error"; }
+        "AR" => { responseCode = "fatal-error"; }
+        "CA" => { responseCode = "ok"; }
+        "CE" => { responseCode = "transient-error"; }
+        "CR" => { responseCode = "transient-error"; }
+        _ => { responseCode = "ok"; }
+    }
+    string eventUri = string `urn:hl7v2:msa:${(msa.msa1 != "") ? msa.msa1 : "UNSPECIFIED"}`;
+    string sourceEndpoint = (msa.msa2 != "") ? string `urn:hl7v2:message-control-id:${msa.msa2}` : "urn:source:unknown";
+    international401:MessageHeader messageHeader = {
+        'source: {endpoint: sourceEndpoint},
+        eventUri: eventUri,
+        response: {
+            identifier: msa.msa2,
+            code: responseCode
+        }
+    };
+    return messageHeader;
+};
+
+// --------------------------------------------------------------------------------------------#
+// MRG → Account
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-mrg-to-account.html
+// --------------------------------------------------------------------------------------------#
+public isolated function mrgToAccount(Mrg mrg) returns international401:Account {
+    international401:Account account = {
+        status: "unknown"
+    };
+    r4:Identifier id = cxToIdentifier(mrg.mrg3);
+    if id != {} {
+        account.identifier = [id];
+    }
+    return account;
+};
+
+// --------------------------------------------------------------------------------------------#
+// IN1 → Coverage
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-in1-to-coverage.html
+// --------------------------------------------------------------------------------------------#
+public isolated function in1ToCoverage(In1 in1) returns international401:Coverage {
+    international401:Coverage coverage = {
+        status: "active",
+        beneficiary: {display: "Unknown Beneficiary"},
+        payor: [{display: "Unknown Payor"}]
+    };
+
+    if in1.hasKey("in4") {
+        anydata in14Value = in1["in4"];
+        if in14Value is hl7v23:XON && in14Value.xon1 != "" {
+            coverage.beneficiary = {
+                display: in14Value.xon1
+            };
+        }
+    }
+
+    r4:Identifier planId = (in1.in12.ce1 != "") ? {value: in1.in12.ce1} : {};
+    if planId != {} {
+        coverage.identifier = [planId];
+    }
+
+    r4:Reference[] payors = [];
+    foreach hl7v23:XON item in in1.in14 {
+        if item.xon1 != "" {
+            payors.push({display: item.xon1});
+        }
+    }
+    if payors.length() > 0 {
+        coverage.payor = payors;
+    }
+
+    if in1.in112 != "" || in1.in113 != "" {
+        coverage.period = {
+            'start: (in1.in112 != "") ? hl7DateToFhir(in1.in112) : (),
+            end: (in1.in113 != "") ? hl7DateToFhir(in1.in113) : ()
+        };
+    }
+
+    if in1.in115 != "" {
+        coverage.'type = {coding: [{code: in1.in115}]};
+    }
+
+    if in1.in117 != "" {
+        coverage.relationship = {coding: [{code: in1.in117}]};
+    }
+
+    return coverage;
+};
+
+// --------------------------------------------------------------------------------------------#
+// IN3 → CareTeam
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-in3-to-careteam.html
+// --------------------------------------------------------------------------------------------#
+public isolated function in3ToCareTeam(In3 in3) returns international401:CareTeam {
+    international401:CareTeam careTeam = {};
+    if in3.in321 != "" {
+        careTeam.participant = [{
+            role: [{
+                coding: [{
+                    code: "116154003",
+                    system: "http://snomed.info/sct",
+                    display: "Case Manager"
+                }],
+                text: in3.in321
+            }]
+        }];
+    }
+    return careTeam;
+};
+
+// --------------------------------------------------------------------------------------------#
+// PV1 → Coverage
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-pv1-to-coverage.html
+// --------------------------------------------------------------------------------------------#
+public isolated function pv1ToCoverage(Pv1 pv1) returns international401:Coverage {
+    international401:Coverage coverage = {
+        status: "active",
+        beneficiary: {reference: "Patient"},
+        payor: [{display: "Unknown Payor"}]
+    };
+    if pv1.pv120.length() > 0 && pv1.pv120[0].fc1 != "" {
+        coverage.'type = {coding: [{code: pv1.pv120[0].fc1}]};
+    }
+    return coverage;
+};
+
+// --------------------------------------------------------------------------------------------#
+// AIG → Appointment (adds resource participant)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-aig-to-appointment.html
+// --------------------------------------------------------------------------------------------#
+public isolated function aigToAppointment(Aig aig) returns international401:Appointment {
+    international401:AppointmentParticipant participant = {
+        status: "needs-action"
+    };
+
+    r4:CodeableConcept resourceId = ceToCodeableConcept(aig.aig3);
+    if resourceId != {} {
+        string actorDisplay = "";
+        r4:Coding[] codings = resourceId.coding ?: [];
+        if codings.length() > 0 {
+            string? display = codings[0].display;
+            r4:code? code = codings[0].code;
+            if display is string && display != "" {
+                actorDisplay = display;
+            } else if code is string && code != "" {
+                actorDisplay = code;
+            }
+        }
+        if actorDisplay != "" {
+            participant.actor = {display: actorDisplay};
+        }
+    }
+
+    r4:CodeableConcept resourceType = ceToCodeableConcept(aig.aig4);
+    if resourceType != {} {
+        participant.'type = [resourceType];
+    }
+
+    if aig.aig8.ts1 != "" {
+        participant.period = {
+            'start: hl7DateToFhir(aig.aig8.ts1)
+        };
+    }
+
+    return {
+        status: "proposed",
+        participant: [participant]
+    };
+};
+
+// --------------------------------------------------------------------------------------------#
+// AIL → Appointment (adds location participant)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-ail-to-appointment.html
+// --------------------------------------------------------------------------------------------#
+public isolated function ailToAppointment(Ail ail) returns international401:Appointment {
+    international401:AppointmentParticipant participant = {
+        status: "needs-action"
+    };
+
+    if ail.ail3.pl1 != "" {
+        participant.actor = {display: ail.ail3.pl1};
+    }
+
+    if ail.ail6.ts1 != "" {
+        participant.period = {
+            'start: hl7DateToFhir(ail.ail6.ts1)
+        };
+    }
+
+    return {
+        status: "proposed",
+        participant: [participant]
+    };
+};
+
+// --------------------------------------------------------------------------------------------#
+// AIP → Appointment (adds personnel participant)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-aip-to-appointment.html
+// --------------------------------------------------------------------------------------------#
+public isolated function aipToAppointment(Aip aip) returns international401:Appointment {
+    international401:AppointmentParticipant participant = {
+        status: "needs-action"
+    };
+
+    r4:Reference actor = xcnToReferenceWithName(aip.aip3, "Practitioner");
+    if actor != {} {
+        participant.actor = actor;
+    }
+
+    r4:CodeableConcept resourceType = ceToCodeableConcept(aip.aip4);
+    if resourceType != {} {
+        participant.'type = [resourceType];
+    }
+
+    if aip.aip6.ts1 != "" {
+        participant.period = {
+            'start: hl7DateToFhir(aip.aip6.ts1)
+        };
+    }
+
+    if aip.aip12.ce1 != "" {
+        match aip.aip12.ce1 {
+            "Accepted" => { participant.status = "accepted"; }
+            "Declined" => { participant.status = "declined"; }
+            "Tentative" => { participant.status = "tentative"; }
+            _ => { participant.status = "needs-action"; }
+        }
+    }
+
+    return {
+        status: "proposed",
+        participant: [participant]
+    };
+};
+
+// --------------------------------------------------------------------------------------------#
+// AIS → Appointment (adds service type)
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-segment-ais-to-appointment.html
+// --------------------------------------------------------------------------------------------#
+public isolated function aisToAppointment(Ais ais) returns international401:Appointment {
+    international401:AppointmentParticipant defaultParticipant = {
+        status: "needs-action"
+    };
+    international401:Appointment appointment = {
+        status: "proposed",
+        participant: [defaultParticipant]
+    };
+
+    r4:CodeableConcept serviceType = ceToCodeableConcept(ais.ais3);
+    if serviceType != {} {
+        appointment.serviceType = [serviceType];
+    }
+
+    if ais.ais10.ce1 != "" {
+        match ais.ais10.ce1 {
+            "Pending" => { appointment.status = "pending"; }
+            "Complete" => { appointment.status = "fulfilled"; }
+            "Cancelled" => { appointment.status = "cancelled"; }
+            "Discontinued" => { appointment.status = "cancelled"; }
+            _ => { appointment.status = "proposed"; }
+        }
+    }
+
+    return appointment;
 };
