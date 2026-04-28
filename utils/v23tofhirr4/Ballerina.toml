@@ -4,7 +4,9 @@ name = "health.hl7v23.utils.v2tofhirr4"
 version = "1.0.1"
 distribution = "2201.12.10"
 authors = ["Ballerina"]
-keywords = ["Healthcare", "HL7", "FHIR"]
+keywords = ["Healthcare", "HL7", "V2", "FHIR", "HL7v2.3", "Name/HL7 V2.3 to FHIR R4", "Vendor/Other", "Area/Healthcare", "Type/Library"]
+icon = "icon.png"
+readme = "README.md"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
 
 [build-options]
