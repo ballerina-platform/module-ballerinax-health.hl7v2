@@ -8,7 +8,7 @@ readme = "README.md"
 name = "health.hl7v2.utils.v2tofhirr4"
 org = "ballerinax"
 repository = "https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
-version = "4.0.5"
+version = "4.0.6"
 
 #[build-options]
 #optimizeDependencyCompilation = true
