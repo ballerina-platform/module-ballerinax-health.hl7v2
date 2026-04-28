@@ -3,7 +3,9 @@ org = "ballerinax"
 name = "health.hl7v2"
 version = "3.0.8"
 authors=["Ballerina"]
-keywords=["Healthcare", "HL7"]
+keywords = ["Healthcare", "HL7", "V2", "Name/HL7 V2 Base", "Vendor/Other", "Area/Healthcare", "Type/Library"]
+icon = "icon.png"
+readme = "README.md"
 distribution = "2201.12.3"
 repository="https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"
 
