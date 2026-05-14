@@ -18,6 +18,7 @@ on:
         - ALL
         - BASE
         - COMMONS
+        - HL7V22
         - HL7V23
         - HL7V24
         - HL7V25
@@ -57,6 +58,15 @@ jobs:
         secrets: inherit
         with:
             working_dir: ./commons
+            bal_central_environment: ${{ inputs.bal_central_environment }}
+            ballerina_version: ${{ inputs.ballerina_version }}
+
+    build_cd-hl7v22:
+        if: github.event.inputs.package_name == 'HL7V22' || github.event.inputs.package_name == 'ALL'
+        uses: ./.github/workflows/build-executor.yml
+        secrets: inherit
+        with:
+            working_dir: ./hl7v22
             bal_central_environment: ${{ inputs.bal_central_environment }}
             ballerina_version: ${{ inputs.ballerina_version }}
 

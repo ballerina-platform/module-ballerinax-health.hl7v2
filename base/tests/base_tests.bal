@@ -90,19 +90,19 @@ function testHL7MsgParse() {
         //parse the hl7 message as a string.
         Message|HL7Error message = parse(msg);
         if message is HL7Error {
-            test:assertEquals(message.detail().message, "Error occurred while parsing HL7 message string.");
+            test:assertEquals(message.detail().message, "Invalid segment: MSH");
         }
 
         //parse the hl7 message as a byte stream.
         message = parse(string:toBytes(msg));
         if message is HL7Error {
-            test:assertEquals(message.detail().message, "Error occurred while parsing HL7 message string.");
+            test:assertEquals(message.detail().message, "Invalid segment: MSH");
         }
 
         //parse invalid hl7 message
         message = parse(invalidMsg);
         if message is HL7Error {
-            test:assertEquals(message.detail().message, "Error occurred while parsing HL7 message string.");
+            test:assertEquals(message.detail().message, "Package not found for HL7 version : ");
         }
     }
 }

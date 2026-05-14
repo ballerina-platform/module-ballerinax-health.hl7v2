@@ -55,8 +55,10 @@ public isolated function parse(string|byte[] message) returns Message|HL7Error {
     Message?|HL7Error parserHl7MsgResult = parseHl7Msg(msgStr, <string>hl7Version);
     if parserHl7MsgResult is Message {
         return parserHl7MsgResult;
+    } else if parserHl7MsgResult is HL7Error {
+        return parserHl7MsgResult;
     } else {
-        HL7Error err = error(HL7_V2_PARSER_ERROR, message = "Error occurred while parsing HL7 message string.");
+        HL7Error err = error(HL7_V2_PARSER_ERROR, message = "Unknown Error occurred while parsing HL7 message string.");
         return err;
     }
 }
@@ -106,7 +108,7 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                             map<anydata> msh9Fields = <CompositeType>segment.get("msh9");
                             if messageResult is () {
                                 string hl7MessageType = "";
-                                if hl7Version == "2.3" {
+                                if hl7Version == "2.3" || hl7Version == "2.2" || hl7Version == "2.1" {
                                     hl7MessageType = msh9Fields["cm_msg1"].toString();
                                     string cmMsg2 = msh9Fields["cm_msg2"].toString();
                                     if cmMsg2 != "" {
