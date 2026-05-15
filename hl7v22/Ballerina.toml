@@ -1,0 +1,10 @@
+[package]
+org = "ballerinax"
+name = "health.hl7v22"
+version = "1.0.0"
+authors = ["Ballerina"]
+keywords = ["Healthcare", "HL7", "V2", "HL7v2.2", "Name/HL7 V2.2", "Vendor/Other", "Area/Healthcare", "Type/Library"]
+icon = "icon.png"
+readme = "README.md"
+distribution = "2201.12.3"
+repository="https://github.com/ballerina-platform/module-ballerinax-health.hl7v2"

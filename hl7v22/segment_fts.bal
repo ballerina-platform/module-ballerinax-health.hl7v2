@@ -1,0 +1,51 @@
+// Copyright (c) 2026, WSO2 LLC. (http://www.wso2.com).
+
+// WSO2 LLC. licenses this file to you under the Apache License,
+// Version 2.0 (the "License"); you may not use this file except
+// in compliance with the License.
+// You may obtain a copy of the License at
+
+// http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
+import ballerinax/health.hl7v2;
+
+# FTS segment. File Trailer The FTS segment defines the end of a file
+# + name - Segment Name
+# + fts1 - File Batch Count
+# + fts2 - File Trailer Comment
+
+@hl7v2:SegmentDefinition {
+    name: "FTS",
+    required: false,
+    maxReps: 0,
+    fields: {
+        "fts1": {
+            required: false,
+            length: 10,
+            maxReps: 1,
+            dataType: NM
+        },
+        "fts2": {
+            required: false,
+            length: 80,
+            maxReps: 1,
+            dataType: ST
+        }
+
+    }
+}
+public type FTS record {
+    *hl7v2:Segment;
+    string name = FTS_SEGMENT_NAME;
+    NM fts1 = "";
+    ST fts2 = "";
+};
+
+public const FTS_SEGMENT_NAME = "FTS";

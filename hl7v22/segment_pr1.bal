@@ -1,0 +1,147 @@
+// Copyright (c) 2026, WSO2 LLC. (http://www.wso2.com).
+
+// WSO2 LLC. licenses this file to you under the Apache License,
+// Version 2.0 (the "License"); you may not use this file except
+// in compliance with the License.
+// You may obtain a copy of the License at
+
+// http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
+import ballerinax/health.hl7v2;
+
+# PR1 segment. Procedures The PR1 segment contains information relative to various types of procedures that can be performed on a patient. For example: Surgical, Nuclear Medicine, X-Ray with contrast, etc
+# + name - Segment Name
+# + pr11 - Set Id - Procedure
+# + pr12 - Procedure Coding Method
+# + pr13 - Procedure Code
+# + pr14 - Procedure Description
+# + pr15 - Procedure Date / Time
+# + pr16 - Procedure Type
+# + pr17 - Procedure Minutes
+# + pr18 - Anesthesiologist
+# + pr19 - Anesthesia Code
+# + pr110 - Anesthesia Minutes
+# + pr111 - Surgeon
+# + pr112 - Procedure Practitioner
+# + pr113 - Consent Code
+# + pr114 - Procedure Priority
+
+@hl7v2:SegmentDefinition {
+    name: "PR1",
+    required: false,
+    maxReps: 0,
+    fields: {
+        "pr11": {
+            required: true,
+            length: 4,
+            maxReps: 1,
+            dataType: SI
+        },
+        "pr12": {
+            required: true,
+            length: 2,
+            maxReps: -1,
+            dataType: ID
+        },
+        "pr13": {
+            required: true,
+            length: 10,
+            maxReps: -1,
+            dataType: ID
+        },
+        "pr14": {
+            required: false,
+            length: 40,
+            maxReps: -1,
+            dataType: ST
+        },
+        "pr15": {
+            required: true,
+            length: 26,
+            maxReps: 1,
+            dataType: TS
+        },
+        "pr16": {
+            required: true,
+            length: 2,
+            maxReps: 1,
+            dataType: ID
+        },
+        "pr17": {
+            required: false,
+            length: 4,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pr18": {
+            required: false,
+            length: 60,
+            maxReps: 1,
+            dataType: CN_PERSON
+        },
+        "pr19": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: ID
+        },
+        "pr110": {
+            required: false,
+            length: 4,
+            maxReps: 1,
+            dataType: NM
+        },
+        "pr111": {
+            required: false,
+            length: 60,
+            maxReps: 1,
+            dataType: CN_PERSON
+        },
+        "pr112": {
+            required: false,
+            length: 60,
+            maxReps: -1,
+            dataType: CM_PRACTITIONER
+        },
+        "pr113": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: ID
+        },
+        "pr114": {
+            required: false,
+            length: 2,
+            maxReps: 1,
+            dataType: NM
+        }
+
+    }
+}
+public type PR1 record {
+    *hl7v2:Segment;
+    string name = PR1_SEGMENT_NAME;
+    SI pr11 = "";
+    ID[] pr12 = [""];
+    ID[] pr13 = [""];
+    ST[] pr14 = [""];
+    TS pr15 = {};
+    ID pr16 = "";
+    NM pr17 = "";
+    CN_PERSON pr18 = {};
+    ID pr19 = "";
+    NM pr110 = "";
+    CN_PERSON pr111 = {};
+    CM_PRACTITIONER[] pr112 = [{}];
+    ID pr113 = "";
+    NM pr114 = "";
+};
+
+public const PR1_SEGMENT_NAME = "PR1";
