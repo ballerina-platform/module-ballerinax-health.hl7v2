@@ -264,5 +264,5 @@ public type RDE_O01 record {
     MSH msh = {};
     NTE[] nte = [];
     RDE_O01_PATIENT patient?;
-    RDE_O01_ORDER[] 'order = [{orc: {}}];
+    RDE_O01_ORDER[] 'order = [{orc: {}, rxe: {}, rxr: [{}]}];
 };

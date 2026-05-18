@@ -295,6 +295,6 @@ public type ADR_A19 record {
     MSA msa = {};
     ERR err?;
     QRD qrd = {};
-    ADR_A19_QUERY_RESPONSE[] query_response = [{pid: {}}];
+    ADR_A19_QUERY_RESPONSE[] query_response = [{pid: {}, pv1: {}}];
     DSC dsc?;
 };

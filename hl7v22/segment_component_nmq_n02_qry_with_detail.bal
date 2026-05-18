@@ -26,7 +26,7 @@ public type NMQ_N02_QRY_WITH_DETAIL record {
     boolean isRequired = false;
     QRD qrd = {};
     QRF qrf?;
-    NMQ_N02_CLOCK_AND_STATISTICS[] clock_and_statistics = [{}];
+    NMQ_N02_CLOCK_AND_STATISTICS[] nmq_n02_clock_and_statistics = [{}];
 };
 
 public const NMQ_N02_QRY_WITH_DETAIL_SEGMENT_COMPONENT = "NMQ_N02_QRY_WITH_DETAIL";

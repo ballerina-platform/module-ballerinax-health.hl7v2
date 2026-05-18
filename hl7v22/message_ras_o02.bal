@@ -300,5 +300,5 @@ public type RAS_O02 record {
     MSH msh = {};
     NTE[] nte = [];
     RAS_O02_PATIENT patient?;
-    RAS_O02_ORDER[] 'order = [{orc: {}}];
+    RAS_O02_ORDER[] 'order = [{orc: {}, rxa: [{}], rxr: {}}];
 };

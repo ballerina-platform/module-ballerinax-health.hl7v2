@@ -27,7 +27,7 @@ public type ORU_R01_ORDER_OBSERVATION record {
     ORC orc?;
     OBR obr = {};
     NTE[] nte = [];
-    ORU_R01_OBSERVATION[] observation = [{}];
+    ORU_R01_OBSERVATION[] oru_r01_observation = [{}];
 };
 
 public const ORU_R01_ORDER_OBSERVATION_SEGMENT_COMPONENT = "ORU_R01_ORDER_OBSERVATION";

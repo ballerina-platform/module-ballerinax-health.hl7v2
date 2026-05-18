@@ -207,6 +207,6 @@ public type RAR_RAR record {
     MSH msh = {};
     MSA msa = {};
     ERR err?;
-    RAR_RAR_DEFINITION[] definition = [{qrd: {}}];
+    RAR_RAR_DEFINITION[] definition = [{qrd: {}, rar_rar_order: [{orc: {}, rxa: [{}]}]}];
     DSC dsc?;
 };

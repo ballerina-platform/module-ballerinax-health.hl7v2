@@ -28,7 +28,7 @@ public type ORF_R04_QUERY_RESPONSE record {
     QRF qrf?;
     PID pid?;
     NTE[] nte = [];
-    ORF_R04_ORDER[] 'order = [{obr: {}}];
+    ORF_R04_ORDER[] orf_r04_order = [{obr: {}}];
 };
 
 public const ORF_R04_QUERY_RESPONSE_SEGMENT_COMPONENT = "ORF_R04_QUERY_RESPONSE";

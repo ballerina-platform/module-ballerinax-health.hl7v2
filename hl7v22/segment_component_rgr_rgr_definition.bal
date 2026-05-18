@@ -26,8 +26,8 @@ public type RGR_RGR_DEFINITION record {
     boolean isRequired = true;
     QRD qrd = {};
     QRF qrf?;
-    RGR_RGR_PATIENT patient = {pid: {}};
-    RGR_RGR_ORDER[] 'order = [{orc: {}}];
+    RGR_RGR_PATIENT rgr_rgr_patient?;
+    RGR_RGR_ORDER[] rgr_rgr_order = [{orc: {}, rxg: [{}], rxr: [{}]}];
 };
 
 public const RGR_RGR_DEFINITION_SEGMENT_COMPONENT = "RGR_RGR_DEFINITION";

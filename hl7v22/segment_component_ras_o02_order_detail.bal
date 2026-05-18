@@ -25,7 +25,7 @@ public type RAS_O02_ORDER_DETAIL record {
     string name = RAS_O02_ORDER_DETAIL_SEGMENT_COMPONENT;
     boolean isRequired = false;
     RXO rxo = {};
-    RAS_O02_ORDER_DETAIL_SUPPLEMENT order_detail_supplement = {nte: [{}]};
+    RAS_O02_ORDER_DETAIL_SUPPLEMENT ras_o02_order_detail_supplement?;
 };
 
 public const RAS_O02_ORDER_DETAIL_SEGMENT_COMPONENT = "RAS_O02_ORDER_DETAIL";

@@ -224,6 +224,6 @@ public type RDR_RDR record {
     MSH msh = {};
     MSA msa = {};
     ERR err?;
-    RDR_RDR_DEFINITION[] definition = [{qrd: {}}];
+    RDR_RDR_DEFINITION[] definition = [{qrd: {}, rdr_rdr_order: [{orc: {}, rdr_rdr_dispense: [{rxd: {}, rxr: [{}]}]}]}];
     DSC dsc?;
 };

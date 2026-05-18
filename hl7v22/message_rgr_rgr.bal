@@ -218,6 +218,6 @@ public type RGR_RGR record {
     MSH msh = {};
     MSA msa = {};
     ERR err?;
-    RGR_RGR_DEFINITION[] definition = [{qrd: {}}];
+    RGR_RGR_DEFINITION[] definition = [{qrd: {}, rgr_rgr_order: [{orc: {}, rxg: [{}], rxr: [{}]}]}];
     DSC dsc?;
 };

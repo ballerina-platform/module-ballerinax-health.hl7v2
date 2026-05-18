@@ -25,12 +25,12 @@ public type RDS_O01_ORDER record {
     string name = RDS_O01_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc = {};
-    RDS_O01_ORDER_DETAIL order_detail = {rxo: {}};
-    RDS_O01_ENCODING encoding = {rxe: {}};
+    RDS_O01_ORDER_DETAIL rds_o01_order_detail?;
+    RDS_O01_ENCODING rds_o01_encoding?;
     RXD rxd = {};
     RXR[] rxr = [{}];
     RXE[] rxe = [];
-    RDS_O01_OBSERVATION[] observation = [{}];
+    RDS_O01_OBSERVATION[] rds_o01_observation = [{}];
 };
 
 public const RDS_O01_ORDER_SEGMENT_COMPONENT = "RDS_O01_ORDER";

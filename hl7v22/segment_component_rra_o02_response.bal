@@ -24,8 +24,8 @@ public type RRA_O02_RESPONSE record {
     *hl7v2:SegmentComponent;
     string name = RRA_O02_RESPONSE_SEGMENT_COMPONENT;
     boolean isRequired = false;
-    RRA_O02_PATIENT patient = {pid: {}};
-    RRA_O02_ORDER[] 'order = [{orc: {}}];
+    RRA_O02_PATIENT rra_o02_patient?;
+    RRA_O02_ORDER[] rra_o02_order = [{orc: {}}];
 };
 
 public const RRA_O02_RESPONSE_SEGMENT_COMPONENT = "RRA_O02_RESPONSE";

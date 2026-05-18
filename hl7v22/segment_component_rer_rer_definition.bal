@@ -26,8 +26,8 @@ public type RER_RER_DEFINITION record {
     boolean isRequired = true;
     QRD qrd = {};
     QRF qrf?;
-    RER_RER_PATIENT patient = {pid: {}};
-    RER_RER_ORDER[] 'order = [{orc: {}}];
+    RER_RER_PATIENT rer_rer_patient?;
+    RER_RER_ORDER[] rer_rer_order = [{orc: {}, rxe: {}, rxr: [{}]}];
 };
 
 public const RER_RER_DEFINITION_SEGMENT_COMPONENT = "RER_RER_DEFINITION";

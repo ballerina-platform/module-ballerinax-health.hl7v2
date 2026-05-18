@@ -26,8 +26,8 @@ public type RAR_RAR_DEFINITION record {
     boolean isRequired = true;
     QRD qrd = {};
     QRF qrf?;
-    RAR_RAR_PATIENT patient = {pid: {}};
-    RAR_RAR_ORDER[] 'order = [{orc: {}}];
+    RAR_RAR_PATIENT rar_rar_patient?;
+    RAR_RAR_ORDER[] rar_rar_order = [{orc: {}, rxa: [{}]}];
 };
 
 public const RAR_RAR_DEFINITION_SEGMENT_COMPONENT = "RAR_RAR_DEFINITION";

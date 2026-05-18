@@ -24,7 +24,7 @@ public type ORR_O02_ORDER_DETAIL record {
     *hl7v2:SegmentComponent;
     string name = ORR_O02_ORDER_DETAIL_SEGMENT_COMPONENT;
     boolean isRequired = false;
-    ORR_O02_ORDER_DETAIL_SEGMENT order_detail_segment?;
+    ORR_O02_ORDER_DETAIL_SEGMENT orr_o02_order_detail_segment?;
     NTE[] nte = [];
 };
 

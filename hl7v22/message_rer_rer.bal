@@ -188,6 +188,6 @@ public type RER_RER record {
     MSH msh = {};
     MSA msa = {};
     ERR err?;
-    RER_RER_DEFINITION[] definition = [{qrd: {}}];
+    RER_RER_DEFINITION[] definition = [{qrd: {}, rer_rer_order: [{orc: {}, rxe: {}, rxr: [{}]}]}];
     DSC dsc?;
 };

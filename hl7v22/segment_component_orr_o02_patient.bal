@@ -26,7 +26,7 @@ public type ORR_O02_PATIENT record {
     boolean isRequired = false;
     PID pid?;
     NTE[] nte = [];
-    ORR_O02_ORDER[] 'order = [{orc: {}}];
+    ORR_O02_ORDER[] orr_o02_order = [{orc: {}}];
 };
 
 public const ORR_O02_PATIENT_SEGMENT_COMPONENT = "ORR_O02_PATIENT";

@@ -25,7 +25,7 @@ public type RGR_RGR_ORDER record {
     string name = RGR_RGR_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc = {};
-    RGR_RGR_ENCODING encoding = {rxe: {}};
+    RGR_RGR_ENCODING rgr_rgr_encoding?;
     RXG[] rxg = [{}];
     RXR[] rxr = [{}];
 };

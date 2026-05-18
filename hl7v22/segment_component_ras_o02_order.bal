@@ -25,11 +25,11 @@ public type RAS_O02_ORDER record {
     string name = RAS_O02_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc = {};
-    RAS_O02_ORDER_DETAIL order_detail = {rxo: {}};
-    RAS_O02_ENCODING encoding = {rxe: {}};
+    RAS_O02_ORDER_DETAIL ras_o02_order_detail?;
+    RAS_O02_ENCODING ras_o02_encoding?;
     RXA[] rxa = [{}];
     RXR rxr = {};
-    RAS_O02_OBSERVATION[] observation = [];
+    RAS_O02_OBSERVATION[] ras_o02_observation = [];
 };
 
 public const RAS_O02_ORDER_SEGMENT_COMPONENT = "RAS_O02_ORDER";

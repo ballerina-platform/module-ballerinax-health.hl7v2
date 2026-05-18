@@ -25,7 +25,7 @@ public type ORM_O01_ORDER record {
     string name = ORM_O01_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc = {};
-    ORM_O01_ORDER_DETAIL order_detail?;
+    ORM_O01_ORDER_DETAIL orm_o01_order_detail?;
     BLG blg?;
 };
 

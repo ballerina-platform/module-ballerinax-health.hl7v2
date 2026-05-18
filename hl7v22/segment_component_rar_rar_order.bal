@@ -25,7 +25,7 @@ public type RAR_RAR_ORDER record {
     string name = RAR_RAR_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc = {};
-    RAR_RAR_ENCODING encoding = {rxe: {}};
+    RAR_RAR_ENCODING rar_rar_encoding?;
     RXA[] rxa = [{}];
 };
 

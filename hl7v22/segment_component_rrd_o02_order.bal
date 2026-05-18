@@ -25,7 +25,7 @@ public type RRD_O02_ORDER record {
     string name = RRD_O02_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc = {};
-    RRD_O02_ORDER_DETAIL order_detail = {rxd: {}};
+    RRD_O02_ORDER_DETAIL rrd_o02_order_detail?;
 };
 
 public const RRD_O02_ORDER_SEGMENT_COMPONENT = "RRD_O02_ORDER";

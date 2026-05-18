@@ -188,6 +188,6 @@ public type ROR_ROR record {
     MSH msh = {};
     MSA msa = {};
     ERR err?;
-    ROR_ROR_DEFINITION[] definition = [{qrd: {}}];
+    ROR_ROR_DEFINITION[] definition = [{qrd: {}, ror_ror_order: [{orc: {}, rxo: {}, rxr: [{}]}]}];
     DSC dsc?;
 };

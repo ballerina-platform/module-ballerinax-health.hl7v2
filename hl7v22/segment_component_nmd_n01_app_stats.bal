@@ -26,7 +26,7 @@ public type NMD_N01_APP_STATS record {
     boolean isRequired = false;
     NST nst = {};
     NTE[] nte = [];
-    NMD_N01_APP_STATUS app_status = {nsc: {}};
+    NMD_N01_APP_STATUS nmd_n01_app_status?;
 };
 
 public const NMD_N01_APP_STATS_SEGMENT_COMPONENT = "NMD_N01_APP_STATS";

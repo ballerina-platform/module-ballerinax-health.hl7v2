@@ -26,7 +26,7 @@ public type NMD_N01_CLOCK record {
     boolean isRequired = false;
     NCK nck = {};
     NTE[] nte = [];
-    NMD_N01_APP_STATS app_stats = {nst: {}};
+    NMD_N01_APP_STATS nmd_n01_app_stats?;
 };
 
 public const NMD_N01_CLOCK_SEGMENT_COMPONENT = "NMD_N01_CLOCK";
