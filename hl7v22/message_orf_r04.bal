@@ -188,6 +188,6 @@ public type ORF_R04 record {
     string name = ORF_R04_MESSAGE_TYPE;
     MSH msh = {};
     MSA msa = {};
-    ORF_R04_QUERY_RESPONSE[] query_response = [{qrd: {}}];
+    ORF_R04_QUERY_RESPONSE[] query_response = [{qrd: {}, orf_r04_order: [{obr: {}}]}];
     DSC dsc?;
 };

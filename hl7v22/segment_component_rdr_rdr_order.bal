@@ -25,8 +25,8 @@ public type RDR_RDR_ORDER record {
     string name = RDR_RDR_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc = {};
-    RDR_RDR_ENCODING encoding = {rxe: {}};
-    RDR_RDR_DISPENSE[] dispense = [{rxd: {}}];
+    RDR_RDR_ENCODING rdr_rdr_encoding?;
+    RDR_RDR_DISPENSE[] rdr_rdr_dispense = [{rxd: {}, rxr: [{}]}];
 };
 
 public const RDR_RDR_ORDER_SEGMENT_COMPONENT = "RDR_RDR_ORDER";

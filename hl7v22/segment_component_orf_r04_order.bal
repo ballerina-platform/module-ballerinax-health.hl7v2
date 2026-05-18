@@ -27,7 +27,7 @@ public type ORF_R04_ORDER record {
     ORC orc?;
     OBR obr = {};
     NTE[] nte = [];
-    ORF_R04_OBSERVATION[] observation = [{}];
+    ORF_R04_OBSERVATION[] orf_r04_observation = [{}];
 };
 
 public const ORF_R04_ORDER_SEGMENT_COMPONENT = "ORF_R04_ORDER";

@@ -27,7 +27,7 @@ public type RDE_O01_ORDER_DETAIL record {
     RXO rxo = {};
     NTE[] nte = [];
     RXR[] rxr = [{}];
-    RDE_O01_COMPONENT component = {rxc: [{}]};
+    RDE_O01_COMPONENT rde_o01_component?;
 };
 
 public const RDE_O01_ORDER_DETAIL_SEGMENT_COMPONENT = "RDE_O01_ORDER_DETAIL";

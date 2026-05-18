@@ -32,7 +32,7 @@ public type BAR_P01_VISIT record {
     PR1[] pr1 = [];
     GT1[] gt1 = [];
     NK1[] nk1 = [];
-    BAR_P01_INSURANCE[] insurance = [];
+    BAR_P01_INSURANCE[] bar_p01_insurance = [];
     ACC acc?;
     UB1 ub1?;
     UB2 ub2?;

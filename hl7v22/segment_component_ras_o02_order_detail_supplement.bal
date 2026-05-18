@@ -26,7 +26,7 @@ public type RAS_O02_ORDER_DETAIL_SUPPLEMENT record {
     boolean isRequired = false;
     NTE[] nte = [{}];
     RXR[] rxr = [{}];
-    RAS_O02_COMPONENTS components = {rxc: [{}]};
+    RAS_O02_COMPONENTS ras_o02_components?;
 };
 
 public const RAS_O02_ORDER_DETAIL_SUPPLEMENT_SEGMENT_COMPONENT = "RAS_O02_ORDER_DETAIL_SUPPLEMENT";

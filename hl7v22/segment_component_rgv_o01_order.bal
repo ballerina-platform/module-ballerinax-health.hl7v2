@@ -25,9 +25,9 @@ public type RGV_O01_ORDER record {
     string name = RGV_O01_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc = {};
-    RGV_O01_ORDER_DETAIL order_detail = {rxo: {}};
-    RGV_O01_ENCODING encoding = {rxe: {}};
-    RGV_O01_GIVE give = {rxg: {}};
+    RGV_O01_ORDER_DETAIL rgv_o01_order_detail?;
+    RGV_O01_ENCODING rgv_o01_encoding?;
+    RGV_O01_GIVE rgv_o01_give = {rxg: {}, rxr: [{}]};
 };
 
 public const RGV_O01_ORDER_SEGMENT_COMPONENT = "RGV_O01_ORDER";

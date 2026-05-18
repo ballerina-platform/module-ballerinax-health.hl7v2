@@ -317,5 +317,5 @@ public type RGV_O01 record {
     MSH msh = {};
     NTE[] nte = [];
     RGV_O01_PATIENT patient?;
-    RGV_O01_ORDER[] 'order = [{orc: {}}];
+    RGV_O01_ORDER[] 'order = [{orc: {}, rgv_o01_give: {rxg: {}, rxr: [{}]}}];
 };

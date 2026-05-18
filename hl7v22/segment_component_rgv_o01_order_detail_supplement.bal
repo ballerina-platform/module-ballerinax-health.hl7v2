@@ -26,7 +26,7 @@ public type RGV_O01_ORDER_DETAIL_SUPPLEMENT record {
     boolean isRequired = false;
     NTE[] nte = [{}];
     RXR[] rxr = [{}];
-    RGV_O01_COMPONENT component = {rxc: [{}]};
+    RGV_O01_COMPONENT rgv_o01_component?;
 };
 
 public const RGV_O01_ORDER_DETAIL_SUPPLEMENT_SEGMENT_COMPONENT = "RGV_O01_ORDER_DETAIL_SUPPLEMENT";

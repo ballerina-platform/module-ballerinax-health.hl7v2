@@ -25,7 +25,7 @@ public type RGV_O01_ORDER_DETAIL record {
     string name = RGV_O01_ORDER_DETAIL_SEGMENT_COMPONENT;
     boolean isRequired = false;
     RXO rxo = {};
-    RGV_O01_ORDER_DETAIL_SUPPLEMENT order_detail_supplement = {nte: [{}]};
+    RGV_O01_ORDER_DETAIL_SUPPLEMENT rgv_o01_order_detail_supplement?;
 };
 
 public const RGV_O01_ORDER_DETAIL_SEGMENT_COMPONENT = "RGV_O01_ORDER_DETAIL";

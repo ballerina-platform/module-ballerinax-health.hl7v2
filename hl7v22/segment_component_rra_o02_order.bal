@@ -25,7 +25,7 @@ public type RRA_O02_ORDER record {
     string name = RRA_O02_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc = {};
-    RRA_O02_ADMINISTRATION[] administration = [];
+    RRA_O02_ADMINISTRATION[] rra_o02_administration = [];
 };
 
 public const RRA_O02_ORDER_SEGMENT_COMPONENT = "RRA_O02_ORDER";

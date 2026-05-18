@@ -25,11 +25,11 @@ public type RDE_O01_ORDER record {
     string name = RDE_O01_ORDER_SEGMENT_COMPONENT;
     boolean isRequired = true;
     ORC orc = {};
-    RDE_O01_ORDER_DETAIL order_detail = {rxo: {}};
+    RDE_O01_ORDER_DETAIL rde_o01_order_detail?;
     RXE rxe = {};
     RXR[] rxr = [{}];
     RXC[] rxc = [];
-    RDE_O01_OBSERVATION[] observation = [{}];
+    RDE_O01_OBSERVATION[] rde_o01_observation = [{}];
 };
 
 public const RDE_O01_ORDER_SEGMENT_COMPONENT = "RDE_O01_ORDER";

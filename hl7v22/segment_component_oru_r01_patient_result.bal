@@ -24,8 +24,8 @@ public type ORU_R01_PATIENT_RESULT record {
     *hl7v2:SegmentComponent;
     string name = ORU_R01_PATIENT_RESULT_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    ORU_R01_PATIENT patient = {pid: {}};
-    ORU_R01_ORDER_OBSERVATION[] order_observation = [{obr: {}}];
+    ORU_R01_PATIENT oru_r01_patient?;
+    ORU_R01_ORDER_OBSERVATION[] oru_r01_order_observation = [{obr: {}}];
 };
 
 public const ORU_R01_PATIENT_RESULT_SEGMENT_COMPONENT = "ORU_R01_PATIENT_RESULT";

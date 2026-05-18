@@ -26,8 +26,8 @@ public type RDR_RDR_DEFINITION record {
     boolean isRequired = true;
     QRD qrd = {};
     QRF qrf?;
-    RDR_RDR_PATIENT patient = {pid: {}};
-    RDR_RDR_ORDER[] 'order = [{orc: {}}];
+    RDR_RDR_PATIENT rdr_rdr_patient?;
+    RDR_RDR_ORDER[] rdr_rdr_order = [{orc: {}, rdr_rdr_dispense: [{rxd: {}, rxr: [{}]}]}];
 };
 
 public const RDR_RDR_DEFINITION_SEGMENT_COMPONENT = "RDR_RDR_DEFINITION";

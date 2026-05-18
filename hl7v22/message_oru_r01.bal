@@ -172,6 +172,6 @@ public type ORU_R01 record {
     *hl7v2:Message;
     string name = ORU_R01_MESSAGE_TYPE;
     MSH msh = {};
-    ORU_R01_PATIENT_RESULT[] patient_result = [{}];
+    ORU_R01_PATIENT_RESULT[] patient_result = [{oru_r01_order_observation: [{obr: {}}]}];
     DSC dsc?;
 };

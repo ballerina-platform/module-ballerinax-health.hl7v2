@@ -24,7 +24,7 @@ public type NMD_N01_CLOCK_AND_STATS_WITH_NOTES record {
     *hl7v2:SegmentComponent;
     string name = NMD_N01_CLOCK_AND_STATS_WITH_NOTES_SEGMENT_COMPONENT;
     boolean isRequired = true;
-    NMD_N01_CLOCK clock = {nck: {}};
+    NMD_N01_CLOCK nmd_n01_clock?;
 };
 
 public const NMD_N01_CLOCK_AND_STATS_WITH_NOTES_SEGMENT_COMPONENT = "NMD_N01_CLOCK_AND_STATS_WITH_NOTES";

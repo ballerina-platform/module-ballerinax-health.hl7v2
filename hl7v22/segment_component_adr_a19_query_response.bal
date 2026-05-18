@@ -34,7 +34,7 @@ public type ADR_A19_QUERY_RESPONSE record {
     DG1[] dg1 = [];
     PR1[] pr1 = [];
     GT1[] gt1 = [];
-    ADR_A19_INSURANCE[] insurance = [];
+    ADR_A19_INSURANCE[] adr_a19_insurance = [];
     ACC acc?;
     UB1 ub1?;
     UB2 ub2?;

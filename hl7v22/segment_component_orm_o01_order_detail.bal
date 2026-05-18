@@ -24,9 +24,9 @@ public type ORM_O01_ORDER_DETAIL record {
     *hl7v2:SegmentComponent;
     string name = ORM_O01_ORDER_DETAIL_SEGMENT_COMPONENT;
     boolean isRequired = false;
-    ORM_O01_ORDER_DETAIL_SEGMENT order_detail_segment = {};
+    ORM_O01_ORDER_DETAIL_SEGMENT orm_o01_order_detail_segment = {};
     NTE[] nte = [];
-    ORM_O01_OBSERVATION[] observation = [];
+    ORM_O01_OBSERVATION[] orm_o01_observation = [];
 };
 
 public const ORM_O01_ORDER_DETAIL_SEGMENT_COMPONENT = "ORM_O01_ORDER_DETAIL";

@@ -27,7 +27,7 @@ public type RGV_O01_GIVE record {
     RXG rxg = {};
     RXR[] rxr = [{}];
     RXC[] rxc = [];
-    RGV_O01_OBSERVATION observation = {};
+    RGV_O01_OBSERVATION rgv_o01_observation = {};
 };
 
 public const RGV_O01_GIVE_SEGMENT_COMPONENT = "RGV_O01_GIVE";

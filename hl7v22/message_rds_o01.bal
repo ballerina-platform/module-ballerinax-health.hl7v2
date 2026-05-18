@@ -311,5 +311,5 @@ public type RDS_O01 record {
     MSH msh = {};
     NTE[] nte = [];
     RDS_O01_PATIENT patient?;
-    RDS_O01_ORDER[] 'order = [{orc: {}}];
+    RDS_O01_ORDER[] 'order = [{orc: {}, rxd: {}, rxr: [{}]}];
 };

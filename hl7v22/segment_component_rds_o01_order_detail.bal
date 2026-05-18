@@ -25,7 +25,7 @@ public type RDS_O01_ORDER_DETAIL record {
     string name = RDS_O01_ORDER_DETAIL_SEGMENT_COMPONENT;
     boolean isRequired = false;
     RXO rxo = {};
-    RDS_O01_ORDER_DETAIL_SUPPLEMENT order_detail_supplement = {nte: [{}]};
+    RDS_O01_ORDER_DETAIL_SUPPLEMENT rds_o01_order_detail_supplement?;
 };
 
 public const RDS_O01_ORDER_DETAIL_SEGMENT_COMPONENT = "RDS_O01_ORDER_DETAIL";
