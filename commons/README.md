@@ -1,9 +1,12 @@
-Package containing core HL7v2 common implementations accross HL7 versions to implement HL7v2 related integrations
+## Overview
 
-# HL7 Commons Package
+The `health.hl7v2commons` package holds the common implementations shared across all HL7 v2 versions from 2.3 to 2.8, enabling HL7 v2 based integrations in Ballerina.
 
-## Package Overview
-This Package holds the common implementations accross all the HL7 v2 versions from 2.3 to 2.8. 
+### Key Features
+
+- Core HL7 v2 common type definitions shared across HL7 v2 versions 2.3 to 2.8
+- Reusable building blocks for the version-specific HL7 v2 packages
+- Foundation for HL7 v2 integrations in healthcare workflows
 
 ### Note: 
 From Ballerina Swan Lake Update 10 upwards, `--optimize-dependency-compilation` flag is
