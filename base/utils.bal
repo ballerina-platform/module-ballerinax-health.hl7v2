@@ -81,6 +81,9 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
     } else {
         string delimeter = encodingCharacters.getFieldSeparator();
         map<int> segmentPositions = {};
+        // Messages that repeat an ungrouped patient set (e.g. ADT_A17: PID..OBX, PID..OBX) start a new set at each
+        // occurrence of the anchor segment; segments of the n-th set (n > 1) are stored as `<segment>_<n>`.
+        int anchorOccurrences = 0;
         foreach int i in 0 ..< segments.length() {
             string segmentName = "";
             if segments[i] != "" && segments[i].length() >= 3 {
@@ -146,6 +149,20 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                                     segmentPositions[segmentName] = 0;
                                 }
                                 int pos = segmentPositions.get(segmentName);
+                                string fieldName = segmentName.toLowerAscii();
+                                string? setAnchor = REPEATED_SEGMENT_SET_ANCHORS[msgType];
+                                if setAnchor is string && segmentName == setAnchor {
+                                    anchorOccurrences += 1;
+                                }
+                                if setAnchor is string && orderedSegments.hasKey(segmentName)
+                                        && isRepeatedTopLevelSegment(orderedSegments.get(segmentName)) {
+                                    int lastDef = orderedSegments.get(segmentName).length() - 1;
+                                    int setIndex = anchorOccurrences > 0 ? anchorOccurrences - 1 : 0;
+                                    pos = setIndex < lastDef ? setIndex : lastDef;
+                                    if pos > 0 {
+                                        fieldName = string `${fieldName}_${pos + 1}`;
+                                    }
+                                }
                                 if orderedSegments.hasKey(segmentName) {
                                     Hl7SegmentDefinitionRecord[] segmentDefArr = orderedSegments.get(segmentName);
                                     // Handle case where pos exceeds array bounds - this happens when a segment
@@ -323,7 +340,7 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                                                     }
                                                 }
                                             } else {
-                                                messageFields[segmentName.toLowerAscii()] = segment;
+                                                messageFields[fieldName] = segment;
                                             }
                                         } else if maxReps == -1 {
                                             if segmentComponentName != "" {
@@ -481,13 +498,18 @@ isolated function parseHl7Msg(string messageStr, string hl7Version) returns Mess
                                                 }
                                             }
                                         } else {
-                                            anydata segmentArrElement = messageFields[segmentName.toLowerAscii()];
+                                            anydata segmentArrElement = messageFields[fieldName];
                                             if segmentArrElement is () {
-                                                Segment[] segmentArr = [];
+                                                // a second-set array (`<segment>_2`) takes the inherent type of the
+                                                // first set's typed array (e.g. OBX[]) so the record field accepts it
+                                                anydata firstSet = messageFields[segmentName.toLowerAscii()];
+                                                Segment[] segmentArr = fieldName != segmentName.toLowerAscii()
+                                                    && firstSet is Segment[] ? firstSet.clone() : [];
+                                                segmentArr.removeAll();
                                                 segmentArr.push(segment);
-                                                messageFields[segmentName.toLowerAscii()] = segmentArr;
+                                                messageFields[fieldName] = segmentArr;
                                             } else {
-                                                Segment[] segmentArr = <Segment[]>(messageFields[segmentName.toLowerAscii()]);
+                                                Segment[] segmentArr = <Segment[]>(messageFields[fieldName]);
                                                 segmentArr.push(segment);
                                             }
                                         }
@@ -930,3 +952,16 @@ isolated function createMessage(handle module, handle recordName) returns Messag
     paramTypes: ["io.ballerina.runtime.api.Module", "java.lang.String"]
 } external;
 
+
+// Messages whose structure repeats an ungrouped segment set; the value is the segment that starts each set.
+final map<string> & readonly REPEATED_SEGMENT_SET_ANCHORS = {
+    "ADT_A17": "PID",
+    "ADT_A24": "PID",
+    "ADT_A37": "PID"
+};
+
+// True when every definition of the segment is top-level (not part of a segment group) and it is defined more
+// than once, i.e. it belongs to a repeated segment set.
+isolated function isRepeatedTopLevelSegment(Hl7SegmentDefinitionRecord[] defs) returns boolean {
+    return defs.length() > 1 && defs.every(d => d.segmentComponentName is ());
+}
