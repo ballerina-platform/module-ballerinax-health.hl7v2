@@ -27,6 +27,9 @@ public const ADT_A37_MESSAGE_TYPE = "ADT_A37";
 # + pd1 - PD1
 # + pv1 - PV1
 # + db1 - DB1
+# + pid_2 - PID (second patient set)
+# + pv1_2 - PV1 (second patient set)
+# + db1_2 - DB1 (second patient set)
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -99,5 +102,9 @@ public type ADT_A37 record {
     PD1 pd1?;
     PV1 pv1?;
     DB1[] db1 = [];
-
+    // Second patient set (PID [PV1] [{DB1}] — the v2.3 A37 structure has no PD1 in the second set);
+    // populated by the parser from the second PID onwards.
+    PID pid_2?;
+    PV1 pv1_2?;
+    DB1[] db1_2?;
 };
