@@ -17,6 +17,7 @@
 // --------------------------------------------------------------------------------------------#
 
 import ballerinax/health.fhir.r4 as r4;
+import ballerinax/health.fhir.r4.international401;
 import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.hl7v23;
 
@@ -24,8 +25,6 @@ import ballerinax/health.hl7v23;
 // Message-type dispatcher: maps a parsed HL7v23 message to a typed FHIR Bundle using the
 // IG-specified message-level ConceptMap. Returns () for unsupported message types so the
 // caller can fall back to the generic segment-by-segment approach (transformToFhir).
-// ORU_R01 is excluded here because its PATIENT_RESULT segment groups are stored as dynamic
-// record fields; the generic path handles them better via message.entries() iteration.
 // --------------------------------------------------------------------------------------------#
 isolated function mapMessageToBundle(hl7:Message message) returns r4:Bundle|error? {
     match message.name {
@@ -56,6 +55,9 @@ isolated function mapMessageToBundle(hl7:Message message) returns r4:Bundle|erro
         "ORM_O01" => {
             return ormO01ToBundle(check message.ensureType(hl7v23:ORM_O01));
         }
+        "ORU_R01" => {
+            return oruR01ToBundle(check message.ensureType(hl7v23:ORU_R01));
+        }
         "SIU_S12" => {
             return siuS12ToBundle(check message.ensureType(hl7v23:SIU_S12));
         }
@@ -63,486 +65,401 @@ isolated function mapMessageToBundle(hl7:Message message) returns r4:Bundle|erro
             return vxuV04ToBundle(check message.ensureType(hl7v23:VXU_V04));
         }
     }
-    // ORU_R01 and all other unsupported types → fall back to generic segment mapping
+    // All other unsupported types → fall back to generic segment mapping
     return ();
 }
 
 // --------------------------------------------------------------------------------------------#
-// ADT_A01 (Admit/Visit Notification) → Bundle
-// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-adt-a01-to-bundle.html
-// Segments: MSH, EVN, PID, PD1, NK1, PV1, PV2, OBX, AL1, DG1, PROCEDURE(PR1,ROL), INSURANCE(IN1,IN3)
+// Message assembly context
+//
+// The IG message maps incorporate several segments into the same resource (e.g. PID, PD1, NK1 and PV1 all
+// populate Patient[1]; PV1 and PV2 populate Encounter[1]) and link resources to each other (subject, patient,
+// beneficiary, diagnosis, target ...). MessageContext keeps the shared resources so later segments can be
+// merged into them and referenced (bundle-internal `urn:uuid:` references).
 // --------------------------------------------------------------------------------------------#
+type MessageContext record {|
+    string bundleId = generateFhirResourceId();
+    r4:BundleEntry[] entries = [];
+    r4:Reference? messageHeader = ();
+    international401:Patient? patient = ();
+    r4:Reference? patientRef = ();
+    international401:Encounter? encounter = ();
+    r4:Reference? encounterRef = ();
+|};
+
+// Reference to Patient[1], or a data-absent-reason placeholder when the message has no patient
+isolated function patientReference(MessageContext ctx) returns r4:Reference {
+    r4:Reference? ref = ctx.patientRef;
+    return ref is r4:Reference ? ref : {extension: DATA_ABSENT_UNKNOWN};
+}
+
+// MSH → MessageHeader[1]; EVN → Provenance (target MessageHeader[1]);
+// MSH[Provenance-Operator] IF EVN-5 NOT VALUED AND MSH-4 VALUED (MSH-22 does not exist in v2.3)
+isolated function addMessageHeader(MessageContext ctx, hl7v23:MSH msh, hl7v23:EVN? evn = (),
+        boolean operatorProvenance = true) {
+    ctx.messageHeader = addLinkedEntry(ctx.entries, mshToMessageHeader(msh));
+    r4:Reference? header = ctx.messageHeader;
+    r4:Reference bundleRef = {reference: "Bundle/" + ctx.bundleId};
+    // MSH[Provenance-Source] (IF MSH-4 VALUED): target Bundle + MessageHeader[1]
+    international401:Provenance? sourceProvenance = mshToProvenanceSource(msh);
+    if sourceProvenance is international401:Provenance {
+        sourceProvenance.target = (header is r4:Reference) ? [bundleRef, header] : [bundleRef];
+        _ = addLinkedEntry(ctx.entries, sourceProvenance);
+    }
+    // MSH[Provenance-Transformation]: target Bundle
+    international401:Provenance transformation = mshToProvenanceTransformation();
+    transformation.target = [bundleRef];
+    _ = addLinkedEntry(ctx.entries, transformation);
+    if evn is () {
+        return;
+    }
+    international401:Provenance evnProvenance = evnToProvenance(evn);
+    if header is r4:Reference {
+        evnProvenance.target = [header];
+    }
+    _ = addLinkedEntry(ctx.entries, evnProvenance);
+    if operatorProvenance && evn.evn5.xcn1 == "" && msh.msh4.hd1 != "" {
+        international401:Provenance operator = mshToProvenanceOperator(msh);
+        if header is r4:Reference {
+            operator.target = [header];
+        }
+        _ = addLinkedEntry(ctx.entries, operator);
+    }
+}
+
+// PID (+ PD1, NK1[Patient]) → Patient[1]; PID-18 → Account; PD1-7 → living-will Observation;
+// NK1 → RelatedPerson (ADT_A01 only: IF NK1-3.1 NOT IN ("EMR","E","F","I","S"); unconditional elsewhere)
+isolated function addPatient(MessageContext ctx, hl7v23:PID pid, hl7v23:PD1? pd1 = (), hl7v23:NK1[] nk1s = [],
+        boolean filterNk1ByRelationship = false) {
+    international401:Patient patient = pidToPatient(pid);
+    if pd1 is hl7v23:PD1 {
+        _ = mergeResources(patient, pd1ToPatient(pd1));
+    }
+    foreach hl7v23:NK1 nk1 in nk1s {
+        if hasSegmentContent(nk1) {
+            _ = mergeResources(patient, nk1ToPatient(nk1));
+        }
+    }
+    ctx.patient = patient;
+    ctx.patientRef = addLinkedEntry(ctx.entries, patient);
+    r4:Reference patientRef = patientReference(ctx);
+
+    international401:Account? account = pidToAccount(pid);
+    if account is international401:Account {
+        account.subject = [patientRef];
+        _ = addLinkedEntry(ctx.entries, account);
+    }
+    if pd1 is hl7v23:PD1 && pd1.pd17 != "" {
+        international401:Observation livingWill = pd1ToLivingWillObservation(pd1);
+        livingWill.subject = patientRef;
+        _ = addLinkedEntry(ctx.entries, livingWill);
+    }
+    foreach hl7v23:NK1 nk1 in nk1s {
+        string relationship = nk1.nk13.ce1;
+        if !hasSegmentContent(nk1) {
+            continue;
+        }
+        if filterNk1ByRelationship && (relationship == "EMR" || relationship == "E" || relationship == "F"
+                || relationship == "I" || relationship == "S") {
+            continue;
+        }
+        international401:RelatedPerson relatedPerson = nk1ToRelatedPerson(nk1);
+        relatedPerson.patient = patientRef;
+        _ = addLinkedEntry(ctx.entries, relatedPerson);
+    }
+}
+
+// PV1 (+ PV2) → Encounter[1] (subject Patient[1]); PV1[Patient] merged into Patient[1];
+// PV1[Coverage] IF PV1-20 VALUED (beneficiary Patient[1])
+isolated function addEncounter(MessageContext ctx, hl7v23:PV1 pv1, hl7v23:PV2? pv2 = ()) {
+    international401:Patient? patient = ctx.patient;
+    if patient is international401:Patient {
+        _ = mergeResources(patient, pv1ToPatient(pv1));
+    }
+    international401:Encounter encounter = pv1ToEncounter(pv1);
+    if pv2 is hl7v23:PV2 && hasSegmentContent(pv2) {
+        _ = mergeResources(encounter, pv2ToEncounter(pv2));
+    }
+    encounter.subject = ctx.patientRef;
+    ctx.encounter = encounter;
+    ctx.encounterRef = addLinkedEntry(ctx.entries, encounter);
+    if pv1.pv120.length() > 0 && pv1.pv120[0].fc1 != "" {
+        international401:Coverage coverage = pv1ToCoverage(pv1);
+        coverage.beneficiary = patientReference(ctx);
+        _ = addLinkedEntry(ctx.entries, coverage);
+    }
+}
+
+// OBX → Observation (subject Patient[1], encounter Encounter[1]); NTE → Observation.note
+isolated function addObservation(MessageContext ctx, hl7v23:OBX obx, hl7v23:NTE[] ntes = [],
+        r4:Reference? partOf = ()) returns r4:Reference? {
+    if !hasSegmentContent(obx) {
+        return ();
+    }
+    international401:Observation observation = obxToObservation(obx);
+    observation.subject = ctx.patientRef;
+    observation.encounter = ctx.encounterRef;
+    if partOf is r4:Reference {
+        observation.partOf = [partOf];
+    }
+    r4:Annotation[] notes = ntesToAnnotations(ntes);
+    if notes.length() > 0 {
+        observation.note = notes;
+    }
+    return addLinkedEntry(ctx.entries, observation);
+}
+
+// AL1 → AllergyIntolerance (patient Patient[1])
+isolated function addAllergies(MessageContext ctx, hl7v23:AL1[] al1s) {
+    foreach hl7v23:AL1 al1 in al1s {
+        if !hasSegmentContent(al1) {
+            continue;
+        }
+        international401:AllergyIntolerance allergy = al1ToAllerygyIntolerance(al1);
+        allergy.patient = patientReference(ctx);
+        allergy.encounter = ctx.encounterRef;
+        _ = addLinkedEntry(ctx.entries, allergy);
+    }
+}
+
+// DG1 → Condition (subject Patient[1]); DG1[Encounter]: Encounter[1].diagnosis → Condition;
+// DG1[EpisodeOfCare] (when requested): EpisodeOfCare (patient Patient[1], diagnosis → Condition)
+isolated function addDiagnoses(MessageContext ctx, hl7v23:DG1[] dg1s, boolean episodeOfCare = false)
+        returns r4:Reference[] {
+    r4:Reference[] conditionRefs = [];
+    foreach hl7v23:DG1 dg1 in dg1s {
+        if !hasSegmentContent(dg1) {
+            continue;
+        }
+        international401:Condition condition = dg1ToCondition(dg1);
+        condition.subject = patientReference(ctx);
+        condition.encounter = ctx.encounterRef;
+        r4:Reference? conditionRef = addLinkedEntry(ctx.entries, condition);
+        if conditionRef is () {
+            continue;
+        }
+        conditionRefs.push(conditionRef);
+
+        international401:Encounter? encounter = ctx.encounter;
+        if encounter is international401:Encounter {
+            international401:EncounterDiagnosis[] diagnosis = dg1ToEncounter(dg1, condition.id).diagnosis ?: [];
+            foreach international401:EncounterDiagnosis d in diagnosis {
+                d.condition = conditionRef;
+                international401:EncounterDiagnosis[] existing = encounter.diagnosis ?: [];
+                existing.push(d);
+                encounter.diagnosis = existing;
+            }
+        }
+        if episodeOfCare {
+            international401:EpisodeOfCare episode = dg1ToEpisodeOfCare(dg1, condition.id, ());
+            episode.patient = patientReference(ctx);
+            international401:EpisodeOfCareDiagnosis[] diagnosis = episode.diagnosis ?: [];
+            foreach international401:EpisodeOfCareDiagnosis d in diagnosis {
+                d.condition = conditionRef;
+            }
+            _ = addLinkedEntry(ctx.entries, episode);
+        }
+    }
+    return conditionRefs;
+}
+
+// PR1 → Procedure (subject Patient[1], encounter Encounter[1])
+isolated function addProcedure(MessageContext ctx, hl7v23:PR1 pr1) {
+    if !hasSegmentContent(pr1) {
+        return;
+    }
+    international401:Procedure procedure = pr1ToProcedure(pr1);
+    procedure.subject = patientReference(ctx);
+    procedure.encounter = ctx.encounterRef;
+    _ = addLinkedEntry(ctx.entries, procedure);
+}
+
+// IN1 → Coverage (beneficiary Patient[1]); IN3 → CareTeam (subject Patient[1]) when requested
+isolated function addInsurance(MessageContext ctx, hl7v23:IN1 in1, hl7v23:IN3? in3 = ()) {
+    if !hasSegmentContent(in1) {
+        return;
+    }
+    international401:Coverage coverage = in1ToCoverage(in1);
+    coverage.beneficiary = patientReference(ctx);
+    if in1.in117 == "SEL" {
+        coverage.subscriber = ctx.patientRef;
+    }
+    _ = addLinkedEntry(ctx.entries, coverage);
+    if in3 is hl7v23:IN3 && hasSegmentContent(in3) {
+        international401:CareTeam careTeam = in3ToCareTeam(in3);
+        careTeam.subject = ctx.patientRef;
+        _ = addLinkedEntry(ctx.entries, careTeam);
+    }
+}
+
+// Removes identifiers that repeat the same type code and value (ORC and OBR both carry placer/filler numbers)
+isolated function dedupeIdentifiers(r4:Identifier[] identifiers) returns r4:Identifier[] {
+    r4:Identifier[] unique = [];
+    string[] seen = [];
+    foreach r4:Identifier identifier in identifiers {
+        r4:Coding[] typeCodings = identifier.'type?.coding ?: [];
+        string key = (typeCodings.length() > 0 ? typeCodings[0].code ?: "" : "") + "|" + (identifier.value ?: "");
+        if seen.indexOf(key) is () {
+            seen.push(key);
+            unique.push(identifier);
+        }
+    }
+    return unique;
+}
+
+// ORC + OBR of one order → ServiceRequest[1] (ORC[ServiceRequest] + OBR[ServiceRequest])
+isolated function orderToServiceRequest(MessageContext ctx, hl7v23:ORC? orc, hl7v23:OBR? obr)
+        returns international401:ServiceRequest? {
+    boolean hasOrc = orc is hl7v23:ORC && hasSegmentContent(orc);
+    boolean hasObr = obr is hl7v23:OBR && hasSegmentContent(obr);
+    if !hasOrc && !hasObr {
+        return ();
+    }
+    international401:ServiceRequest serviceRequest;
+    if orc is hl7v23:ORC && hasOrc {
+        serviceRequest = orcToServiceRequest(orc);
+        if obr is hl7v23:OBR && hasObr {
+            _ = mergeResources(serviceRequest, obrToServiceRequest(obr));
+        }
+    } else {
+        serviceRequest = obrToServiceRequest(<hl7v23:OBR>obr);
+    }
+    r4:Identifier[]? identifiers = serviceRequest.identifier;
+    if identifiers is r4:Identifier[] {
+        serviceRequest.identifier = dedupeIdentifiers(identifiers);
+    }
+    serviceRequest.subject = patientReference(ctx);
+    serviceRequest.encounter = ctx.encounterRef;
+    return serviceRequest;
+}
+
+// --------------------------------------------------------------------------------------------#
+// ADT messages
+// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-adt-a01-to-bundle.html (etc.)
+// Note: ROL segments (follow:PID.ROL / follow:PV1.ROL) are not exposed as typed fields in the hl7v23 ADT
+// records and are therefore not mapped by these typed mappers.
+// --------------------------------------------------------------------------------------------#
+
+// ADT_A01 (Admit/Visit Notification)
+// Segments: MSH, EVN, PID, PD1, NK1, PV1, PV2, OBX, AL1, DG1, PROCEDURE(PR1,ROL), INSURANCE(IN1,IN3)
 public isolated function adtA01ToBundle(hl7v23:ADT_A01 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
-
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // EVN → Provenance
-    entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
-    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
-    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
-    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
-        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
-    }
-    // PID → Patient
-    entries.push(...populateBundleEntries(pidToPatient(message.pid)));
-    // PD1 → Patient (optional)
-    // PD1-7 → Observation (Living Will): IG dependsOn IF PD1-7 IS VALUED
-    hl7v23:PD1? pd1 = message.pd1;
-    if pd1 != () {
-        entries.push(...populateBundleEntries(pd1ToPatient(pd1)));
-        if pd1.pd17 != "" {
-            entries.push(...populateBundleEntries(pd1ToLivingWillObservation(pd1)));
-        }
-    }
-    // NK1 → RelatedPerson (IG dependsOn: IF NK1-3.1 NOT IN ("EMR","E","F","I","S"))
-    // NK1 → Patient (always, regardless of relationship type)
-    // Emergency/agency relationship types map to Patient contact only, not RelatedPerson.
-    foreach hl7v23:NK1 nk1 in message.nk1 {
-        string nk1Rel = nk1.nk13.ce1;
-        if nk1Rel != "EMR" && nk1Rel != "E" && nk1Rel != "F" && nk1Rel != "I" && nk1Rel != "S" {
-            entries.push(...populateBundleEntries(nk1ToRelatedPerson(nk1)));
-        }
-        entries.push(...populateBundleEntries(nk1ToPatient(nk1)));
-    }
-    // PV1 → Encounter + Patient
-    entries.push(...populateBundleEntries(pv1ToEncounter(message.pv1)));
-    entries.push(...populateBundleEntries(pv1ToPatient(message.pv1)));
-    // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-    if message.pv1.pv120[0].fc1 != "" {
-        entries.push(...populateBundleEntries(pv1ToCoverage(message.pv1)));
-    }
-    // PV2 → Encounter (optional)
-    hl7v23:PV2? pv2 = message.pv2;
-    if pv2 != () {
-        entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
-    }
-    // OBX → Observation (single or component based on OBX-2/OBX-5 count — handled in obxToObservation)
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh, message.evn);
+    addPatient(ctx, message.pid, message.pd1, message.nk1, filterNk1ByRelationship = true);
+    addEncounter(ctx, message.pv1, message.pv2);
     foreach hl7v23:OBX obx in message.obx {
-        entries.push(...populateBundleEntries(obxToObservation(obx)));
+        _ = addObservation(ctx, obx);
     }
-    // AL1 → AllergyIntolerance
-    foreach hl7v23:AL1 al1 in message.al1 {
-        entries.push(...populateBundleEntries(al1ToAllerygyIntolerance(al1)));
-    }
-    // DG1 → Condition
-    foreach hl7v23:DG1 dg1 in message.dg1 {
-        entries.push(...populateBundleEntries(dg1ToCondition(dg1)));
-    }
-    // IG: follow:PID.ROL (ROL after PID/PD1) has two conditional targets:
-    //   IF ROL-3.1 = "PP" AND ROL-3.3 = "HL70443" → Patient[1] (ROL[Patient-GeneralPractitioner])
-    //   IF ROL-3.3 = "HL70443" AND ROL-3.1 != "PP" → CareTeam[1] (ROL[CareTeam])
-    // IG: follow:PV1.ROL → Encounter[1] (ROL[Encounter-PractitionerRole]) unconditionally
-    // These ROL segments are NOT exposed as typed fields in the hl7v23:ADT_A01 record;
-    // they are only reachable via the generic entries() iteration. Cannot be implemented here.
-    // PROCEDURE group → Procedure
-    // IG: PROCEDURE.ROL has no defined FHIR target; no resource created from it per spec.
-    // Guard: pr11 (set-ID) is "" for Ballerina default empty instances
+    addAllergies(ctx, message.al1);
+    _ = addDiagnoses(ctx, message.dg1, true);
     foreach hl7v23:ADT_A01_PROCEDURE proc in message.procedure {
-        if proc.pr1.pr11 == "" {
-            continue;
-        }
-        entries.push(...populateBundleEntries(pr1ToProcedure(proc.pr1)));
-        // IG: PROCEDURE.ROL has no FHIR target; skipped.
+        addProcedure(ctx, proc.pr1);
     }
-    // INSURANCE group → Coverage + CareTeam (IN3)
     foreach hl7v23:ADT_A01_INSURANCE ins in message.insurance {
-        if ins.in1.in11 == "" {
-            continue;
-        }
-        entries.push(...populateBundleEntries(in1ToCoverage(ins.in1)));
-        hl7v23:IN3? in3 = ins.in3;
-        if in3 != () {
-            entries.push(...populateBundleEntries(in3ToCareTeam(in3)));
-        }
+        addInsurance(ctx, ins.in1, ins.in3);
     }
-
-    bundle.entry = entries;
-    return bundle;
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
-// --------------------------------------------------------------------------------------------#
-// ADT_A02 (Transfer a Patient) → Bundle
-// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-adt-a02-to-bundle.html
-// Segments: MSH, EVN, PID, PD1, PV1, PV2, OBX
-// --------------------------------------------------------------------------------------------#
+// ADT_A02 (Transfer a Patient) — Segments: MSH, EVN, PID, PD1, PV1, PV2, OBX
 public isolated function adtA02ToBundle(hl7v23:ADT_A02 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
-
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // EVN → Provenance
-    entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
-    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
-    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
-    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
-        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
-    }
-    // PID → Patient
-    entries.push(...populateBundleEntries(pidToPatient(message.pid)));
-    // PD1 → Patient (optional)
-    // PD1-7 → Observation (Living Will): IG dependsOn IF PD1-7 IS VALUED
-    hl7v23:PD1? pd1 = message.pd1;
-    if pd1 != () {
-        entries.push(...populateBundleEntries(pd1ToPatient(pd1)));
-        if pd1.pd17 != "" {
-            entries.push(...populateBundleEntries(pd1ToLivingWillObservation(pd1)));
-        }
-    }
-    // PV1 → Encounter + Patient
-    entries.push(...populateBundleEntries(pv1ToEncounter(message.pv1)));
-    entries.push(...populateBundleEntries(pv1ToPatient(message.pv1)));
-    // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-    if message.pv1.pv120[0].fc1 != "" {
-        entries.push(...populateBundleEntries(pv1ToCoverage(message.pv1)));
-    }
-    // PV2 → Encounter (optional)
-    hl7v23:PV2? pv2 = message.pv2;
-    if pv2 != () {
-        entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
-    }
-    // OBX → Observation
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh, message.evn);
+    addPatient(ctx, message.pid, message.pd1);
+    addEncounter(ctx, message.pv1, message.pv2);
     foreach hl7v23:OBX obx in message.obx {
-        entries.push(...populateBundleEntries(obxToObservation(obx)));
+        _ = addObservation(ctx, obx);
     }
-
-    bundle.entry = entries;
-    return bundle;
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
-// --------------------------------------------------------------------------------------------#
-// ADT_A05 (Pre-Admit a Patient) → Bundle
-// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-adt-a05-to-bundle.html
+// ADT_A05 (Pre-Admit a Patient)
 // Segments: MSH, EVN, PID, PD1, NK1, PV1, PV2, OBX, AL1, DG1, PROCEDURE(PR1,ROL), INSURANCE(IN1,IN3)
-// --------------------------------------------------------------------------------------------#
 public isolated function adtA05ToBundle(hl7v23:ADT_A05 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
-
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // EVN → Provenance
-    entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
-    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
-    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
-    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
-        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
-    }
-    // PID → Patient
-    entries.push(...populateBundleEntries(pidToPatient(message.pid)));
-    // PD1 → Patient (optional)
-    // PD1-7 → Observation (Living Will): IG dependsOn IF PD1-7 IS VALUED
-    hl7v23:PD1? pd1 = message.pd1;
-    if pd1 != () {
-        entries.push(...populateBundleEntries(pd1ToPatient(pd1)));
-        if pd1.pd17 != "" {
-            entries.push(...populateBundleEntries(pd1ToLivingWillObservation(pd1)));
-        }
-    }
-    // NK1 → RelatedPerson + Patient
-    foreach hl7v23:NK1 nk1 in message.nk1 {
-        entries.push(...populateBundleEntries(nk1ToRelatedPerson(nk1)));
-        entries.push(...populateBundleEntries(nk1ToPatient(nk1)));
-    }
-    // PV1 → Encounter + Patient
-    entries.push(...populateBundleEntries(pv1ToEncounter(message.pv1)));
-    entries.push(...populateBundleEntries(pv1ToPatient(message.pv1)));
-    // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-    if message.pv1.pv120[0].fc1 != "" {
-        entries.push(...populateBundleEntries(pv1ToCoverage(message.pv1)));
-    }
-    // PV2 → Encounter (optional)
-    hl7v23:PV2? pv2 = message.pv2;
-    if pv2 != () {
-        entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
-    }
-    // OBX → Observation
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh, message.evn);
+    addPatient(ctx, message.pid, message.pd1, message.nk1);
+    addEncounter(ctx, message.pv1, message.pv2);
     foreach hl7v23:OBX obx in message.obx {
-        entries.push(...populateBundleEntries(obxToObservation(obx)));
+        _ = addObservation(ctx, obx);
     }
-    // AL1 → AllergyIntolerance
-    foreach hl7v23:AL1 al1 in message.al1 {
-        entries.push(...populateBundleEntries(al1ToAllerygyIntolerance(al1)));
-    }
-    // DG1 → Condition
-    foreach hl7v23:DG1 dg1 in message.dg1 {
-        entries.push(...populateBundleEntries(dg1ToCondition(dg1)));
-    }
-    // IG: follow:PID.ROL conditional targets (ROL-3.1/3.3 conditions) and follow:PV1.ROL
-    // are not accessible as typed fields in hl7v23:ADT_A05; skipped.
-    // PROCEDURE group → Procedure
-    // IG: PROCEDURE.ROL has no defined FHIR target per CSV mapping; skipped.
-    // Guard: pr11 (set-ID) is "" for Ballerina default empty instances
+    addAllergies(ctx, message.al1);
+    _ = addDiagnoses(ctx, message.dg1, true);
     foreach hl7v23:ADT_A05_PROCEDURE proc in message.procedure {
-        if proc.pr1.pr11 == "" {
-            continue;
-        }
-        entries.push(...populateBundleEntries(pr1ToProcedure(proc.pr1)));
+        addProcedure(ctx, proc.pr1);
     }
-    // INSURANCE group → Coverage + CareTeam (IN3)
     foreach hl7v23:ADT_A05_INSURANCE ins in message.insurance {
-        if ins.in1.in11 == "" {
-            continue;
-        }
-        entries.push(...populateBundleEntries(in1ToCoverage(ins.in1)));
-        hl7v23:IN3? in3 = ins.in3;
-        if in3 != () {
-            entries.push(...populateBundleEntries(in3ToCareTeam(in3)));
-        }
+        addInsurance(ctx, ins.in1, ins.in3);
     }
-
-    bundle.entry = entries;
-    return bundle;
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
-// --------------------------------------------------------------------------------------------#
-// ADT_A06 (Change an Outpatient to an Inpatient) → Bundle
-// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-adt-a06-to-bundle.html
+// ADT_A06 (Change an Outpatient to an Inpatient)
 // Segments: MSH, EVN, PID, PD1, MRG, NK1, PV1, PV2, OBX, AL1, DG1, PROCEDURE, INSURANCE
-// --------------------------------------------------------------------------------------------#
 public isolated function adtA06ToBundle(hl7v23:ADT_A06 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
-
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // EVN → Provenance
-    entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
-    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
-    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
-    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
-        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
-    }
-    // PID → Patient
-    entries.push(...populateBundleEntries(pidToPatient(message.pid)));
-    // PD1 → Patient (optional)
-    // PD1-7 → Observation (Living Will): IG dependsOn IF PD1-7 IS VALUED
-    hl7v23:PD1? pd1 = message.pd1;
-    if pd1 != () {
-        entries.push(...populateBundleEntries(pd1ToPatient(pd1)));
-        if pd1.pd17 != "" {
-            entries.push(...populateBundleEntries(pd1ToLivingWillObservation(pd1)));
-        }
-    }
-    // MRG → Account (optional)
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh, message.evn);
+    addPatient(ctx, message.pid, message.pd1, message.nk1);
+    // MRG → Account (subject Patient[1])
     hl7v23:MRG? mrg = message.mrg;
-    if mrg != () {
-        entries.push(...populateBundleEntries(mrgToAccount(mrg)));
+    if mrg is hl7v23:MRG && hasSegmentContent(mrg) {
+        international401:Account account = mrgToAccount(mrg);
+        account.subject = [patientReference(ctx)];
+        _ = addLinkedEntry(ctx.entries, account);
     }
-    // NK1 → RelatedPerson + Patient
-    foreach hl7v23:NK1 nk1 in message.nk1 {
-        entries.push(...populateBundleEntries(nk1ToRelatedPerson(nk1)));
-        entries.push(...populateBundleEntries(nk1ToPatient(nk1)));
-    }
-    // PV1 → Encounter + Patient
-    entries.push(...populateBundleEntries(pv1ToEncounter(message.pv1)));
-    entries.push(...populateBundleEntries(pv1ToPatient(message.pv1)));
-    // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-    if message.pv1.pv120[0].fc1 != "" {
-        entries.push(...populateBundleEntries(pv1ToCoverage(message.pv1)));
-    }
-    // PV2 → Encounter (optional)
-    hl7v23:PV2? pv2 = message.pv2;
-    if pv2 != () {
-        entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
-    }
-    // OBX → Observation
+    addEncounter(ctx, message.pv1, message.pv2);
     foreach hl7v23:OBX obx in message.obx {
-        entries.push(...populateBundleEntries(obxToObservation(obx)));
+        _ = addObservation(ctx, obx);
     }
-    // AL1 → AllergyIntolerance
-    foreach hl7v23:AL1 al1 in message.al1 {
-        entries.push(...populateBundleEntries(al1ToAllerygyIntolerance(al1)));
-    }
-    // DG1 → Condition
-    foreach hl7v23:DG1 dg1 in message.dg1 {
-        entries.push(...populateBundleEntries(dg1ToCondition(dg1)));
-    }
-    // IG: follow:PID.ROL conditional targets (ROL-3.1/3.3 conditions) and follow:PV1.ROL
-    // are not accessible as typed fields in hl7v23:ADT_A06; skipped.
-    // PROCEDURE group → Procedure
-    // IG: PROCEDURE.ROL has no defined FHIR target per CSV mapping; skipped.
-    // Guard: pr11 (set-ID) is "" for Ballerina default empty instances
+    addAllergies(ctx, message.al1);
+    _ = addDiagnoses(ctx, message.dg1, true);
     foreach hl7v23:ADT_A06_PROCEDURE proc in message.procedure {
-        if proc.pr1.pr11 == "" {
-            continue;
-        }
-        entries.push(...populateBundleEntries(pr1ToProcedure(proc.pr1)));
+        addProcedure(ctx, proc.pr1);
     }
-    // INSURANCE group → Coverage + CareTeam (IN3)
     foreach hl7v23:ADT_A06_INSURANCE ins in message.insurance {
-        if ins.in1.in11 == "" {
-            continue;
-        }
-        entries.push(...populateBundleEntries(in1ToCoverage(ins.in1)));
-        hl7v23:IN3? in3 = ins.in3;
-        if in3 != () {
-            entries.push(...populateBundleEntries(in3ToCareTeam(in3)));
-        }
+        addInsurance(ctx, ins.in1, ins.in3);
     }
-
-    bundle.entry = entries;
-    return bundle;
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
-// --------------------------------------------------------------------------------------------#
-// ADT_A09 (Patient Departing - Tracking) → Bundle
-// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-adt-a09-to-bundle.html
-// Segments: MSH, EVN, PID, PD1, PV1, PV2, OBX, DG1
-// --------------------------------------------------------------------------------------------#
+// ADT_A09 (Patient Departing - Tracking) — Segments: MSH, EVN, PID, PD1, PV1, PV2, OBX
+// (the ADT_A09 message map has no DG1 row, so DG1 is not mapped)
 public isolated function adtA09ToBundle(hl7v23:ADT_A09 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
-
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // EVN → Provenance
-    entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
-    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
-    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
-    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
-        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
-    }
-    // PID → Patient
-    entries.push(...populateBundleEntries(pidToPatient(message.pid)));
-    // PD1 → Patient (optional)
-    // PD1-7 → Observation (Living Will): IG dependsOn IF PD1-7 IS VALUED
-    hl7v23:PD1? pd1 = message.pd1;
-    if pd1 != () {
-        entries.push(...populateBundleEntries(pd1ToPatient(pd1)));
-        if pd1.pd17 != "" {
-            entries.push(...populateBundleEntries(pd1ToLivingWillObservation(pd1)));
-        }
-    }
-    // PV1 → Encounter + Patient
-    entries.push(...populateBundleEntries(pv1ToEncounter(message.pv1)));
-    entries.push(...populateBundleEntries(pv1ToPatient(message.pv1)));
-    // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-    if message.pv1.pv120[0].fc1 != "" {
-        entries.push(...populateBundleEntries(pv1ToCoverage(message.pv1)));
-    }
-    // PV2 → Encounter (optional)
-    hl7v23:PV2? pv2 = message.pv2;
-    if pv2 != () {
-        entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
-    }
-    // OBX → Observation
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh, message.evn);
+    addPatient(ctx, message.pid, message.pd1);
+    addEncounter(ctx, message.pv1, message.pv2);
     foreach hl7v23:OBX obx in message.obx {
-        entries.push(...populateBundleEntries(obxToObservation(obx)));
+        _ = addObservation(ctx, obx);
     }
-    // DG1 → Condition
-    foreach hl7v23:DG1 dg1 in message.dg1 {
-        entries.push(...populateBundleEntries(dg1ToCondition(dg1)));
-    }
-
-    bundle.entry = entries;
-    return bundle;
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
-// --------------------------------------------------------------------------------------------#
-// ADT_A11 (Cancel Admit/Visit Notification) → Bundle
-// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-adt-a11-to-bundle.html
-// Segments: MSH, EVN, PID, PD1, PV1, PV2, OBX, DG1
-// --------------------------------------------------------------------------------------------#
+// ADT_A11 (Cancel Admit/Visit Notification) — Segments: MSH, EVN, PID, PD1, PV1, PV2, OBX, DG1
 public isolated function adtA11ToBundle(hl7v23:ADT_A11 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
-
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // EVN → Provenance
-    entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
-    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
-    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
-    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
-        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
-    }
-    // PID → Patient
-    entries.push(...populateBundleEntries(pidToPatient(message.pid)));
-    // PD1 → Patient (optional)
-    // PD1-7 → Observation (Living Will): IG dependsOn IF PD1-7 IS VALUED
-    hl7v23:PD1? pd1 = message.pd1;
-    if pd1 != () {
-        entries.push(...populateBundleEntries(pd1ToPatient(pd1)));
-        if pd1.pd17 != "" {
-            entries.push(...populateBundleEntries(pd1ToLivingWillObservation(pd1)));
-        }
-    }
-    // PV1 → Encounter + Patient
-    entries.push(...populateBundleEntries(pv1ToEncounter(message.pv1)));
-    entries.push(...populateBundleEntries(pv1ToPatient(message.pv1)));
-    // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-    if message.pv1.pv120[0].fc1 != "" {
-        entries.push(...populateBundleEntries(pv1ToCoverage(message.pv1)));
-    }
-    // PV2 → Encounter (optional)
-    hl7v23:PV2? pv2 = message.pv2;
-    if pv2 != () {
-        entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
-    }
-    // OBX → Observation
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh, message.evn);
+    addPatient(ctx, message.pid, message.pd1);
+    addEncounter(ctx, message.pv1, message.pv2);
     foreach hl7v23:OBX obx in message.obx {
-        entries.push(...populateBundleEntries(obxToObservation(obx)));
+        _ = addObservation(ctx, obx);
     }
-    // DG1 → Condition
-    foreach hl7v23:DG1 dg1 in message.dg1 {
-        entries.push(...populateBundleEntries(dg1ToCondition(dg1)));
-    }
-
-    bundle.entry = entries;
-    return bundle;
+    _ = addDiagnoses(ctx, message.dg1);
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
-// --------------------------------------------------------------------------------------------#
-// ADT_A17 (Swap Patients) → Bundle
-// URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-adt-a17-to-bundle.html
-// Segments: MSH, EVN, PID, PD1, PV1, PV2, OBX
-// --------------------------------------------------------------------------------------------#
+// ADT_A17 (Swap Patients) — Segments: MSH, EVN, PID, PD1, PV1, PV2, OBX
+// Note: the spec maps two PID/PV1 sets (Patient[1..2], Encounter[1..2]), but hl7v23:ADT_A17 declares a single
+// pid/pv1 field, so only the set retained by the parser can be mapped.
 public isolated function adtA17ToBundle(hl7v23:ADT_A17 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
-
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // EVN → Provenance
-    entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
-    // IG: IF EVN-5 NOT VALUED AND (MSH-22 IS VALUED OR MSH-4 IS VALUED) -> MSH[Provenance-Operator]
-    // MSH-22 does not exist in HL7v2.3 (added in v2.5); only MSH-4 (Sending Facility) is checked.
-    if message.evn.evn5.xcn1 == "" && message.msh.msh4.hd1 != "" {
-        entries.push(...populateBundleEntries(mshToProvenanceOperator(message.msh)));
-    }
-    // PID → Patient
-    entries.push(...populateBundleEntries(pidToPatient(message.pid)));
-    // PD1 → Patient (optional)
-    // PD1-7 → Observation (Living Will): IG dependsOn IF PD1-7 IS VALUED
-    hl7v23:PD1? pd1 = message.pd1;
-    if pd1 != () {
-        entries.push(...populateBundleEntries(pd1ToPatient(pd1)));
-        if pd1.pd17 != "" {
-            entries.push(...populateBundleEntries(pd1ToLivingWillObservation(pd1)));
-        }
-    }
-    // PV1 → Encounter + Patient
-    entries.push(...populateBundleEntries(pv1ToEncounter(message.pv1)));
-    entries.push(...populateBundleEntries(pv1ToPatient(message.pv1)));
-    // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-    if message.pv1.pv120[0].fc1 != "" {
-        entries.push(...populateBundleEntries(pv1ToCoverage(message.pv1)));
-    }
-    // PV2 → Encounter (optional)
-    hl7v23:PV2? pv2 = message.pv2;
-    if pv2 != () {
-        entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
-    }
-    // OBX → Observation
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh, message.evn);
+    addPatient(ctx, message.pid, message.pd1);
+    addEncounter(ctx, message.pv1, message.pv2);
     foreach hl7v23:OBX obx in message.obx {
-        entries.push(...populateBundleEntries(obxToObservation(obx)));
+        _ = addObservation(ctx, obx);
     }
-
-    bundle.entry = entries;
-    return bundle;
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -551,35 +468,61 @@ public isolated function adtA17ToBundle(hl7v23:ADT_A17 message) returns r4:Bundl
 // Segments: MSH, EVN, PID, PV1, TXA, OBX
 // --------------------------------------------------------------------------------------------#
 public isolated function mdmT02ToBundle(hl7v23:MDM_T02 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
+    MessageContext ctx = {};
+    // MDM_T02 maps EVN[Provenance] only (no MSH[Provenance-Operator] row)
+    addMessageHeader(ctx, message.msh, message.evn, operatorProvenance = false);
+    addPatient(ctx, message.pid);
+    addEncounter(ctx, message.pv1);
 
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // EVN → Provenance
-    entries.push(...populateBundleEntries(evnToProvenance(message.evn)));
-    // PID → Patient
-    entries.push(...populateBundleEntries(pidToPatient(message.pid)));
-    // PV1 → Encounter + Patient
-    entries.push(...populateBundleEntries(pv1ToEncounter(message.pv1)));
-    entries.push(...populateBundleEntries(pv1ToPatient(message.pv1)));
-    // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-    if message.pv1.pv120[0].fc1 != "" {
-        entries.push(...populateBundleEntries(pv1ToCoverage(message.pv1)));
+    // TXA → DocumentReference[1] (subject Patient[1]); OBX → DocumentReference[1].content (OBX[DocumentReference])
+    international401:DocumentReference document = txaToDocumentReference(message.txa);
+    document.subject = ctx.patientRef;
+    r4:Reference? encounterRef = ctx.encounterRef;
+    if encounterRef is r4:Reference {
+        document.context = {encounter: [encounterRef]};
     }
-    // TXA → DocumentReference
-    entries.push(...populateBundleEntries(txaToDocumentReference(message.txa)));
-    // TXA-8 → Provenance (edit history): IG dependsOn IF TXA-8 (Edit Date/Time) IS VALUED
-    if message.txa.txa8.length() > 0 && message.txa.txa8[0].ts1 != "" {
-        entries.push(...populateBundleEntries(txaToProvenance(message.txa)));
-    }
-    // OBX → Observation
+    international401:DocumentReferenceContent[] content = [];
     foreach hl7v23:OBX obx in message.obx {
-        entries.push(...populateBundleEntries(obxToObservation(obx)));
+        international401:DocumentReferenceContent? obxContent = obxToDocumentContent(obx);
+        if obxContent is international401:DocumentReferenceContent {
+            content.push(obxContent);
+        }
     }
+    if content.length() > 0 {
+        document.content = content;
+    }
+    r4:Reference? documentRef = addLinkedEntry(ctx.entries, document);
 
-    bundle.entry = entries;
-    return bundle;
+    // TXA[Provenance] IF TXA-8 VALUED (target DocumentReference[1])
+    international401:Provenance? provenance = txaToProvenance(message.txa);
+    if provenance is international401:Provenance {
+        if documentRef is r4:Reference {
+            provenance.target = [documentRef];
+        }
+        _ = addLinkedEntry(ctx.entries, provenance);
+    }
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
+}
+
+// OBX[DocumentReference]: OBX-5 by OBX-2 → content.attachment (TX → application/text, FT → text/hl7v2)
+isolated function obxToDocumentContent(hl7v23:OBX obx) returns international401:DocumentReferenceContent? {
+    string[] lines = from hl7v23:varies v in obx.obx5
+        let string text = obxVariesToString(v)
+        where text != ""
+        select text;
+    if lines.length() == 0 {
+        return ();
+    }
+    string data = string:'join("\n", ...lines);
+    if obx.obx2 == "RP" {
+        return {attachment: {url: lines[0]}};
+    }
+    return {
+        attachment: {
+            contentType: obx.obx2 == "FT" ? "text/hl7v2" : "application/text",
+            data: data.toBytes().toBase64()
+        }
+    };
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -587,140 +530,123 @@ public isolated function mdmT02ToBundle(hl7v23:MDM_T02 message) returns r4:Bundl
 // URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-orm-o01-to-bundle.html
 // Segments: MSH, NTE, PATIENT(PID,PD1,NTE,AL1,PATIENT_VISIT(PV1,PV2),INSURANCE(IN1,IN3)),
 //           ORDER(ORC, ORDER_DETAIL(NTE,DG1,ORDER_DETAIL_SEGMENT(OBR,RXO),OBSERVATION(OBX,NTE)))
+// Note: the message-level and PATIENT NTE segments have no target in the ORM_O01 message map.
 // --------------------------------------------------------------------------------------------#
 public isolated function ormO01ToBundle(hl7v23:ORM_O01 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh);
 
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // NTE[] → Observation (message-level notes)
-    foreach hl7v23:NTE nte in message.nte {
-        entries.push(...populateBundleEntries(nteToObservation(nte)));
-    }
-
-    // PATIENT group (optional)
     hl7v23:ORM_O01_PATIENT? patient = message.patient;
-    if patient != () {
-        // PID → Patient
-        entries.push(...populateBundleEntries(pidToPatient(patient.pid)));
-        // PD1 → Patient (optional)
-        // PD1-7 → Observation (Living Will): IG dependsOn IF PD1-7 IS VALUED
-        hl7v23:PD1? pd1 = patient.pd1;
-        if pd1 != () {
-            entries.push(...populateBundleEntries(pd1ToPatient(pd1)));
-            if pd1.pd17 != "" {
-                entries.push(...populateBundleEntries(pd1ToLivingWillObservation(pd1)));
-            }
-        }
-        // NTE → Observation (patient-level notes)
-        foreach hl7v23:NTE nte in patient.nte {
-            entries.push(...populateBundleEntries(nteToObservation(nte)));
-        }
-        // AL1 → AllergyIntolerance
-        foreach hl7v23:AL1 al1 in patient.al1 {
-            entries.push(...populateBundleEntries(al1ToAllerygyIntolerance(al1)));
-        }
-        // PATIENT_VISIT sub-group (optional)
+    if patient is hl7v23:ORM_O01_PATIENT {
+        addPatient(ctx, patient.pid, patient.pd1);
         hl7v23:ORM_O01_PATIENT_VISIT? visit = patient.orm_o01_patient_visit;
-        if visit != () {
-            // PV1 → Encounter + Patient
-            entries.push(...populateBundleEntries(pv1ToEncounter(visit.pv1)));
-            entries.push(...populateBundleEntries(pv1ToPatient(visit.pv1)));
-            // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-            if visit.pv1.pv120[0].fc1 != "" {
-                entries.push(...populateBundleEntries(pv1ToCoverage(visit.pv1)));
-            }
-            // PV2 → Encounter (optional)
-            hl7v23:PV2? pv2 = visit.pv2;
-            if pv2 != () {
-                entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
-            }
+        if visit is hl7v23:ORM_O01_PATIENT_VISIT {
+            addEncounter(ctx, visit.pv1, visit.pv2);
         }
-        // INSURANCE sub-groups → Coverage
-        // IG: IN3 content is incorporated into Coverage (no separate CareTeam for ORM_O01)
+        addAllergies(ctx, patient.al1);
         foreach hl7v23:ORM_O01_INSURANCE ins in patient.orm_o01_insurance {
-            if ins.in1.in11 == "" {
-                continue;
-            }
-            entries.push(...populateBundleEntries(in1ToCoverage(ins.in1)));
+            addInsurance(ctx, ins.in1);
         }
     }
 
-    // ORDER groups
-    // Guard: orc1 (order control) is "" for Ballerina default empty instances
     foreach hl7v23:ORM_O01_ORDER 'order in message.'order {
-        if 'order.orc.orc1 == "" {
-            continue;
-        }
-        // ORC → ServiceRequest
-        entries.push(...populateBundleEntries(orcToServiceRequest('order.orc)));
-
-        // ORDER_DETAIL sub-group (optional)
         hl7v23:ORM_O01_ORDER_DETAIL? detail = 'order.orm_o01_order_detail;
-        if detail != () {
-            // NTE → Observation (order-level notes)
-            foreach hl7v23:NTE nte in detail.nte {
-                entries.push(...populateBundleEntries(nteToObservation(nte)));
+        hl7v23:OBR? obr = detail is hl7v23:ORM_O01_ORDER_DETAIL ? detail.orm_o01_order_detail_segment.obr : ();
+        // OBR → ServiceRequest IF PID IS VALUED (OBR → SupplyRequest otherwise is not implemented)
+        international401:ServiceRequest? serviceRequest = orderToServiceRequest(ctx, 'order.orc,
+                patient is () ? () : obr);
+        if detail is hl7v23:ORM_O01_ORDER_DETAIL && serviceRequest is international401:ServiceRequest {
+            // ORDER_DETAIL.NTE → ServiceRequest[1].note
+            r4:Annotation[] notes = ntesToAnnotations(detail.nte);
+            if notes.length() > 0 {
+                serviceRequest.note = notes;
             }
-            // DG1 → Condition
-            foreach hl7v23:DG1 dg1 in detail.dg1 {
-                entries.push(...populateBundleEntries(dg1ToCondition(dg1)));
+            // ORDER_DETAIL.DG1 → Condition; ServiceRequest[1].reasonReference → Condition
+            r4:Reference[] conditions = addDiagnoses(ctx, detail.dg1);
+            if conditions.length() > 0 {
+                serviceRequest.reasonReference = conditions;
             }
-            // ORDER_DETAIL_SEGMENT (choice: OBR or RXO)
-            // OBR → ServiceRequest (if PATIENT valued) / SupplyRequest (if PATIENT absent)
-            hl7v23:OBR? obr = detail.orm_o01_order_detail_segment.obr;
-            if obr != () {
-                if patient != () {
-                    // IG dependsOn: IF PID IS VALUED → ServiceRequest
-                    entries.push(...populateBundleEntries(obrToServiceRequest(obr)));
-                }
-                // IG: IF PID NOT VALUED → SupplyRequest (not yet implemented; no mapping function available)
-            }
+        }
+        if serviceRequest is international401:ServiceRequest {
+            _ = addLinkedEntry(ctx.entries, serviceRequest);
+        }
+        if detail is hl7v23:ORM_O01_ORDER_DETAIL {
             hl7v23:RXO? rxo = detail.orm_o01_order_detail_segment.rxo;
-            if rxo != () {
-                entries.push(...populateBundleEntries(rxoToMedicationRequest(rxo)));
+            if rxo is hl7v23:RXO && hasSegmentContent(rxo) {
+                international401:MedicationRequest medicationRequest = rxoToMedicationRequest(rxo);
+                medicationRequest.subject = patientReference(ctx);
+                medicationRequest.encounter = ctx.encounterRef;
+                _ = addLinkedEntry(ctx.entries, medicationRequest);
             }
-            // OBSERVATION sub-groups → Observation
-            // Guard: obx1 (set-ID) is "" for default empty instances
             foreach hl7v23:ORM_O01_OBSERVATION obs in detail.orm_o01_observation {
-                if obs.obx.obx1 == "" {
-                    continue;
-                }
-                entries.push(...populateBundleEntries(obxToObservation(obs.obx)));
-                foreach hl7v23:NTE nte in obs.nte {
-                    entries.push(...populateBundleEntries(nteToObservation(nte)));
-                }
+                _ = addObservation(ctx, obs.obx, obs.nte);
             }
         }
     }
 
-    bundle.entry = entries;
-    return bundle;
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
 // --------------------------------------------------------------------------------------------#
 // ORU_R01 (Unsolicited Observation Message) → Bundle
 // URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-oru-r01-to-bundle.html
-// Note: ORU_R01 in HL7v23 exposes only MSH and DSC as typed fields; nested PATIENT_RESULT
-// groups (PID, PV1, OBR, OBX, NTE, ORC) are resolved dynamically by the HL7 parser at
-// runtime. This function handles the typed fields and delegates nested group processing to
-// the generic segment dispatcher. For programmatic access use v2ToFhir() which leverages
-// the full HL7 message entries() iteration including dynamic segment groups.
+// Segments: MSH, PATIENT_RESULT(PATIENT(PID,PD1,NTE,VISIT(PV1,PV2)),
+//           ORDER_OBSERVATION(ORC,OBR,NTE,OBSERVATION(OBX,NTE),CTI)), DSC
 // --------------------------------------------------------------------------------------------#
 public isolated function oruR01ToBundle(hl7v23:ORU_R01 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh);
 
-    // MSH → MessageHeader (only statically-typed field in ORU_R01 besides DSC)
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
+    foreach hl7v23:ORU_R01_PATIENT_RESULT result in message.patient_result {
+        ctx.patient = ();
+        ctx.patientRef = ();
+        ctx.encounter = ();
+        ctx.encounterRef = ();
+        hl7v23:ORU_R01_PATIENT? patient = result.oru_r01_patient;
+        if patient is hl7v23:ORU_R01_PATIENT {
+            addPatient(ctx, patient.pid, patient.pd1);
+            hl7v23:ORU_R01_VISIT? visit = patient.oru_r01_visit;
+            if visit is hl7v23:ORU_R01_VISIT {
+                addEncounter(ctx, visit.pv1, visit.pv2);
+            }
+        }
 
-    // Nested PATIENT_RESULT groups (PID, PV1, OBR, OBX etc.) are stored as dynamic fields
-    // in the parsed ORU_R01 record and are not accessible via static field names.
-    // Use v2ToFhir() for complete ORU_R01 transformation including all nested groups.
+        foreach hl7v23:ORU_R01_ORDER_OBSERVATION orderObs in result.oru_r01_order_observation {
+            hl7v23:OBR obr = orderObs.obr;
+            // ORC/OBR → ServiceRequest[1] (IG: "if a ServiceRequest needs to be created for the receiver")
+            international401:ServiceRequest? serviceRequest = orderToServiceRequest(ctx, orderObs.orc, obr);
+            if serviceRequest is () {
+                continue;
+            }
+            r4:Reference? serviceRequestRef = addLinkedEntry(ctx.entries, serviceRequest);
 
-    bundle.entry = entries;
-    return bundle;
+            // OBX → Observation[2]; DiagnosticReport.result → Observation
+            r4:Reference[] results = [];
+            foreach hl7v23:ORU_R01_OBSERVATION observationGroup in orderObs.oru_r01_observation {
+                hl7v23:OBX? obx = observationGroup.obx;
+                if obx is hl7v23:OBX {
+                    r4:Reference? obsRef = addObservation(ctx, obx, observationGroup.nte);
+                    if obsRef is r4:Reference {
+                        results.push(obsRef);
+                    }
+                }
+            }
+
+            // OBR (+ ORC) → DiagnosticReport[1]
+            international401:DiagnosticReport report = obrToDiagnosticReport(obr);
+            report.subject = ctx.patientRef;
+            report.encounter = ctx.encounterRef;
+            if serviceRequestRef is r4:Reference {
+                report.basedOn = [serviceRequestRef];
+            }
+            if results.length() > 0 {
+                report.result = results;
+            }
+            _ = addLinkedEntry(ctx.entries, report);
+        }
+    }
+
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -729,111 +655,94 @@ public isolated function oruR01ToBundle(hl7v23:ORU_R01 message) returns r4:Bundl
 // Segments: MSH, SCH, NTE, PATIENT(PID,PV1,PV2,OBX,DG1),
 //           RESOURCES(SERVICE(AIS,NTE), GENERAL_RESOURCE(AIG,NTE),
 //                     LOCATION_RESOURCE(AIL,NTE), PERSONNEL_RESOURCE(AIP,NTE))
+// SCH, AIS, AIG, AIL, AIP and NTE all populate Appointment[1].
+// Note: SCH-26/SCH-27 (→ SCH[ServiceRequest]) do not exist in v2.3.
 // --------------------------------------------------------------------------------------------#
 public isolated function siuS12ToBundle(hl7v23:SIU_S12 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh);
 
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // SCH → Appointment
-    entries.push(...populateBundleEntries(schToAppointment(message.sch)));
-    // IG condition: IF SCH-26 OR SCH-27 VALUED → SCH[ServiceRequest] (Placer/Filler order numbers)
-    // SCH-26 and SCH-27 do not exist in HL7v2.3 (the SCH segment only defines up to SCH-25).
-    // ServiceRequest from SCH cannot be created in this v2.3 implementation.
-    // NTE → Observation (message-level notes)
-    // IG: NTE → Appointment[1].comment (NTE[Appointment-Comment]); mapped to Observation as pragmatic fallback
-    //     since no nteToAppointmentComment function exists in this implementation.
-    foreach hl7v23:NTE nte in message.nte {
-        entries.push(...populateBundleEntries(nteToObservation(nte)));
+    // SCH → Appointment[1]
+    international401:Appointment appointment = schToAppointment(message.sch);
+    international401:AppointmentParticipant[] participants = [];
+    string[] comments = from r4:Annotation note in ntesToAnnotations(message.nte) select note.text;
+    foreach international401:AppointmentParticipant participant in appointment.participant {
+        if participant.actor !is () || participant.'type !is () || participant.period !is () {
+            participants.push(participant);
+        }
     }
 
     // PATIENT groups
-    // Guard: pid1 (set-ID) is "" for Ballerina default empty instances
     foreach hl7v23:SIU_S12_PATIENT patient in message.patient {
-        if patient.pid.pid1 == "" {
+        if !hasSegmentContent(patient.pid) {
             continue;
         }
-        // PID → Patient
-        entries.push(...populateBundleEntries(pidToPatient(patient.pid)));
-        // PV1 → Encounter + Patient (optional in SIU_S12)
+        addPatient(ctx, patient.pid);
         hl7v23:PV1? pv1 = patient.pv1;
-        if pv1 != () {
-            entries.push(...populateBundleEntries(pv1ToEncounter(pv1)));
-            entries.push(...populateBundleEntries(pv1ToPatient(pv1)));
-            // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-            if pv1.pv120[0].fc1 != "" {
-                entries.push(...populateBundleEntries(pv1ToCoverage(pv1)));
-            }
+        if pv1 is hl7v23:PV1 && hasSegmentContent(pv1) {
+            addEncounter(ctx, pv1, patient.pv2);
         }
-        // PV2 → Encounter (optional)
-        hl7v23:PV2? pv2 = patient.pv2;
-        if pv2 != () {
-            entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
-        }
-        // OBX → Observation
         foreach hl7v23:OBX obx in patient.obx {
-            if obx.obx1 == "" {
-                continue;
-            }
-            entries.push(...populateBundleEntries(obxToObservation(obx)));
+            _ = addObservation(ctx, obx);
         }
-        // DG1 → Condition
-        foreach hl7v23:DG1 dg1 in patient.dg1 {
-            if dg1.dg11 == "" {
-                continue;
-            }
-            entries.push(...populateBundleEntries(dg1ToCondition(dg1)));
+        _ = addDiagnoses(ctx, patient.dg1);
+        // PID[Appointment]: Appointment.participant.actor → Patient[1]
+        r4:Reference? patientRef = ctx.patientRef;
+        if patientRef is r4:Reference {
+            participants.push({actor: patientRef, status: "accepted"});
         }
     }
 
-    // RESOURCES groups
+    // RESOURCES groups → Appointment[1] (AIS / AIG / AIL / AIP); their NTEs → Appointment.comment
     foreach hl7v23:SIU_S12_RESOURCES resources in message.resources {
-        // SERVICE sub-groups → Appointment (AIS)
-        // Guard: ais1 (set-ID) is "" for Ballerina default empty instances
         foreach hl7v23:SIU_S12_SERVICE svc in resources.siu_s12_service {
-            if svc.ais.ais1 == "" {
+            if !hasSegmentContent(svc.ais) {
                 continue;
             }
-            entries.push(...populateBundleEntries(aisToAppointment(svc.ais)));
-            foreach hl7v23:NTE nte in svc.nte {
-                entries.push(...populateBundleEntries(nteToObservation(nte)));
+            international401:Appointment serviceAppt = aisToAppointment(svc.ais);
+            appointment.serviceType = [...(appointment.serviceType ?: []), ...(serviceAppt.serviceType ?: [])];
+            if message.sch.sch25.ce1 == "" && svc.ais.ais10.ce1 != "" {
+                appointment.status = serviceAppt.status;
             }
+            foreach international401:AppointmentParticipant p in serviceAppt.participant {
+                if p.period !is () {
+                    participants.push(p);
+                }
+            }
+            comments.push(...from r4:Annotation note in ntesToAnnotations(svc.nte) select note.text);
         }
-        // GENERAL_RESOURCE sub-groups → Appointment (AIG)
         foreach hl7v23:SIU_S12_GENERAL_RESOURCE gen in resources.siu_s12_general_resource {
-            if gen.aig.aig1 == "" {
-                continue;
-            }
-            entries.push(...populateBundleEntries(aigToAppointment(gen.aig)));
-            foreach hl7v23:NTE nte in gen.nte {
-                entries.push(...populateBundleEntries(nteToObservation(nte)));
+            if hasSegmentContent(gen.aig) {
+                participants.push(...aigToAppointment(gen.aig).participant);
+                comments.push(...from r4:Annotation note in ntesToAnnotations(gen.nte) select note.text);
             }
         }
-        // LOCATION_RESOURCE sub-groups → Appointment (AIL)
         foreach hl7v23:SIU_S12_LOCATION_RESOURCE loc in resources.siu_s12_location_resource {
-            if loc.ail.ail1 == "" {
-                continue;
-            }
-            entries.push(...populateBundleEntries(ailToAppointment(loc.ail)));
-            foreach hl7v23:NTE nte in loc.nte {
-                entries.push(...populateBundleEntries(nteToObservation(nte)));
+            if hasSegmentContent(loc.ail) {
+                participants.push(...ailToAppointment(loc.ail).participant);
+                comments.push(...from r4:Annotation note in ntesToAnnotations(loc.nte) select note.text);
             }
         }
-        // PERSONNEL_RESOURCE sub-groups → Appointment (AIP)
         foreach hl7v23:SIU_S12_PERSONNEL_RESOURCE per in resources.siu_s12_personnel_resource {
-            if per.aip.aip1 == "" {
-                continue;
-            }
-            entries.push(...populateBundleEntries(aipToAppointment(per.aip)));
-            foreach hl7v23:NTE nte in per.nte {
-                entries.push(...populateBundleEntries(nteToObservation(nte)));
+            if hasSegmentContent(per.aip) {
+                participants.push(...aipToAppointment(per.aip).participant);
+                comments.push(...from r4:Annotation note in ntesToAnnotations(per.nte) select note.text);
             }
         }
     }
 
-    bundle.entry = entries;
-    return bundle;
+    if participants.length() > 0 {
+        appointment.participant = participants;
+    }
+    if appointment.serviceType is r4:CodeableConcept[] && (<r4:CodeableConcept[]>appointment.serviceType).length() == 0 {
+        appointment.serviceType = ();
+    }
+    if comments.length() > 0 {
+        appointment.comment = string:'join("\n", ...comments);
+    }
+    _ = addLinkedEntry(ctx.entries, appointment);
+
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
 // --------------------------------------------------------------------------------------------#
@@ -841,90 +750,139 @@ public isolated function siuS12ToBundle(hl7v23:SIU_S12 message) returns r4:Bundl
 // URL: https://build.fhir.org/ig/HL7/v2-to-fhir/branches/master/ConceptMap-message-vxu-v04-to-bundle.html
 // Segments: MSH, PID, PD1, NK1, PATIENT(PV1,PV2), INSURANCE(IN1,IN3),
 //           ORDER(ORC,RXA,RXR,OBSERVATION(OBX,NTE))
+// ORC, RXA and RXR of an ORDER all populate Immunization[1].
 // --------------------------------------------------------------------------------------------#
 public isolated function vxuV04ToBundle(hl7v23:VXU_V04 message) returns r4:Bundle|error {
-    r4:Bundle bundle = {'type: "transaction"};
-    r4:BundleEntry[] entries = [];
+    MessageContext ctx = {};
+    addMessageHeader(ctx, message.msh);
+    addPatient(ctx, message.pid, message.pd1, message.nk1);
 
-    // MSH → MessageHeader
-    entries.push(...populateBundleEntries(mshToMessageHeader(message.msh)));
-    // PID → Patient
-    entries.push(...populateBundleEntries(pidToPatient(message.pid)));
-    // PD1 → Patient (optional)
-    // PD1-7 → Observation (Living Will): IG dependsOn IF PD1-7 IS VALUED
-    hl7v23:PD1? pd1 = message.pd1;
-    if pd1 != () {
-        entries.push(...populateBundleEntries(pd1ToPatient(pd1)));
-        if pd1.pd17 != "" {
-            entries.push(...populateBundleEntries(pd1ToLivingWillObservation(pd1)));
-        }
-    }
-    // NK1 → RelatedPerson + Patient
-    foreach hl7v23:NK1 nk1 in message.nk1 {
-        entries.push(...populateBundleEntries(nk1ToRelatedPerson(nk1)));
-        entries.push(...populateBundleEntries(nk1ToPatient(nk1)));
-    }
-
-    // PATIENT group (optional)
     hl7v23:VXU_V04_PATIENT? patient = message.patient;
-    if patient != () {
-        // PV1 → Encounter + Patient
-        entries.push(...populateBundleEntries(pv1ToEncounter(patient.pv1)));
-        entries.push(...populateBundleEntries(pv1ToPatient(patient.pv1)));
-        // Coverage: IG dependsOn IF PV1-20 (Financial Class) IS VALUED
-        if patient.pv1.pv120[0].fc1 != "" {
-            entries.push(...populateBundleEntries(pv1ToCoverage(patient.pv1)));
-        }
-        // PV2 → Encounter (optional)
-        hl7v23:PV2? pv2 = patient.pv2;
-        if pv2 != () {
-            entries.push(...populateBundleEntries(pv2ToEncounter(pv2)));
-        }
+    if patient is hl7v23:VXU_V04_PATIENT && hasSegmentContent(patient.pv1) {
+        addEncounter(ctx, patient.pv1, patient.pv2);
     }
-
-    // INSURANCE groups → Coverage
-    // IG: IN3 content is incorporated into Coverage (no separate CareTeam for VXU_V04)
-    // Guard: in11 (set-ID) is "" for Ballerina default empty instances
     foreach hl7v23:VXU_V04_INSURANCE ins in message.insurance {
-        if ins.in1.in11 == "" {
-            continue;
-        }
-        entries.push(...populateBundleEntries(in1ToCoverage(ins.in1)));
+        addInsurance(ctx, ins.in1);
     }
 
-    // ORDER groups → Immunization + MedicationRequest + Observation
-    // Guard: rxa1 (set-ID / give sub-ID counter) is "" for Ballerina default empty instances
     foreach hl7v23:VXU_V04_ORDER 'order in message.'order {
-        if 'order.rxa.rxa1 == "" {
+        if !hasSegmentContent('order.rxa) {
             continue;
         }
-        // ORC → Immunization + ServiceRequest (optional)
+        // RXA (+ ORC, RXR) → Immunization[1]
+        international401:Immunization immunization = rxaToImmunization('order.rxa);
         hl7v23:ORC? orc = 'order.orc;
-        if orc != () {
-            entries.push(...populateBundleEntries(orcToImmunization(orc)));
-            entries.push(...populateBundleEntries(orcToServiceRequest(orc)));
+        if orc is hl7v23:ORC && hasSegmentContent(orc) {
+            _ = mergeResources(immunization, orcToImmunization(orc));
         }
-        // RXA → Immunization (required)
-        entries.push(...populateBundleEntries(rxaToImmunization('order.rxa)));
-        // RXR → Immunization + MedicationRequest (optional)
         hl7v23:RXR? rxr = 'order.rxr;
-        if rxr != () {
-            entries.push(...populateBundleEntries(rxrToImmunization(rxr)));
-            entries.push(...populateBundleEntries(rxrToMedicationRequest(rxr)));
+        if rxr is hl7v23:RXR && hasSegmentContent(rxr) {
+            _ = mergeResources(immunization, rxrToImmunization(rxr));
         }
-        // OBSERVATION sub-groups → Observation
-        // Guard: obx1 (set-ID) is "" for default empty instances
+        immunization.patient = patientReference(ctx);
+        immunization.encounter = ctx.encounterRef;
+        r4:Reference? immunizationRef = addLinkedEntry(ctx.entries, immunization);
+
+        // ORC → ServiceRequest ("only if the system wants to know about the order")
+        if orc is hl7v23:ORC && hasSegmentContent(orc) {
+            international401:ServiceRequest? serviceRequest = orderToServiceRequest(ctx, orc, ());
+            if serviceRequest is international401:ServiceRequest {
+                _ = addLinkedEntry(ctx.entries, serviceRequest);
+            }
+        }
+
+        // OBSERVATION: OBX → Observation (subject Patient[1], partOf Immunization[1]); NTE → note
         foreach hl7v23:VXU_V04_OBSERVATION obs in 'order.vxu_v04_observation {
-            if obs.obx.obx1 == "" {
-                continue;
-            }
-            entries.push(...populateBundleEntries(obxToObservation(obs.obx)));
-            foreach hl7v23:NTE nte in obs.nte {
-                entries.push(...populateBundleEntries(nteToObservation(nte)));
-            }
+            _ = addObservation(ctx, obs.obx, obs.nte, immunizationRef);
         }
     }
 
-    bundle.entry = entries;
+    return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
+}
+
+// --------------------------------------------------------------------------------------------#
+// Bundle assembly helpers
+// --------------------------------------------------------------------------------------------#
+
+# Adds a resource to the bundle entries (if it carries any content), assigning it an id and a `urn:uuid` fullUrl.
+#
+# + entries - bundle entries to append to
+# + 'resource - FHIR resource
+# + return - a reference to the added entry, or nil when the resource is empty and was not added
+isolated function addLinkedEntry(r4:BundleEntry[] entries, map<anydata> 'resource) returns r4:Reference? {
+    if populateBundleEntries('resource).length() == 0 {
+        return ();
+    }
+    anydata existingId = 'resource["id"];
+    string id = existingId is string && existingId != "" ? existingId : generateFhirResourceId();
+    'resource["id"] = id;
+    string fullUrl = "urn:uuid:" + id;
+    entries.push({fullUrl: fullUrl, 'resource: 'resource});
+    return {reference: fullUrl};
+}
+
+# Builds the final message Bundle: Bundle.type = "message" (MSH[Bundle]), MSH-7 → timestamp, MSH-10 → identifier,
+# and every entry gets a resource id and a `urn:uuid` fullUrl.
+#
+# + msh - MSH segment of the message
+# + entries - bundle entries
+# + return - the message bundle
+isolated function finalizeBundle(hl7v23:MSH msh, r4:BundleEntry[] entries, string? bundleId = ()) returns r4:Bundle {
+    r4:Bundle bundle = {'type: "message", entry: assignEntryFullUrls(entries)};
+    bundle.id = bundleId;
+    bundle.timestamp = tsToInstant(msh.msh7);
+    if msh.msh10 != "" {
+        bundle.identifier = {value: msh.msh10};
+    }
     return bundle;
+}
+
+isolated function assignEntryFullUrls(r4:BundleEntry[] entries) returns r4:BundleEntry[] {
+    foreach r4:BundleEntry entry in entries {
+        anydata res = entry?.'resource;
+        if entry.fullUrl is () && res is map<anydata> {
+            anydata existingId = res["id"];
+            string id = existingId is string && existingId != "" ? existingId : generateFhirResourceId();
+            res["id"] = id;
+            entry.fullUrl = "urn:uuid:" + id;
+        }
+    }
+    return entries;
+}
+
+# Merges the populated top-level elements of `additional` into `base` (elements already present in `base` win,
+# except arrays, which are concatenated). Used where the IG maps several segments onto the same resource.
+#
+# + base - resource being built
+# + additional - resource produced by a later segment
+# + return - merged resource
+isolated function mergeResources(map<anydata> base, map<anydata> additional) returns map<anydata> {
+    foreach [string, anydata] [key, value] in additional.entries() {
+        if key == "resourceType" || key == "id" || value is () {
+            continue;
+        }
+        anydata current = base[key];
+        if current is () {
+            base[key] = value;
+        } else if current is anydata[] && value is anydata[] {
+            // push into the existing (typed) array so the record field keeps its inherent type
+            current.push(...value);
+        }
+    }
+    return base;
+}
+
+# Maps NTE segments to Annotations (NTE-3 → text), skipping NTEs without a comment.
+#
+# + ntes - NTE segments
+# + return - annotations
+isolated function ntesToAnnotations(hl7v23:NTE[] ntes) returns r4:Annotation[] {
+    r4:Annotation[] notes = [];
+    foreach hl7v23:NTE nte in ntes {
+        string text = string:'join("\n", ...(from string line in nte.nte3 where line != "" select line));
+        if text != "" {
+            notes.push({text: text});
+        }
+    }
+    return notes;
 }

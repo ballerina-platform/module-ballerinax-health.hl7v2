@@ -29,7 +29,7 @@ public isolated function ceToCodings(Ce ce) returns r4:Coding[]? {
         r4:Coding alternateCoding = {
             code: (ce.ce4 != "") ? ce.ce4 : (),
             display: (ce.ce5 != "") ? ce.ce5 : (),
-            system: (ce.ce6 != "") ? ce.ce6 : ()
+            system: codingSystemToUri(ce.ce6)
         };
         codings.push(alternateCoding);
     }
@@ -43,8 +43,65 @@ public isolated function ceToCodeableConcept(Ce ce) returns r4:CodeableConcept =
 public isolated function ceToCoding(Ce ce) returns r4:Coding => {
     code: (ce.ce1 != "") ? ce.ce1 : (),
     display: (ce.ce2 != "") ? ce.ce2 : (),
-    system: (ce.ce3 != "") ? ce.ce3 : ()
+    system: codingSystemToUri(ce.ce3)
 };
+
+# Translates an HL7 v2 coding system name (HL7 table 0396) to its FHIR canonical URI. Unknown names that already
+# look like URIs/OIDs are returned unchanged; other unknown names are returned as-is so no information is lost.
+#
+# + name - v2 coding system name (e.g. "LN", "SCT", "HL70001")
+# + return - FHIR code system URI, or nil when the name is empty
+public isolated function codingSystemToUri(string name) returns r4:uri? {
+    if name == "" {
+        return ();
+    }
+    match name.toUpperAscii() {
+        "LN"|"LOINC" => {
+            return "http://loinc.org";
+        }
+        "SCT"|"SNM"|"SNOMEDCT"|"SNOMED" => {
+            return "http://snomed.info/sct";
+        }
+        "UCUM"|"ANS+" => {
+            return "http://unitsofmeasure.org";
+        }
+        "I9"|"I9C"|"ICD9"|"ICD9CM" => {
+            return "http://hl7.org/fhir/sid/icd-9-cm";
+        }
+        "I10"|"ICD10" => {
+            return "http://hl7.org/fhir/sid/icd-10";
+        }
+        "I10C"|"ICD10CM" => {
+            return "http://hl7.org/fhir/sid/icd-10-cm";
+        }
+        "I10P"|"ICD10PCS" => {
+            return "http://www.cms.gov/Medicare/Coding/ICD10";
+        }
+        "C4"|"CPT"|"CPT4" => {
+            return "http://www.ama-assn.org/go/cpt";
+        }
+        "CVX" => {
+            return "http://hl7.org/fhir/sid/cvx";
+        }
+        "MVX" => {
+            return "http://terminology.hl7.org/CodeSystem/MVX";
+        }
+        "NDC" => {
+            return "http://hl7.org/fhir/sid/ndc";
+        }
+        "RXNORM" => {
+            return "http://www.nlm.nih.gov/research/umls/rxnorm";
+        }
+        "NCI" => {
+            return "http://ncimeta.nci.nih.gov";
+        }
+    }
+    if name.length() == 7 && name.startsWith("HL7") {
+        // HL7 v2 tables, e.g. HL70001 -> http://terminology.hl7.org/CodeSystem/v2-0001
+        return "http://terminology.hl7.org/CodeSystem/v2-" + name.substring(3);
+    }
+    return name;
+}
 
 public isolated function xadToAddress(Xad xad) returns r4:Address? {
     r4:Extension[]? extension = ();
@@ -118,6 +175,21 @@ public isolated function xonToOrganization(Xon xon) returns international401:Org
                 ]
             } : ()
     };
+
+    // XON.4 / XON.5 → identifier check-digit extensions, XON.6 → identifier.system / assigner
+    r4:Extension[] checkDigits = [];
+    if xon.xon4 != "" {
+        checkDigits.push({url: "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit", valueString: xon.xon4});
+    }
+    if xon.xon5 != "" {
+        checkDigits.push({url: "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit", valueString: xon.xon5});
+    }
+    if identifierValue is string {
+        if checkDigits.length() > 0 {
+            identifier.extension = checkDigits;
+        }
+        applyAssigningAuthority(identifier, xon.xon6);
+    }
 
     international401:Organization organization = {
         name: (xon.xon1 != "") ? xon.xon1 : (),
@@ -255,16 +327,53 @@ public isolated function xtnToContactPoint(Xtn xtn) returns r4:ContactPoint? {
 };
 
 public isolated function hdToMessageHeaderSource(Hd hd) returns international401:MessageHeaderSource {
+    // HD[MessageHeader.source-name]: HD.1 → name, HD.2 → software; endpoint per HD[MessageHeader.source-endpoint]
     return {
-        name: (hd.hd2 == "" && hd.hd1 != "") ? hd.hd1 : (),
+        name: hd.hd1 != "" ? hd.hd1 : (),
+        software: hd.hd2 != "" ? hd.hd2 : (),
         endpoint: getHdEndpoint(hd)
     };
 };
 
-public isolated function hdToMessageHeaderDestination(Hd hd) returns international401:MessageHeaderDestination => {
-    name: (hd.hd2 == "" && hd.hd1 != "") ? hd.hd1 : (),
-    endpoint: getHdEndpoint(hd)
+public isolated function hdToMessageHeaderDestination(Hd hd) returns international401:MessageHeaderDestination {
+    // HD[MessageHeader.destination-endpoint]: HD.1 → name; HD.2 → endpoint (urn:oid:/urn:uuid: for ISO/UUID,
+    // as-is otherwise)
+    string endpoint = hd.hd2 == "" ? hd.hd1 : hd.hd3 == "ISO" ? string `urn:oid:${hd.hd2}`
+        : hd.hd3 == "UUID" ? string `urn:uuid:${hd.hd2}` : hd.hd2;
+    return {
+        name: hd.hd1 != "" ? hd.hd1 : (),
+        endpoint: endpoint
+    };
 };
+
+# HD[Organization] / HD[Device]: HD.1 → identifier[1].value, HD.2 → identifier[2].value (type HD.3, system
+# urn:ietf:rfc:3986 for ISO/UUID).
+#
+# + hd - HD data type
+# + return - identifiers
+public isolated function hdToIdentifiers(Hd hd) returns r4:Identifier[] {
+    r4:Identifier[] identifiers = [];
+    if hd.hd1 != "" {
+        identifiers.push({value: hd.hd1});
+    }
+    if hd.hd2 != "" {
+        identifiers.push({
+            value: hd.hd2,
+            'type: hd.hd3 != "" ? {coding: [{system: "http://terminology.hl7.org/CodeSystem/v2-0301", code: hd.hd3}]} : (),
+            system: hd.hd3 == "ISO" || hd.hd3 == "UUID" ? "urn:ietf:rfc:3986" : ()
+        });
+    }
+    return identifiers;
+}
+
+// Logical reference (by identifier) to an Organization/Device described by an HD
+isolated function hdToLogicalReference(Hd hd, string resourceType) returns r4:Reference? {
+    r4:Identifier[] identifiers = hdToIdentifiers(hd);
+    if identifiers.length() == 0 {
+        return ();
+    }
+    return {'type: resourceType, identifier: identifiers[0], display: hd.hd1 != "" ? hd.hd1 : ()};
+}
 
 isolated function getHdEndpoint(Hd hd) returns r4:urlType {
     if hd.hd2 == "" {
@@ -311,8 +420,9 @@ public isolated function msgToCoding(hl7v23:CM_MSG msg) returns r4:Coding {
     if displayParts.length() > 0 {
         display = string:'join("^", ...displayParts);
     }
+    // MSG[Coding]: MSG.2 (trigger event, HL70003) → code
     return {
-        code: (msg.cm_msg1 != "") ? msg.cm_msg1 : (),
+        code: (msg.cm_msg2 != "") ? msg.cm_msg2 : (),
         system: "http://terminology.hl7.org/CodeSystem/v2-0003",
         display: display
     };
@@ -338,12 +448,33 @@ public isolated function ptToMeta(Pt pt) returns r4:Meta {
 };
 
 public isolated function ceToCode(Ce ce) returns r4:code? {
-    return (ce.ce1 != "") ? ce.ce1 : ();
+    // CWE[code]: CWE.1, or the alternate identifier CWE.4 when CWE.1 is not valued
+    return (ce.ce1 != "") ? ce.ce1 : (ce.ce4 != "" ? ce.ce4 : ());
 };
 
 public isolated function eiToIdentifier(Ei ei) returns r4:Identifier => {
     value: (ei.ei1 != "") ? ei.ei1 : ()
 };
+
+# Maps an EI to an Identifier typed with a v2-0203 code (e.g. PLAC for placer, FILL for filler numbers).
+#
+# + ei - EI data type
+# + typeCode - v2-0203 identifier type code
+# + return - typed identifier, or nil when EI.1 is not valued
+public isolated function eiToTypedIdentifier(Ei ei, string typeCode) returns r4:Identifier? {
+    if ei.ei1 == "" {
+        return ();
+    }
+    return {
+        value: ei.ei1,
+        'type: {coding: [{system: "http://terminology.hl7.org/CodeSystem/v2-0203", code: typeCode}]}
+    };
+}
+
+# Data-absent-reason extension, used to populate required FHIR elements when the v2 source is not valued.
+public final r4:Extension[] & readonly DATA_ABSENT_UNKNOWN = [
+    {url: "http://hl7.org/fhir/StructureDefinition/data-absent-reason", valueCode: "unknown"}
+];
 
 public isolated function eiToReferenceWithType(Ei ei, string resourceType) returns r4:Reference {
     return {
@@ -376,9 +507,7 @@ public isolated function xcnToCodeableConcept(Xcn xcn) returns r4:CodeableConcep
 };
 
 public isolated function xcnToReference(Xcn xcn) returns r4:Reference {
-    return {
-        reference: (xcn.xcn1 != "") ? xcn.xcn1 : ()
-    };
+    return xcnToReferenceWithName(xcn, "Practitioner");
 };
 
 public isolated function xcnToReferenceWithType(Xcn xcn, string resourceType) returns r4:Reference {
@@ -394,9 +523,8 @@ public isolated function idToCoding(hl7v23:ID id) returns r4:Coding {
 };
 
 public isolated function ceToCodeableConcepts(Ce ce) returns r4:CodeableConcept[] {
-    r4:CodeableConcept[] codeableConcept = [];
-    codeableConcept.push(ceToCodeableConcept(<Ce>ce));
-    return codeableConcept;
+    r4:CodeableConcept codeableConcept = ceToCodeableConcept(<Ce>ce);
+    return (codeableConcept.coding is r4:Coding[]) ? [codeableConcept] : [];
 }
 
 public isolated function dtmToDateTime(Dtm ts) returns r4:dateTime? {
@@ -420,11 +548,12 @@ public isolated function idToCodeableConcept(hl7v23:ID id) returns r4:CodeableCo
 };
 
 public isolated function dtmToInstant(Dtm ts) returns r4:instant {
-    return ts;
+    // FHIR instant needs at least second precision and a zone; pad lower-precision v2 values.
+    return ts.length() >= 8 ? hl7FullDateTimeToFhir(ts) : ts;
 };
 
 public isolated function tsToInstant(Ts ts) returns r4:instant? {
-    return (ts.ts1 != "") ? ts.ts1 : ();
+    return (ts.ts1 != "") ? dtmToInstant(ts.ts1) : ();
 };
 
 # Union type for CE data type for all supported hl7 versions.
@@ -510,18 +639,40 @@ public isolated function cxToIdentifier(Cx cx) returns r4:Identifier {
         });
     }
     identifier.extension = (extensions.length() > 0) ? extensions : ();
+    // CX.4 (Assigning Authority) → system (HD[uri]) when it carries a universal id, otherwise assigner
+    applyAssigningAuthority(identifier, cx.cx4);
     return identifier;
 };
 
+// HD → Identifier.system (HD[uri]) when HD.2 is a universal id (ISO → urn:oid:, UUID → urn:uuid:, URI as-is),
+// otherwise → Identifier.assigner(Organization) display / identifier.
+isolated function applyAssigningAuthority(r4:Identifier identifier, Hd hd) {
+    if hd.hd2 != "" && hd.hd3 == "ISO" {
+        identifier.system = "urn:oid:" + hd.hd2;
+    } else if hd.hd2 != "" && hd.hd3 == "UUID" {
+        identifier.system = "urn:uuid:" + hd.hd2;
+    } else if hd.hd2 != "" && (hd.hd3 == "URI" || hd.hd2.startsWith("http")) {
+        identifier.system = hd.hd2;
+    } else if hd.hd1 != "" || hd.hd2 != "" {
+        identifier.assigner = hdToLogicalReference(hd, "Organization");
+    }
+}
+
 public isolated function xcnToHumanName(Xcn xcn) returns r4:HumanName {
     r4:HumanName humanName = {};
+    // v2.3 XCN: 2 family, 3 given, 4 middle, 5 suffix, 6 prefix, 10 name type (XCN[Practitioner] spec rows)
     humanName.family = (xcn.xcn2 != "") ? xcn.xcn2 : ();
-    if xcn.xcn3 != "" {
-        humanName.given = [xcn.xcn3];
+    string[] given = from string g in [xcn.xcn3, xcn.xcn4] where g != "" select g;
+    if given.length() > 0 {
+        humanName.given = given;
     }
     if xcn.xcn5 != "" {
-        humanName.prefix = [xcn.xcn5];
+        humanName.suffix = [xcn.xcn5];
     }
+    if xcn.xcn6 != "" {
+        humanName.prefix = [xcn.xcn6];
+    }
+    humanName.use = (xcn.xcn10 != "") ? idToHumanNameUse(xcn.xcn10) : ();
     return humanName;
 };
 

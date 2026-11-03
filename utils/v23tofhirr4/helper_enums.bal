@@ -18,13 +18,14 @@ import ballerinax/health.fhir.r4;
 import ballerinax/health.fhir.r4.international401;
 import ballerinax/health.hl7v23;
 
-public isolated function idToHumanNameUse(Id id) returns r4:HumanNameUse {
+// Concept maps below follow the HL7 v2-to-FHIR IG ConceptMaps (codesystems/*.csv). Codes without a target in the
+// concept map return nil so that no invented value is emitted.
+
+// NameType (HL70200) -> HumanName.use
+public isolated function idToHumanNameUse(Id id) returns r4:HumanNameUse? {
     match id {
-        "L" => {
+        "L"|"R" => {
             return "official";
-        }
-        "A" => {
-            return "old";
         }
         "D" => {
             return "usual";
@@ -32,53 +33,185 @@ public isolated function idToHumanNameUse(Id id) returns r4:HumanNameUse {
         "M" => {
             return "maiden";
         }
-        "O" => {
+        "N" => {
             return "nickname";
         }
-        _ => {
-            return "usual";
+        "BAD" => {
+            return "old";
         }
-    }
-}
-
-public isolated function idToAddressType(Id id) returns r4:AddressType => id is r4:AddressType ? id : "postal";
-
-public isolated function idToAddressUse(Id id) returns r4:AddressUse? {
-    match id {
-        "O" => {
-            return "work";
+        "TEMP"|"NAV" => {
+            return "temp";
         }
-        "H" => {
-            return "home";
-        }
-        "M" => {
-            return "home";
-        }
-        "P" => {
-            return "billing";
-        }
-        "B" => {
-            return "work";
+        "MSK" => {
+            return "anonymous";
         }
     }
     return ();
 }
 
-public isolated function idToContactPointUse(Id id) returns r4:ContactPointUse => id is r4:ContactPointUse ? id : "home";
+// AddressType[Type] (HL70190) -> Address.type
+public isolated function idToAddressType(Id id) returns r4:AddressType? {
+    match id {
+        "M"|"SH" => {
+            return "postal";
+        }
+    }
+    return id is r4:AddressType ? id : ();
+}
 
-public isolated function idToContactPointSystem(Id id) returns r4:ContactPointSystem => id is r4:ContactPointSystem ? id : "phone";
+// AddressType[Use] (HL70190) -> Address.use
+public isolated function idToAddressUse(Id id) returns r4:AddressUse? {
+    match id {
+        "O"|"B" => {
+            return "work";
+        }
+        "H" => {
+            return "home";
+        }
+        "BA" => {
+            return "old";
+        }
+        "BI" => {
+            return "billing";
+        }
+        "C" => {
+            return "temp";
+        }
+    }
+    return ();
+}
 
-public isolated function isToAllergyIntoleranceCategory(Is 'is) returns international401:AllergyIntoleranceCategory => 'is is international401:AllergyIntoleranceCategory ? 'is : "environment";
+// TelecommunicationUseCode (HL70201) -> ContactPoint.use
+public isolated function idToContactPointUse(Id id) returns r4:ContactPointUse? {
+    match id {
+        "PRN" => {
+            return "home";
+        }
+        "WPN" => {
+            return "work";
+        }
+        "PRS" => {
+            return "mobile";
+        }
+    }
+    return ();
+}
 
-public isolated function isToAllergyIntoleranceType(string 'is) returns international401:AllergyIntoleranceType => 'is is international401:AllergyIntoleranceType ? 'is : "intolerance";
+// TelecommunicationEquipmentType (HL70202) -> ContactPoint.system
+public isolated function idToContactPointSystem(Id id) returns r4:ContactPointSystem? {
+    match id {
+        "PH"|"CP" => {
+            return "phone";
+        }
+        "FX" => {
+            return "fax";
+        }
+        "BP" => {
+            return "pager";
+        }
+        "Internet"|"X.400" => {
+            return "email";
+        }
+        "MD"|"SAT"|"TDD"|"TTY" => {
+            return "other";
+        }
+    }
+    return ();
+}
 
-public isolated function isToAllergyIntoleranceCriticality(Is 'is) returns international401:AllergyIntoleranceCriticality => 'is is international401:AllergyIntoleranceCriticality ? 'is : "high";
+// AllergenType[AllergyIntoleranceCategory] (HL70127) -> AllergyIntolerance.category
+public isolated function isToAllergyIntoleranceCategory(Is 'is) returns international401:AllergyIntoleranceCategory? {
+    match 'is {
+        "DA" => {
+            return "medication";
+        }
+        "FA" => {
+            return "food";
+        }
+        "EA"|"PA"|"LA" => {
+            return "environment";
+        }
+        "AA" => {
+            return "biologic";
+        }
+    }
+    return ();
+}
 
-public isolated function idToDiagnosticReportStatus(hl7v23:ID id) returns international401:DiagnosticReportStatus => id is international401:DiagnosticReportStatus ? id : "final";
+// AllergyType (HL70127) -> AllergyIntolerance.type
+public isolated function isToAllergyIntoleranceType(string 'is) returns international401:AllergyIntoleranceType? {
+    match 'is {
+        "DA"|"FA"|"MA"|"EA"|"AA"|"PA"|"LA" => {
+            return "allergy";
+        }
+    }
+    return ();
+}
+
+// AllergySeverity[AllergyIntolerance.criticality] (HL70128) -> AllergyIntolerance.criticality
+public isolated function isToAllergyIntoleranceCriticality(Is 'is) returns international401:AllergyIntoleranceCriticality? {
+    match 'is {
+        "SV" => {
+            return "high";
+        }
+        "MI" => {
+            return "low";
+        }
+    }
+    return ();
+}
+
+// ResultStatus[Non-Queries] (HL70123) -> DiagnosticReport.status.
+// NOTE: international401 restricts DiagnosticReportStatus to final|registered|preliminary|partial, so the concept-map
+// targets corrected (C) and cancelled (X) cannot be represented; those and unmapped codes fall back to "final".
+public isolated function idToDiagnosticReportStatus(hl7v23:ID id) returns international401:DiagnosticReportStatus {
+    match id {
+        "O"|"I"|"S" => {
+            return international401:CODE_STATUS_REGISTERED;
+        }
+        "P" => {
+            return international401:CODE_STATUS_PRELIMINARY;
+        }
+        "R" => {
+            return international401:CODE_STATUS_PARTIAL;
+        }
+    }
+    return international401:CODE_STATUS_FINAL;
+}
+
+// ObservationResultStatusCodesInterpretation (HL70085) -> Observation.status.
+// NOTE: international401 restricts ObservationStatus to amended|final|registered|preliminary. C (corrected) maps to
+// its parent status "amended"; D/W (entered-in-error) and X (cancelled) cannot be represented and, like unmapped
+// codes, fall back to "preliminary".
+public isolated function idToObservationStatus(hl7v23:ID id) returns international401:ObservationStatus {
+    match id {
+        "A"|"C" => {
+            return "amended";
+        }
+        "F" => {
+            return "final";
+        }
+    }
+    return "preliminary";
+}
 
 public isolated function nameToServiceRequestIntent(string name) returns international401:ServiceRequestIntent => name is international401:ServiceRequestIntent ? name : "proposal";
 
-public isolated function idToServiceRequestPriority(hl7v23:ID id) returns international401:ServiceRequestPriority => id is international401:ServiceRequestPriority ? id : "stat";
+// ExtendedPriorityCodes (HL70485) -> ServiceRequest.priority
+public isolated function idToServiceRequestPriority(hl7v23:ID id) returns international401:ServiceRequestPriority? {
+    match id {
+        "S" => {
+            return "stat";
+        }
+        "A" => {
+            return "asap";
+        }
+        "R" => {
+            return "routine";
+        }
+    }
+    return ();
+}
 
 enum ComparisonOperator {
     EQ, // Matches values that are equal to a specified value.
