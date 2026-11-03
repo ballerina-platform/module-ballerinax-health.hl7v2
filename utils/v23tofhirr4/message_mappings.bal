@@ -856,6 +856,7 @@ isolated function isUuid(string value) returns boolean =>
 #
 # + msh - MSH segment of the message
 # + entries - bundle entries
+# + bundleId - Bundle.id (targeted by the MSH Provenance-Source / Transformation resources)
 # + return - the message bundle
 isolated function finalizeBundle(hl7v23:MSH msh, r4:BundleEntry[] entries, string? bundleId = ()) returns r4:Bundle {
     r4:Bundle bundle = {'type: "message", entry: assignEntryFullUrls(entries)};
