@@ -29,6 +29,12 @@ public const ADT_A17_MESSAGE_TYPE = "ADT_A17";
 # + pv2 - PV2
 # + db1 - DB1
 # + obx - OBX
+# + pid_2 - PID (second patient set)
+# + pd1_2 - PD1 (second patient set)
+# + pv1_2 - PV1 (second patient set)
+# + pv2_2 - PV2 (second patient set)
+# + db1_2 - DB1 (second patient set)
+# + obx_2 - OBX (second patient set)
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -132,5 +138,12 @@ public type ADT_A17 record {
     PV2 pv2?;
     DB1[] db1 = [];
     OBX[] obx = [];
-
+    // Second patient set (the message carries two PID/PV1 sets); populated by the parser from the
+    // second PID onwards.
+    PID pid_2?;
+    PD1 pd1_2?;
+    PV1 pv1_2?;
+    PV2 pv2_2?;
+    DB1[] db1_2?;
+    OBX[] obx_2?;
 };

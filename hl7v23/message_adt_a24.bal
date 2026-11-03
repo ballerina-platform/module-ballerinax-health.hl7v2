@@ -27,6 +27,10 @@ public const ADT_A24_MESSAGE_TYPE = "ADT_A24";
 # + pd1 - PD1
 # + pv1 - PV1
 # + db1 - DB1
+# + pid_2 - PID (second patient set)
+# + pd1_2 - PD1 (second patient set)
+# + pv1_2 - PV1 (second patient set)
+# + db1_2 - DB1 (second patient set)
 
 @hl7v2:MessageDefinition {
     orderedSegments: {
@@ -104,5 +108,10 @@ public type ADT_A24 record {
     PD1 pd1?;
     PV1 pv1?;
     DB1[] db1 = [];
-
+    // Second patient set (the message carries two PID/PV1 sets); populated by the parser from the
+    // second PID onwards.
+    PID pid_2?;
+    PD1 pd1_2?;
+    PV1 pv1_2?;
+    DB1[] db1_2?;
 };
