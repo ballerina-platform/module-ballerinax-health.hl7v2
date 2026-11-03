@@ -603,8 +603,8 @@ public isolated function evnToProvenance(Evn evn) returns international401:Prove
             }
         });
     }
-    r4:instant recorded = (evn.evn2.ts1 != "") ? hl7DateToFhir(evn.evn2.ts1) :
-        ((evn.evn6.ts1 != "") ? hl7DateToFhir(evn.evn6.ts1) : "1970-01-01T00:00:00Z");
+    // EVN-2 → recorded (mandatory); falls back to EVN-6, then to the epoch when neither is a valid date
+    r4:instant recorded = hl7DateToFhir(evn.evn2.ts1) ?: hl7DateToFhir(evn.evn6.ts1) ?: "1970-01-01T00:00:00Z";
     international401:Provenance provenance = {
         activity: {
             coding: coding
@@ -755,12 +755,13 @@ public isolated function pidToPatient(Pid pid) returns international401:Patient 
     string dob = pid.pid7.ts1;
     if dob != "" {
         patient.birthDate = hl7DateToFhir(dob.length() > 8 ? dob.substring(0, 8) : dob);
-        if dob.length() > 8 {
+        string? birthTime = dob.length() > 8 ? hl7DateToFhir(dob) : ();
+        if birthTime is string {
             patient["_birthDate"] = <r4:Element>{
                 extension: [
                     {
                         url: "http://hl7.org/fhir/StructureDefinition/patient-birthTime",
-                        valueDateTime: hl7DateToFhir(dob)
+                        valueDateTime: birthTime
                     }
                 ]
             };
@@ -841,9 +842,8 @@ public isolated function pv1ToEncounter(Pv1 pv1) returns international401:Encoun
         : pv1.pv12 != ""
             ? {system: "http://terminology.hl7.org/CodeSystem/v2-0004", code: pv1.pv12}
             : {extension: DATA_ABSENT_UNKNOWN};
-    // NOTE: PatientClass[EncounterStatus] maps U → "unknown", which international401's EncounterStatus enum
-    // cannot represent; it falls back to "in-progress" like the other classes.
-    international401:EncounterStatus status = pv1.pv12 == "P" ? "planned" : "in-progress";
+    // PatientClass[EncounterStatus]: P → planned, U → unknown, other classes → in-progress
+    international401:EncounterStatus status = pv1.pv12 == "P" ? "planned" : pv1.pv12 == "U" ? "unknown" : "in-progress";
     if pv1.pv145.ts1 != "" {
         status = "finished";
     }
@@ -970,7 +970,8 @@ public isolated function pv2ToEncounter(Pv2 pv2) returns international401:Encoun
     international401:Encounter encounter = {
         // class is mandatory in R4 but PV2 carries no patient class; it is supplied by PV1 when merged
         'class: {extension: DATA_ABSENT_UNKNOWN},
-        status: "in-progress"
+        // PV2 carries no visit status; PV1 supplies it when merged
+        status: "unknown"
     };
 
     // PV2-1 → location (status "planned")
@@ -985,16 +986,18 @@ public isolated function pv2ToEncounter(Pv2 pv2) returns international401:Encoun
     }
     // PV2-8 / PV2-9 → expected admit / discharge (R5 cross-version extensions)
     r4:Extension[] extensions = [];
-    if pv2.pv28.ts1 != "" {
+    string? expectedAdmit = hl7DateToFhir(pv2.pv28.ts1);
+    if expectedAdmit is string {
         extensions.push({
             url: "http://hl7.org/fhir/5.0/StructureDefinition/extension-Encounter.plannedStartDate",
-            valueDateTime: hl7DateToFhir(pv2.pv28.ts1)
+            valueDateTime: expectedAdmit
         });
     }
-    if pv2.pv29.ts1 != "" {
+    string? expectedDischarge = hl7DateToFhir(pv2.pv29.ts1);
+    if expectedDischarge is string {
         extensions.push({
             url: "http://hl7.org/fhir/5.0/StructureDefinition/extension-Encounter.plannedEndDate",
-            valueDateTime: hl7DateToFhir(pv2.pv29.ts1)
+            valueDateTime: expectedDischarge
         });
     }
     encounter.extension = extensions.length() > 0 ? extensions : ();
@@ -1064,8 +1067,8 @@ public isolated function dg1ToCondition(Dg1 dg1) returns international401:Condit
         }
     }
     // DG1-19 → recordedDate and condition-assertedDate extension
-    if dg1.dg119.ts1 != "" {
-        string attested = hl7DateToFhir(dg1.dg119.ts1);
+    string? attested = hl7DateToFhir(dg1.dg119.ts1);
+    if attested is string {
         condition.recordedDate = attested;
         condition.extension = [{url: "http://hl7.org/fhir/StructureDefinition/condition-assertedDate", valueDateTime: attested}];
     }
@@ -2244,7 +2247,7 @@ public isolated function mshToProvenanceOperator(Msh msh) returns international4
         who: hdToLogicalReference(msh.msh4, "Organization") ?: {extension: DATA_ABSENT_UNKNOWN, display: facilityName != "" ? facilityName : ()}
     };
     return {
-        recorded: msh.msh7.ts1 != "" ? hl7DateToFhir(msh.msh7.ts1) : "1970-01-01T00:00:00Z",
+        recorded: hl7DateToFhir(msh.msh7.ts1) ?: "1970-01-01T00:00:00Z",
         target: [{
             display: "Sending facility"
         }],
@@ -2700,7 +2703,7 @@ public isolated function mshToProvenanceSource(Msh msh) returns international401
     }
     string[] msgParts = from string p in [msh.msh9.cm_msg1, msh.msh9.cm_msg2] where p != "" select p;
     international401:Provenance provenance = {
-        recorded: msh.msh7.ts1 != "" ? <r4:instant>tsToInstant(msh.msh7) : time:utcToString(time:utcNow()),
+        recorded: tsToInstant(msh.msh7) ?: re `\.\d+Z$`.replace(time:utcToString(time:utcNow()), "Z"),
         target: [{extension: DATA_ABSENT_UNKNOWN}],
         agent: [
             {

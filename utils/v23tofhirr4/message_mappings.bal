@@ -448,16 +448,33 @@ public isolated function adtA11ToBundle(hl7v23:ADT_A11 message) returns r4:Bundl
     return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
 
-// ADT_A17 (Swap Patients) — Segments: MSH, EVN, PID, PD1, PV1, PV2, OBX
-// Note: the spec maps two PID/PV1 sets (Patient[1..2], Encounter[1..2]), but hl7v23:ADT_A17 declares a single
-// pid/pv1 field, so only the set retained by the parser can be mapped.
+// ADT_A17 (Swap Patients) — Segments: MSH, EVN, (PID, PD1, PV1, PV2, DB1, OBX) x 2
+// The two patient sets map to Patient[1]/Encounter[1] and Patient[2]/Encounter[2] (Sort Order 6-8, 13-15);
+// the parser stores the second set in the `<segment>_2` fields.
 public isolated function adtA17ToBundle(hl7v23:ADT_A17 message) returns r4:Bundle|error {
     MessageContext ctx = {};
     addMessageHeader(ctx, message.msh, message.evn);
+    // First patient set
     addPatient(ctx, message.pid, message.pd1);
     addEncounter(ctx, message.pv1, message.pv2);
     foreach hl7v23:OBX obx in message.obx {
         _ = addObservation(ctx, obx);
+    }
+    // Second patient set
+    hl7v23:PID? secondPid = message.pid_2;
+    if secondPid is hl7v23:PID && hasSegmentContent(secondPid) {
+        ctx.patient = ();
+        ctx.patientRef = ();
+        ctx.encounter = ();
+        ctx.encounterRef = ();
+        addPatient(ctx, secondPid, message.pd1_2);
+        hl7v23:PV1? secondPv1 = message.pv1_2;
+        if secondPv1 is hl7v23:PV1 && hasSegmentContent(secondPv1) {
+            addEncounter(ctx, secondPv1, message.pv2_2);
+        }
+        foreach hl7v23:OBX obx in message.obx_2 ?: [] {
+            _ = addObservation(ctx, obx);
+        }
     }
     return finalizeBundle(message.msh, ctx.entries, ctx.bundleId);
 }
@@ -813,13 +830,26 @@ isolated function addLinkedEntry(r4:BundleEntry[] entries, map<anydata> 'resourc
     if populateBundleEntries('resource).length() == 0 {
         return ();
     }
-    anydata existingId = 'resource["id"];
-    string id = existingId is string && existingId != "" ? existingId : generateFhirResourceId();
-    'resource["id"] = id;
-    string fullUrl = "urn:uuid:" + id;
+    string fullUrl = entryFullUrl('resource);
     entries.push({fullUrl: fullUrl, 'resource: 'resource});
     return {reference: fullUrl};
 }
+
+// Ensures the resource has an id and returns its bundle fullUrl. A UUID id is reused as `urn:uuid:<id>`; a
+// resource without an id gets a generated UUID id. A non-UUID id (e.g. from a custom mapper) is kept on the
+// resource, and the fullUrl uses a fresh UUID, since `urn:uuid:` requires a UUID.
+isolated function entryFullUrl(map<anydata> 'resource) returns string {
+    anydata existingId = 'resource["id"];
+    if existingId is string && existingId != "" {
+        return isUuid(existingId) ? "urn:uuid:" + existingId : "urn:uuid:" + generateFhirResourceId();
+    }
+    string id = generateFhirResourceId();
+    'resource["id"] = id;
+    return "urn:uuid:" + id;
+}
+
+isolated function isUuid(string value) returns boolean =>
+    re `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`.isFullMatch(value);
 
 # Builds the final message Bundle: Bundle.type = "message" (MSH[Bundle]), MSH-7 → timestamp, MSH-10 → identifier,
 # and every entry gets a resource id and a `urn:uuid` fullUrl.
@@ -841,10 +871,7 @@ isolated function assignEntryFullUrls(r4:BundleEntry[] entries) returns r4:Bundl
     foreach r4:BundleEntry entry in entries {
         anydata res = entry?.'resource;
         if entry.fullUrl is () && res is map<anydata> {
-            anydata existingId = res["id"];
-            string id = existingId is string && existingId != "" ? existingId : generateFhirResourceId();
-            res["id"] = id;
-            entry.fullUrl = "urn:uuid:" + id;
+            entry.fullUrl = entryFullUrl(res);
         }
     }
     return entries;

@@ -161,38 +161,54 @@ public isolated function isToAllergyIntoleranceCriticality(Is 'is) returns inter
     return ();
 }
 
-// ResultStatus[Non-Queries] (HL70123) -> DiagnosticReport.status.
-// NOTE: international401 restricts DiagnosticReportStatus to final|registered|preliminary|partial, so the concept-map
-// targets corrected (C) and cancelled (X) cannot be represented; those and unmapped codes fall back to "final".
+// ResultStatus[Non-Queries] (HL70123) -> DiagnosticReport.status (1..1, so unmapped codes -> "unknown")
 public isolated function idToDiagnosticReportStatus(hl7v23:ID id) returns international401:DiagnosticReportStatus {
     match id {
         "O"|"I"|"S" => {
-            return international401:CODE_STATUS_REGISTERED;
+            return "registered";
         }
         "P" => {
-            return international401:CODE_STATUS_PRELIMINARY;
+            return "preliminary";
+        }
+        "C" => {
+            return "corrected";
         }
         "R" => {
-            return international401:CODE_STATUS_PARTIAL;
-        }
-    }
-    return international401:CODE_STATUS_FINAL;
-}
-
-// ObservationResultStatusCodesInterpretation (HL70085) -> Observation.status.
-// NOTE: international401 restricts ObservationStatus to amended|final|registered|preliminary. C (corrected) maps to
-// its parent status "amended"; D/W (entered-in-error) and X (cancelled) cannot be represented and, like unmapped
-// codes, fall back to "preliminary".
-public isolated function idToObservationStatus(hl7v23:ID id) returns international401:ObservationStatus {
-    match id {
-        "A"|"C" => {
-            return "amended";
+            return "partial";
         }
         "F" => {
             return "final";
         }
+        "X" => {
+            return "cancelled";
+        }
     }
-    return "preliminary";
+    return "unknown";
+}
+
+// ObservationResultStatusCodesInterpretation (HL70085) -> Observation.status (1..1, so unmapped codes -> "unknown")
+public isolated function idToObservationStatus(hl7v23:ID id) returns international401:ObservationStatus {
+    match id {
+        "A" => {
+            return "amended";
+        }
+        "C" => {
+            return "corrected";
+        }
+        "D"|"W" => {
+            return "entered-in-error";
+        }
+        "F" => {
+            return "final";
+        }
+        "P" => {
+            return "preliminary";
+        }
+        "X" => {
+            return "cancelled";
+        }
+    }
+    return "unknown";
 }
 
 public isolated function nameToServiceRequestIntent(string name) returns international401:ServiceRequestIntent => name is international401:ServiceRequestIntent ? name : "proposal";

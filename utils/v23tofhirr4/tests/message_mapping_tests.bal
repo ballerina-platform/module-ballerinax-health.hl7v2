@@ -22,6 +22,7 @@
 // =============================================================================
 
 import ballerina/test;
+import ballerinax/health.fhir.r4.international401;
 import ballerinax/health.hl7v2 as hl7;
 import ballerinax/health.hl7v23;
 
@@ -602,9 +603,8 @@ function msgAdtA17ObservationsTest() returns error? {
     test:assertEquals(msgCount(entries, "Observation"), 2, "OBX of both patients -> Observation x2");
 }
 
-// BUG (upstream, hl7v23 package): hl7v23:ADT_A17 declares a single pid/pv1 field, so the parser keeps only the
-// second PID/PV1 set and adtA17ToBundle cannot emit Patient[1..2] / Encounter[1..2] (spec Sort Order 6-8, 13-15).
-@test:Config {enable: false}
+// ADT_A17 Sort Order 6-8 and 13-15: both PID/PV1 sets → Patient[1..2], Encounter[1..2]
+@test:Config {}
 function msgAdtA17TwoPatientsTest() returns error? {
     json[] entries = check msgTransform(msgAdtA17);
     test:assertEquals(msgCount(entries, "Patient"), 2, "Two PID segments -> Patient[1] and Patient[2]");
@@ -838,4 +838,24 @@ function msgAdtA01SourceAndTransformationProvenanceTest() returns error? {
     foreach map<json> p in provs.filter(p => !msgIsEventProvenance(p)) {
         test:assertTrue(p.toJsonString().includes("Bundle/" + bundleId), "Source/Transformation target Bundle");
     }
+}
+
+// A custom mapper may return a resource with a non-UUID id: the id is kept, and fullUrl uses a real UUID.
+isolated function msgCustomPv1ToEncounter(Pv1 pv1) returns international401:Encounter =>
+    {id: "1", 'class: {code: "IMP"}, status: "in-progress"};
+
+@test:Config {}
+function msgCustomMapperNonUuidIdFullUrlTest() returns error? {
+    json bundle = check v2ToFhir(msgAdtA01Minimal, {pv1ToEncounter: msgCustomPv1ToEncounter});
+    boolean checked = false;
+    foreach json e in msgEntries(bundle) {
+        map<json> entry = <map<json>>e;
+        string fullUrl = check entry.fullUrl;
+        test:assertTrue(isUuid(fullUrl.substring(9)), "fullUrl must be urn:uuid:<uuid>: " + fullUrl);
+        if msgResource(e)["resourceType"] == "Encounter" {
+            test:assertEquals(msgResource(e)["id"], "1", "custom mapper id is kept");
+            checked = true;
+        }
+    }
+    test:assertTrue(checked);
 }

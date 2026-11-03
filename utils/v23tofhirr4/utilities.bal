@@ -538,11 +538,17 @@ isolated function populateBundleEntries(map<anydata> constructedResource) return
     return entries;
 }
 
-// Additional utility function to handle incomplete dates in HL7v2
-public isolated function hl7DateToFhir(string hl7Date) returns string {
+# Converts an HL7 v2 DT/TS/DTM value (any precision YYYY[MM[DD[HH[MM[SS[.S+]]]]]][+/-ZZZZ]) to a FHIR date/dateTime.
+#
+# + hl7Date - HL7 v2 date/time value
+# + return - FHIR date (YYYY, YYYY-MM, YYYY-MM-DD) or dateTime, or nil when the value is empty or malformed
+public isolated function hl7DateToFhir(string hl7Date) returns string? {
     if hl7Date.length() == 0 {
-        log:printError("Empty date value provided");
-        return hl7Date;
+        return ();
+    }
+    if !validateHl7DateTime(hl7Date) {
+        log:printError("Invalid HL7v2 date time format: " + hl7Date);
+        return ();
     }
 
     // Handle YYYY format
@@ -564,26 +570,18 @@ public isolated function hl7DateToFhir(string hl7Date) returns string {
     return hl7FullDateTimeToFhir(hl7Date);
 }
 
-// Utility to convert HL7v2 DTM/TS format to FHIR R4 datetime format
-isolated function hl7FullDateTimeToFhir(string hl7DateTime) returns string {
-    // Validate HL7v2 DTM/TS format
-    boolean isValidFormat = validateHl7DateTime(hl7DateTime);
-    if !isValidFormat {
+// Converts an HL7v2 DTM/TS value (at least YYYYMMDD) to a FHIR R4 dateTime; nil when malformed
+isolated function hl7FullDateTimeToFhir(string hl7DateTime) returns string? {
+    if !validateHl7DateTime(hl7DateTime) {
         log:printError("Invalid HL7v2 date time format: " + hl7DateTime);
-        return hl7DateTime;
+        return ();
     }
-
-    // Extract components from HL7 datetime
     map<string>? components = extractDateTimeComponents(hl7DateTime);
-
-    // Build the FHIR datetime string in ISO 8601 format
     if components is () {
         log:printError("Failed to extract components from HL7 datetime: " + hl7DateTime);
-        return hl7DateTime;
+        return ();
     }
-    string fhirDateTime = buildFhirDateTime(components);
-
-    return fhirDateTime;
+    return buildFhirDateTime(components);
 }
 
 // Extract components from HL7 datetime string

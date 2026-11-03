@@ -547,9 +547,10 @@ public isolated function idToCodeableConcept(hl7v23:ID id) returns r4:CodeableCo
     return id != "" ? codeableConcept : ();
 };
 
-public isolated function dtmToInstant(Dtm ts) returns r4:instant {
+public isolated function dtmToInstant(Dtm ts) returns r4:instant? {
     // FHIR instant needs at least second precision and a zone; pad lower-precision v2 values.
-    return ts.length() >= 8 ? hl7FullDateTimeToFhir(ts) : ts;
+    // Values with less than day precision, or malformed values, cannot form an instant.
+    return ts.length() >= 8 ? hl7FullDateTimeToFhir(ts) : ();
 };
 
 public isolated function tsToInstant(Ts ts) returns r4:instant? {

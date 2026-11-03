@@ -125,9 +125,8 @@ function visPv1EncounterStatusConceptMapTest() {
     test:assertEquals(pv1ToEncounter({name: "PV1", pv12: "I"}).status, "in-progress");
 }
 
-// BUG (upstream): PatientClass[EncounterStatus] maps U → "unknown", but the EncounterStatus enum in
-// ballerinax/health.fhir.r4.international401 omits "unknown", so it cannot be emitted.
-@test:Config {enable: false}
+// PatientClass[EncounterStatus]: U → unknown
+@test:Config {}
 function visPv1EncounterStatusUnknownTest() {
     test:assertEquals(pv1ToEncounter({name: "PV1", pv12: "U"}).status.toString(), "unknown");
 }

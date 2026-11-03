@@ -174,25 +174,20 @@ function ordObxStructuredNumericTest() {
     test:assertTrue(ratio.valueRatio is r4:Ratio, "SN with ':' separator -> valueRatio");
 }
 
-// ObservationResultStatusCodesInterpretation for OBX-11 (codes representable by ObservationStatus;
-// C maps to its parent status "amended").
+// ObservationResultStatusCodesInterpretation for OBX-11
 @test:Config {}
 function ordObxStatusVocabularyTest() {
-    map<string> expected = {"F": "final", "P": "preliminary", "A": "amended", "C": "amended"};
+    map<string> expected = {
+        "F": "final",
+        "P": "preliminary",
+        "A": "amended",
+        "C": "corrected",
+        "D": "entered-in-error",
+        "W": "entered-in-error",
+        "X": "cancelled"
+    };
     foreach [string, string] [v2, fhir] in expected.entries() {
         test:assertEquals(obxToObservation(ordObx("ST", ["x"], v2)).status, fhir,
-                string `OBX-11 ${v2} -> status ${fhir}`);
-    }
-}
-
-// BUG (upstream): OBX-11 C → "corrected", D/W → "entered-in-error" and X → "cancelled" cannot be emitted because
-// the ObservationStatus enum in ballerinax/health.fhir.r4.international401 only allows
-// amended|final|registered|preliminary.
-@test:Config {enable: false}
-function ordObxStatusUnrepresentableCodesTest() {
-    map<string> expected = {"C": "corrected", "D": "entered-in-error", "X": "cancelled"};
-    foreach [string, string] [v2, fhir] in expected.entries() {
-        test:assertEquals(obxToObservation(ordObx("ST", ["x"], v2)).status.toString(), fhir,
                 string `OBX-11 ${v2} -> status ${fhir}`);
     }
 }
@@ -352,7 +347,7 @@ function ordObrDrStatusFinalTest() {
     test:assertEquals(obrToDiagnosticReport(ordObr()).status, "final", "OBR-25 F -> final");
 }
 
-// ResultStatus[Non-Queries] concept map for OBR-25 (codes representable by DiagnosticReportStatus).
+// ResultStatus[Non-Queries] concept map for OBR-25
 @test:Config {}
 function ordObrDrStatusVocabularyTest() {
     map<string> expected = {
@@ -361,23 +356,14 @@ function ordObrDrStatusVocabularyTest() {
         "S": "registered",
         "P": "preliminary",
         "R": "partial",
-        "F": "final"
+        "F": "final",
+        "C": "corrected",
+        "X": "cancelled"
     };
     foreach [string, string] [v2, fhir] in expected.entries() {
         hl7v23:OBR obr = ordObr();
         obr.obr25 = v2;
         test:assertEquals(obrToDiagnosticReport(obr).status, fhir, string `OBR-25 ${v2} -> ${fhir}`);
-    }
-}
-
-// BUG (upstream): OBR-25 C → "corrected" and X → "cancelled" cannot be emitted because the
-// DiagnosticReportStatus enum in ballerinax/health.fhir.r4.international401 omits them.
-@test:Config {enable: false}
-function ordObrDrStatusUnrepresentableCodesTest() {
-    foreach [string, string] [v2, fhir] in {"C": "corrected", "X": "cancelled"}.entries() {
-        hl7v23:OBR obr = ordObr();
-        obr.obr25 = v2;
-        test:assertEquals(obrToDiagnosticReport(obr).status.toString(), fhir, string `OBR-25 ${v2} -> ${fhir}`);
     }
 }
 

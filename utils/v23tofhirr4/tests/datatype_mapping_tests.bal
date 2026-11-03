@@ -632,21 +632,16 @@ function dtAllergyCategoryConceptMap() {
     test:assertEquals(isToAllergyIntoleranceCategory("EA"), "environment");
 }
 
-// ResultStatus[Non-Queries] concept map (codes representable by international401's DiagnosticReportStatus).
+// ResultStatus[Non-Queries] concept map; unmapped codes fall back to "unknown" (status is mandatory)
 @test:Config {}
 function dtDiagnosticReportStatusConceptMap() {
     test:assertEquals(idToDiagnosticReportStatus("F"), "final");
     test:assertEquals(idToDiagnosticReportStatus("O"), "registered");
     test:assertEquals(idToDiagnosticReportStatus("P"), "preliminary");
     test:assertEquals(idToDiagnosticReportStatus("R"), "partial");
-}
-
-// KNOWN LIMITATION: hl7DateToFhir is public and returns `string`; malformed v2 dates are logged and returned
-// unchanged. Rejecting them (nil) needs a breaking signature change (string?), left for a major version.
-@test:Config {enable: false}
-function dtDiagnosticReportStatusUnrepresentableCodes() {
-    test:assertEquals(idToDiagnosticReportStatus("X").toString(), "cancelled");
-    test:assertEquals(idToDiagnosticReportStatus("C").toString(), "corrected");
+    test:assertEquals(idToDiagnosticReportStatus("C"), "corrected");
+    test:assertEquals(idToDiagnosticReportStatus("X"), "cancelled");
+    test:assertEquals(idToDiagnosticReportStatus("Y"), "unknown");
 }
 
 @test:Config {}
@@ -716,9 +711,8 @@ function dtTsToInstantEmpty() {
     test:assertEquals(tsToInstant({}), ());
 }
 
-// KNOWN LIMITATION: hl7DateToFhir is public and returns `string`; malformed v2 dates are logged and returned
-// unchanged. Rejecting them (nil) needs a breaking signature change (string?), left for a major version.
-@test:Config {enable: false}
+// Malformed v2 dates (wrong length / non-digits) are rejected (nil) instead of being passed through.
+@test:Config {}
 function dtHl7DateToFhirRejectsInvalid() {
     string|() r1 = hl7DateToFhir("20231");
     string|() r2 = hl7DateToFhir("abc");
@@ -729,10 +723,10 @@ function dtHl7DateToFhirRejectsInvalid() {
 @test:Config {}
 function dtHl7DateToFhirDoesNotPanicOnOddInput() {
     // must not panic on short / malformed input
-    string _ = hl7DateToFhir("");
-    string _ = hl7DateToFhir("20231");
-    string _ = hl7DateToFhir("2023-10-05");
-    string _ = hl7DateToFhir("abcdefgh12");
+    string? _ = hl7DateToFhir("");
+    string? _ = hl7DateToFhir("20231");
+    string? _ = hl7DateToFhir("2023-10-05");
+    string? _ = hl7DateToFhir("abcdefgh12");
     test:assertTrue(true);
 }
 
