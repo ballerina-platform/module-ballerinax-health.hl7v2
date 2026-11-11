@@ -65,3 +65,36 @@ isolated function getOperationOutcome(string detail) returns json {
     };
     return operationOutcome.toJson();
 }
+
+# Checks whether an HL7 segment carries any data (ignoring its name and parser bookkeeping fields).
+#
+# + segment - HL7 segment
+# + return - true when at least one field is valued
+isolated function hasSegmentContent(map<anydata> segment) returns boolean {
+    foreach [string, anydata] [key, value] in segment.entries() {
+        if key == "name" || key == "isRequired" {
+            continue;
+        }
+        if hasValue(value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+isolated function hasValue(anydata value) returns boolean {
+    if value is () {
+        return false;
+    }
+    if value is string {
+        return value != "";
+    }
+    if value is anydata[] {
+        return value.some(v => hasValue(v));
+    }
+    if value is map<anydata> {
+        return value.toArray().some(v => hasValue(v));
+    }
+    // numeric/boolean defaults (e.g. -1.0 placeholders) are not treated as content
+    return false;
+}
